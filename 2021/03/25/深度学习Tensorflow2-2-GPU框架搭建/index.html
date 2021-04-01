@@ -14,7 +14,7 @@
 
 
 
-<title>Hello World | WD&#39;s blog</title>
+<title>深度学习Tensorflow2.2 GPU框架搭建 | WD&#39;s blog</title>
 
 
 
@@ -175,7 +175,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Hello World</h1>
+            <h1 class="post-title">深度学习Tensorflow2.2 GPU框架搭建</h1>
             
                 <div class="post-meta">
                     
@@ -184,28 +184,85 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">March 31, 2021&nbsp;&nbsp;12:03:31</a>
+                        Date: <a href="#">March 25, 2021&nbsp;&nbsp;11:37:30</a>
                         </span>
                      &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/DeepLearning/">DeepLearning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">909</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">3</span>min</a>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+            <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
+<li>毕设是目标检测、图像识别分类、深度学习、CNN框架等，推荐使用Vs Code(代码编辑器) + miniconda(python包管理工具) + Tensorflow2.2 GPU(深度学习开源框架) 环境。</li>
+</ul>
+<h2 id="1-miniconda安装"><a href="#1-miniconda安装" class="headerlink" title="1.miniconda安装"></a>1.miniconda安装</h2><ul>
+<li><p>miniconda 是 conda 的轻便版本，只有几百MB，功能和conda一样，所以推荐安装miniconda，下载参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/XiangpingZhang/article/details/104324606">https://blog.csdn.net/XiangpingZhang/article/details/104324606</a> 并根据教程更改使用清华镜像源，方便后面下载python包更快。</p>
+</li>
+<li><p>输入命令<code>conda create --name TF_GPU python=3.7</code>创建属于自己的环境，‘TF_GPU’是环境的名字，自己可以更改，<strong>python 版本推荐使用Python3.7 ！！！（因为要和tensorflow版本对应）</strong></p>
+</li>
+<li><p>之后输入命令<code>conda activate TF_GPU</code>可以从base 环境进入创建的TF_GPU环境，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210325112718821.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210315121646937"></p>
+</li>
+</ul>
+<h2 id="2-安装Tensorflow-GPU2-2-版本"><a href="#2-安装Tensorflow-GPU2-2-版本" class="headerlink" title="2. 安装Tensorflow GPU2.2 版本"></a>2. 安装Tensorflow GPU2.2 版本</h2><ul>
+<li><p>Tensorflow 推荐安装GPU2.2， 可以实现GPU加速，运行更快，<strong>版本不要变，因为要和后面下载的CUDA 和CUDNN进行严格对应，如果不对应就失败！！！</strong></p>
+</li>
+<li><p>下载的时候一定要进入刚刚创建的环境tf_GPU里下载，以后所有的python包都在这个环境中下载。</p>
+</li>
+<li><p>执行命令<code>pip install tensorflow-gpu==2.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple</code></p>
+<p>-i 是使用的清华源。</p>
+</li>
+<li><p>安装完之后可以使用命令<code>pip list</code>查看已经安装的包。</p>
+</li>
+</ul>
+<h2 id="3-安装CUDA和CUDNN"><a href="#3-安装CUDA和CUDNN" class="headerlink" title="3. 安装CUDA和CUDNN"></a>3. 安装CUDA和CUDNN</h2><ul>
+<li><p>CUDA和CUDNN要和tensorflow 版本对应，具体对应表详见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/sunmingyang1987/article/details/102872658%E3%80%82">https://blog.csdn.net/sunmingyang1987/article/details/102872658。</a></p>
+</li>
+<li><p>我们就使用Tensorflow2.2 + CUDA10.1 + cudnn7.6.5 （再次提醒，版本号一定不要变！！！）</p>
+</li>
+<li><p>如果前面安装miniconda的时候已经换过镜像源了，就可以直接运行命令：<code>conda install cudatoolkit=10.1</code> 和<code>conda install cudnn=7.6.5</code>完成安装。</p>
+</li>
+<li><p>如果前面没有更换清华镜像源，则执行以下命令：<code>conda install cudatoolkit=10.1 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/linux-64/</code></p>
+<p><code>conda install cudnn=7.6.5 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/linux-64/</code></p>
+</li>
+</ul>
+<h2 id="4-测试"><a href="#4-测试" class="headerlink" title="4.测试"></a>4.测试</h2><ul>
+<li><p>至此所有我们需要安装的东西都安装完了，下面为确保成功，进行简单测试：进入tf_GPU环境，输入<code>python</code>进入python提示符&lt;&lt;&lt;</p>
+</li>
+<li><p>输入<code>import tensorflow as tf</code></p>
+</li>
+<li><p>然后输入<code>tf.test.is_gpu_available()</code>,如果显示为True，则证明以上全部安装正确，该深度学习环境可以使用。如下图所示：在这里可以看到我们使用的GPU型号等信息，如果显示False则证明安装失败，就查看是那部分没有加载出来（一般都是CUDNN和CUDA没有匹配，所以按照上面版本号安装应该没问题）</p>
+<p><img src="https://img-blog.csdnimg.cn/20210325113226884.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210315123539244"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210325113237955.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210315123618184"></p>
+</li>
+</ul>
+<h2 id="5-与Vs-Code-结合"><a href="#5-与Vs-Code-结合" class="headerlink" title="5.与Vs Code 结合"></a>5.与Vs Code 结合</h2><ul>
+<li><p>Vs Code 安装大家可自行百度，网上有很多，包括安装python解释器，如何安装python调试环境等等，这里就说一下如何在Vs Code 中导入我们建立的TF_GPU环境。很简单只需要点击左下角，他会弹出中间的框（如2所示），这里有我们电脑上所有的python环境，只需要找到我们创建的tf_GPU就可以，其次，在下方命令行也可以直接进入tf_GPU环境，非常方便，所以推荐使用Vs Code。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210325113315828.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210315124502530"></p>
+</li>
+</ul>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><ul>
+<li><p>最后有关深度学习，CNN等方向的同学，有遇到任何安装问题或者搭建网络问题都可以来问我，欢迎大家提问。</p>
+</li>
+<li><p>最后推荐几个深度学习的B站视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1HV411q7xD?p=113&amp;t=509">https://www.bilibili.com/video/BV1HV411q7xD?p=113&amp;t=509</a> （理论+实战 偏实战）</p>
+<p>​    <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV155411t7ad?p=1">https://www.bilibili.com/video/BV155411t7ad?p=1</a>  （深度学习理论+实战偏理论）</p>
+</li>
+<li><p>文档参考我群里发的PDF</p>
+</li>
+</ul>
 
         </div>
 
@@ -220,7 +277,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://did321.github.io/2021/03/31/hello-world/">https://did321.github.io/2021/03/31/hello-world/</a></span>
+                        <span><a href="https://did321.github.io/2021/03/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Tensorflow2-2-GPU%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/">https://did321.github.io/2021/03/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Tensorflow2-2-GPU%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/</a></span>
                     </p>
                 
                 
@@ -243,6 +300,12 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
+                    
+                        <a href="/tags/TensorFlow/"># TensorFlow</a>
+                    
+                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"># 深度学习</a>
+                    
+                        
                 </span>
             </div>
             <div>
@@ -253,8 +316,10 @@
         </section>
         <section class="post-nav">
             
+                <a class="prev" rel="prev" href="/2021/03/31/hello-world/">Hello World</a>
             
-            <a class="next" rel="next" href="/2021/03/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Tensorflow2-2-GPU%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/">深度学习Tensorflow2.2 GPU框架搭建</a>
+            
+            <a class="next" rel="next" href="/2020/08/03/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B9%9D-%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E6%A0%91/">Machine Learning 学习笔记(九)——决策树</a>
             
         </section>
         <br>
