@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>基于全卷积网络的SAR目标分类(EOC、SOC) | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基于全卷积网络的SAR目标分类(EOC、SOC)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">August 22, 2021&nbsp;&nbsp;10:07:58</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.1k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">5</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-MSTAR数据集扩充"><a href="#1-MSTAR数据集扩充" class="headerlink" title="1. MSTAR数据集扩充"></a>1. MSTAR数据集扩充</h2><ul>
+<li>在原始SAR图像（128×128）中随机裁剪88×88大小的切片，每一张切片都能包含目标区域，经过随机采样样本数量可达（128-88+1）×（128-88+1）=1681 倍，每一个类别的每张SAR图像都采样10个切片，从而提高训练样本数量。</li>
+</ul>
+<h2 id="2-全卷积网络模型（AConvNets）"><a href="#2-全卷积网络模型（AConvNets）" class="headerlink" title="2. 全卷积网络模型（AConvNets）"></a>2. 全卷积网络模型（AConvNets）</h2><ul>
+<li><p>网络完全由卷积层实现，去掉全连接层，最后一层卷积输出直接Softmax输出每个类别概率，损失函数依旧为分类交叉熵损失，具体网络模型如下：</p>
+<img src="https://img-blog.csdnimg.cn/895862408c13421f80c157ff3fcc42c5.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210809102008276" style="zoom: 67%;" /></li>
+<li><p>其中卷积层使用BN层防止过拟合并加速训练，输入训练集维度：[b, 88, 88, 1]  -&gt; 输出：[b, 1, 1, 10]，训练仍然采用的分类交叉熵损失，优化器Adam，学习率为0.0001。</p>
+</li>
+</ul>
+<h2 id="3-SOC条件下分类结果"><a href="#3-SOC条件下分类结果" class="headerlink" title="3. SOC条件下分类结果"></a>3. SOC条件下分类结果</h2><ul>
+<li><p>训练集和测试集如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">类别</th>
+<th align="center">数量</th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center">训练集17°</td>
+<td align="center">测试集15°</td>
+</tr>
+<tr>
+<td align="center">2S1</td>
+<td align="center">299</td>
+<td align="center">274</td>
+</tr>
+<tr>
+<td align="center">BMP2</td>
+<td align="center">233</td>
+<td align="center">196</td>
+</tr>
+<tr>
+<td align="center">BRDM2</td>
+<td align="center">298</td>
+<td align="center">274</td>
+</tr>
+<tr>
+<td align="center">BTR60</td>
+<td align="center">256</td>
+<td align="center">195</td>
+</tr>
+<tr>
+<td align="center">BTR70</td>
+<td align="center">233</td>
+<td align="center">196</td>
+</tr>
+<tr>
+<td align="center">D7</td>
+<td align="center">299</td>
+<td align="center">274</td>
+</tr>
+<tr>
+<td align="center">T62</td>
+<td align="center">299</td>
+<td align="center">273</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">232</td>
+<td align="center">196</td>
+</tr>
+<tr>
+<td align="center">ZIL131</td>
+<td align="center">299</td>
+<td align="center">274</td>
+</tr>
+<tr>
+<td align="center">ZSU23/4</td>
+<td align="center">299</td>
+<td align="center">274</td>
+</tr>
+<tr>
+<td align="center">总计</td>
+<td align="center">2747</td>
+<td align="center">2426</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>训练集每张SAR图像裁剪5个随机切片，中心裁剪1个切片，均为88×88像素，训练集一共2747×6=16482 (张)。测试集中心裁剪88×88的切片。</p>
+</li>
+<li><p>训练：epoch = 50， Adam优化器，learning_rate = 0.0001, 在tensorboard中显示训练集和测试集Accuracy、Loss曲线：</p>
+<p><img src="https://img-blog.csdnimg.cn/3081fdc6e0f94e47be26a40e379289a5.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="image-20210809103258789" style="zoom: 50%;" /><img src="https://img-blog.csdnimg.cn/c6e0887146e44b6688a3824935a227df.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="image-20210809103401264" style="zoom: 50%;" /></p>
+</li>
+<li><p>计算测试集的混淆矩阵如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> 	 2S1 BMP2 BRDM B60 B70 D7 T62 T72 ZIL ZSU	</span><br><span class="line">2S1[[263   0   0   0   0   0  11   0   0   0]	95.99%</span><br><span class="line">BMP2[  0 132   0  18   3   0   0  42   0   1]	67.35%</span><br><span class="line">BRDM[  0   0 272   0   0   0   0   0   0   2]	99.27%</span><br><span class="line">B60 [  0   0   0 192   0   0   0   0   1   2]	98.46%</span><br><span class="line">B70 [  0   0   0  13 181   0   0   2   0   0]	92.35%</span><br><span class="line">D7 	[  2   0   0   0   0 272   0   0   0   0]	99.27%</span><br><span class="line">T62 [  0   0   0   0   0   0 273   0   0   0]	100%</span><br><span class="line">T72 [  0   0   0   1   0   0   0 195   0   0]	99.49%</span><br><span class="line">ZIL [  0   0   0   0   0   4   0   0 270   0]	98.54%</span><br><span class="line">ZSU [  0   0   0   0   0   0   0   0   0 274]]	100%</span><br><span class="line">总计： 95.07% </span><br><span class="line">The Precision is :  0.9574354589252246</span><br><span class="line">The Recall is :  0.9507109053615832</span><br><span class="line">The Accuracy is :  0.9579554822753503</span><br><span class="line">The F1 is :  0.9493873742571258</span><br><span class="line">The F_beta is :  0.949223632328047</span><br><span class="line">The Auc Score is :  0.9996171502953114</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="4-EOC1条件下分类结果"><a href="#4-EOC1条件下分类结果" class="headerlink" title="4. EOC1条件下分类结果"></a>4. EOC1条件下分类结果</h2><ul>
+<li><p>EOC1是大俯仰角变化条件下，其训练集和测试集如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">类别</th>
+<th align="center">数量</th>
+<th align="center">数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center">训练集17°</td>
+<td align="center">测试集30°</td>
+</tr>
+<tr>
+<td align="center">2S1</td>
+<td align="center">299</td>
+<td align="center">288</td>
+</tr>
+<tr>
+<td align="center">BRDM2</td>
+<td align="center">298</td>
+<td align="center">287</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">299</td>
+<td align="center">288</td>
+</tr>
+<tr>
+<td align="center">ZSU234</td>
+<td align="center">299</td>
+<td align="center">288</td>
+</tr>
+<tr>
+<td align="center">总计</td>
+<td align="center">1195</td>
+<td align="center">1151</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>训练集每张SAR图像裁剪5个随机切片，中心裁剪1个切片，均为88×88像素，训练集一共1195×6=7170 (张)。测试集中心裁剪88×88的切片。</p>
+</li>
+<li><p>训练：epoch200，Adam优化器，learning_rate = 0.0001, 在tensorboard中显示训练集和测试集Accuracy、Loss曲线：</p>
+<p><img src="https://img-blog.csdnimg.cn/b75af0e832194c55accb7cc102b0e762.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="image-20210809120835524" style="zoom:50%;" /><img src="https://img-blog.csdnimg.cn/433d59ce8479447c9e49da304e75f7c0.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="image-20210809120907698" style="zoom:50%;" /></p>
+</li>
+<li><p>计算测试集的混淆矩阵如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">     2S1  BRDM  T72  ZSU	</span><br><span class="line">2S1   288   0    0    0		100%</span><br><span class="line">BRDM   0   287   0    0		100%</span><br><span class="line">T72    0    0   287   1		99.65%</span><br><span class="line">ZSU   59    0    0   229	79.51%</span><br><span class="line">总计： 94.79% </span><br><span class="line"></span><br><span class="line">The CNN Precision is :  0.9564058388673098</span><br><span class="line">The CNN Recall is :  0.9479166666666666</span><br><span class="line">The CNN Accuracy is :  0.947871416159861</span><br><span class="line">The CNN F1 is :  0.9473793419770824</span><br><span class="line">The CNN F_beta is :  0.9465925313694183</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="5-EOC2条件下分类结果"><a href="#5-EOC2条件下分类结果" class="headerlink" title="5. EOC2条件下分类结果"></a>5. EOC2条件下分类结果</h2><ul>
+<li><p>EOC2是车辆外观配置变化，其训练集如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">类别</th>
+<th align="center">数量（俯仰角17°）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">BMP2（9563）</td>
+<td align="center">233</td>
+</tr>
+<tr>
+<td align="center">BRDM2</td>
+<td align="center">298</td>
+</tr>
+<tr>
+<td align="center">BTR70（C71）</td>
+<td align="center">233</td>
+</tr>
+<tr>
+<td align="center">T72（132）</td>
+<td align="center">232</td>
+</tr>
+<tr>
+<td align="center">总计</td>
+<td align="center">995</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>测试集：</p>
+<table>
+<thead>
+<tr>
+<th align="center">类别</th>
+<th align="center">型号</th>
+<th align="center">数量（俯仰角17° &amp; 15°）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">T72</td>
+<td align="center">S7</td>
+<td align="center">419</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">A32</td>
+<td align="center">572</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">A62</td>
+<td align="center">573</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">A63</td>
+<td align="center">573</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">A64</td>
+<td align="center">573</td>
+</tr>
+<tr>
+<td align="center">总计</td>
+<td align="center"></td>
+<td align="center">2710</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>训练集每张SAR图像裁剪10个随机切片，中心裁剪1个切片，均为88×88像素，训练集一共995×11=10945(张)。测试集中心裁剪88×88的切片。</p>
+</li>
+<li><p>训练：epoch50，Adam优化器，learning_rate = 0.0001, 在tensorboard中显示训练集和测试集Accuracy、Loss曲线：</p>
+<p><img src="https://img-blog.csdnimg.cn/90a412f3ca334a4aaf9b3085a37f65c3.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="image-20210809121909757" style="zoom:50%;" /><img src="https://img-blog.csdnimg.cn/a2c65823cd334b5a982bff9d3931732f.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="image-20210809121932135" style="zoom:50%;" /></p>
+</li>
+<li><p>计算测试集的混淆矩阵如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	BMP2  BRDM2  BTR70   T72  </span><br><span class="line">S7	 8		0	   0     411	98.09%</span><br><span class="line">A32	 0      0      0     572	100%</span><br><span class="line">A62  1      0      0     572	99.83%</span><br><span class="line">A63  1      0      0     572	99.83%</span><br><span class="line">A64  4      0      0     569	96.14%</span><br><span class="line">总计：98.78%</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="6-EOC3条件下分类结果"><a href="#6-EOC3条件下分类结果" class="headerlink" title="6. EOC3条件下分类结果"></a>6. EOC3条件下分类结果</h2><ul>
+<li><p>EOC3是针对同一目标的不同型号变种，训练集和EOC2训练集一致，测试集如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">类别</th>
+<th align="center">型号</th>
+<th align="center">数量（俯仰角17° &amp; 15°）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">BMP2</td>
+<td align="center">9566</td>
+<td align="center">428</td>
+</tr>
+<tr>
+<td align="center">BMP2</td>
+<td align="center">C21</td>
+<td align="center">429</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">812</td>
+<td align="center">426</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">A04</td>
+<td align="center">573</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">A05</td>
+<td align="center">573</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">A07</td>
+<td align="center">573</td>
+</tr>
+<tr>
+<td align="center">T72</td>
+<td align="center">A10</td>
+<td align="center">567</td>
+</tr>
+<tr>
+<td align="center">总计</td>
+<td align="center"></td>
+<td align="center">3569</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>这里直接用EOC2训练好的模型进行预测，测试集的混淆矩阵如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">		   BMP2   BRDM2    BTR70   T72  </span><br><span class="line">BMP9566	   359		0		17	    52		83.88%</span><br><span class="line">BMPC21	   372		0		1		2		86.71%</span><br><span class="line">T72_812		2		0		1	   423		99.30%</span><br><span class="line">T72_A04		3		0		0	   570		99.48%</span><br><span class="line">T72_A05		1		0		0	   572		99.83%</span><br><span class="line">T72_A07		0		0		0	   573		100%</span><br><span class="line">T72_A10		20		0		0	   547		96.47%		</span><br><span class="line">总计：95.74%</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2021/08/22/%E5%9F%BA%E4%BA%8E%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%E7%9A%84SAR%E7%9B%AE%E6%A0%87%E5%88%86%E7%B1%BB-EOC%E3%80%81SOC/">https://did321.github.io/2021/08/22/基于全卷积网络的SAR目标分类(EOC、SOC)/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"># 深度学习</a>
+                    
+                        <a href="/tags/CNN/"># CNN</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/08/22/hello-world/">Hello World</a>
+            
+            
+            <a class="next" rel="next" href="/2021/07/28/ESP32-TFT-%E5%88%86%E5%85%89%E6%A3%B1%E9%95%9C%E5%AE%9E%E7%8E%B0%E9%80%8F%E6%98%8E%E5%B0%8F%E7%94%B5%E8%A7%86/">ESP32+TFT+分光棱镜实现透明小电视</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

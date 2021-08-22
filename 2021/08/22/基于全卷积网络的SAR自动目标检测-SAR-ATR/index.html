@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>基于全卷积网络的SAR自动目标检测(SAR ATR) | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基于全卷积网络的SAR自动目标检测(SAR ATR)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">August 22, 2021&nbsp;&nbsp;20:50:58</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.9k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">6</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <ul>
+<li>端到端的SAR自动目标识别：首先从复杂场景中检测出潜在目标，提取包含潜在目标的图像切片，然后将包含目标的图像切片送入分类器，识别出目标类型。</li>
+<li>目标检测可以用经典的恒虚警率（CFAR）,为了展现全卷积网络对于目标检测仍有良好的效果，选择采用两级全卷积网络，第一级用于目标检测，第二级用于目标分类。</li>
+</ul>
+<h2 id="1-数据准备"><a href="#1-数据准备" class="headerlink" title="1. 数据准备"></a>1. 数据准备</h2><ul>
+<li><p>采用MSTAR大场景数据集，尺寸为1476×1784，如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/1303a33496a14e93a15cebf235fedc01.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822170959496" style="zoom: 33%;" /></li>
+<li><p>由于大场景数据不包含目标图像，所以将许多大小为88×88像素的目标嵌入场景中，因为目标和场景都是同一个机载SAR系统获取的，标准工作条件（SOC）下的SAR图像，成像分辨率都是0.3m，所以可以手动添加目标到大幅场景中，目标切片和添加后的大场景如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/f19cbc60ef6846edb99ed5d6a0406f76.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822171425933" style="zoom: 50%;" />
+
+<img src="https://img-blog.csdnimg.cn/3996658841d6474cac2bed26960cf59f.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822171501084" style="zoom:50%;" /></li>
+<li><p>SAR目标识别就是要从上面场景图片中检测出潜在目标，提取包含潜在目标的图像切片，然后将包含目标的图像切片送入分类器，识别出目标类型。</p>
+</li>
+</ul>
+<h2 id="2-目标检测"><a href="#2-目标检测" class="headerlink" title="2. 目标检测"></a>2. 目标检测</h2><ul>
+<li><p>SAR目标检测是一个二元分类问题，主要区分目标和杂波，因此也可以采用全卷积网络算法，网络结构如下图所示，包含4个卷积层和3个池化层：</p>
+<img src="https://img-blog.csdnimg.cn/b251b922c6d04c029a18562d543f3135.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822180456516" style="zoom:67%;" /></li>
+<li><p>训练集包含目标切片和背景切片，目标切片是SOC条件下5类数据集切片共3171张，如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/74b9835e58a44a67b59b9532dd91e78f.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822173019771" style="zoom:50%;" /></li>
+<li><p>背景切片是从MSTAR大场景中裁剪得到的，包含草地、森林、农作物、建筑物等切片，共4000张，如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/8c79305a2a554427a4cb503ef5d9c243.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822173243164" style="zoom:50%;" /></li>
+</ul>
+<p>验证集同样的方法裁剪包括1057张目标切片和1000张场景切片。</p>
+<ul>
+<li><p>训练：epoch = 50， Adam优化器，learning_rate = 0.0001，下面是网络训练的结果，在tensorboard中显示训练集和验证集的Loss曲线和Accuracy曲线如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/bfa41df47a1e475e9e30df55cf99e26a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="image-20210822175642128" style="zoom: 56%;" /><img src="https://img-blog.csdnimg.cn/09344ffc21694489aea2b9afdfc167ef.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="image-20210822175904303" style="zoom:55%;" /></p>
+</li>
+<li><p>接着训练好的网络对大幅SAR场景图像进行检测，以滑窗的形式作用于整幅SAR场景图像，滑动窗口尺寸为网络输出尺寸64×64，步长为1，这一步的输出为一个预测目标存在概率的地图，下面是用来检测的大幅场景（800×900）和对应网络输出的概率地图：</p>
+<img src="https://img-blog.csdnimg.cn/cf4466c44f9b4d7cb93407b4dc92b977.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822185028057" style="zoom: 50%;" />
+<img src="https://img-blog.csdnimg.cn/8b8aeec5b32a4d52b6147bf1672b8929.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822185046764" style="zoom: 50%;" /></li>
+<li><p>颜色越偏向红色代表该区域大概率为目标区域，为了后续更好的对目标进行切片，用阈值0.9将概率图进行二值化，大于0.9的部分置为1，小于0.9部分置为0，二值化后图像如下：</p>
+<img src="https://img-blog.csdnimg.cn/7feea5838c4d49d3a47f8a02649a04e2.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822185617419" style="zoom:40%;" /></li>
+</ul>
+<h2 id="3-区域生长算法及质心估计"><a href="#3-区域生长算法及质心估计" class="headerlink" title="3. 区域生长算法及质心估计"></a>3. 区域生长算法及质心估计</h2><ul>
+<li><p>转化后的目标二值图像存在多联通、虚警区域，为了进一步确定目标位置划分目标切片，采用区域生长算法将图像中所有目标附近的像素进行合并，从而估计出质心。</p>
+</li>
+<li><p>区域生长算法是将图像中所有种子附近的像素按照像元值的相似度和似然性进行合并、归类的二值化过程。区域生长算法的生长准则包括四邻域和八邻域两种。</p>
+</li>
+<li><p>具体先对每个需要分割的区域找一个种子像素作为生长起点，然后将种子像素和周围邻域中与种子像素有相同或相似性质的像素合并到种子像素所在的区域中。（对于上述生成的二值图像将像素为1的合并）将这些新像素当作新的种子继续上面的过程，直到没有满足条件的像素可被包括进来。这样一个区域就生长成了。</p>
+<p>区域生长实现的步骤如下:</p>
+<ol>
+<li>对图像顺序扫描!找到第1个还没有归属的像素, 设该像素为(x0, y0);</li>
+<li>以(x0, y0)为中心, 考虑(x0, y0)的8邻域像素(x, y)如果(x0, y0)满足生长准则, 将(x, y)与(x0, y0)合并(在同一区域内), 同时将(x, y)压入堆栈;</li>
+<li>从堆栈中取出一个像素, 把它当作(x0, y0)返回到步骤2;</li>
+<li>当堆栈为空时!返回到步骤1;</li>
+<li>重复步骤1 - 4直到图像中的每个点都有归属时。生长结束。</li>
+</ol>
+</li>
+<li><p><strong>解决虚警区域方法</strong>：经过观察发现原图中心有虚警区域，区域生长后的面积可以求得，虚警区域面积较小，故可以通过设置面积阈值，小于一定值将其去除，大于阈值的才为目标区域。</p>
+<img src="https://img-blog.csdnimg.cn/f4d3ef9265d448b48c1d45108ca2c9e4.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822200326331" style="zoom:33%;" /></li>
+<li><p>在求质心时，只需要将各个区域的点横纵坐标取平均值，就可以求得质心点。</p>
+</li>
+<li><p><strong>解决不连通区域方法</strong>：进一步发现有的目标区域之间不连通，如下图所示，他们在区域生长被分为3个目标区域，但实际为1个，解决办法有很多，一般可以通过<strong>聚类</strong>，将其合并为一个目标，我这里采用的是统计所有质心点相互之间的距离，如果小于某一阈值，就将质心点取平均合并，直到所有质心点两两之间距离大于所设定的阈值。</p>
+<img src="https://img-blog.csdnimg.cn/fe7a11ef44684b38a1454d1eb8f2c63f.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822201444724" style="zoom:33%;" /></li>
+<li><p>下面是取得质心的结果（包括去掉虚警及解决不连通问题）：</p>
+<img src="https://img-blog.csdnimg.cn/fbfb5b715737442baca304e110e3432d.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822201403188" style="zoom:50%;" />
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下面是程序输出结果：</span></span><br><span class="line">(<span class="number">800</span>, <span class="number">900</span>)</span><br><span class="line"><span class="comment"># 八个目标区域</span></span><br><span class="line">true_region--------&gt; <span class="number">1</span></span><br><span class="line">true_region--------&gt; <span class="number">2</span></span><br><span class="line">true_region--------&gt; <span class="number">3</span></span><br><span class="line">true_region--------&gt; <span class="number">4</span></span><br><span class="line">true_region--------&gt; <span class="number">5</span></span><br><span class="line">true_region--------&gt; <span class="number">6</span></span><br><span class="line">true_region--------&gt; <span class="number">7</span></span><br><span class="line">true_region--------&gt; <span class="number">8</span></span><br><span class="line"><span class="comment"># 面积及质心点坐标</span></span><br><span class="line"><span class="number">1125</span></span><br><span class="line">center:(<span class="number">136</span>, <span class="number">871</span>)</span><br><span class="line"><span class="number">2629</span></span><br><span class="line">center:(<span class="number">223</span>, <span class="number">93</span>)</span><br><span class="line"><span class="number">287</span></span><br><span class="line">center:(<span class="number">326</span>, <span class="number">745</span>)</span><br><span class="line"><span class="number">133</span></span><br><span class="line">center:(<span class="number">343</span>, <span class="number">753</span>)</span><br><span class="line"><span class="number">169</span></span><br><span class="line">center:(<span class="number">341</span>, <span class="number">738</span>)</span><br><span class="line"><span class="number">3423</span></span><br><span class="line">center:(<span class="number">424</span>, <span class="number">665</span>)</span><br><span class="line"><span class="number">2179</span></span><br><span class="line">center:(<span class="number">446</span>, <span class="number">123</span>)</span><br><span class="line"><span class="number">1965</span></span><br><span class="line">center:(<span class="number">749</span>, <span class="number">832</span>)</span><br><span class="line"><span class="comment"># 合并质心点</span></span><br><span class="line">(<span class="number">326</span>, <span class="number">745</span>)(<span class="number">343</span>, <span class="number">753</span>) change------&gt; (<span class="number">334</span>, <span class="number">749</span>)</span><br><span class="line">(<span class="number">343</span>, <span class="number">753</span>)(<span class="number">334</span>, <span class="number">749</span>) change------&gt; (<span class="number">338</span>, <span class="number">751</span>)</span><br><span class="line"><span class="comment"># 最终目标质心点</span></span><br><span class="line">new center:(<span class="number">136</span>, <span class="number">871</span>)</span><br><span class="line">new center:(<span class="number">223</span>, <span class="number">93</span>)</span><br><span class="line">new center:(<span class="number">424</span>, <span class="number">665</span>)</span><br><span class="line">new center:(<span class="number">446</span>, <span class="number">123</span>)</span><br><span class="line">new center:(<span class="number">749</span>, <span class="number">832</span>)</span><br><span class="line">new center:(<span class="number">334</span>, <span class="number">749</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="4-对目标区域进行切片"><a href="#4-对目标区域进行切片" class="headerlink" title="4. 对目标区域进行切片"></a>4. 对目标区域进行切片</h2><ul>
+<li><p>上述通过区域生长算法对目标区域进行质心估计，可以在原始SAR图像上将其周围的目标进行切片，为了便于后续目标分类识别，切片大小为分类网络的输入尺寸88×88，所以以质心为中心，切割88×88像素区域为目标切片：</p>
+<img src="https://img-blog.csdnimg.cn/ad9154e4cfb5469dbd92e9ab4220979a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822202211966" style="zoom:60%;" /></li>
+<li><p>上面黄色方框就是切片区域，下面将其逐一保存到切片文件夹下，作为后续分类网络的测试集：</p>
+<img src="https://img-blog.csdnimg.cn/622a44d5194a4ea7bcfe76251473597f.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822202211966" style="zoom:90%;" /></li>
+</ul>
+<h2 id="5-目标分类"><a href="#5-目标分类" class="headerlink" title="5. 目标分类"></a>5. 目标分类</h2><ul>
+<li><p>目标分类仍然采用全卷积网络，结构如下图所示，训练采用标准工作条件（SOC）下10类SAR图像。</p>
+<img src="https://img-blog.csdnimg.cn/895862408c13421f80c157ff3fcc42c5.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="img" style="zoom: 67%;" /></li>
+<li><p>训练：epoch = 50， Adam优化器，learning_rate = 0.0001，训练结果的Loss曲线和Accuracy曲线在tensorboard中显示为：</p>
+<p><img src="https://img-blog.csdnimg.cn/3081fdc6e0f94e47be26a40e379289a5.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="img" style="zoom:50%;" /><img src="https://img-blog.csdnimg.cn/c6e0887146e44b6688a3824935a227df.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="img" style="zoom:55%;" /></p>
+</li>
+<li><p>将上面裁剪后的目标切片作为测试集送到网络中预测，其结果在原始图像上用黄色字体标出：</p>
+<img src="https://img-blog.csdnimg.cn/ad9154e4cfb5469dbd92e9ab4220979a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210822202948925" style="zoom:67%;" /></li>
+<li><p>以上就是整个全卷积网络的SAR ATR的全部过程及结果，主要采用两级全卷积网络，一级用来检测目标，另一级用于目标分类，整体效果较好，并且网络结构简单，训练时间较短。其中区域生产算法后的目标区域除了上述解决办法外还可以通过机器学习的方法进行聚类。</p>
+</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2021/08/22/%E5%9F%BA%E4%BA%8E%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%E7%9A%84SAR%E8%87%AA%E5%8A%A8%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B-SAR-ATR/">https://did321.github.io/2021/08/22/基于全卷积网络的SAR自动目标检测(SAR ATR)/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"># 深度学习</a>
+                    
+                        <a href="/tags/CNN/"># CNN</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2021/08/22/hello-world/">Hello World</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>
