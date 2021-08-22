@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Machine Learning 学习笔记(二)——梯度下降(Gradient Descent) | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Machine Learning 学习笔记(二)——梯度下降(Gradient Descent)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 11, 2019&nbsp;&nbsp;16:08:00</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Machine-Learning/">Machine Learning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.5k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">6</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-梯度下降图形解释"><a href="#1-梯度下降图形解释" class="headerlink" title="1.梯度下降图形解释"></a>1.梯度下降图形解释</h2><ul>
+<li><p>上一篇已经介绍了代价函数J(θ0,θ1)，我们的目的是要求出使代价函数最小的θ0、θ1，那么我们先从三维图像来描述一下梯度下降怎样寻找代价函数的最小值。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190711150224253.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<p>​    这里就是一个J(θ0,θ1)的图像，要找J的最小值，这里假设图像是一座一座山峰，我们就从任意一个点出发，先假设 θ0=0,θ1=0，取得J的值在红色的山上，这时假如我们要快速下山，我们就环顾四周寻找下降最快的方向，向下走一小步，得到了新的θ0,θ1，这时我们又重新环顾四周找下一个下降最快的方向，以此类推，我们就到了山底，此时的θ0,θ1就是我们想要的，我们得到了一个局部最优解。</p>
+<p>​    当然如果我们最初选的点不是θ0=0,θ1=0的点，假如刚开始的点靠右一点，重复上述步骤，梯度下降就将带领我们到另一个山底，就有了另一个与之前完全不一样的局部最优解。如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190711150245574.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p>这就是梯度下降的特点，后面我们会讨论这个问题。</p>
+<h2 id="2-梯度下降的数学解释"><a href="#2-梯度下降的数学解释" class="headerlink" title="2.梯度下降的数学解释"></a>2.梯度下降的数学解释</h2><p>$$<br>temp0=\theta_0-\alpha\frac{\partial J(\theta_0,\theta_1)}{\partial \theta_0}<br>$$</p>
+<p>$$<br>temp1=\theta_1-\alpha\frac{\partial J(\theta_0,\theta_1)}{\partial \theta_1}<br>$$</p>
+<p>$$<br>\theta_0 = temp0<br>$$</p>
+<p>$$<br>\theta_1 = temp1<br>$$</p>
+<ul>
+<li><p>这里强调一点θ0,θ1是同时更新的，temp0和temp1所求的偏导都是上一次的θ0和θ1。ɑ 为学习速率，他控制我们以多大的速率来更新参数。</p>
+</li>
+<li><p>下面讨论仅有θ1的情况，即代价函数为J(θ1)，此时的temp1如下：</p>
+<p>$$<br>temp1=\theta_1-\alpha\frac{\partial J(\theta_1)}{\partial \theta_1}<br>$$</p>
+<p><img src="https://img-blog.csdnimg.cn/20190711150325123.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<p>​    这时的temp1中求导部分就是求得斜率，假设θ1在右边，斜率为正，那么下一次的θ1就是减去ɑ*斜率，得到的θ1变小，逐渐向左；反之当θ1在左边，斜率为负，那么下一次的θ1就是减去ɑ*斜率(&lt;0)，得到的θ1变大，逐渐向右。</p>
+<ul>
+<li><p>下面讨论ɑ的取值大小对梯度下降的影响</p>
+<p>当ɑ较小时，则J(θ1)向最小值移动的速度会比较慢，但最终会到达最小值点，只是下降速率很慢。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190711150348881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p> 当ɑ较大时，每走一步太大，可能永远都不能到达最小值点，甚至越离越远，最后无法收敛甚至发散。</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/2019071115041153.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li><p>如果此时已经是最低点了，那么此时的斜率就为0，他就不会继续下降，所得的就是我们要找的θ1。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190711150428500.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+<li><p>当θ1所对应的变化率较大时，θ1下降的幅值就越大，反之当θ1对应的变化率较小时，θ1下降的幅值就越小，所以梯度下降是自动改变J(θ1)的变化速度的，即我们不需要实时改变ɑ。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190711151238158.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<h2 id="3-梯度下降的最终表示总结"><a href="#3-梯度下降的最终表示总结" class="headerlink" title="3.梯度下降的最终表示总结"></a>3.梯度下降的最终表示总结</h2><ul>
+<li><p>下面将J(θ0,θ1)带入到梯度下降的公式里面:</p>
+<p>$$<br>\frac{\partial J(\theta_0,\theta_1)}{\partial \theta_0}= \frac{1}{m}\sum_{i=1}^{m}{(h_\theta(x_i) - y_i)}<br>$$</p>
+</li>
+</ul>
+<p>$$<br>\frac{\partial J(\theta_0,\theta_1)}{\partial \theta_1}= \frac{1}{m}\sum_{i=1}^{m}{(h_\theta(x_i) - y_i)*x_i}<br>$$</p>
+<p>即：</p>
+<p>$$<br>\theta_0 =\theta_0-\alpha\frac{1}{m}\sum_{i=1}^{m}{(h_\theta(x_i) - y_i)}<br>$$</p>
+<p>$$<br>\theta_1 =\theta_1-\alpha\frac{1}{m}\sum_{i=1}^{m}{(h_\theta(x_i) - y_i)*x_i}<br>$$</p>
+<h2 id="4-用python实现线性回归的梯度下降-“Batch”-Gradient-Descent"><a href="#4-用python实现线性回归的梯度下降-“Batch”-Gradient-Descent" class="headerlink" title="4.用python实现线性回归的梯度下降(“Batch” Gradient Descent)"></a>4.用python实现线性回归的梯度下降(“Batch” Gradient Descent)</h2><ul>
+<li><p>线性回归的问题可以用到梯度下降，只要每一次的θ0,θ1按照上面的公式进行，就可以实现直线拟合，下面作者使用了python中的matplotlib来进行可视化，更清楚的了解梯度下降的线性回归。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">x_train = [<span class="number">100</span>,<span class="number">80</span>,<span class="number">120</span>,<span class="number">75</span>,<span class="number">60</span>,<span class="number">43</span>,<span class="number">140</span>,<span class="number">132</span>,<span class="number">63</span>,<span class="number">55</span>,<span class="number">74</span>,<span class="number">44</span>,<span class="number">88</span>] <span class="comment">#数据集</span></span><br><span class="line">y_train = [<span class="number">120</span>,<span class="number">92</span>,<span class="number">143</span>,<span class="number">87</span>,<span class="number">60</span>,<span class="number">50</span>,<span class="number">167</span>,<span class="number">147</span>,<span class="number">80</span>,<span class="number">60</span>,<span class="number">90</span>,<span class="number">57</span>,<span class="number">99</span>]</span><br><span class="line"></span><br><span class="line">alpha = <span class="number">0.00001</span>    <span class="comment">#a步长</span></span><br><span class="line">m = <span class="built_in">len</span>(x_train)   <span class="comment">#数据集长度</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">h</span>(<span class="params">x,theta_list</span>):</span></span><br><span class="line">	<span class="string">&quot;&quot;&quot;假设函数，传入参数为x，和theta_list列表，[theta0，theta1]，返回h(x)的值&quot;&quot;&quot;</span></span><br><span class="line">	<span class="keyword">return</span> theta_list[<span class="number">1</span>]*x + theta_list[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Get_theta</span>(<span class="params">theta_list</span>):</span></span><br><span class="line">	<span class="string">&quot;&quot;&quot;求下一次的θ0和θ1，返回他们的列表，传入的是上一次的θ0和θ1&quot;&quot;&quot;</span></span><br><span class="line">	theta0_sum = <span class="number">0</span></span><br><span class="line">	theta1_sum = <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">		theta0_sum+=(h(x_train[i],theta_l·ist)-y_train[i])</span><br><span class="line">		theta1_sum+=(h(x_train[i],theta_list)-y_train[i])*x_train[i]</span><br><span class="line">	theta1=theta_list[<span class="number">1</span>]-alpha/m*theta1_sum</span><br><span class="line">	theta0=theta_list[<span class="number">0</span>]-alpha/m*theta0_sum</span><br><span class="line">	<span class="keyword">return</span> [theta0,theta1]</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">J</span>(<span class="params">theta_list</span>):</span></span><br><span class="line">	<span class="string">&quot;&quot;&quot;代价函数&quot;&quot;&quot;</span></span><br><span class="line">	result = <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">		result += ((y_train[i] - (theta_list[<span class="number">0</span>] + theta_list[<span class="number">1</span>] * x_train[i])) ** <span class="number">2</span>) /<span class="number">2</span>/m</span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">	result_last=<span class="number">0</span></span><br><span class="line">	result=<span class="number">0</span></span><br><span class="line">	plt.plot(x_train,y_train,<span class="string">&#x27;go&#x27;</span>)   <span class="comment">#画数据集</span></span><br><span class="line">	n = <span class="number">0</span>                            <span class="comment">#更新次数</span></span><br><span class="line">	theta_list = [<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line">	<span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">		theta_list = Get_theta(theta_list)</span><br><span class="line">		result = J(theta_list)</span><br><span class="line">		<span class="built_in">print</span>(<span class="built_in">abs</span>(result - result_last))        <span class="comment">#输出前后两次的幅值差值</span></span><br><span class="line">		<span class="keyword">if</span> n % <span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">			plt.plot(x_train,[h(x,theta_list) <span class="keyword">for</span> x <span class="keyword">in</span> x_train],<span class="string">&#x27;blue&#x27;</span>)  <span class="comment">#每隔5次画一条拟合的蓝线</span></span><br><span class="line">		n = n + <span class="number">1</span></span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">abs</span>(result - result_last) &lt; <span class="number">0.00001</span>:    <span class="comment">#判断前后两次的幅值是否小于0.00001，表示达到最优解</span></span><br><span class="line">			<span class="keyword">break</span>					</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			result_last = result</span><br><span class="line">	<span class="built_in">print</span>(n)</span><br><span class="line">	plt.plot(x_train,[h(x, theta_list) <span class="keyword">for</span> x <span class="keyword">in</span> x_train],<span class="string">&#x27;red&#x27;</span>) <span class="comment">#画出最终的拟合出来的结果	</span></span><br><span class="line">	plt.show()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">	main()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>经过拟合之后画出的图像如下：，蓝色是每隔5次梯度下降的结果，最后的红色线是最终拟合出来的，发现拟合结果较好。</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190711160655683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p>输出的结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line">4504.186913638355</span><br><span class="line">671.3310878745829</span><br><span class="line">571.0121868517417</span><br><span class="line">485.6842226173276</span><br><span class="line">413.10705713650077</span><br><span class="line">351.3753025295284</span><br><span class="line">298.86829841041344</span><br><span class="line">254.20756425312902</span><br><span class="line">216.22060977096407</span><br><span class="line">183.91015321312648</span><br><span class="line">156.42793945824315</span><br><span class="line">133.05247054411154</span><br><span class="line">113.17006398730985</span><br><span class="line">96.2587416116138</span><br><span class="line">81.87452591429951</span><br><span class="line">69.6397842051465</span><br><span class="line">59.23331451367534</span><br><span class="line">50.3819129872748</span><br><span class="line">42.853201396852626</span><br><span class="line">36.44952644857389</span><br><span class="line">31.002770738689122</span><br><span class="line">26.36993912203485</span><br><span class="line">22.429404621961453</span><br><span class="line">19.077715324546077</span><br><span class="line">16.22687842762265</span><br><span class="line">13.80205014203905</span><br><span class="line">11.739570797495972</span><br><span class="line">9.985293568070375</span><br><span class="line">8.493162941005416</span><br><span class="line">7.224005608925999</span><br><span class="line">6.144502042446071</span><br><span class="line">5.22631174358542</span><br><span class="line">4.445329215041596</span><br><span class="line">3.781051112073655</span><br><span class="line">3.2160379626685014</span><br><span class="line">2.73545632438449</span><br><span class="line">2.3266893579893555</span><br><span class="line">1.979005594180542</span><br><span class="line">1.683277197431007</span><br><span class="line">1.4317403304630503</span><br><span class="line">1.2177913281371993</span><br><span class="line">1.0358133296511092</span><br><span class="line">0.8810288175806704</span><br><span class="line">0.7493741924269344</span><br><span class="line">0.6373930898443572</span><br><span class="line">0.5421456397758924</span><br><span class="line">0.461131285252538</span><br><span class="line">0.3922231345973213</span><br><span class="line">0.33361212356539127</span><br><span class="line">0.2837595214924651</span><br><span class="line">0.2413565345847779</span><br><span class="line">0.2052899458023809</span><br><span class="line">0.17461288927263574</span><br><span class="line">0.148519991965113</span><br><span class="line">0.1263262300167245</span><br><span class="line">0.10744894461538301</span><br><span class="line">0.09139254530129293</span><br><span class="line">0.07773549909730626</span><br><span class="line">0.06611926388976208</span><br><span class="line">0.05623887552603435</span><br><span class="line">0.047834941508360984</span><br><span class="line">0.04068683109269777</span><br><span class="line">0.03460688301041337</span><br><span class="line">0.02943547874640906</span><br><span class="line">0.025036852031139034</span><br><span class="line">0.02129552453241601</span><br><span class="line">0.01811327417135722</span><br><span class="line">0.0154065564718735</span><br><span class="line">0.013104311244887867</span><br><span class="line">0.011146097026182744</span><br><span class="line">0.009480504290294789</span><br><span class="line">0.008063805782375866</span><br><span class="line">0.006858808534742522</span><br><span class="line">0.005833877430042378</span><br><span class="line">0.004962104675847456</span><br><span class="line">0.004220603387107502</span><br><span class="line">0.0035899067307632038</span><br><span class="line">0.003053456857548653</span><br><span class="line">0.002597170204365895</span><br><span class="line">0.0022090677548600723</span><br><span class="line">0.0018789605507478768</span><br><span class="line">0.001598182198762288</span><br><span class="line">0.0013593613491309497</span><br><span class="line">0.001156228173753604</span><br><span class="line">0.000983449762603783</span><br><span class="line">0.0008364901175763606</span><br><span class="line">0.0007114910674754782</span><br><span class="line">0.000605170978552394</span><br><span class="line">0.000514738600895015</span><br><span class="line">0.0004378197888890156</span><br><span class="line">0.00037239517227760643</span><br><span class="line">0.000316747140949758</span><br><span class="line">0.00026941475214670163</span><br><span class="line">0.0002291553759317111</span><br><span class="line">0.00019491207202904093</span><br><span class="line">0.00016578584178716937</span><br><span class="line">0.0001410120263809489</span><br><span class="line">0.00011994023224559669</span><br><span class="line">0.00010201725580216703</span><br><span class="line">8.677256037081804e-05</span><br><span class="line">7.380592283290355e-05</span><br><span class="line">6.277692660638934e-05</span><br><span class="line">5.339602441445379e-05</span><br><span class="line">4.5416936940156916e-05</span><br><span class="line">3.863018707583876e-05</span><br><span class="line">3.285760040050434e-05</span><br><span class="line">2.7947627637914252e-05</span><br><span class="line">2.3771366009839312e-05</span><br><span class="line">2.0219174929891892e-05</span><br><span class="line">1.719779781517161e-05</span><br><span class="line">1.462791361639404e-05</span><br><span class="line">1.2442054456940355e-05</span><br><span class="line">1.0582834423900067e-05</span><br><span class="line">9.00144288351612e-06</span><br><span class="line">114</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以发现前面的下降速率比较快，越向后下降速率越慢，最终θ0，θ1改变了114次得到了最优解，完美拟合直线，与之前的理论相对应。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/07/11/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D-Gradient-Descent/">https://did321.github.io/2019/07/11/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D-Gradient-Descent/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"># 机器学习</a>
+                    
+                        <a href="/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/"># 梯度下降</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/07/13/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94%E5%A4%9A%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">Machine Learning 学习笔记(三)——多变量线性回归</a>
+            
+            
+            <a class="next" rel="next" href="/2019/07/10/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80-%E2%80%94%E2%80%94%E6%A6%82%E5%BF%B5%E5%92%8C%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0/">Machine Learning 学习笔记(一)——概念和代价函数</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

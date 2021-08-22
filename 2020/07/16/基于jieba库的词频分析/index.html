@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>基于jieba库的词频分析 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基于jieba库的词频分析</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 16, 2020&nbsp;&nbsp;15:29:11</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python/">Python</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.5k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">6</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><blockquote>
+<ul>
+<li>由于前段时间学习任务较重，故所做的一些东西没有及时写博客更新，从今天开始我将会把之前的项目更新到博客。</li>
+<li>这次基于jieba库的词频分析是python课上留的一个小作业，主要是熟悉对英文和中文的词频统计并分析得到结论。</li>
+</ul>
+</blockquote>
+<h2 id="1-文章内容的选取"><a href="#1-文章内容的选取" class="headerlink" title="1.文章内容的选取"></a>1.文章内容的选取</h2><blockquote>
+<ul>
+<li>本次选取词频分析的文章是国家发布的一个新冠肺炎疫情社区防控的指导方案，这篇文章主要讲了如何在社区进行疫情防控，首先将这篇文章复制下来，以”utf-8”格式保存为”.txt”文件</li>
+</ul>
+</blockquote>
+<p>下面是最终保存的结果图：</p>
+<img src="https://img-blog.csdnimg.cn/20200716152708282.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center"  width="400"  height = "300" />
+
+<h2 id="2-文章的预处理"><a href="#2-文章的预处理" class="headerlink" title="2.文章的预处理"></a>2.文章的预处理</h2><blockquote>
+<ul>
+<li>从上图也可以看出文章里面有许多标点符号、特殊字符、换行符 “\n” 等，这些字符都会给后面的分词带来影响，所以我们首先要对文章进行预处理，把这些无用字符去掉。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_txt</span>(<span class="params">path</span>):</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;读文件&#x27;&#x27;&#x27;</span></span><br><span class="line">	txt = <span class="built_in">open</span>(path, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>).read()</span><br><span class="line">	<span class="keyword">for</span> x <span class="keyword">in</span> <span class="string">&#x27; ，。“‘’”：！、《》；？　」「…&quot;:&#x27;</span>:</span><br><span class="line">		txt = txt.replace(x, <span class="string">&quot;&quot;</span>)</span><br><span class="line">		txt = txt.replace(<span class="string">&quot;\n&quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这里使用replace方法将读到的文本中的无用字符用””代替。</li>
+</ul>
+<h2 id="3-用jieba库进行分词"><a href="#3-用jieba库进行分词" class="headerlink" title="3.用jieba库进行分词"></a>3.用jieba库进行分词</h2><blockquote>
+<ul>
+<li>之后用jieba进行分词，这里定义了两个列表，分别存取新创的构词和无关的待去掉的构词，比如新添构词：“新冠肺炎”、“社区防控”、“委员会”等，待去掉的构词：“做好”、“对于”、“逐步”、“推动”等；之后遍历这两个列表，分别调用jieba.add_word()加入新增构词、jieba.del_word()删除无关构词；然后调用jieba.lcut()生成分词后的列表。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_words</span>(<span class="params">txt</span>):</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;用jieba进行分词&#x27;&#x27;&#x27;</span></span><br><span class="line">	new_words = [<span class="string">&#x27;新冠肺炎&#x27;</span>, <span class="string">&#x27;社区防控&#x27;</span>, <span class="string">&#x27;委员会&#x27;</span>, <span class="string">&#x27;组织领导&#x27;</span>, <span class="string">&#x27;医学观察&#x27;</span>, <span class="string">&#x27;精准化&#x27;</span>, <span class="string">&#x27;精细化&#x27;</span>]</span><br><span class="line">	del_words = [<span class="string">&#x27;做好&#x27;</span>, <span class="string">&#x27;对于&#x27;</span>, <span class="string">&#x27;逐步&#x27;</span>, <span class="string">&#x27;做到&#x27;</span>, <span class="string">&#x27;推动&#x27;</span>, <span class="string">&#x27;根据&#x27;</span>, <span class="string">&#x27;要求&#x27;</span>, <span class="string">&#x27;返回&#x27;</span>]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> new_words:</span><br><span class="line">		jieba.add_word(i)</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> del_words:</span><br><span class="line">		jieba.del_word(i)</span><br><span class="line">	words = jieba.lcut(txt)</span><br><span class="line">	<span class="keyword">return</span> words</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-统计词频"><a href="#4-统计词频" class="headerlink" title="4.统计词频"></a>4.统计词频</h2><blockquote>
+<ul>
+<li>下面进行词频的统计，这里定义了一个字典，遍历分词之后的列表，判断字符串长度是否大于1（取代单独一个字符的词），调用count()方法统计该词的出现次数，并和该词构成一个键值对存到字典中，这样就完成了词频的统计，接着调用sort()方法以字典的值降序排序，打印出前30个词及词频。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deal_with_words</span>(<span class="params">words</span>):</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;统计词频&#x27;&#x27;&#x27;</span></span><br><span class="line">	dic = &#123;&#125;</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> words:</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(i) &gt; <span class="number">1</span>:</span><br><span class="line">			dic[i] = words.count(i)</span><br><span class="line">	words_list = <span class="built_in">list</span>(dic.items())</span><br><span class="line">	words_list.sort(key= <span class="keyword">lambda</span> x:x[<span class="number">1</span>], reverse=<span class="literal">True</span>)</span><br><span class="line">	<span class="built_in">print</span> (<span class="string">&#x27;字符\t词频&#x27;</span>)</span><br><span class="line">	<span class="built_in">print</span> (<span class="string">&#x27;=============&#x27;</span>)</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">		word, count = words_list[i]</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;&#123;0:&lt;10&#125;&#123;1:&gt;5&#125;&quot;</span>.<span class="built_in">format</span>(word, count))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>以下是最终打印出来的结果：前面是分割出来的词，后面是出现的次数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">字符	词频</span><br><span class="line">=============</span><br><span class="line">社区           83</span><br><span class="line">工作           40</span><br><span class="line">防控           35</span><br><span class="line">社区防控         33</span><br><span class="line">疫情           26</span><br><span class="line">人员           25</span><br><span class="line">管理           23</span><br><span class="line">服务           21</span><br><span class="line">居民           20</span><br><span class="line">生活           16</span><br><span class="line">组织           16</span><br><span class="line">物资           16</span><br><span class="line">措施           14</span><br><span class="line">机制           12</span><br><span class="line">健康           12</span><br><span class="line">参与           11</span><br><span class="line">医学观察         10</span><br><span class="line">地区           10</span><br><span class="line">隔离           10</span><br><span class="line">配送           10</span><br><span class="line">新冠肺炎          9</span><br><span class="line">实施            9</span><br><span class="line">群众            9</span><br><span class="line">完善            9</span><br><span class="line">社区服务          9</span><br><span class="line">机构            8</span><br><span class="line">志愿者           8</span><br><span class="line">加强            8</span><br><span class="line">信息            8</span><br><span class="line">高风险           8</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="5-用wordcloud生成词云"><a href="#5-用wordcloud生成词云" class="headerlink" title="5.用wordcloud生成词云"></a>5.用wordcloud生成词云</h2><blockquote>
+<ul>
+<li>下面利用wordcloud生成词云，并用matplotlib库对其进行绘图，更加直观展现关键词及重要程度，调用Wordcloud的generate()方法对分词后的字符串进行词云的产生，之后用matplotlib中的imshow()方法绘制词云图，设置坐标轴隐藏，使用show()方法将其显示出来。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_word_cloud</span>(<span class="params">words</span>):</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;绘制词云&#x27;&#x27;&#x27;</span></span><br><span class="line">	txt = <span class="string">&#x27; &#x27;</span>.join(words)</span><br><span class="line">	wc = WordCloud(font_path=<span class="string">&#x27;./fonts/simhei.ttf&#x27;</span>,width=<span class="number">800</span>, height=<span class="number">600</span>, mode=<span class="string">&#x27;RGBA&#x27;</span>, background_color=<span class="literal">None</span>).generate(txt)</span><br><span class="line">	plt.imshow(wc, interpolation=<span class="string">&#x27;bilinear&#x27;</span>)</span><br><span class="line">	plt.axis(<span class="string">&#x27;off&#x27;</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>下面是最终生成的词云图：</p>
+<img src="https://img-blog.csdnimg.cn/2020071615281438.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center"/></li>
+<li><p>通过词云和统计的词频可以发现“社区”、“工作”、“防控”、“居民服务”等关键词比较突出，大致可以总结出这篇文章主要是谈社区防控的，并且对居民生活要有保障物资，各地应该是要有相应的措施，后面的“健康”、“医学观察”、“地区”、“隔离”、“配送”则表明要求关注居民的健康问题，如果发现有人有发热状况要立即进行隔离并进行医学观察，给居民配送物资等，基本上就是社区防控与服务居民的方案指导。</p>
+</li>
+</ul>
+<h2 id="附源代码"><a href="#附源代码" class="headerlink" title="附源代码"></a>附源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">from</span> wordcloud <span class="keyword">import</span> WordCloud</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_txt</span>(<span class="params">path</span>):</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;读文件&#x27;&#x27;&#x27;</span></span><br><span class="line">	txt = <span class="built_in">open</span>(path, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>).read()</span><br><span class="line">	<span class="keyword">for</span> x <span class="keyword">in</span> <span class="string">&#x27; ，。“‘’”：！、《》；？　」「…&quot;:&#x27;</span>:</span><br><span class="line">		txt = txt.replace(x, <span class="string">&quot;&quot;</span>)</span><br><span class="line">		txt = txt.replace(<span class="string">&quot;\n&quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> txt</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_words</span>(<span class="params">txt</span>):</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;用jieba进行分词&#x27;&#x27;&#x27;</span></span><br><span class="line">	new_words = [<span class="string">&#x27;新冠肺炎&#x27;</span>, <span class="string">&#x27;社区防控&#x27;</span>, <span class="string">&#x27;委员会&#x27;</span>, <span class="string">&#x27;组织领导&#x27;</span>, <span class="string">&#x27;医学观察&#x27;</span>, <span class="string">&#x27;精准化&#x27;</span>, <span class="string">&#x27;精细化&#x27;</span>]</span><br><span class="line">	del_words = [<span class="string">&#x27;做好&#x27;</span>, <span class="string">&#x27;对于&#x27;</span>, <span class="string">&#x27;逐步&#x27;</span>, <span class="string">&#x27;做到&#x27;</span>, <span class="string">&#x27;推动&#x27;</span>, <span class="string">&#x27;根据&#x27;</span>, <span class="string">&#x27;要求&#x27;</span>, <span class="string">&#x27;返回&#x27;</span>]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> new_words:</span><br><span class="line">		jieba.add_word(i)</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> del_words:</span><br><span class="line">		jieba.del_word(i)</span><br><span class="line">	words = jieba.lcut(txt)</span><br><span class="line">	<span class="keyword">return</span> words</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deal_with_words</span>(<span class="params">words</span>):</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;统计词频&#x27;&#x27;&#x27;</span></span><br><span class="line">	dic = &#123;&#125;</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> words:</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(i) &gt; <span class="number">1</span>:</span><br><span class="line">			dic[i] = words.count(i)</span><br><span class="line">	words_list = <span class="built_in">list</span>(dic.items())</span><br><span class="line">	words_list.sort(key= <span class="keyword">lambda</span> x:x[<span class="number">1</span>], reverse=<span class="literal">True</span>)</span><br><span class="line">	<span class="built_in">print</span> (<span class="string">&#x27;字符\t词频&#x27;</span>)</span><br><span class="line">	<span class="built_in">print</span> (<span class="string">&#x27;=============&#x27;</span>)</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">		word, count = words_list[i]</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;&#123;0:&lt;10&#125;&#123;1:&gt;5&#125;&quot;</span>.<span class="built_in">format</span>(word, count))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_word_cloud</span>(<span class="params">words</span>):</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;绘制词云&#x27;&#x27;&#x27;</span></span><br><span class="line">	txt = <span class="string">&#x27; &#x27;</span>.join(words)</span><br><span class="line">	wc = WordCloud(font_path=<span class="string">&#x27;./fonts/simhei.ttf&#x27;</span>,width=<span class="number">800</span>, height=<span class="number">600</span>, mode=<span class="string">&#x27;RGBA&#x27;</span>, background_color=<span class="literal">None</span>).generate(txt)</span><br><span class="line">	plt.imshow(wc, interpolation=<span class="string">&#x27;bilinear&#x27;</span>)</span><br><span class="line">	plt.axis(<span class="string">&#x27;off&#x27;</span>)</span><br><span class="line">	plt.show()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;主函数&#x27;&#x27;&#x27;</span></span><br><span class="line">	txt = read_txt(<span class="string">&#x27;疫情指导方案.txt&#x27;</span>)</span><br><span class="line">	words = get_words(txt)</span><br><span class="line">	deal_with_words(words)</span><br><span class="line">	create_word_cloud(words)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">	main()</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2020/07/16/%E5%9F%BA%E4%BA%8Ejieba%E5%BA%93%E7%9A%84%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/">https://did321.github.io/2020/07/16/%E5%9F%BA%E4%BA%8Ejieba%E5%BA%93%E7%9A%84%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/python/"># python</a>
+                    
+                        <a href="/tags/jieba/"># jieba</a>
+                    
+                        <a href="/tags/%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/"># 词频分析</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/07/17/Forest%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%8F%8A%E5%8F%AF%E8%A7%86%E5%8C%96/">Forest数据分析及可视化</a>
+            
+            
+            <a class="next" rel="next" href="/2020/02/07/Tensorflow2-0-%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">Tensorflow 2.0 实现神经网络</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

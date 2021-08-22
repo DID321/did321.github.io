@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>可编程器件应用FPGA——学习笔记(一) | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">可编程器件应用FPGA——学习笔记(一)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 29, 2019&nbsp;&nbsp;20:09:06</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/FPGA/">FPGA</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.5k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">5</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
+<li>此笔记仅供学习使用，主要是记录一些知识点，方便查看，内容包括Verilog+FPGA开发，由于作者水平有限，笔记中不妥之处在所难免，请查看笔记的读者评论指正，我将进一步完善。</li>
+</ul>
+<h2 id="1-认识FPGA"><a href="#1-认识FPGA" class="headerlink" title="1.认识FPGA"></a>1.认识FPGA</h2><ul>
+<li>FPGA 是 Field Programmable Gate Array 的缩写，即现场可编程门阵列，它是在PAL、GAL、CPLD等可编程器件的基础上进一步发展的产物。</li>
+<li>FPGA是一种可以编程的数字集成电路IC，它包含可配置的逻辑块以及逻辑块之间的互连线。设计人员可以通过在现场完成对这些逻辑块和互连线的配置，以实现或改变复杂的电子系统的功能。</li>
+<li>FPGA在结构、速度、工艺、集成度和性能等方面都有极大的提高，与之相对应的设计方法和自动化设计工具也得到迅速的发展。</li>
+<li>FPGA的组成：<ul>
+<li>可编程输入/输出单元（I/O单元）、</li>
+<li>基本可编程逻辑单元、</li>
+<li>嵌入式块RAM、</li>
+<li>丰富的布线资源、</li>
+<li>底层嵌入功能单元、</li>
+<li>内嵌专用硬核。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-学习FPGA的意义"><a href="#2-学习FPGA的意义" class="headerlink" title="2.学习FPGA的意义"></a>2.学习FPGA的意义</h2><ul>
+<li>突破原有的CPU架构体系处理信息的单一模式，使原来的硬件架构可以像软件一样进行开发，使原有的通过软件指令实现的功能可以在FPGA中，通过逻辑电路来实现，极大提高处理的效率。</li>
+<li>选择FPGA的另一个直接的原因是它的并行和灵活，尤其是它的可重构性。对于局部单元可重构的FPGA，更能够像人类大脑中的信息处理机制一样。即在信息处理过程中可以根据需要能够改变物理联系通道，这将带来体系结构和实现算法上的创新。现在，FPGA正好进入人工智能、深度学习的黄金时代。</li>
+</ul>
+<h2 id="3-FPGA的应用"><a href="#3-FPGA的应用" class="headerlink" title="3.FPGA的应用"></a>3.FPGA的应用</h2><ul>
+<li>FPGA目前虽然还受制于较高的开发门槛以及器件本身昂贵的价格，应用的普及率上不如ARM和DSP，但是在很多的应用场合，还是必须要使用它。FPGA所固有的灵活性和并行性是其他芯片所不具备的，所以它的应用领域涵盖得很广。从技术角度来看，主要是有以下需求的应用场合：</li>
+<li>逻辑粘合：使用74等基本门电路进行数字系统搭建时，会使一些简单的数字系统显得十分庞大。可编程器件的出现革命性的变革。</li>
+<li>实时控制，有一些任务必须在规定的时间内完成，而通用微处理器由于其运行速度的限制而力不从心。比如高速电机和图像采集等。</li>
+<li>通信领域这个FPGA应用的传统领域，发展至今依然是FPGA应用的热点和研究的热点。各种通信协议实现，如更新较快的各种有线和无线通信标准、广播视频及其编解码算法、各种加密算法等，使用FPGA比ASIC更有竞争力。</li>
+<li>高速信号采集和处理，如高速AD前端或图像前端的采集和预处理，近年来持续升温的机器视觉应用也几乎是无一例外的都使用了FPGA器件。</li>
+</ul>
+<h2 id="4-FPGA的开发方法和工具"><a href="#4-FPGA的开发方法和工具" class="headerlink" title="4.FPGA的开发方法和工具"></a>4.FPGA的开发方法和工具</h2><ul>
+<li><p>硬件描述语言（HDL）Hardware Description Language</p>
+</li>
+<li><p>是一种利用文字描述数字电路系统的方法，可以起到和传统的电路原理图描述相同的效果。</p>
+<p>突破传统的“搭建”复杂电路设计的鸿沟。如同使用高级语言设计软件设计程序。</p>
+<p>硬件描述语言和数字电路系统相互促进，共同发展。</p>
+<p>目前，广泛使用的硬件描述语言有两种： VHDL 和  Verilog HDL。</p>
+</li>
+</ul>
+<p>它具有以下特点：</p>
+<p>1） 功能强大， 灵活性强：具有功能强大的语言结构, 可用简洁明确的代码描述来进行复杂控制逻辑的设计。</p>
+<p>2） 不依赖于器件设计：同一个设计描述， 可以采用多种不同的器件结构来实现其功能。 若需对设计进行资源利用和性能方面的优化， 也并不是要求设计者非常熟悉器件的结构才行。 相反， 你可以集中精力从事你的设计构思， 当然， 这并不是说设计者可以忽略电路结构， 诸如数据通路优化技术方面的需要。</p>
+<p>3） 可移植性：VHDL的设计描述可以被不同的工具所支持， 可以在不同模拟工具、综合工具、工作平台中执行。 </p>
+<p>4） 性能评估能力：允许设计者采用不同的器件结构和不同的综合工具来评估设计。选用最适合你设计需求的器件。 为了衡量综合的质量， 同样可用不同的综合工具所得到的综合结果来进行分析、 评估。 </p>
+<p>5）上市时间快， 成本低。</p>
+<h2 id="5-Quartus-2-和-Modelsim工具的安装下载"><a href="#5-Quartus-2-和-Modelsim工具的安装下载" class="headerlink" title="5.Quartus 2 和 Modelsim工具的安装下载"></a>5.Quartus 2 和 Modelsim工具的安装下载</h2><ul>
+<li><p>Quartus 2 主要可以将写好的代码编写成配置文件，从而可以直接下载到芯片中，但是它的仿真功能不是太好，故推荐使用Modelsim工具进行编写和仿真，具体的下载和破解方法见下面的链接（参考别人的博客）</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/he__yuan/article/details/80560064">https://blog.csdn.net/he__yuan/article/details/80560064</a></p>
+<p>里面有百度云和破解的办法（特别提醒：安装文件路径不能有中文！！！）</p>
+</li>
+</ul>
+<h2 id="6-结尾"><a href="#6-结尾" class="headerlink" title="6.结尾"></a>6.结尾</h2><ul>
+<li>本片笔记主要介绍了FPGA的一些基本常识，后面将记录Verilog的语法学习。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/09/29/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/">https://did321.github.io/2019/09/29/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/FPGA/"># FPGA</a>
+                    
+                        <a href="/tags/Verilog/"># Verilog</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/09/30/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94Verilog-HDL%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/">FPGA学习笔记(二)——Verilog HDL语法基础</a>
+            
+            
+            <a class="next" rel="next" href="/2019/09/28/%E4%BD%BF%E7%94%A8CMake%E6%9E%84%E5%BB%BAQt%E9%A1%B9%E7%9B%AE/">使用CMake构建Qt项目</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

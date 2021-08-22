@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>C51单片机学习笔记(四)——中断系统及应用 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">C51单片机学习笔记(四)——中断系统及应用</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">April 5, 2019&nbsp;&nbsp;10:57:05</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C51%E5%8D%95%E7%89%87%E6%9C%BA/">C51单片机</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.7k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">6</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <div id="article_content" class="article_content clearfix">
+<div class="toc"><h3><a name="t1"></a>文章目录</h3><ul><ul><ul><li><a href="#1_2" rel="nofollow" data-token="eafbfed6e0e3c8de33ad3be99e85f03c" target="_self">1.单片机的中断系统</a></li><li><a href="#24_18" rel="nofollow" data-token="a989fee963344e6b295da7f0e4b7d655" target="_self">2.中断需要设置的4个寄存器</a></li><li><a href="#3_44" rel="nofollow" data-token="c80f3a8c92385158747949045c7dc9d1" target="_self">3.使用中断控制流水灯</a></li><li><a href="#4T0T11_64" rel="nofollow" data-token="e1c921d596696dddf3d62b71e4c93c41" target="_self">4.定时器T0和T1的工作方式1</a></li><li><a href="#5_71" rel="nofollow" data-token="959a17e9966807df34c37561d732cd50" target="_self">5.定时器控制流水灯</a></li><li><a href="#6_108" rel="nofollow" data-token="e75fb9020815d06010d45b78e3a1083f" target="_self">6。按键+中断+流水灯实例</a></li></ul></ul></ul></div><p></p>
+<h3><a name="t2"></a><a id="1_2"></a>1.单片机的中断系统</h3>
+<ul>
+<li>中断的概念：<br>
+CPU在处理某一事件A时，发生了另一事件B请求CPU迅速去处理（中断产生）；<br>
+CPU暂时中断当前的工作，转去处理事件B（中断响应和中断服务）；<br>
+待CPU将事件B处理完毕后，再回到原来事件A中断的地方继续处理事件A（中断返回），这一过程称为中断。<br>
+<img src="https://img-blog.csdnimg.cn/201903301611197.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>引起CPU中断的根源叫做中断源。中断源向CPU的请求，叫做中断请求。<br>
+CUP暂时中断原来的事务A，转去处理事件B。对事件B处理完毕后，再<br>
+回到原来被中断的地方（即断点），称为中断返回。实现上述中断功能的<br>
+部件称为中断系统（中断机构）。<img src="https://img-blog.csdnimg.cn/20190330161146655.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>51单片机的中断源：引起中断的事件称为中断源，51单片机一共有5个中断源，如下图：<br>
+<img src="https://img-blog.csdnimg.cn/2019033016330864.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></li>
+<li>中断优先级：当单片机正在执行主程序时，如果发生了几个中断请求，单片机会由根据中断优先级寄存器的默认优先级进行处理，如下表：<br>
+<img src="https://img-blog.csdnimg.cn/20190330163954755.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>中断嵌套:51单片机最多可以执行二级嵌套：<br>
+<img src="https://img-blog.csdnimg.cn/20190330164507302.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+<h3><a name="t3"></a><a id="24_18"></a>2.中断需要设置的4个寄存器</h3>
+<ul>
+<li>中断允许寄存器IE<br>
+CPU对中断源允许或不允许，由中断允许寄存器IE控制，IE在特殊功能寄存器中，字节地址为A8H，编程时可对寄存器的每一位单独操作，单片机复位时IE的各个位全部变为0.<br>
+<img src="https://img-blog.csdnimg.cn/20190330165803229.png" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190330170005498.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>中断优先级寄存器IP<br>
+中断优先级寄存器IP在特殊功能寄存器中，字节地址为B8H，IP用于设定各个中断源属于两级中断中的哪一级，单片机复位时，IP全部赋值为0<br>
+<img src="https://img-blog.csdnimg.cn/20190330170940598.png" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190330170724740.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+注意：高优先级中断可以打断低优先级中断而形成中断嵌套，同优先级中断之间不能形成嵌套，低优先级中断不能打断高优先级中断。一般情况下，中断优先级寄存器不需要设置，而采用默认设置。</li>
+<li>定时器、计数器工作方式寄存器TMOD：</li>
+<li>TMOD在单片机内部的特殊功能寄存器中，字节地址为89H，不能位寻址（编程时不能单独操作各个位，只能采用字节操作），该寄存器用来设定定时器的工作方法及功能选择，单片机复位时，TMOD全部为0.<br>
+<img src="https://img-blog.csdnimg.cn/20190330171828171.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190330171857498.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>中断控制寄存器TCON：<br>
+TCON在特殊功能寄存器中，字节地址为88H，可以进行位寻址，该寄存器用于控制定时器/计数器的开启停止、标志定时器/计数器的溢出和中断情况，还可对外部中断进行设置，单片机复位时TCON全部为0.<br>
+<img src="https://img-blog.csdnimg.cn/20190330172500143.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>中断系统的工作原理图：<br>
+<img src="https://img-blog.csdnimg.cn/20190330172534405.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>中断程序的写法格式：</li>
+</ul>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> 函数名（） interrupt 中断号</span><br><span class="line">&#123;</span><br><span class="line">	中断服务程序的语句</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><a name="t4"></a><a id="3_44"></a>3.使用中断控制流水灯</h3>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg52.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uchar unsigned char</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED P2</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	EA = <span class="number">1</span>;	 <span class="comment">//中断允许寄存器IE中的总控制开关，EA=0代表允许产生中断</span></span><br><span class="line">	EX0 = <span class="number">1</span>; <span class="comment">//中断允许寄存器IE中的EX0=1代表允许INT0产生中断</span></span><br><span class="line">	IT0 = <span class="number">0</span>; <span class="comment">//中断控制寄存器TCON 当IT0 =0时，为电平触发方式，</span></span><br><span class="line">	         <span class="comment">//如果P3.2为低电平，则产生中断请求（我的单片机P3.2连的是按键6，所以当按键6被按下时，产生中断请求）</span></span><br><span class="line">	</span><br><span class="line">	LED = <span class="number">0x0f</span>; <span class="comment">//使后四个LED灯亮</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Change_LED</span><span class="params">()</span> interrupt 0</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	LED = <span class="number">0xf0</span>;	 <span class="comment">//使前四个LED灯亮</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><a name="t5"></a><a id="4T0T11_64"></a>4.定时器T0和T1的工作方式1</h3>
+<ul>
+<li>这里用到前面所展示的定时器和计数器的工作方式寄存器TMOD<br>
+<img src="https://img-blog.csdnimg.cn/20190405092833322.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""><br>
+<img src="https://img-blog.csdnimg.cn/20190405092850319.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">
+<ul>
+<li>工作方式1的计数位是16位，下面以T0为例说明（T1和T0方式1是一样的）。T0有两个寄存器TL0个TH0组成，TL0为低8位，TH0为高8位。</li>
+<li>启动T0后TL0便在机器周期的作用下从0000 0000开始计数每次加一，当TL0计满（1111 1111十进制255）时，再计一个到256，此时TL0清零，同时向TH0进一位，直到TH0也计满此时达到65535，再计一个数就溢出，产生中断请求，进入中断处理程序，同时TF0（中断标识位自动置1）中断程序执行完后，硬件将自动将TF0清0.</li>
+</ul>
+</li>
+</ul>
+<h3><a name="t6"></a><a id="5_71"></a>5.定时器控制流水灯</h3>
+<ul>
+<li>下面用定时器做一个将发光二极管亮1s，熄1s，周期性闪烁</li>
+</ul>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg52.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uchar unsigned char</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED P2</span></span><br><span class="line">uchar num;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	LED = <span class="number">0xf0</span>;</span><br><span class="line">	TMOD = <span class="number">0x01</span>;<span class="comment">//将定时器0设为方式1，即16位定时器</span></span><br><span class="line">	<span class="comment">/*TH0中每增加1，就相当于计了256个数，所以TH0装入初值是对256取模，TL0是对256取余*/</span></span><br><span class="line">	TH0 = (<span class="number">65536</span><span class="number">-45872</span>)/<span class="number">256</span>;<span class="comment">//给定时器的高八位赋初值</span></span><br><span class="line">	TL0 = (<span class="number">65536</span><span class="number">-45872</span>)%<span class="number">256</span>;<span class="comment">//给定时器的低八位赋初值</span></span><br><span class="line">	<span class="comment">/*过程中不可能让其计65536个数，所以要给他赋初始值，单片机的晶振为11.0582MHz，机器周期为</span></span><br><span class="line"><span class="comment">	1.09us（计一个数的时间），若要每50ms产生一个中断，则要计数50000/1.09=45872，所以将其作为初值*/</span></span><br><span class="line">	EA = <span class="number">1</span>;<span class="comment">//开总中断</span></span><br><span class="line">	ET0 = <span class="number">1</span>;<span class="comment">//开定时器0中断</span></span><br><span class="line">	TR0 = <span class="number">1</span>;<span class="comment">//启动定时器T0</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;	   </span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(num == <span class="number">20</span>) <span class="comment">//num=20代表用了50ms*20  = 1s</span></span><br><span class="line">		&#123;</span><br><span class="line">			num = <span class="number">0</span>;</span><br><span class="line">			LED = ~LED;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">T0time</span><span class="params">()</span> interrupt 1</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TH0 = (<span class="number">65536</span><span class="number">-45872</span>)/<span class="number">256</span>;<span class="comment">//重装初值</span></span><br><span class="line">	TL0 = (<span class="number">65536</span><span class="number">-45872</span>)%<span class="number">256</span>;</span><br><span class="line">	num++;			  <span class="comment">//每发生一次中断后，num++，num等于几，用的时间就是几个50ms</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><a name="t7"></a><a id="6_108"></a>6.按键+中断+流水灯实例</h3>
+<ul>
+<li>要求，当按键按下时，流水灯停止流动，再次按下时，流水灯从原来的位置继续流动</li>
+</ul>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg52.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uchar unsigned char</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uint unsigned int</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LED P2</span></span><br><span class="line">sbit S = P3^<span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> j;</span><br><span class="line">uchar code table[]=&#123;<span class="number">0xfe</span>,<span class="number">0xfd</span>,<span class="number">0xfb</span>,<span class="number">0xf7</span>,<span class="number">0xef</span>,<span class="number">0xdf</span>,<span class="number">0xbf</span>,<span class="number">0x7f</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">key</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(uint z)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LED_display</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">init</span>();</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	<span class="built_in">LED_display</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	IT0 = <span class="number">0</span>; <span class="comment">//设置低电平触发外部中断</span></span><br><span class="line">	EA = <span class="number">1</span>;  <span class="comment">//开总中断</span></span><br><span class="line">	EX0 = <span class="number">1</span>;<span class="comment">//开外部中断</span></span><br><span class="line">	j = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">key</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(S == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">delay</span>(<span class="number">8</span>); <span class="comment">//按键消抖</span></span><br><span class="line">		<span class="keyword">if</span>(S == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			j++;</span><br><span class="line">			<span class="keyword">if</span>(j==<span class="number">2</span>)</span><br><span class="line">			j = <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(!S);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(uint z)</span> <span class="comment">//延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	uint x,y;</span><br><span class="line">	<span class="keyword">for</span>(x = z;x&gt;<span class="number">0</span>;x--)</span><br><span class="line">		<span class="keyword">for</span>(y=<span class="number">110</span>;y&gt;<span class="number">0</span>;y--);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LED_display</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	uint i;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">8</span>;i++)   <span class="comment">//数组控制流水灯</span></span><br><span class="line">	&#123;</span><br><span class="line">		LED = table[i];</span><br><span class="line">		<span class="built_in">delay</span>(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> interrupt 0</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">		<span class="built_in">key</span>();</span><br><span class="line">	&#125;<span class="keyword">while</span>(j == <span class="number">1</span>);  <span class="comment">//中断函数，当按键按下时中断</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>                &lt;/div&gt;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/04/05/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B-%E2%80%94%E2%80%94%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F%E5%8F%8A%E5%BA%94%E7%94%A8/">https://did321.github.io/2019/04/05/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B-%E2%80%94%E2%80%94%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F%E5%8F%8A%E5%BA%94%E7%94%A8/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"># C51单片机</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/04/07/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%94-%E2%80%94%E2%80%94%E6%95%B0%E7%A0%81%E7%AE%A1%E7%9A%84%E9%9D%99%E6%80%81%E6%98%BE%E7%A4%BA%E5%92%8C%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA/">C51单片机学习笔记(五)——数码管的静态显示和动态显示</a>
+            
+            
+            <a class="next" rel="next" href="/2019/03/29/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94%E6%8C%89%E9%94%AE%E5%AF%B9%E7%81%AF%E3%80%81%E8%9C%82%E9%B8%A3%E5%99%A8%E7%AD%89%E5%99%A8%E4%BB%B6%E7%9A%84%E6%8E%A7%E5%88%B6/">C51单片机学习笔记(三)——按键对灯、蜂鸣器等器件的控制</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

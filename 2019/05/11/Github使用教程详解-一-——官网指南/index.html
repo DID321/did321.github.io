@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Github使用教程详解(一)——官网指南 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Github使用教程详解(一)——官网指南</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 11, 2019&nbsp;&nbsp;11:39:39</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Github/">Github</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">2k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">7</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <div id="article_content" class="article_content clearfix">
+                                            <h3><a name="t0"></a><a id="_0"></a>说在前面</h3>
+<ul>
+<li>之前注册过github，但没有几个人合作修改一份代码，故查阅了其他博客，了解了github的使用方法。</li>
+<li>参考原文链接：<a target="_blank" href="https://blog.csdn.net/qq_31877249/article/details/79740748" rel="nofollow noopener" data-token="66db728fa31da1d3c62a02a82ae6d6ca">https://blog.csdn.net/qq_31877249/article/details/79740748</a></li>
+</ul>
+<div id="article_content" class="article_content clearfix csdn-tracking-statistics">
+                                
+                                                    
+<div class="htmledit_views" id="content_views">
+                <div>﻿﻿</div><h1><a name="t1"></a><a></a><a target="_blank"></a><strong>GitHub 指南</strong></h1><p>原文地址：<a href="https://guides.github.com/activities/hello-world/" rel="nofollow" target="_blank" data-token="efe299beba96751b63817f8fa67b6b79"><u><span>GitHub官网指南</span></u></a></p><p><strong>示例项目：Hello World</strong></p><p>十分钟轻松教学</p><p>在学习计算机语言编程的过程中创建Hello World 项目是一个历史悠久的传统。当你接触一门新事物的时候可以用它来做一个简单的练习。让我们开始使用github吧！</p><p><strong>通过本文，您将会学到：</strong></p><blockquote><ol><li>如何创建和使用仓库</li><li>如何创建和管理分支</li><li>如何改变一个文件并将它提交到github上</li><li>如何发起以及合并请求</li></ol></blockquote><h2><a name="t2"></a><a></a><a target="_blank"></a>什么是GitHub?</h2><hr><p>GitHub是一个代码版本控制和协作的托管平台。它可以让你和你的伙伴在任何地方一起进行项目开发。</p><p>本教程将帮助你学习GitHub的必备知识，如“仓库”、“分支”、“提交代码”以及“请求代码合并”。你将创建你自己的“hello-world”仓库并且学习GitHub的请求代码合并工作流，这是目前一种非常流行的创建和审查代码方式。</p><p><strong>无需编码</strong></p><p>要完成本教程，您需要注册一个GitHub账户并且需要联网。你不需要知道如何编码，如何使用命令窗口以及如何安装Git(GitHub的客户端软件)。</p><p>提示：你可以将本指南在一个单独的浏览器或浏览器tab窗口中打开，这样你就可以边看着指南边进行操作了。</p><h2><a name="t3"></a><a></a><a target="_blank"></a>第一步：创建一个仓库</h2><p>一个仓库通常用来组织一个单独的项目。该仓库可以包含你项目中的所有文件，如文件夹、文件、图片、视频、电子表格、数据集等。我们建议包含一个README文件，或者你自定义的用来记录项目信息的文件。GitHub将默认在你创建仓库的时候添加它。在创建的同时还提供了权限许可选项。</p><p>你可以用你的“hello-world”仓库来存储你的想法、资源，甚至用它来和别人分享、讨论任何事情。</p><p><strong>创建一个新的仓库</strong></p><ol><li>在页面的最右上角，你的头像的左边，点击“＋”，在弹出的下拉选项中选择“New repository”。</li><li>在仓库名称输入框中输入你的仓库名称：“hello-world”。</li><li>写一个简短的描述。</li><li>勾选“Initialize this repository with a README”。</li></ol><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706143745968"></p><p>点击“Create repository”按钮，完成创建。</p><h2><a name="t4"></a><a></a><a target="_blank"></a>第二步：创建一个分支</h2><p>分支是一个可以让你在同一时间工作在同一个仓库的不同版本的方法。</p><p>在你的仓库中会有一个默认的名叫“master”的主分支，该分支用来存储你最终确定的版本代码。我们用其他的子分支来进行编辑和更改，确定之后再提交到主分支。</p><p>当你从主分支创建出一个子分支的那一刻，其实你就是对当时时间点的主分支做了一个拷贝。如果之后别的分支的人对主分支做出了更新，在你提交到主分支之前，你必须先从主分支上拉取那些更新。</p><p>下面的图表将显示分支合作的整个流程：</p><ul><li>主分支</li><li>一个新的命名为“feature”的子分支（因为我们正在这个分支上做开发）</li><li>“feature”分支合并到主分支之前的历程</li></ul><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706151321852"></p><p>你是否像下面这样保存过不同版本的文件？</p><ul><li>story.txt</li><li>story-joe-edit.txt</li><li>story-joe-edit-reviewed.txt</li></ul><p>在GItHub仓库中的分支就是为了完成类似的功能。</p><p>在GitHub上，我们的开发人员，编辑人员以及设计人员，分别在独立的分支上完成自己修改bug或功能编写的工作。当一个功能编写确定之后，他们就将自己的分支合并到主分支上。</p><p><strong>新建一个子分支</strong></p><ol><li>进入你的“hello-world”仓库</li><li>点击文件列表上方的写着“branch: master”的下拉框</li><li>在输入框中输入新的分支名字“readme-edits”</li><li>点击下方蓝色背景的分支创建框或直接按键盘的“Enter”键</li></ol><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706153250404"></p><p>现在，你已经有了“master”和“readme-edits”两个分支了。他们看起来几乎一模一样，但是不要着急，接下来，我们将在我们新建的子分支上做出一些改变。</p><h2><a name="t5"></a><a></a><a target="_blank"></a>第三步：做出修改并提交</h2><p>干得好！现在，你已经在你的新分支“readme-edits”上了，让我们来对它写点什么。</p><p>在GitHub中，保存更改被称为“提交”。每一次提交都需要写一段我们为什么做出修改的备注说明。这些备注说明将对你的更改做出记录，其他伙伴看到之后就知道你每次都提交了什么。</p><p><strong>做出修改并提交</strong></p><ol><li>点击“README.md”文件，切换到“README.md”内容页面</li><li>点击编辑框右上角的铅笔按钮，进入编辑界面</li><li>在编辑框中，写一些你自己的信息</li><li>在下方的“提交更改”框中，输入你做出此次修改的备注说明</li><li>点击下方的“Commit changes”按钮</li></ol><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706155111070"></p><p>这些更改只是针对于位于你的“readme-edits”子分支中的 “README.md ”文件，所以现在这个分支上包含的内容和主分支上已经有所不同。</p><h2><a name="t6"></a><a></a><a target="_blank"></a>第四步：发出“请求代码合并”请求</h2><p>现在你已经对你的新分支做出了修改，我们可以发出“请求代码合并”的请求啦。</p><p>请求代码合并是GitHub团队协作的核心功能。当你发出一个“请求代码合并”请求的时候，相当于你请求别人拷贝你当前的代码做出审查，审查通过之后将你的代码下载并且合并到他们的分支上。该请求将会在所有的分支上显示出不相同的部分。你做出的任何更改、增加以及减少，都会用绿色和红色显示出来。</p><p>在你的代码完成之前，你可以随时进行代码提交，发起请求代码合并的请求以及进行一场讨论。</p><p>你可以通过GitHub的“@”功能，在每次发出“请求代码合并”请求的时候，向特定的人或团队做出反馈，无论这个人是在你身边还是远在千里之外。</p><p>你可以向自己的仓库发出“请求代码合并”的请求，并且自己去合并他们。这在你接触到大型项目之前是一个非常好的练习方法。</p><p><strong>为更改的README文件发出“请求代码合并”请求</strong></p><p>第一步：点击“Pull Request”选项卡按钮，切换到请求代码合并页面，点击绿色的“New pull request”按钮</p><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706165827767"></p><p>第二步：选择你创建的“readme-edits”分支，与主分支进行比较。</p><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706170047166"></p><p>第三步：在对比页面查看这些更改，确定他们就是你想要提交的。</p><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706170732066"></p><p>第四步：当你确定这些更改就是你所要的时候，点击绿色的“Create Pull Request”按钮。</p><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706170848646"></p><p>第五步：为你的更改做一个简单的标题和描述。</p><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706171001976"></p><p>当你写完备注描述之后，点击“Create pull request”按钮。</p><p>提示：你可以使用emoji表情或者拖拽图片到评论窗口进行评论。</p><h2><a name="t7"></a><a></a><a target="_blank"></a>第五步：合并你的“请求代码合并”请求</h2><p>这是整个过程的最后一步，是时候将你在子分支“readme-edits”做出的更改合并到主分支“master”上了。</p><ol><li>点击绿色的“Merge pull request”按钮，将这些修改合并到主分支</li><li>点击“Confirm merge”按钮</li><li>由于这个分支的更改已经被合并了，所以我们还需要点击紫色框中的“Delete branch”按钮，删除这个分支</li></ol><p><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706172801500"><br><img title="" alt="这里写图片描述" src="https://img-blog.csdn.net/20160706172818844"></p><p></p><p></p><p></p><p></p><p><br></p><p>大功告成，你已经学会如何在github官网上管理自己的项目了。</p><p><br></p>            </div>
+                      </div>
+                    </div>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/05/11/Github%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E8%AF%A6%E8%A7%A3-%E4%B8%80-%E2%80%94%E2%80%94%E5%AE%98%E7%BD%91%E6%8C%87%E5%8D%97/">https://did321.github.io/2019/05/11/Github%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E8%AF%A6%E8%A7%A3-%E4%B8%80-%E2%80%94%E2%80%94%E5%AE%98%E7%BD%91%E6%8C%87%E5%8D%97/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Github/"># Github</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/05/11/Github%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E8%AF%A6%E8%A7%A3-%E4%BA%8C-%E2%80%94%E2%80%94git%E7%9A%84%E4%BD%BF%E7%94%A8/">Github使用教程详解(二)——git的使用</a>
+            
+            
+            <a class="next" rel="next" href="/2019/05/11/%E5%A6%82%E4%BD%95%E6%8A%8A%E8%87%AA%E5%B7%B1%E5%86%99%E7%9A%84%E7%BD%91%E9%A1%B5%E6%8C%82%E5%9C%A8Github%E4%B8%8A%E9%9D%A2-%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B/">如何把自己写的网页挂在Github上面(完整教程)</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

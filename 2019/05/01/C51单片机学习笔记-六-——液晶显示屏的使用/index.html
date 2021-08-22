@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>C51单片机学习笔记(六)——液晶显示屏的使用 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">C51单片机学习笔记(六)——液晶显示屏的使用</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 1, 2019&nbsp;&nbsp;10:19:10</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C51%E5%8D%95%E7%89%87%E6%9C%BA/">C51单片机</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.9k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">7</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <div id="article_content" class="article_content clearfix">
+<div class="toc"><h2><a name="t1"></a>文章目录</h2><ul><ul><ul><li><a href="#1LCD1602_2" rel="nofollow" data-token="8c5a318a7c421f92a48fccb0e34434ae" target="_self">1.LCD1602的认识</a></li><li><a href="#2LCD1602_6" rel="nofollow" data-token="8883fb8a78f9e1febdd6ebb328ead183" target="_self">2.LCD1602的引脚及其功能</a></li><li><a href="#3LCD_8" rel="nofollow" data-token="4637628444cc6500f624b242d78ec454" target="_self">3.LCD模块的内部结构</a></li><li><a href="#4LCD1602_17" rel="nofollow" data-token="e2e54e42ef530e11168bdb154f8828ab" target="_self">4.LCD1602的工作时序</a></li><li><a href="#5LCD1602_34" rel="nofollow" data-token="fa69e79965647389ff1a971a53943be2" target="_self">5.LCD1602的指令说明</a></li><li><a href="#6LCD1602_52" rel="nofollow" data-token="dedbc26dcdc4704b97b8aaefd9049c21" target="_self">6.LCD1602的编程实例</a></li></ul></ul></ul></div><p></p>
+<h2><a name="t2"></a><a id="1LCD1602_2"></a>1.LCD1602的认识</h2>
+<ul>
+<li>液晶显示屏简称液晶、LCD。各种型号的液晶通常是按显示字符的行数或液晶点阵的行、列进行命名的。1602的意思就是每一行显示16个字符，共可以显示2行，常见的液晶还有0801、0802、1601等，这类液晶是字符型液晶，只能显示ASCII码字符。而LCD12864属于图形型液晶，由128*64个像素点构成，可以显示各种图形包括汉字。</li>
+<li>LCD1602可显示2行ASCII码字符，每行包括16个5*10点阵(像素)，有16个引脚，其实物图如下所示：<br>
+<img src="https://img-blog.csdnimg.cn/20190410230032504.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+<h2><a name="t3"></a><a id="2LCD1602_6"></a>2.LCD1602的引脚及其功能</h2>
+<p><img src="https://img-blog.csdnimg.cn/2019050108133218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2><a name="t4"></a><a id="3LCD_8"></a>3.LCD模块的内部结构</h2>
+<ul>
+<li>LCD1602模块的内部结构分为三部分：LCD控制器、LCD驱动器、LCD显示器<br>
+<img src="https://img-blog.csdnimg.cn/20190501081604370.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>LCD控制器和LCD驱动器一般由专用集成电路实现，大部分是HD44780或兼容芯片，HD44780是低功耗CMOS大规模点阵LCD控制器，它包含有下面的电路，他们的功能如下表：<br>
+<img src="https://img-blog.csdnimg.cn/20190501081948531.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>LCD1602显示字符的过程<br>
+HD447780内部有80*8bit的DDRAM缓冲区，其显示位置与DDRAM地址的对应关系如下表：<br>
+<img src="https://img-blog.csdnimg.cn/2019050108225595.png" alt="在这里插入图片描述"></li>
+</ul>
+<blockquote>
+<ul>
+<li>一行有40个地址，可以存入40个字符数据，但每行最多只能显示其中的16个。可以用多余的地址存入其他数据，实现显示的快速切换。注意：编程时需要将表中的地址加上80H才能正确显示，如果要在第一行显示“R”，应该将“R”的ASCII码（0x52）写到地址0x80+ox03即0x83处。</li>
+</ul>
+</blockquote>
+<h2><a name="t5"></a><a id="4LCD1602_17"></a>4.LCD1602的工作时序</h2>
+<ul>
+<li>LCD1602的读操作时序<br>
+<img src="https://img-blog.csdnimg.cn/20190501082727982.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+LCD1602读操作编程流程：</li>
+</ul>
+<blockquote>
+<ul>
+<li>给RS加电平（1为数据，0为指令）给R/W加高电平（读模式）</li>
+<li>E = 1（使能，高电平有效），延时</li>
+<li>LCD1602送数据到DB0~DB7</li>
+<li>E = 0</li>
+<li>读结束</li>
+</ul>
+</blockquote>
+<ul>
+<li>LCD1602的写操作时序<br>
+<img src="https://img-blog.csdnimg.cn/2019050108310030.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+LCD1602的写操作编程流程：</li>
+</ul>
+<blockquote>
+<ul>
+<li>给RS加电平（1为数据，0为指令），R/W = 0（为写）</li>
+<li>单片机送数据到DB0~DB7</li>
+<li>E = 1 （拉高使能线）</li>
+<li>E = 0，写入生效</li>
+<li>改变RS、R/W的状态，为下次操作做准备</li>
+</ul>
+</blockquote>
+<h2><a name="t6"></a><a id="5LCD1602_34"></a>5.LCD1602的指令说明</h2>
+<p><img src="https://img-blog.csdnimg.cn/20190501083446329.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+LCD1602液晶模块共有11条指令，下面根据上面的表格做出说明：</p>
+<blockquote>
+<ul>
+<li>指令一：清除显示，指令码为0x01，其实质是将DDRAM全部写入空格的ASCII码0x20，地址计数器AC清零。该过程需要时间较长。</li>
+<li>指令二：光标复位，光标返回00H（复位到屏的左上方），地址计数器AC清零，DDRAM内容不变</li>
+<li>指令三：光标和显示模式设置。N——设置光标的移动方向，N=1时，读或写一个字符后，地址加1，光标加1；N=0时，地址减1，光标减1.S——用于设置整屏字符是否左移或右移，当S= 1且N = 1时，写一个字符整平左移，当S= 1且N = 0时，写一个字符时整屏显示右移，若S = 0，则整屏字符移动无效，因此常用的光标右移指令为0x06</li>
+<li>指令4：显示开/关控制D——控制整体显示的开与关，高电平显示，低电平关显示；C——控制光标的开关，高电平表示有光标，低电平无光标；B——控制光标是否杉树，高电平闪烁，低电平不闪烁常用的开显示关光标的指令为0x0c</li>
+<li>指令5：命令光标或字符移动。S/C控制光标或字符，R/L控制左右<br>
+（S/C）（R/L） = （0）（0），文字不动，光标左移一格，AC减1<br>
+（S/C）（R/L） = （0）（1），文字不动，光标右移一格，AC加1<br>
+（S/C）（R/L） = （1）（0），文字全部右移一格，光标不动<br>
+（S/C）（R/L） = （1）（1），文字全部左移一格，光标不动</li>
+<li>指令六：功能设置命令DL——高电平为8位数据总线，低电平为4位数据总线；N——低电平单行显示，高电平双行显示；F——低电平显示5<em>7的点阵字符，高电平显示5</em>10的点阵字符，常用的两行、八位数据总线、5*7的点阵指令为0x38</li>
+<li>指令七：指令为0x40+add（当D5-D0全为0时，D7~D0为0x40）该指令用于设置自定义字符的CGRAM地址。ADD前三位用于选择字符，后三位用于选择字符的8位字模数据</li>
+<li>指令八：指令为0x80+add，用于设置下一个要存入数据的DDRAM地址。add的范围是0x00~0x27，对应第一行，0x40-0x67对应显示第二行，每行可输入40个字符，默认只能显示前16个，可以通过指令3的字符移动指令来显示其他内容</li>
+<li>指令九：读忙信号和光标地址。BF：忙标志位，高电平表示忙，此时模块不能就收命令或数据，如果为低电平表示闲，可以操作</li>
+<li>指令10：写数据</li>
+<li>指令11：读数据</li>
+</ul>
+</blockquote>
+<h2><a name="t7"></a><a id="6LCD1602_52"></a>6.LCD1602的编程实例</h2>
+<ul>
+<li>这是我的液晶电路原理图，主要看一下与哪个引脚相连。<br>
+<img src="https://img-blog.csdnimg.cn/20190501091437390.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg52.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uint unsigned int</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uchar unsigned char</span></span><br><span class="line"><span class="comment">/*******引脚定义*******/</span></span><br><span class="line"></span><br><span class="line">sbit RS = P1^<span class="number">0</span>;</span><br><span class="line">sbit RW = P1^<span class="number">1</span>;</span><br><span class="line">sbit E = P1^<span class="number">2</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> data1602 P0</span></span><br><span class="line">sbit BF = data1602^<span class="number">7</span>; <span class="comment">//BF表示data1602的最高位，判断是忙还是闲</span></span><br><span class="line"><span class="comment">/*******延时函数*******/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(uint z)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	uint x,y;</span><br><span class="line">	<span class="keyword">for</span>(x=z;x&gt;<span class="number">0</span>;x--)</span><br><span class="line">		<span class="keyword">for</span>(y=<span class="number">110</span>;y&gt;<span class="number">0</span>;y--);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*******忙检测函数*******/</span></span><br><span class="line"><span class="function">bit <span class="title">LCD_busy</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	bit busy;</span><br><span class="line">	P0 = <span class="number">0xff</span>;<span class="comment">//防止干扰</span></span><br><span class="line">	RS = <span class="number">0</span>;	 <span class="comment">//命令模式</span></span><br><span class="line">	RW = <span class="number">1</span>;   <span class="comment">//读模式</span></span><br><span class="line">	E = <span class="number">1</span>;</span><br><span class="line">	busy = BF;<span class="comment">//将忙标志位的数值赋给busy</span></span><br><span class="line">	E = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> busy;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*******写命令函数*******/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LCD_write_cmd</span><span class="params">(uchar cmd)</span><span class="comment">//cmd为需要写的命令</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">LCD_busy</span>());<span class="comment">//只有当LCD_busy()为0(闲)时才跳出循环   </span></span><br><span class="line">	RS = <span class="number">0</span>;		   <span class="comment">//命令模式</span></span><br><span class="line">	RW = <span class="number">0</span>;		   <span class="comment">//写模式</span></span><br><span class="line">	data1602 = cmd;	   <span class="comment">//将命令内容的十六进制送到P0端口</span></span><br><span class="line">	E = <span class="number">1</span>;</span><br><span class="line">	E = <span class="number">0</span>;			<span class="comment">//使能端，高电平有效，使命令送到LCD1602的DB0~DB7</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*******写数据函数*******/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LCD_write_data</span><span class="params">(uchar dat)</span><span class="comment">//dat为需要写的数据</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">LCD_busy</span>());<span class="comment">//只有当LCD_busy()为0(闲)时才跳出循环   </span></span><br><span class="line">	RS = <span class="number">1</span>;		   <span class="comment">//数据模式</span></span><br><span class="line">	RW = <span class="number">0</span>;		   <span class="comment">//写模式</span></span><br><span class="line">	data1602 = dat;	   <span class="comment">//将数据内容的十六进制送到P0端口</span></span><br><span class="line">	E = <span class="number">1</span>;</span><br><span class="line">	E = <span class="number">0</span>;			<span class="comment">//使能端，高电平有效，使命令送到LCD1602的DB0~DB7</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*******LCD初始化函数*******/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LCD_init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">LCD_write_cmd</span>(<span class="number">0x38</span>); <span class="comment">//将设置“两行、八位数据、5*7的点阵”命令写入LCD的控制器</span></span><br><span class="line">	<span class="built_in">LCD_write_cmd</span>(<span class="number">0x0c</span>); <span class="comment">//开显示关光标</span></span><br><span class="line">	<span class="built_in">LCD_write_cmd</span>(<span class="number">0x06</span>); <span class="comment">//光标右移指令</span></span><br><span class="line">	<span class="built_in">LCD_write_cmd</span>(<span class="number">0x01</span>); <span class="comment">//清除显示</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*******LCD写显示地址函数*******/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LCD_write_address</span><span class="params">(uchar x,uchar y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	x&amp;=<span class="number">0x0f</span>;  <span class="comment">//列地址限制在0~15之间</span></span><br><span class="line">	y&amp;=<span class="number">0x01</span>;  <span class="comment">//行地址限制在0~1</span></span><br><span class="line">	<span class="keyword">if</span>(y==<span class="number">0</span>)</span><br><span class="line">		<span class="built_in">LCD_write_cmd</span>(x|<span class="number">0x80</span>);<span class="comment">//数据指针=80+地址变量,写入列地址</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">LCD_write_cmd</span>((x+<span class="number">0x40</span>)|<span class="number">0x80</span>);	  <span class="comment">//如果是第二行，将列地址写入</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*******LCD显示函数*******/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LCD_display</span><span class="params">(uchar x,uchar y,uchar buf)</span>	<span class="comment">//x：列 y：行，buf：显示的字符</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">LCD_write_address</span>(x,y);<span class="comment">//先将地址写入</span></span><br><span class="line">	<span class="built_in">LCD_write_data</span>(buf);	<span class="comment">//再写入要显示的数据</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*******main函数*******/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">LCD_init</span>();</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">2</span>,<span class="number">0</span>,<span class="string">&#x27;H&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">3</span>,<span class="number">0</span>,<span class="string">&#x27;e&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">4</span>,<span class="number">0</span>,<span class="string">&#x27;l&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">5</span>,<span class="number">0</span>,<span class="string">&#x27;l&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">6</span>,<span class="number">0</span>,<span class="string">&#x27;o&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">8</span>,<span class="number">0</span>,<span class="string">&#x27;W&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">9</span>,<span class="number">0</span>,<span class="string">&#x27;o&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">10</span>,<span class="number">0</span>,<span class="string">&#x27;r&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">11</span>,<span class="number">0</span>,<span class="string">&#x27;l&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">12</span>,<span class="number">0</span>,<span class="string">&#x27;d&#x27;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">8</span>,<span class="number">1</span>,<span class="string">&#x27;W&#x27;</span>);</span><br><span class="line">	<span class="built_in">LCD_display</span>(<span class="number">9</span>,<span class="number">1</span>,<span class="string">&#x27;D&#x27;</span>);</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：<br>
+<img src="https://img-blog.csdnimg.cn/20190501101643646.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+</div>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/05/01/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%85%AD-%E2%80%94%E2%80%94%E6%B6%B2%E6%99%B6%E6%98%BE%E7%A4%BA%E5%B1%8F%E7%9A%84%E4%BD%BF%E7%94%A8/">https://did321.github.io/2019/05/01/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%85%AD-%E2%80%94%E2%80%94%E6%B6%B2%E6%99%B6%E6%98%BE%E7%A4%BA%E5%B1%8F%E7%9A%84%E4%BD%BF%E7%94%A8/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"># C51单片机</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/05/11/%E5%A6%82%E4%BD%95%E6%8A%8A%E8%87%AA%E5%B7%B1%E5%86%99%E7%9A%84%E7%BD%91%E9%A1%B5%E6%8C%82%E5%9C%A8Github%E4%B8%8A%E9%9D%A2-%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B/">如何把自己写的网页挂在Github上面(完整教程)</a>
+            
+            
+            <a class="next" rel="next" href="/2019/04/07/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%94-%E2%80%94%E2%80%94%E6%95%B0%E7%A0%81%E7%AE%A1%E7%9A%84%E9%9D%99%E6%80%81%E6%98%BE%E7%A4%BA%E5%92%8C%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA/">C51单片机学习笔记(五)——数码管的静态显示和动态显示</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>CNN 发展简史 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">CNN 发展简史</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">April 7, 2021&nbsp;&nbsp;15:49:32</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Deep-Learning/">Deep Learning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">2.7k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">10</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
+<li><p>上一篇文章中，我们详细说了CNN的主要结构组成和训练原理，今天我们来回顾一下CNN的网络模型发展史，主要学习CNN是如何被提出来？网络结构如何进化？每一次改进解决的问题？等等，这对理解网络模型有很好的帮助，并且在我的毕业设计中可以根据数据合理选取网络模型。</p>
+</li>
+<li><p>在1998年前的CNN发展史这篇博客 <a target="_blank" rel="noopener" href="http://www.lunarnai.cn/2018/07/03/Brief_history_CNN/">http://www.lunarnai.cn/2018/07/03/Brief_history_CNN/</a> 已经叙述的很详尽了，有兴趣的可以看一下，基本上是如何从动物中获取灵感构建计算机的神经网络模型，下面我只阐述重大的CNN模型突破节点。</p>
+</li>
+</ul>
+<h2 id="1-LeNet-5-1998"><a href="#1-LeNet-5-1998" class="headerlink" title="1. LeNet-5 (1998)"></a>1. LeNet-5 (1998)</h2><ul>
+<li><p>原文链接：<a target="_blank" rel="noopener" href="http://axon.cs.byu.edu/~martinez/classes/678/Papers/Convolution_nets.pdf">http://axon.cs.byu.edu/~martinez/classes/678/Papers/Convolution_nets.pdf</a> Gradient-Based Learning Applied to Document Recognition.</p>
+</li>
+<li><p>LeCun同志可以说是CNN的开山鼻祖，1998年他提出了长达46页的巨作——LeNet-5模型，其模型结构如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210407153704511.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210405171842663"></p>
+<p>LeNet-5模型一共有7层，卷积层-池化层-卷积层-池化层-3个全连接层，为什么叫LeNet-5呢，因为当时默认卷积层包括卷积+池化，所以等价于2个卷积层+3个全连接层，一共5层。当时主要用LeNet-5进行邮件上的手写邮政编码数字识别，取得了不错的效果。</p>
+<p>此外LeNet-5还有一些有趣的细节，一个是使用了tanh作为激活函数，这里作者表示对称的激活函数能够更快收敛，，这里不用ReLU的原因可能在于98年的时候，网络的深度还不太深，因此梯度消失不是一个太大的问题，而相比之下加速收敛的性质更加重要。</p>
+<p>此外论文在附录对比了随机梯度下降和批梯度下降 ，指出随机梯度下降以及mini-bath SGD能够极大加快拟合速度，并且最终效果很好。</p>
+<p><strong>优点</strong>：这种网络当时提出来成为了CNN标准的“模板”——叠加卷积层和池化层，并以一个全连接层结束网络。</p>
+<p><strong>缺点</strong>：当时一段时间并未火起来，原因在于当时历史背景，这个简单的网络仅有6000多个参数，但训练起来费时且没有GPU加速，相比较于传统的SVM等算法，效率还是差了许多，所以并没有大放异彩。</p>
+</li>
+</ul>
+<h2 id="2-AlexNet-2012"><a href="#2-AlexNet-2012" class="headerlink" title="2. AlexNet (2012)"></a>2. AlexNet (2012)</h2><ul>
+<li><p>可以看到硬件跟不上，1998年到2012年中间十多年没有新的CNN网络提出来，但是在2006年，研究人员成功利用GPU加速了CNN，相比CPU实现快了4倍，可以说是一个大的突破，也为12年的AlexNet打下了良好的基础。</p>
+</li>
+<li><p>原文链接：<a target="_blank" rel="noopener" href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf">https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf</a>  ImageNet Classification with Deep Convolutional Neural Networks.</p>
+</li>
+<li><p>相比于LeNet-5，AlexNet仅仅多堆叠了卷积层，一共有8个网络层，网络模型如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210407153729905.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210405174059025"></p>
+<p>这个图看上去有点费劲，转换一下就是下面这幅图：</p>
+<img src="https://img-blog.csdnimg.cn/2021040715374327.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:50%;" />
+
+<p>由卷积层-池化层-卷积层-池化层-3个卷积层-池化层-3个全连接层组成。整体来看除了卷积层增多了，没有大的改变。</p>
+<p><strong>创新点</strong>：</p>
+<ol>
+<li>使用ReLu激活函数，不容易发生梯度消失问题。</li>
+<li>对输入的数据进行了数据增强处理。（水平变换、光照增强、随机裁剪、平移变换等等）</li>
+<li>首次使用Dropout防止过拟合。</li>
+<li>采用两块GPU并行计算，最上面那张图就是每一层分两块进行计算，所以看着比较繁琐，这里也是由于GPU不是很好，所以要两块并行。</li>
+</ol>
+</li>
+</ul>
+<h2 id="3-VGG-2014"><a href="#3-VGG-2014" class="headerlink" title="3. VGG (2014)"></a>3. VGG (2014)</h2><ul>
+<li><p>原文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1409.1556.pdf">https://arxiv.org/pdf/1409.1556.pdf</a> VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION.</p>
+</li>
+<li><p>VGG 提出了几种网络模型分别是 VGG13、VGG16、VGG19，他们的网络结构如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/20210407154045330.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 67%;" />
+
+<p>相比AlexNet，仅仅是堆叠了更多的卷积层、池化层，整体来看和文章名字一样Very Deep。下图是VGG19的具体结构图：</p>
+<img src="https://img-blog.csdnimg.cn/20210407154137553.png#pic_center" />
+
+<p>在VGG中也是引入了1×1的卷积核，可以改变输出的维度。</p>
+</li>
+</ul>
+<h2 id="4-GoogLeNet-2015"><a href="#4-GoogLeNet-2015" class="headerlink" title="4. GoogLeNet (2015)"></a>4. GoogLeNet (2015)</h2><ul>
+<li><p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1409.4842.pdf">https://arxiv.org/pdf/1409.4842.pdf</a>  Going deeper with convolutions.</p>
+</li>
+<li><p>GoogLeNet (网络没有最深，只有更深)，这里名字起的很好，致敬了LeNet，这真的只是巧合吗？？？GoogLeNet 引入了新的网络结构<strong>Inception-v1</strong>，也是“Network in Network”，（Inception得名于2010年由莱昂纳多·迪卡普里奥主演的科幻电影《盗梦空间》）。</p>
+</li>
+<li><p>Inception的网络模型如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/20210407154246104.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:60%;" />
+
+<p>使用不同的卷积并行拓扑结构，然后进行连接，获得1×1、3×3、5×5卷积提取的不同特征，然后对他们进行归并融合；采用1×1的卷积进行降维，消除计算瓶颈，作者还引入了两个辅助分类器，使分类器在较浅层的网络也进行识别，增加反向传播的梯度信息。</p>
+</li>
+<li><p>后来Inception也有了V2、V3、V4版本，论文连接如下，感兴趣的同学可以了解一下。</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1502.03167.pdf">https://arxiv.org/pdf/1502.03167.pdf</a> Batch Normalization: Accelerating Deep Network Training b y Reducing Internal Covariate Shift</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.00567.pdf">https://arxiv.org/pdf/1512.00567.pdf</a>  Rethinking the Inception Architecture for Computer Vision</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1602.07261.pdf">https://arxiv.org/pdf/1602.07261.pdf</a>  Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning</p>
+</li>
+</ul>
+<h2 id="5-ResNet-2015"><a href="#5-ResNet-2015" class="headerlink" title="5. ResNet (2015)"></a>5. ResNet (2015)</h2><ul>
+<li><p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.03385.pdf">https://arxiv.org/pdf/1512.03385.pdf</a>  Deep Residual Learning for Image Recognition.</p>
+</li>
+<li><p>ResNet 叫深度残差网络，是由中国广东的何凯明大神在2015年CVPR上提出来的，并且一经出世，就在ImageNet中斩获图像分类、检测、定位三项冠军！这篇论文的影响力可以说是非常巨大，后面的几乎所有的CNN论文都引用的这篇ResNet。（我的毕业设计也采用的ResNet网络模型）；这篇论文也是突破了一个瓶颈，解决了CNN网络深度的重大问题(稍后解释)，总之，我觉得这篇论文的影响力十分巨大，相比之前CNN模型的进化(仅仅是网络深度)，ResNet是质的改变！</p>
+</li>
+<li><p>ResNet提出前发现的问题？</p>
+<p>在之前的经验来看，从LeNet到AlexNet再到VGG、GoogLeNet，网络深度不断增加，模型性能越来越好，那么就想：是否网络深度不断增加，性能会一直增加？但实验结果发现，深度网络中存在着退化问题，如下图所示：56层的网络比20层的网络训练效果还差</p>
+<p><img src="https://img-blog.csdnimg.cn/20210407154354739.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210407110009997"></p>
+<p>这种情况并不是发生了过拟合，过拟合是训练误差小而测试误差大，而上面的图片显示训练误差和测试误差56层的网络都大。</p>
+</li>
+<li><p>造成这样不符合常理的现象原因是？</p>
+<p>随着网络深度的增加，反向传播的梯度也在逐渐减小，这就是所谓的梯度消失现象，网络越深，反向传播的梯度会越来越小，导致梯度下降更慢，浅层的网络不能够更新梯度，训练没有突破。</p>
+</li>
+<li><p>解决办法？——“short cut” or “skip connection” or “resNet”</p>
+<p>话不多说直接上图，ResNet提出了一种新的结构解决了上述梯度消失的问题，下面是基本结构单元：</p>
+<img src="https://img-blog.csdnimg.cn/20210407154414515.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 60%;" />
+
+<p>在正常的卷积层旁边加了一条短接线<code>short cut</code>，也就是常说的<code>skip connection</code>，假设正常卷积层输出是F(x)，旁边输出是x，则最终两条路线相加为<code>h(x) = F(x) + x</code>，得到的h(x)再传到下一层，当反向传播时，下面来自深层网络传回来的梯度假设为1，经过一个加法门，通过短接线传到上面的梯度也为1，这样就可以将深层的梯度直接畅通无阻地传到上一层，使得浅层地网络参数得到训练，解决了梯度消失的问题。</p>
+</li>
+<li><p>下面是与VGG的网络结构对比图</p>
+<img src="https://img-blog.csdnimg.cn/20210407154457262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 60%;" />
+
+<p>这里说明一下ResNet中的虚线和实线的区别：实际上ResNet有两个基本的block，一个是<code>Identity Block</code>输入和输出的维度是一样的，也就是实线所表示的，它可以串联多个；另外一个block是<code>Conv Block</code>，输入和输出的维度是不一样的，所以不能直接串联，要在短接线处加一个1×1的卷积层，改变维度使得两条路径的维度一致。（随着网络深度增加，channel也增加）具体的结构如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/20210407154529375.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="20" style="zoom:70%;" /></li>
+<li><p>这样作者通过构建不同卷积核的个数，以及组合模式，给出了以下几种ResNet的结构模型：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210407154613738.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="21"></p>
+</li>
+<li><p><strong>ResNet特点</strong>：残差网络在模型表征方面并不存在直接的优势，ResNets并不能更好的表征某一方面的特征，但是ResNets允许逐层深入地表征更多的模型。</p>
+<p>残差网络使得前馈式/反向传播算法非常顺利进行，在极大程度上，残差网络使得优化较深层模型更为简单。</p>
+<p>“shortcut”快捷连接添加既不产生额外的参数，也不会增加计算的复杂度。快捷连接简单的执行身份映射，并将它们的输出添加到叠加层的输出。通过反向传播的SGD，整个网络仍然可以被训练成终端到端的形式。</p>
+</li>
+</ul>
+<hr>
+<p>以上是我目前了解到的网络模型，下面的网络模型是近几年的，也分别给出了论文和解析链接：</p>
+<h2 id="6-Xception-2016"><a href="#6-Xception-2016" class="headerlink" title="6. Xception (2016)"></a>6. Xception (2016)</h2><ul>
+<li>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1610.02357">https://arxiv.org/abs/1610.02357</a>  Xception: Deep Learning with Depthwise Separable Convolutions.</li>
+<li>网络分析：<a target="_blank" rel="noopener" href="https://blog.csdn.net/lk3030/article/details/84847879">https://blog.csdn.net/lk3030/article/details/84847879</a></li>
+</ul>
+<h2 id="7-Inception-ResNet-v2-2016"><a href="#7-Inception-ResNet-v2-2016" class="headerlink" title="7. Inception-ResNet-v2 (2016)"></a>7. Inception-ResNet-v2 (2016)</h2><ul>
+<li>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1602.07261">https://arxiv.org/abs/1602.07261</a> Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning</li>
+<li>论文分析：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014061630/article/details/80511232">https://blog.csdn.net/u014061630/article/details/80511232</a> </li>
+</ul>
+<h2 id="8-ResNeXt-50-2017"><a href="#8-ResNeXt-50-2017" class="headerlink" title="8. ResNeXt-50 (2017)"></a>8. ResNeXt-50 (2017)</h2><ul>
+<li>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1611.05431.pdf">https://arxiv.org/pdf/1611.05431.pdf</a> Aggregated Residual Transformations for Deep Neural Networks</li>
+<li>论文分析：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Blankit1/article/details/92013853">https://blog.csdn.net/Blankit1/article/details/92013853</a></li>
+</ul>
+<h2 id="9-Inception-v1-v4-Inception-ResNet"><a href="#9-Inception-v1-v4-Inception-ResNet" class="headerlink" title="9. Inception v1 - v4 Inception-ResNet"></a>9. Inception v1 - v4 Inception-ResNet</h2><ul>
+<li>下面几篇是Inception v1 - Inception-ResNet 的演变文章：</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010712012/article/details/84862797">https://blog.csdn.net/u010712012/article/details/84862797</a>  Inception系列和ResNet的成长之路</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30756181">https://zhuanlan.zhihu.com/p/30756181</a>  卷积神经网络结构简述（二）Inception系列网络</li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/424063292202">https://www.jianshu.com/p/424063292202</a> Inception模型进化史:从GoogLeNet到Inception-ResNet</li>
+</ul>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><ul>
+<li>以上就是CNN的网络模型发展史，后面的几个模型我也没有深入研究，因为我做的毕业设计就是用的ResNet，所以后面会重点说ResNet的实现过程。</li>
+<li>其次一些目标检测的模型在这里没有提及，比如Fast-RCNN、SSD、YOLO V1-V3等等，后期会专门介绍一篇目标检测的框架算法进化史。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2021/04/07/CNN-%E5%8F%91%E5%B1%95%E7%AE%80%E5%8F%B2/">https://did321.github.io/2021/04/07/CNN-%E5%8F%91%E5%B1%95%E7%AE%80%E5%8F%B2/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"># 深度学习</a>
+                    
+                        <a href="/tags/CNN/"># CNN</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/07/05/%E5%9F%BA%E4%BA%8EResNet%E7%9A%84MSTAR%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9B%AE%E6%A0%87%E5%88%86%E7%B1%BB/">基于ResNet的MSTAR数据集目标分类</a>
+            
+            
+            <a class="next" rel="next" href="/2021/03/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%E6%96%87%E6%90%9E%E5%AE%9ACNN%EF%BC%89/">卷积神经网络CNN学习笔记（一文搞定CNN）</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

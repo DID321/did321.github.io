@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>python实现神经网络 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">python实现神经网络</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 29, 2020&nbsp;&nbsp;11:58:45</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Machine-Learning/">Machine Learning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">3.4k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">14</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-使用sklearn-datasets产生数据集"><a href="#1-使用sklearn-datasets产生数据集" class="headerlink" title="1.使用sklearn datasets产生数据集"></a>1.使用sklearn datasets产生数据集</h2><h3 id="Sklrarn简介"><a href="#Sklrarn简介" class="headerlink" title="Sklrarn简介"></a>Sklrarn简介</h3><ul>
+<li>Scikit-learn(sklearn)是基于Python语言的机器学习工具，对常用的机器学习方法进行了封装，包括回归(Regression)、降维(Dimensionality Reduction)、分类(Classfication)、聚类(Clustering)等方法。他是简单高效的数据挖掘和数据分析工具，可供大家在各种环境中反复使用。</li>
+</ul>
+<h3 id="sklearn的安装"><a href="#sklearn的安装" class="headerlink" title="sklearn的安装"></a>sklearn的安装</h3><ul>
+<li>Sklearn安装要求<code>Python(&gt;=2.7 or &gt;=3.3)</code>、<code>NumPy (&gt;= 1.8.2)</code>、<code>SciPy (&gt;= 0.13.3)</code>。如果已经安装NumPy和SciPy，安装scikit-learn可以使用<code>pip install -U scikit-learn</code>进行安装。</li>
+</ul>
+<h3 id="使用datasets产生数据集"><a href="#使用datasets产生数据集" class="headerlink" title="使用datasets产生数据集"></a>使用datasets产生数据集</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_data</span>():</span></span><br><span class="line">	np.random.seed(<span class="number">0</span>)</span><br><span class="line">	X, y = datasets.make_moons(<span class="number">200</span>, noise=<span class="number">0.20</span>)</span><br><span class="line">	plt.scatter(X[:,<span class="number">0</span>], X[:,<span class="number">1</span>], s=<span class="number">40</span>, c=y, cmap=plt.cm.Spectral)</span><br><span class="line">	plt.show()</span><br><span class="line">    <span class="keyword">return</span> X,y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    X, y = generate_data()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>make_moons(n_samples=100, shuffle=True, noise=None, random_state=None):</code></p>
+<p><code>n_numbers</code>:生成样本数量<br><code>shuffle</code>:是否打乱，类似于将数据集<code>random</code>一下<br><code>noise</code>:默认是<code>false</code>，数据集是否加入高斯噪声<br><code>random_state</code>:生成随机种子，给定一个<code>int</code>型数据，能够保证每次生成数据相同。</p>
+</li>
+</ul>
+<p>这里就是生成月牙形的200个样本，加入了高斯噪声。</p>
+<ul>
+<li><p><code>plt.scatter(X,Y,c = &#39;b&#39;,marker = &#39;o&#39;,cmap = None,norm = None,vmin = None.vmax = None,alpha = None,linewidths = None,verts = None,hold = None,**kwargs)</code></p>
+<p>X和Y是长度相同的序列，c是色彩颜色的序列，marker是色彩形状的参数；cmap:colormap颜色映射；norm:数据亮度0-1；vmin,vmax:亮度设置；</p>
+<p>cmap = plt.cm.Spectral实现的功能是给label为1的点一种颜色，给label为0的点另一种颜色。</p>
+<p>X[:,0]取矩阵X中0列的全部元素；X[:,1]取矩阵X中1列的全部元素</p>
+<p>s:散点的大小参数；np.squeeze()去除单位条目</p>
+</li>
+<li><p>以下就是生成的数据集分布图：</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200129115644852.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<h2 id="2-使用Logistic回归进行分类"><a href="#2-使用Logistic回归进行分类" class="headerlink" title="2.使用Logistic回归进行分类"></a>2.使用Logistic回归进行分类</h2><ul>
+<li><p>为了对比神经网络和Logistic回归的差别，下面先采用逻辑回归进行分类，采用sklearn中Logistic Regression类，当然也可以使用之前所讨论的代码，这里为了方便直接进行方法调用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify</span>(<span class="params">X, y</span>):</span></span><br><span class="line">	<span class="string">&quot;&quot;&quot;Logistic 分类&quot;&quot;&quot;</span></span><br><span class="line">    clf = linear_model.LogisticRegressionCV()  <span class="comment"># 生成Logistic分类器</span></span><br><span class="line">    clf.fit(X, y) <span class="comment"># 对产生的数据进行分类</span></span><br><span class="line">    <span class="keyword">return</span> clf</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_decision_boundary</span>(<span class="params">pred_func, X, y</span>):</span></span><br><span class="line">	<span class="string">&quot;&quot;&quot;画决策边界线&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 设置图像边界最大值与最小值</span></span><br><span class="line">    x_min, x_max = X[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">.5</span>, X[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">.5</span></span><br><span class="line">    y_min, y_max = X[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">.5</span>, X[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">.5</span></span><br><span class="line">    h = <span class="number">0.01</span> <span class="comment">#采样间隔</span></span><br><span class="line">    <span class="comment"># 生成网格矩阵</span></span><br><span class="line">    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))</span><br><span class="line">    <span class="comment"># 对整个网格矩阵进行预测</span></span><br><span class="line">    Z = pred_func(np.c_[xx.ravel(), yy.ravel()])</span><br><span class="line">    Z = Z.reshape(xx.shape) <span class="comment"># 使预测结果重新变成网格数组大小</span></span><br><span class="line">    <span class="comment"># 画出决策边界</span></span><br><span class="line">    plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)</span><br><span class="line">    <span class="comment"># 画出数据点</span></span><br><span class="line">    plt.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], s = <span class="number">20</span>,c=y, cmap=plt.cm.Spectral)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    X, y = generate_data()</span><br><span class="line">    clf = classify(X, y)</span><br><span class="line">    plt.title(<span class="string">&quot;Logistic Regression&quot;</span>)</span><br><span class="line">    plot_decision_boundary(<span class="keyword">lambda</span> x: clf.predict(x),X,y)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></li>
+<li><p><code>X,Y = numpy.meshgrid(x, y)</code>#生成网格矩阵<br>输入的<strong>x</strong>，<strong>y</strong>，就是网格点的横纵坐标列向量（非矩阵）<br>输出的<strong>X</strong>，<strong>Y</strong>，就是坐标矩阵</p>
+</li>
+<li><p><code>Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])</code></p>
+<p>因为前面产生的网格矩阵是多维数组，ravel函数将多维数组降为一维，仍返回array数组，元素以列排列。之后调用np.c_[]将xx.ravel()得到的列后增加一列yy.ravel()。</p>
+<p><code>numpy.c_[]</code> 和<code>np.r_[]</code>可视为兄弟函数，两者的功能为<code>np.r_[]</code>添加行，<code>np.c_[]</code>添加列。</p>
+</li>
+<li><p><code>Z = Z.reshape(xx.shape)</code></p>
+<p>将网格坐标预测的结果转化成与网格坐标一致规格的数组，使其一一对应，xx代表横坐标，yy代表纵坐标，Z代表网格坐标预测的结果。</p>
+</li>
+<li><p><code>plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)</code></p>
+<p>由于contourf可以填充等高线之间的空隙颜色，呈现出区域的分划状，所以很多分类机器学习模型的可视化常会借助其展现。</p>
+<p> 下面是用Logistic回归生成的决策边界，可以发现他仅仅是从中间划开，边界线是一条直线，分类效果不好。</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200129115715583.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<h2 id="3-搭建一个三层的神经网络"><a href="#3-搭建一个三层的神经网络" class="headerlink" title="3.搭建一个三层的神经网络"></a>3.搭建一个三层的神经网络</h2><ul>
+<li><p>根据前面神经网络的讨论，下面我们搭建一个简单的三层的神经网络，包含一个输入层，一个隐藏层和一个输出层。输出层的节点为数据的维度，这里为2，（因为这里的分类只有0/1，如果有多个类别的话，维度就不是2了），神经网络的输入为x，y的坐标，整个框架为下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200129115729378.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<p>​    对于隐藏层的维度可以自己选择，如果节点过多，则意味着计算更复杂，所付出的成本也更多，也容易造成过拟合从而影响判断，具体的节点数取值稍后会对比分析，观察节点数的不同对神经网络的输出有什么影响。</p>
+<p>​    之前在讨论神经网络的时候说到，每一层的输出到下一层都需要一个激活函数，前面讨论的是sigmoid函数，其实还有tanh函数等，在这里为了求导方便我们采用的是tanh激活函数，后面可以根据需要将激活函数修改为sigmoid函数对比分析效果。</p>
+<h3 id="前向传播（正向传播）"><a href="#前向传播（正向传播）" class="headerlink" title="前向传播（正向传播）"></a>前向传播（正向传播）</h3><ul>
+<li><p>前向传播就是指一组矩阵的相乘以及我们之前提到的激活函数。假设x是对神经网络的二维输入，那么我们按照如下步骤计算我们的预测结果：</p>
+<p>$$<br>z_1 = X <em>\theta_1 + b_1 \a_1 = tanh(z_1)<br>\z_2 = a_1</em> \theta_2+b_2\a_2 = y’ =softmax(z_2)\<br>z_i代表第i层的输入；a_i代表第i层用激活函数后的输出；\<br>\theta 和b是神经网络的参数矩阵，后面通过学习来获得最佳值<br>$$</p>
+</li>
+</ul>
+<h3 id="损失函数（评价函数）"><a href="#损失函数（评价函数）" class="headerlink" title="损失函数（评价函数）"></a>损失函数（评价函数）</h3><ul>
+<li><p>为神经网络学习到最佳的参数，以此达到使错误最小的目标，我们必须要定义一个损失函数来衡量错误，对于softmax()函数输出来说，我们通常使用的是<strong>分类交叉熵损失</strong>（categorical cross-entropy loss，又称为负对数似然 negative log likelihood）</p>
+</li>
+<li><p>softmax()函数是将神经网络输出的值转化为0-1之间的概率，从而可以很好得判断分类的结果。他的公式如下所示：</p>
+<p>$$<br>p_i = \frac{e^{a_i}}{\sum_{k=1}^{N}e_k^a}<br>$$</p>
+<p>p为最后输出的概率分布；N为输入的训练数据个数；a为用激活函数后的输出；</p>
+<p>————–该函数的推导过程在文章末尾的链接中，在此不再赘述。————–</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#python中softmax函数的实现：</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">softmax</span>(<span class="params">X</span>):</span></span><br><span class="line">	exps = np.exp(X)</span><br><span class="line">	<span class="keyword">return</span> exps / np.<span class="built_in">sum</span>(exps)</span><br></pre></td></tr></table></figure></li>
+<li><p>交叉损失熵函数是softmax的好兄弟，一般用他来评价损失，他的公式如下：</p>
+<p>$$<br>L(y,y’)=-\frac{1}{N}\sum_{n\epsilon N}\sum_{i\epsilon C}y_{n,i}logy’_{n,i}<br>$$</p>
+<p>N为训练数据个数；C为输出的类别；y’是输出的概率结果；y为实际的结果</p>
+<p>————-注意不同的激活函数他的交叉损失熵函数是不一样的，该推导过程以及其他激活函数的交叉损失熵函数在文章末尾的链接给出，在此不再赘述。—————–</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cross_entropy</span>(<span class="params">X,y</span>):</span></span><br><span class="line">    m = y.shape[<span class="number">0</span>]</span><br><span class="line">    p = softmax(X)</span><br><span class="line">    log_likeihood = -np.log(p[<span class="built_in">range</span>(m),y])</span><br><span class="line">    loss = np.<span class="built_in">sum</span>(log_likeihood) / m</span><br><span class="line">    <span class="keyword">return</span> loss</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="反向传播（梯度下降）"><a href="#反向传播（梯度下降）" class="headerlink" title="反向传播（梯度下降）"></a>反向传播（梯度下降）</h3><ul>
+<li>前面的文章中我们以及讨论了用梯度下降法来寻找损失函数的最小值。我会用固定的学习率实现一个最普通版本的梯度下降法，也称为批量梯度下降法，它的变化版本比如随机梯度下降法和小批量梯度下降法在实践中通常表现得更好。</li>
+</ul>
+<p>​    根据上一篇文章所述，反向传播的推导过程也不再赘述，这里就给出所需要的公式计算： </p>
+<p>$$<br>\delta_3 = y’ -y\ \delta_2=(1-tanh^2z_1)*\delta_3<br>\ \frac{\partial L}{\partial \theta_2} = a_1^T\delta_3<br>\ \frac{\partial L}{\partial b_2} = \delta_3<br>\ \frac{\partial L}{\partial \theta_1} = X^T\delta_2<br>\ \frac{\partial L}{\partial b_1} = \delta_2<br>$$</p>
+<h2 id="4-代码实现"><a href="#4-代码实现" class="headerlink" title="4.代码实现"></a>4.代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">import</span> matplotlib </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_data</span>():</span> <span class="comment"># 产生数据集</span></span><br><span class="line">    np.random.seed(<span class="number">0</span>)</span><br><span class="line">    X, y = datasets.make_moons(<span class="number">200</span>, noise=<span class="number">0.20</span>) <span class="comment"># 产生月牙形状的数据集</span></span><br><span class="line">    <span class="keyword">return</span> X, y</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_decision_boundary</span>(<span class="params">pred_func, X, y</span>):</span> <span class="comment"># 画决策边界线</span></span><br><span class="line">    <span class="comment"># 设置图像边界最大值与最小值</span></span><br><span class="line">    x_min, x_max = X[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">.5</span>, X[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">.5</span></span><br><span class="line">    y_min, y_max = X[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">.5</span>, X[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">.5</span></span><br><span class="line">    h = <span class="number">0.01</span> <span class="comment">#采样间隔</span></span><br><span class="line">    <span class="comment"># 生成网格矩阵</span></span><br><span class="line">    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))</span><br><span class="line">    <span class="comment"># 对整个网格矩阵进行预测</span></span><br><span class="line">    Z = pred_func(np.c_[xx.ravel(), yy.ravel()])</span><br><span class="line">    Z = Z.reshape(xx.shape) <span class="comment"># 使预测结果重新变成网格数组大小</span></span><br><span class="line">    <span class="comment"># 画出决策边界</span></span><br><span class="line">    plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)</span><br><span class="line">    <span class="comment"># 画出数据点</span></span><br><span class="line">    plt.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], s = <span class="number">20</span>,c=y, cmap=plt.cm.Spectral) </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_loss</span>(<span class="params">X, y, param, reg_lambda, num_examples</span>):</span> <span class="comment"># 计算损失</span></span><br><span class="line">    <span class="comment">#获得参数</span></span><br><span class="line">    theta1, b1, theta2, b2 = param[<span class="string">&#x27;theta1&#x27;</span>], param[<span class="string">&#x27;b1&#x27;</span>], param[<span class="string">&#x27;theta2&#x27;</span>], param[<span class="string">&#x27;b2&#x27;</span>] </span><br><span class="line">    <span class="comment">#前向传播</span></span><br><span class="line">    z1 = X.dot(theta1) + b1 </span><br><span class="line">    a1 = np.tanh(z1) </span><br><span class="line">    z2 = a1.dot(theta2) + b2 </span><br><span class="line">    exp_scores = np.exp(z2) </span><br><span class="line">    </span><br><span class="line">    probs = exp_scores / np.<span class="built_in">sum</span>(exp_scores, axis=<span class="number">1</span>, keepdims=<span class="literal">True</span>) </span><br><span class="line">    <span class="comment"># 计算损失</span></span><br><span class="line">    corect_logprobs = -np.log(probs[<span class="built_in">range</span>(num_examples), y]) </span><br><span class="line">    data_loss = np.<span class="built_in">sum</span>(corect_logprobs) </span><br><span class="line">    <span class="comment"># 正则化（防止过拟合）</span></span><br><span class="line">    data_loss += reg_lambda/<span class="number">2</span> * (np.<span class="built_in">sum</span>(np.square(theta1)) + np.<span class="built_in">sum</span>(np.square(theta2))) </span><br><span class="line">    <span class="keyword">return</span> <span class="number">1.</span>/num_examples * data_loss </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span>(<span class="params">param, x</span>):</span> <span class="comment"># 预测结果</span></span><br><span class="line">    theta1, b1, theta2, b2 = param[<span class="string">&#x27;theta1&#x27;</span>], param[<span class="string">&#x27;b1&#x27;</span>], param[<span class="string">&#x27;theta2&#x27;</span>], param[<span class="string">&#x27;b2&#x27;</span>] </span><br><span class="line">    <span class="comment"># 前向传播 </span></span><br><span class="line">    z1 = x.dot(theta1) + b1 </span><br><span class="line">    a1 = np.tanh(z1) </span><br><span class="line">    z2 = a1.dot(theta2) + b2 </span><br><span class="line">    exp_scores = np.exp(z2) </span><br><span class="line">    probs = exp_scores / np.<span class="built_in">sum</span>(exp_scores, axis=<span class="number">1</span>, keepdims=<span class="literal">True</span>) <span class="comment">#按行相加，保证矩阵的二维特性</span></span><br><span class="line">    <span class="keyword">return</span> np.argmax(probs, axis=<span class="number">1</span>) <span class="comment">#表示返回行上最大值得索引值</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_model</span>(<span class="params">X, y, nn_input_dim, nn_hdim, nn_output_dim, alpha, reg_lambda, num_passes=<span class="number">20000</span>, print_loss=<span class="literal">False</span></span>):</span> <span class="comment"># 模型建立</span></span><br><span class="line">    <span class="comment"># - nn_input_dim: 输入层维度</span></span><br><span class="line">    <span class="comment"># - nn_hdim: 隐藏层维度</span></span><br><span class="line">    <span class="comment"># - nn_output_dim: 输出层维度</span></span><br><span class="line">    <span class="comment"># - alpha: 学习速率</span></span><br><span class="line">    <span class="comment"># - reg_lambda: 正则化参数lanmda</span></span><br><span class="line">    <span class="comment"># - num_passes: 学习代数</span></span><br><span class="line">    <span class="comment"># - print_loss: 是否打印每一代的损失</span></span><br><span class="line">    num_examples = <span class="built_in">len</span>(X) <span class="comment"># 数据集个数</span></span><br><span class="line">    <span class="comment"># 初始化参数</span></span><br><span class="line">    np.random.seed(<span class="number">0</span>) </span><br><span class="line">    theta1 = np.random.randn(nn_input_dim, nn_hdim) / np.sqrt(nn_input_dim) </span><br><span class="line">    b1 = np.zeros((<span class="number">1</span>, nn_hdim)) </span><br><span class="line">    theta2 = np.random.randn(nn_hdim, nn_output_dim) / np.sqrt(nn_hdim) </span><br><span class="line">    b2 = np.zeros((<span class="number">1</span>, nn_output_dim)) </span><br><span class="line">    <span class="comment"># 参数字典</span></span><br><span class="line">    param = &#123;&#125; </span><br><span class="line">    loss_list = []</span><br><span class="line">    <span class="comment"># 梯度下降 </span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, num_passes): </span><br><span class="line">        <span class="comment"># 前向传播 </span></span><br><span class="line">        z1 = X.dot(theta1) + b1 </span><br><span class="line">        a1 = np.tanh(z1) </span><br><span class="line">        z2 = a1.dot(theta2) + b2 </span><br><span class="line">        exp_scores = np.exp(z2) </span><br><span class="line">        probs = exp_scores / np.<span class="built_in">sum</span>(exp_scores, axis=<span class="number">1</span>, keepdims=<span class="literal">True</span>) </span><br><span class="line">        <span class="comment"># 反向传播 </span></span><br><span class="line">        delta3 = probs </span><br><span class="line">        delta3[<span class="built_in">range</span>(num_examples), y] -= <span class="number">1</span> </span><br><span class="line">        dtheta2 = (a1.T).dot(delta3) </span><br><span class="line">        db2 = np.<span class="built_in">sum</span>(delta3, axis=<span class="number">0</span>, keepdims=<span class="literal">True</span>) </span><br><span class="line">        delta2 = delta3.dot(theta2.T) * (<span class="number">1</span> - np.power(a1, <span class="number">2</span>)) </span><br><span class="line">        dtheta1 = np.dot(X.T, delta2) </span><br><span class="line">        db1 = np.<span class="built_in">sum</span>(delta2, axis=<span class="number">0</span>) </span><br><span class="line">        <span class="comment"># 加入正则化</span></span><br><span class="line">        dtheta2 += reg_lambda * theta2 </span><br><span class="line">        dtheta1 += reg_lambda * theta1 </span><br><span class="line">        <span class="comment"># 梯度下降参数更新</span></span><br><span class="line">        theta1 += -alpha * dtheta1 </span><br><span class="line">        b1 += -alpha * db1 </span><br><span class="line">        theta2 += -alpha * dtheta2 </span><br><span class="line">        b2 += -alpha * db2  </span><br><span class="line">        param = &#123; <span class="string">&#x27;theta1&#x27;</span>: theta1, <span class="string">&#x27;b1&#x27;</span>: b1, <span class="string">&#x27;theta2&#x27;</span>: theta2, <span class="string">&#x27;b2&#x27;</span>: b2&#125; </span><br><span class="line">        <span class="comment"># 每隔1000代打印损失</span></span><br><span class="line">        <span class="comment">#loss_list.append(calculate_loss(X,y,param,reg_lambda,num_examples))</span></span><br><span class="line">        <span class="keyword">if</span> print_loss <span class="keyword">and</span> i % <span class="number">1000</span> == <span class="number">0</span>: </span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Loss after iteration %i: %f&quot;</span> %(i, calculate_loss(X,y,param,reg_lambda,num_examples))) </span><br><span class="line">            </span><br><span class="line">    <span class="keyword">return</span> param,loss_list</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    X, y = generate_data()</span><br><span class="line">    nn_input_dim = <span class="number">2</span> <span class="comment"># 输入层维度 </span></span><br><span class="line">    nn_output_dim = <span class="number">2</span> <span class="comment"># 输出层维度</span></span><br><span class="line">    alpha = <span class="number">0.01</span> <span class="comment"># 梯度下降学习速率 </span></span><br><span class="line">    reg_lambda = <span class="number">0.01</span> <span class="comment"># 正则化参数</span></span><br><span class="line">    param, loss_list = build_model(X, y, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, alpha, reg_lambda, print_loss=<span class="literal">True</span>)</span><br><span class="line">    <span class="comment"># 画出决策边界</span></span><br><span class="line">    plot_decision_boundary(<span class="keyword">lambda</span> x: predict(param, x),X,y) </span><br><span class="line">    plt.title(<span class="string">&quot;Decision Boundary for hidden layer size 3&quot;</span>) </span><br><span class="line">    <span class="comment">#plt.figure(3)</span></span><br><span class="line">    <span class="comment">#plt.plot(range(0,len(loss_list)),loss_list)</span></span><br><span class="line">    <span class="comment"># 改变隐藏层维度</span></span><br><span class="line">    plt.figure(<span class="number">2</span>)</span><br><span class="line">    hidden_layer_dimensions = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">20</span>, <span class="number">50</span>] </span><br><span class="line">    <span class="keyword">for</span> i, nn_hdim <span class="keyword">in</span> <span class="built_in">enumerate</span>(hidden_layer_dimensions):  </span><br><span class="line">        plt.subplot(<span class="number">4</span>, <span class="number">2</span>, i+<span class="number">1</span>) </span><br><span class="line">        plt.title(<span class="string">&#x27;Hidden Layer size %d&#x27;</span> % nn_hdim) </span><br><span class="line">        param, loss_list = build_model(X,y,<span class="number">2</span>,nn_hdim,<span class="number">2</span>,alpha,reg_lambda) </span><br><span class="line">        plot_decision_boundary(<span class="keyword">lambda</span> x: predict(param, x),X,y)</span><br><span class="line">    plt.show()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20200129115745917.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li>可以发现当隐藏层维度为3时，分类效果较好，对比之前的Logistic回归有更好的突破，下面是通过改变隐藏层的大小观察对输出结果的影响：</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200129115754300.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li><p>可以发现低维度的隐藏层可以更好得捕获决策边界，而高维度得隐藏层则更容易出现过拟合，另一方面我们已经加入了正则化目的就是要消除过拟合，结果仍然可以看到维度过高虽然可以非常精确得描述分类效果，但是不是一般情况，故隐藏层的维度选择是一个重要的方面，其次可以改变学习速率和正则化强度来观察对输出结果的影响。</p>
+</li>
+<li><p>可以改进的方面：</p>
+<p>增加隐藏层，观察对输出结果的影响。</p>
+<p>改变输入数据的类别，增加到3类等等。</p>
+<p>改变激活函数，本文使用的是tanh双曲正切函数，可以改成sigmoid函数，推导反向传播公式（上一篇已经推导）观察不同的激活函数对输出结果的影响。</p>
+</li>
+</ul>
+<h2 id="5-结尾（附录）"><a href="#5-结尾（附录）" class="headerlink" title="5.结尾（附录）"></a>5.结尾（附录）</h2><ul>
+<li>本次主要讨论了python实现一个简单的神经网络，目的在于熟悉神经网络的内部工作过程，便于更好的理解神经网路的工作原理，这里的计算过程并不是高效的，但是非常容易理解，后面会通过Tensorflow更方便地搭建神经网络。</li>
+<li>本篇文章参考于<a target="_blank" rel="noopener" href="http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/">http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/</a></li>
+<li>代码是经过自己修改之后的，原项目的github链接为：<a target="_blank" rel="noopener" href="https://github.com/dennybritz/nn-from-scratch">https://github.com/dennybritz/nn-from-scratch</a></li>
+<li>softmax和交叉熵的深度解析和python实现：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Gipsy_Danger/article/details/81292148">https://blog.csdn.net/Gipsy_Danger/article/details/81292148</a></li>
+<li>交叉熵损失函数的推导：<a target="_blank" rel="noopener" href="https://blog.csdn.net/red_stone1/article/details/80735068">https://blog.csdn.net/red_stone1/article/details/80735068</a></li>
+</ul>
+<hr>
+<p>​    作者也是初学机器学习，上述仅为自己的理解，难免有不正确的地方，请读者及时指正，共同进步。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2020/01/29/python%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">https://did321.github.io/2020/01/29/python%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"># 机器学习</a>
+                    
+                        <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"># 神经网络</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/01/31/TensorFlow2-0%E6%AD%A3%E5%BC%8F%E7%89%88%E5%AE%89%E8%A3%85/">TensorFlow2.0正式版安装</a>
+            
+            
+            <a class="next" rel="next" href="/2019/12/31/%E9%87%8F%E5%AD%90%E8%AE%A1%E7%AE%97%E6%9C%BA/">量子计算机</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

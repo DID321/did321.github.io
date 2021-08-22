@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>FPGA学习笔记(五)——Verilog HDL任务与函数、编译向导 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">FPGA学习笔记(五)——Verilog HDL任务与函数、编译向导</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 25, 2019&nbsp;&nbsp;15:56:42</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/FPGA/">FPGA</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">4.7k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">18</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <ul>
+<li><p>利用任务和函数可以把一个大的程序模块分解成许多小的任务和函数，以方便调试，并且能使写出的程序清晰易懂。<strong>注意task和function定义和调用都包含在一个module模块内部，</strong>格式与module模块类似，但也有不同。</p>
+<p>它们一般用于行为建模，在编写测试验证程序时用得较多，佷多逻辑综合软件都不能佷好地支持任务和函数。 </p>
+</li>
+</ul>
+<h2 id="1-任务task与function的区别"><a href="#1-任务task与function的区别" class="headerlink" title="1.任务task与function的区别"></a>1.任务task与function的区别</h2><ul>
+<li><p><strong>task：</strong></p>
+<p>通常用于调试，或对硬件进行行为描述</p>
+<p>可以包含时序控制（#延迟，@, wait）</p>
+<p>可以有 input，output，和inout参数</p>
+<p>可以调用其他任务或函数</p>
+</li>
+<li><p><strong>function：</strong></p>
+<p><strong>通常用于计算，或描述组合逻辑</strong><br><strong>不能包含任何延迟；函数仿真时间为0</strong><br><strong>只含有input参数并由函数名返回一个结果</strong><br><strong>可以调用其他函数，但不能调用任务</strong></p>
+</li>
+<li><p>共同点：</p>
+<p><strong>任务和函数必须在module内调用</strong></p>
+<p><strong>在任务和函数中不能声明wire</strong></p>
+<p><strong>所有输入输出都是局部寄存器</strong></p>
+<p><strong>任务函数执行完成后才返回结果。</strong></p>
+</li>
+</ul>
+<h2 id="2-任务task"><a href="#2-任务task" class="headerlink" title="2.任务task"></a>2.任务task</h2><ul>
+<li><p>任务(task)定义与调用的格式分别如下：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">task</span>  任务名 ；</span><br><span class="line">    端口及数据类型声明语句；</span><br><span class="line">    其他语句；</span><br><span class="line"><span class="keyword">endtask</span></span><br><span class="line"><span class="comment">//任务调用的格式为：</span></span><br><span class="line">     任务名 (端口<span class="number">1</span>，端口<span class="number">2</span>，……)</span><br></pre></td></tr></table></figure></li>
+<li><p>比如下面是定义一个任务的例子：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用任务描述运算单元</span></span><br><span class="line"><span class="keyword">module</span>  alu(a,b,result);</span><br><span class="line">    <span class="keyword">input</span>[<span class="number">1</span>:<span class="number">0</span>]  a,b;</span><br><span class="line">    <span class="keyword">output</span>[<span class="number">3</span>:<span class="number">0</span>]  result;</span><br><span class="line">    <span class="keyword">wire</span>[<span class="number">1</span>:<span class="number">0</span>]  a,b;</span><br><span class="line">    <span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>]  result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span>@(a, b)</span><br><span class="line">       <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">//按照任务中定义的端口顺序调用任务；</span></span><br><span class="line">         cal(a,b, result);</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"><span class="comment">//定义任务cal</span></span><br><span class="line"><span class="keyword">task</span> cal;</span><br><span class="line">    <span class="comment">//任务端口列表</span></span><br><span class="line">    <span class="keyword">input</span>[<span class="number">1</span>:<span class="number">0</span>] a;</span><br><span class="line">    <span class="keyword">input</span>[<span class="number">1</span>:<span class="number">0</span>] b;</span><br><span class="line">  	<span class="keyword">output</span>[<span class="number">3</span>:<span class="number">0</span>] result;</span><br><span class="line">    <span class="comment">//内部定义局部变量（必须reg型）</span></span><br><span class="line">  	<span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>]  temp;</span><br><span class="line"> 	<span class="keyword">begin</span> </span><br><span class="line">   		 temp = a*a;</span><br><span class="line">	     result = temp-b; </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endtask</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
+<li><p>使用任务时需要注意以下几点：</p>
+<p>（1）任务的定义与调用须在一个module模块内。</p>
+<p>（2）当任务被调用时，任务被澈活。任务的调用与模块调用一样通过任务名调用实现，调用，需列出端口名列表，端口名的排序和类型必须与任务定义中的排序和类型一致。</p>
+<p>（3）一个任务可以调用别的任务和函数，可以调用的任务和函数个数不限。</p>
+<p>（4）任务的定义不能出现在过程块的内部，任务内部定义的变量，其作用域在task和endtask之间。</p>
+</li>
+<li><p>在使用任务</p>
+<p>含有延迟、时序或事件控制结构；</p>
+<p>没有输出或输出变量数目大于1；</p>
+<p>没有输入变量；</p>
+<p>出现以上情况的，一般用任务而不用函数。</p>
+</li>
+<li><p>任务主要特点：</p>
+<p>任务可以有input,output 和 inout参数。</p>
+<p>传送到任务的参数和与任务I/O说明顺序相同。尽管传送到任务的参数名称与任务内部I/O说明的名字可以相同，但在实际中这通常不是一个好的方法。参数名的唯一性可以使任务具有好的模块性。</p>
+<p>可以在任务内使用时序控制。</p>
+<p>要禁止任务，使用关键字disable 。</p>
+</li>
+</ul>
+<h3 id="自动任务"><a href="#自动任务" class="headerlink" title="自动任务"></a>自动任务</h3><ul>
+<li><p>任务在本质上是静态的，任务中的所有声明项的地址空间是静态分配的。因此，如果这个任务在模块中的两个地方被同时调用，则这两个任务调用将对同一块地址空间进行操作。操作的结果很有可能是错误的。</p>
+<p>  为了避免这个问题，Verilog通过在task关键字前面添加关键字<code>automatic</code>，使任务成为可重入的，这样声明的任务也称为自动任务，每次调用时，在动态任务中声明的所有模块项的存储空间都是动态分配的，每个调用都对各自独立的地址空间进行操作。这样．每个任务调用只对自己所拥有的独立变量副本进行操作．因此可以得到正确的执行结果。</p>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> auto_task;</span><br><span class="line">    <span class="keyword">reg</span> [<span class="number">4</span>:<span class="number">0</span>]  cd_add, ef_add;</span><br><span class="line">    <span class="keyword">reg</span> [<span class="number">4</span>:<span class="number">0</span>] c, d , e, f;</span><br><span class="line">    <span class="keyword">reg</span> clk1,clk2;</span><br><span class="line">   <span class="keyword">parameter</span> delay=<span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">initial</span> </span><br><span class="line">   <span class="keyword">begin</span></span><br><span class="line">      clk1=<span class="number">0</span>;     clk2=<span class="number">0</span>;</span><br><span class="line">      c=<span class="number">3</span>;d=<span class="number">5</span>;e=<span class="number">7</span>;f=<span class="number">4</span>;</span><br><span class="line">      #<span class="number">20</span> c=<span class="number">2</span>;d=<span class="number">4</span>;e=<span class="number">8</span>;f=<span class="number">10</span>;</span><br><span class="line">      #<span class="number">20</span> <span class="built_in">$stop</span>;</span><br><span class="line">   <span class="keyword">end</span></span><br><span class="line"><span class="keyword">initial</span> <span class="keyword">forever</span> #<span class="number">4</span> clk1=~clk1;</span><br><span class="line"><span class="keyword">initial</span> <span class="keyword">forever</span> #<span class="number">5</span> clk2=~clk2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">task</span> <span class="keyword">automatic</span> adder; <span class="comment">// 任务定义</span></span><br><span class="line">        <span class="keyword">output</span> [<span class="number">4</span>: <span class="number">0</span>] ab_adder;</span><br><span class="line">        <span class="keyword">input</span> [<span class="number">4</span>: <span class="number">0</span>] a, b;</span><br><span class="line">        <span class="keyword">begin</span></span><br><span class="line">            #delay ab_adder = a + b;</span><br><span class="line">         <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endtask</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @(<span class="keyword">posedge</span> clk1)</span><br><span class="line">          adder(ef_add,e,f);</span><br><span class="line"></span><br><span class="line"><span class="keyword">always</span> @ (<span class="keyword">posedge</span> clk2)</span><br><span class="line">          adder(cd_add, c, d);</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果某一任务有可能在程序代码的两处被同时调用，建议最好使用自动任务。</li>
+</ul>
+<h2 id="3-函数function"><a href="#3-函数function" class="headerlink" title="3.函数function"></a>3.函数function</h2><ul>
+<li><p>函数的目的是返回一个用于表达式的值。函数的定义格式为:</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>  返回值位宽或类型说明 函数名；</span><br><span class="line">    端口声明；</span><br><span class="line">    局部变量定义；</span><br><span class="line">    <span class="comment">//函数主体</span></span><br><span class="line">        <span class="keyword">begin</span></span><br><span class="line">         语句<span class="number">1</span>；</span><br><span class="line">          .....</span><br><span class="line">         语句n；</span><br><span class="line">      <span class="keyword">end</span>  </span><br><span class="line"><span class="keyword">endfunction</span></span><br></pre></td></tr></table></figure></li>
+<li><p>在这里，&lt;返回值位宽或类型说明&gt;这一项是可选项，如默认则返回值为一位寄存器类型数据。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> [ <span class="number">7</span> : <span class="number">0</span> ]  getbyte;</span><br><span class="line">   <span class="keyword">input</span>[<span class="number">15</span>:<span class="number">0</span>] address;</span><br><span class="line">   <span class="keyword">begin</span></span><br><span class="line">       ………</span><br><span class="line">       getbyte  =  result_express;</span><br><span class="line">   <span class="keyword">end</span></span><br><span class="line"> <span class="keyword">endfunction</span></span><br></pre></td></tr></table></figure></li>
+<li><p>函数返回的值 : 函数的定义蕴含声明了与函数同名的、函数内部的寄存器。函数的定义把函数返回值所赋值寄存器的名称初始化为与函数同名的内部变量。并且这个与函数同名内部变量和返回值位宽或类型说明相一致。</p>
+</li>
+<li><p>函数的调用:函数的调用是通过将函数作为表达式中的操作数来实现的。其调用格式如下：</p>
+<p>​           `函数名(表达式，，，表达式)``</p>
+<p>下面的例子中，两次调用函数getbyte，把两次调用产生的值进行位拼接运算，以生成一个字。</p>
+<p>​     <code>word = control ? &#123;getbyte(msbyte),getbyte(lsbyte)&#125;:0;</code></p>
+</li>
+<li><p>下面是一个function的例子：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span>  alu(a,b,product,result);</span><br><span class="line">   <span class="keyword">input</span>[<span class="number">1</span>:<span class="number">0</span>] a,b;</span><br><span class="line">   <span class="keyword">output</span>[<span class="number">3</span>:<span class="number">0</span>] product,result;</span><br><span class="line">   <span class="keyword">wire</span>[<span class="number">1</span>:<span class="number">0</span>]  a,b;</span><br><span class="line">   <span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>] product,result;</span><br><span class="line">   <span class="keyword">reg</span> [<span class="number">7</span>:<span class="number">0</span>] all_result;</span><br><span class="line">   <span class="keyword">always</span>@(a,b)</span><br><span class="line">     <span class="keyword">begin</span>    <span class="comment">//注意调用函数的方法与任务不同；       </span></span><br><span class="line">       all_result =  cal(a,b);</span><br><span class="line">       product = all_result[<span class="number">7</span>:<span class="number">4</span>];</span><br><span class="line">       result = all_result[<span class="number">3</span>:<span class="number">0</span>]; </span><br><span class="line">     <span class="keyword">end</span></span><br><span class="line"><span class="comment">//定义函数cal</span></span><br><span class="line"><span class="keyword">function</span>  [<span class="number">7</span>：<span class="number">0</span>]    cal;</span><br><span class="line">  	<span class="keyword">input</span>[<span class="number">1</span>：<span class="number">0</span>]   a;</span><br><span class="line">  	<span class="keyword">input</span>[<span class="number">1</span>：<span class="number">0</span>]   b;</span><br><span class="line">  	<span class="keyword">reg</span>[<span class="number">3</span>：<span class="number">0</span>]   temp;</span><br><span class="line"> 	<span class="keyword">begin</span> </span><br><span class="line">   		product = a*b;</span><br><span class="line">	    temp = a*a;</span><br><span class="line">	    result = temp-b; </span><br><span class="line">		cal = &#123;product,result&#125;;</span><br><span class="line">   	<span class="keyword">end</span></span><br><span class="line">   	<span class="keyword">endfunction</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
+<li><p>下面是一个乘累加器（MAC）代码</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">module</span> mac(out,a,b,clk,clr);</span><br><span class="line">   <span class="keyword">output</span>[<span class="number">15</span>:<span class="number">0</span>] out;</span><br><span class="line">   <span class="keyword">input</span>[<span class="number">7</span>:<span class="number">0</span>]   a,b;</span><br><span class="line">   <span class="keyword">input</span> clk,clr;</span><br><span class="line">   <span class="keyword">reg</span>[<span class="number">15</span>:<span class="number">0</span>] out;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">wire</span>[<span class="number">15</span>:<span class="number">0</span>] sum;</span><br><span class="line">   	</span><br><span class="line">   <span class="keyword">assign</span> sum = mult(a,b)+out;</span><br><span class="line">   <span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">posedge</span> clr)</span><br><span class="line">     <span class="keyword">begin</span></span><br><span class="line">		<span class="keyword">if</span>(clr) out &lt;= <span class="number">0</span>;</span><br><span class="line">    	<span class="keyword">else</span>  out &lt;= sum;</span><br><span class="line">     <span class="keyword">end</span> </span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义函数mult； </span></span><br><span class="line">   <span class="keyword">function</span>[<span class="number">15</span>:<span class="number">0</span>] mult;</span><br><span class="line">      <span class="keyword">input</span>[<span class="number">7</span>:<span class="number">0</span>] a,b;</span><br><span class="line">      <span class="keyword">reg</span>[<span class="number">15</span>:<span class="number">0</span>] result;</span><br><span class="line">      <span class="keyword">integer</span> i;</span><br><span class="line">      <span class="keyword">begin</span></span><br><span class="line">		result = a[<span class="number">0</span>] ? b:<span class="number">0</span>;</span><br><span class="line"> 		<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=<span class="number">7</span>;i=i+<span class="number">1</span>)</span><br><span class="line">	  	<span class="keyword">begin</span></span><br><span class="line">          <span class="keyword">if</span>(a[i] == <span class="number">1</span>)</span><br><span class="line">              result=result+(b&lt;&lt;i);<span class="comment">//左移相加</span></span><br><span class="line">      	<span class="keyword">end</span></span><br><span class="line">     	mult = result;</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">   <span class="keyword">endfunction</span></span><br><span class="line"> <span class="keyword">endmodule</span></span><br><span class="line"><span class="comment">//   b 1 1 0</span></span><br><span class="line"><span class="comment">//   a 1 0 1</span></span><br><span class="line">       <span class="number">1</span> <span class="number">1</span> <span class="number">0</span>   <span class="comment">//相当于每次左移一位</span></span><br><span class="line">     <span class="number">0</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line">   <span class="number">1</span> <span class="number">1</span> <span class="number">0</span></span><br><span class="line">——————————————</span><br><span class="line">   <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>函数与任务相比，其功能要弱。在函数中，可以嵌套函数，但不可以调用任务；而任务中，即可以调用函数，也可以调用任务。</p>
+<p>函数中不允许出现延时和事件控制语句，即任何用#、@、或wait来标识的语句,也就是函数必须马上执行完，而任务可以在执行中挂起。</p>
+</li>
+<li><p>函数至少需要一个参数，且参数必须都为输入参数，不可以包含输出或双向端口。而任务可以有多种类型的变量（包括input、output或inout）。</p>
+<p>函数必须有一个返回值，返回值被赋予和函数名同名的变量，这就决定函数只有一个返回值。</p>
+</li>
+<li><p>使用C语言风格进行变量声明的函数定义：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义偶校验位计算函数，该函数采用C风格的变量声明；</span></span><br><span class="line"> <span class="keyword">function</span>  calc_parity( <span class="keyword">input</span>[<span class="number">31</span>:<span class="number">0</span>]   address)  ;</span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">//适当地设置输出值。使用隐含的内部寄存器calc_parity</span></span><br><span class="line">        calc_parity = ^address;</span><br><span class="line">   <span class="keyword">end</span></span><br><span class="line"> <span class="keyword">endfunction</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="递归函数"><a href="#递归函数" class="headerlink" title="递归函数"></a>递归函数</h3><ul>
+<li><p>verilog中的函数是不能进行递归调用的；设计模块中若某函数在两个不同的地方被同时并发调用，由于这两个调用同时对同一块地址空问进行操作.那么计算结果将是不确定的。</p>
+<p>若在函数声明时使用了关键字automatic，那么该函数将成为自动的或可递归的.</p>
+<p>下例说明如何定义自动函数，来完成阶乘运算：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//用函数的递归调用定义阶乘计算</span></span><br><span class="line"> <span class="keyword">module</span>   top;</span><br><span class="line">    ..................</span><br><span class="line">    <span class="comment">//定义自动(递归)函数</span></span><br><span class="line">     <span class="keyword">function</span> <span class="keyword">automatic</span> <span class="keyword">integer</span>  factorial；</span><br><span class="line">         <span class="keyword">input</span> [<span class="number">31</span> : <span class="number">0</span>] oper;</span><br><span class="line">         <span class="keyword">begin</span></span><br><span class="line">          <span class="keyword">if</span> (oper &gt;= <span class="number">2</span>)</span><br><span class="line">              factorial = factorial( oper - <span class="number">1</span>) * oper;<span class="comment">//递归调用</span></span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">              factorial=<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">endfunction</span>  </span><br><span class="line"><span class="keyword">integer</span> result;</span><br><span class="line">   <span class="keyword">initial</span></span><br><span class="line">     <span class="keyword">begin</span></span><br><span class="line">            result = factorial (<span class="number">4</span>);</span><br><span class="line">     <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="常量函数"><a href="#常量函数" class="headerlink" title="常量函数"></a>常量函数</h3><ul>
+<li><p>常量函数是指在仿真开始之前的编译阶段计算出的结果为常数的函数，常量函数只允许操作常量，不允许访问全局变量或者调用系统函数。这种函数能够用来引用复杂的值，因此可用来代替常量。</p>
+<p>下例中声明了一个常量函数，它可以用来计算模块中地址总线的宽度。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> ram(…);</span><br><span class="line"> …………..</span><br><span class="line">   <span class="keyword">parameter</span> ram_depth = <span class="number">256</span>;</span><br><span class="line">   <span class="keyword">input</span> [ clogb2(ram_depth)-<span class="number">1</span>:<span class="number">0</span>]  addr_bus;</span><br><span class="line">   …………….</span><br><span class="line">    <span class="comment">//常量函数</span></span><br><span class="line">   <span class="keyword">function</span>  <span class="keyword">integer</span>  clogb2(<span class="keyword">input</span> <span class="keyword">integer</span> depth); </span><br><span class="line">         <span class="keyword">begin</span></span><br><span class="line">          <span class="keyword">for</span> ( clogb2=<span class="number">0</span>;depth&gt;<span class="number">0</span>;clogb2=clogb2+<span class="number">1</span>)</span><br><span class="line">                  depth = depth &gt;&gt;<span class="number">1</span>;<span class="comment">//逻辑右移</span></span><br><span class="line">          <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">endfunction</span></span><br><span class="line">  …………………..</span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line">       </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="带符号的函数"><a href="#带符号的函数" class="headerlink" title="带符号的函数"></a>带符号的函数</h3><ul>
+<li><p>Verilog-2001标准使使用了关键字  signed，使得寄存器数据类型、网络数据类型、端口以及函数都可以定义成带符号的类型。</p>
+<p>下面举儿个例子说明：</p>
+<p>​      reg signed [63:0] data;</p>
+<p>​      wire signed [7:0] vector;</p>
+<p>​      input signed [31:0] a;</p>
+<p>​      function signed [127:0] alu;</p>
+</li>
+<li><p>Verilog1995标准中，没有指定基数(进制)的整型数被认为是有符号数，相反，指定了基数(进制)的整型数被认为是无符号数。Verilog2001标准增加了一个额外的标识符。字母’s’和基数标识符一起指定该数是带符号数。</p>
+<p>举例说明如下:</p>
+<p>​    16’hC501                //16位十六进制无符号数</p>
+<p>​    16’shC501              //16位十六进制有符号数</p>
+</li>
+<li><p>除了可以定义有符号数据类型和数值外，Verilog2001还增加了两个新的系统函数，即<code>$signed</code>和$<code>unsigned</code>。这两个系统函数可以将无符号数变换为带符号数，或相反。</p>
+<p>举例说明如下：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[<span class="number">63</span> : <span class="number">0</span>] a;  <span class="comment">//无符号数据类型</span></span><br><span class="line"><span class="keyword">always</span>@(a) </span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    result1  = a/<span class="number">2</span>;      <span class="comment">//无符号运算</span></span><br><span class="line">    result2  = <span class="built_in">$signed</span>(a) / <span class="number">2</span>; <span class="comment">//有符号运算</span></span><br><span class="line"> <span class="keyword">end</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Verilog-2001标准中，另一个关于带符号数运算的改进是算术移位操作符，右移和左移分别用符号&gt;&gt;&gt;和&lt;&lt;&lt;表示。算术右移操作不改变数值的符号，移位时，用符号位填充空缺位口。</p>
+<p>例如，如果8位带符号变量D,</p>
+<p>​          D=  8’b10100011 </p>
+<p>​         则D的3位的逻辑右移和算术右移的结果：</p>
+<p>​          D&gt;&gt;3；    //逻辑右移的结果是8’b00010100</p>
+<p>​          D&gt;&gt;&gt;3；  //算术右移的结果是8’b11110100</p>
+</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>（1）任务和函数都用来对设计中多处使用的公共代码进行定义，使用任务和函数可以将模块分割成许多个可独立管理的子单元，增强了模块的<strong>可读性</strong>和<strong>可维护性</strong>。与C语言中的子程序起着相同的作用；</p>
+<p>（2）任务可以有任意多个输入、输入/输出（inout）和输出变量。在任务中可以使用延迟、事件和时序控制结构，在任务中可以调用其他的任务和函数；</p>
+<p>（3）自动任务使用关键字automatic进行定义，它的每一次调用都对不同的地址空间进行操作。因此，在被多次并发调用时仍然可以获得正确的结果；</p>
+<p>（4）函数只能有<strong>一个返回值</strong>，并且<strong>至少要有一个输入变量</strong>。在函数中<strong>不能使用延迟、事件和时序控制结构</strong>。在函数可以调用其它函数，但<strong>不能调用任务</strong>；</p>
+<p>（5）当声明函数时，Verilog仿真器都会隐含地声明一个<strong>同名的寄存器变量</strong>，函数的返回值通过这个寄存器传递回调用处；</p>
+<p>（6）递归函数使用关键字automatic进行定义，递归函数每一次调用都拥有不同的地址空间。因此对这种函数的递归调用和并发调用可以得到正确的结果；</p>
+<p>（7）任务和函数都包含在设计层次中，可以通过层次名对它们进行调用。</p>
+<h2 id="4-编译向导"><a href="#4-编译向导" class="headerlink" title="4.编译向导"></a>4.编译向导</h2><ul>
+<li><p>Verilog HDL语言和C语言一样也提供了编译预处理功能。Verilog HDL允许在程序中使用特殊的编译预处理语句。在编译时，通常先对这些特殊语句进行“预处理”，然后再将预处理的结果和源程序一起进行编译。</p>
+<p>预处理命令以符号“`”开头(注意，“`”不是单引号，叫反单引号，在键盘左上角数字1的左边)，以区别于其他语句。</p>
+</li>
+</ul>
+<h3 id="宏定义-define"><a href="#宏定义-define" class="headerlink" title="宏定义`define"></a>宏定义`define</h3><ul>
+<li><p><strong>`define</strong>语句用来将一个简单的名字或标志符(或称为宏名)来代表一个复杂的名字或字符中，其一般形式为：</p>
+<p><code>define 标志符(宏名)  字符串</code></p>
+</li>
+<li><p>在程序中，引用宏的方法是在宏名前面加上符号“`”。</p>
+</li>
+<li><p>宏定义主要可以起到两个作用：<br>(1)用一个有意义的标识符取代程序中反复出现的含义不明显的字符串。例如：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">define</span>  WORDSIZE   8</span></span><br><span class="line"> <span class="keyword">reg</span>[ <span class="meta">`WORDSIZE : 1 ]  data;	</span></span><br><span class="line"> <span class="comment">//这相当于定义 reg[8:1] data;</span></span><br></pre></td></tr></table></figure>
+
+<p>(2)用一个较短的标识符代替反复出现的较长的字符串。例如： </p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">define</span>　　sum1  ina+inb+inc+ind</span></span><br><span class="line"><span class="keyword">module</span> calculate( out1,out2,ina,inb,inc,ind,ine);</span><br><span class="line">  <span class="keyword">input</span> ina,inb,inc,ind,ine;</span><br><span class="line">  <span class="keyword">output</span>[<span class="number">2</span>:<span class="number">0</span>]out1,out2;</span><br><span class="line">  <span class="keyword">wire</span> ina,inb,inc,ind,ine;</span><br><span class="line">  <span class="keyword">reg</span>[<span class="number">2</span>:<span class="number">0</span>]out1,out2;</span><br><span class="line">  <span class="keyword">always</span>@(ina <span class="keyword">or</span> inb <span class="keyword">or</span> inc <span class="keyword">or</span> ine)</span><br><span class="line">   <span class="keyword">begin</span></span><br><span class="line">      out1=<span class="meta">`sum1+ine;</span></span><br><span class="line">      out2=<span class="meta">`sum1-ine;</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+
+<p>此外，在使用宏定义说明语句时候，还需注意：<br>(1)宏定义不是Verilog HDL语句，不必在行末加分号。如果加了分号会连分号一起进行置换。上题中如果把宏定义改为：</p>
+<pre><code>`define　　sum1  ina+inb+inc+ind；
+</code></pre>
+<p>   经过宏展开以后：</p>
+<pre><code>  out1 = ina+inb+inc+ind；+ine;
+  out2 = ina+inb+inc+ind；-ine;
+</code></pre>
+<p>   显然出现语法错</p>
+<p>(2)宏定义语句可以出现在程序中的任意位置。通常，``define`命令写在模块定义的外面，作为程序的一部分，在此程序内有效。如果对同一个宏名做了多次定义则只有最后一次定义生效。例如：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">define</span>　　a  1</span></span><br><span class="line"><span class="keyword">module</span> muti_define;</span><br><span class="line">  <span class="keyword">reg</span>[<span class="number">1</span>:<span class="number">0</span>] out1,out2,out3;</span><br><span class="line">  <span class="keyword">initial</span></span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">       out1 = <span class="meta">`a; //out1 = 1 </span></span><br><span class="line">      <span class="meta">`<span class="meta-keyword">define</span> a  2</span></span><br><span class="line">       out2 = <span class="meta">`a;  //out2 = 2 </span></span><br><span class="line">      <span class="meta">`<span class="meta-keyword">define</span>  a  3</span></span><br><span class="line">       out3 = <span class="meta">`a; //out3 = 3</span></span><br><span class="line">   <span class="keyword">end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>在编译前，所有引用的宏被替换为宏内容，替换过程不做任何语法检查，所以使用宏的时候要小心。</p>
+</li>
+<li><p>在进行宏定义时，可以引用已定义的宏名，实现层层置换。如：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">define</span> aa a + b</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">define</span> cc c + `aa</span></span><br><span class="line"> <span class="keyword">module</span> test;</span><br><span class="line">   <span class="keyword">reg</span>  a, b, c,d;</span><br><span class="line">   <span class="keyword">wire</span> out;</span><br><span class="line">   <span class="keyword">assign</span> out =<span class="meta">`cc+d;</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"><span class="comment">//这样经过宏展开以后，assign语句为</span></span><br><span class="line"><span class="comment">//assign  out = c + a + b+d;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>例：带有宏定义的8位加法器</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">`<span class="meta-keyword">define</span> DataWidth  8</span></span><br><span class="line">  <span class="keyword">module</span>  addr8(a,b,c,d,sum); </span><br><span class="line">  <span class="keyword">input</span>  [<span class="meta">`DataWidth-1:0] a,b,c,d;                                            </span></span><br><span class="line">  <span class="keyword">output</span>[<span class="meta">`DataWidth   :0] sum; </span></span><br><span class="line">  <span class="keyword">wire</span>   [<span class="meta">`DataWidth-1:0] a,b,c,d;</span></span><br><span class="line">  <span class="keyword">reg</span>    [<span class="meta">`DataWidth   :0] sum;</span></span><br><span class="line">  <span class="keyword">always</span>@(a <span class="keyword">or</span> b <span class="keyword">or</span> c <span class="keyword">or</span> d) </span><br><span class="line">   <span class="keyword">begin</span>   </span><br><span class="line">      sum = a+b+c+d; </span><br><span class="line">   <span class="keyword">end</span> </span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="文件包含语句-include"><a href="#文件包含语句-include" class="headerlink" title="文件包含语句 `include"></a>文件包含语句 `include</h3><ul>
+<li><p>使用Verilog HDL设计数字系统时，一个设计可能包含很多模块，而每个模块都单独存为一个文件。</p>
+<p>当顶层模块调用子模块时，就需要到相应的文件中寻找，文件包含的作用就是指明这些文件的位置。</p>
+<p>也可以将宏定义、任务或者函数等语句写在单独的文件中，通过文件包含供其他模块调用。</p>
+</li>
+<li><p>``include`是文件包含语句，它可将一个文件全部包含到另一个文件中。其一般形式为：       </p>
+<p>``include  “文件名”`</p>
+<p>例用`include语句设计的16位加法器:</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> addr<span class="variable">.v</span>文件的代码为：</span><br><span class="line">    <span class="keyword">module</span> addr(cout,sum,a,b,cin);</span><br><span class="line">       <span class="keyword">parameter</span>  size =<span class="number">16</span>;</span><br><span class="line">       <span class="keyword">output</span> cout;</span><br><span class="line">       <span class="keyword">output</span>[size-<span class="number">1</span>:<span class="number">0</span>]  sum;</span><br><span class="line">       <span class="keyword">input</span> cin;</span><br><span class="line">       <span class="keyword">input</span>[size-<span class="number">1</span>:<span class="number">0</span>] a, b; </span><br><span class="line">       <span class="keyword">assign</span> &#123;cout,sum&#125; = a+b+cin;</span><br><span class="line">    <span class="keyword">endmodule</span></span><br><span class="line"><span class="comment">//调用文件addr.v中模块addr完成16位加法器</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;addr.v&quot;</span></span><br><span class="line">    <span class="keyword">module</span> addr16(cout,sum,a,b,cin);</span><br><span class="line">       <span class="keyword">parameter</span> MySize =<span class="number">16</span>; </span><br><span class="line">       <span class="keyword">output</span> cout;</span><br><span class="line">       <span class="keyword">output</span>[MySize-<span class="number">1</span>:<span class="number">0</span>]  sum;</span><br><span class="line">       <span class="keyword">input</span>[MySize-<span class="number">1</span>:<span class="number">0</span>]  a, b;</span><br><span class="line">       <span class="keyword">input</span> cin;</span><br><span class="line">       addr <span class="variable">#(MySize)   myAddr(cout,sum,a,b,cin)</span>;</span><br><span class="line">    <span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="条件编译指令-ifdef-else-endif"><a href="#条件编译指令-ifdef-else-endif" class="headerlink" title="条件编译指令 `ifdef `else `endif"></a>条件编译指令 `ifdef `else `endif</h3><ul>
+<li><p>条件编译指令：<code>ifdef、</code>else、`endif；<br>根据环境需要对一部分代码有选择地进行编译。<br>条件编译有两种表达形式：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一种形式：</span></span><br><span class="line">  <span class="meta">`<span class="meta-keyword">ifdef</span>  宏名</span></span><br><span class="line">       程序段</span><br><span class="line">  <span class="meta">`<span class="meta-keyword">endif</span></span></span><br><span class="line"> <span class="comment">//第二种形式</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">ifdef</span>   宏名 </span></span><br><span class="line">       程序段<span class="number">1</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">else</span></span></span><br><span class="line">       程序段<span class="number">2</span></span><br><span class="line"> <span class="meta">`<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">define</span> sum  a+b</span></span><br><span class="line"><span class="keyword">module</span> condition_compile(out,a,b,c); </span><br><span class="line"> <span class="keyword">output</span>[<span class="number">2</span>:<span class="number">0</span>] out;</span><br><span class="line"> <span class="keyword">input</span> a,b,c;</span><br><span class="line"> <span class="meta">`<span class="meta-keyword">ifdef</span> sum </span></span><br><span class="line">      <span class="keyword">assign</span> out=sum+c;</span><br><span class="line"> <span class="meta">`<span class="meta-keyword">else</span></span></span><br><span class="line">      <span class="keyword">assign</span> out=a+c;</span><br><span class="line"><span class="meta">`<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//在上面的例子中，因为定义了“`define sum”，</span></span><br><span class="line"><span class="comment">//所以程序执行“assign out=a+b+c;” </span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>例条件编译语句的使用：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//share.v</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">define</span> SHARE</span></span><br><span class="line"><span class="keyword">module</span>  share;</span><br><span class="line"> ……</span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line">  </span><br><span class="line"> <span class="comment">//child1.v</span></span><br><span class="line"> <span class="meta">`<span class="meta-keyword">ifdef</span> SHARE   </span></span><br><span class="line">  <span class="meta">`<span class="meta-keyword">else</span> </span></span><br><span class="line">      <span class="meta">`<span class="meta-keyword">include</span> “share.v”//如果没定义，就把这个文件包含进来</span></span><br><span class="line">  <span class="meta">`<span class="meta-keyword">endif</span></span></span><br><span class="line">  <span class="meta">`<span class="meta-keyword">define</span> CHILD1</span></span><br><span class="line">   <span class="keyword">module</span> child1</span><br><span class="line">      share   share1;</span><br><span class="line">      ………</span><br><span class="line">    <span class="keyword">endmodule</span></span><br><span class="line">  </span><br><span class="line"> <span class="comment">//child2.v</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">ifdef</span> SHARE</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">else</span></span></span><br><span class="line">   <span class="meta">`<span class="meta-keyword">include</span>”share.v”</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">define</span> CHILD2</span></span><br><span class="line"><span class="keyword">module</span>  child2</span><br><span class="line">   share share2;</span><br><span class="line">   ………</span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line">  </span><br><span class="line"> <span class="comment">//father.v</span></span><br><span class="line"> <span class="comment">//检查文件是否包含</span></span><br><span class="line"> <span class="meta">`<span class="meta-keyword">ifdef</span> CHILD1</span></span><br><span class="line"> <span class="meta">`<span class="meta-keyword">else</span></span></span><br><span class="line">     <span class="meta">`<span class="meta-keyword">include</span>”child1.v”</span></span><br><span class="line">  <span class="meta">`<span class="meta-keyword">endif</span></span></span><br><span class="line"> <span class="meta">`<span class="meta-keyword">ifdef</span> CHILD2</span></span><br><span class="line"> <span class="meta">`<span class="meta-keyword">else</span></span></span><br><span class="line">     <span class="meta">`<span class="meta-keyword">include</span>”child2.v”</span></span><br><span class="line">  <span class="meta">`<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">define</span> FATHER</span></span><br><span class="line"> <span class="keyword">module</span> father</span><br><span class="line">   child1  ch1;</span><br><span class="line">   child2  ch2;</span><br><span class="line">    ……</span><br><span class="line"><span class="keyword">endmodule</span> </span><br><span class="line">  </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="时间尺度-timescale"><a href="#时间尺度-timescale" class="headerlink" title="时间尺度 `timescale"></a>时间尺度 `timescale</h3><ul>
+<li><p>`timescale语句用于定义模块的时间单位和时间精度，其使用格式如下:</p>
+<p>​         `timescale    时间单位／时间精度</p>
+<p>用于时间单位和时间精度的数字只能是1、10和100。 其中用来表示时间度量的符号有：</p>
+<p>​           s、ms、μs 、ns、ps和fs 。</p>
+</li>
+<li><p>时间精度是指模块仿真时间和延时的精确程度，比如定义时间精度为10ns，那么程序中所有的延时至多能精确到10ns。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 100ns/10ns</span></span><br><span class="line">  …………</span><br><span class="line">     <span class="keyword">always</span> @(din)</span><br><span class="line">       <span class="keyword">fork</span></span><br><span class="line"> 	        #<span class="number">3</span>  dout1 = din;   <span class="comment">//延时300ns</span></span><br><span class="line">            #<span class="number">3</span><span class="variable">.1</span>  dout2 = din;   <span class="comment">//延时310ns</span></span><br><span class="line">	        #<span class="number">3</span><span class="variable">.14</span>  dout3 = din;   <span class="comment">//延时310ns   </span></span><br><span class="line">       <span class="keyword">join</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>在用`timescale时.需要注意的是，当多个带不同`timescale定义的模块包含在一起时只有最后一个才起作用。所以属于一个项目，但`timescale定义不同的多个模块最好分开编译，不要包含在一起编译，以免把时间单位搞混。</li>
+<li>宏定义字符串引用时，不要忘记要用“`”引导。这与C语言不不同。<br>include等编译预处理也必须用“`”引导，而不是与C语言一样用“#”引导或不需要引导符。</li>
+<li>合理地使用条件编译和条件执行预处理可以使测试程序适应不同的编译环境，也可以把不同的测试过程编写到一个统一的测试程序中去，间以简化测试的过程，对于复杂设计的验证模块的编写很有实用价值。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/10/25/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%94-%E2%80%94%E2%80%94Verilog-HDL%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%87%BD%E6%95%B0%E3%80%81%E7%BC%96%E8%AF%91%E5%90%91%E5%AF%BC/">https://did321.github.io/2019/10/25/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%94-%E2%80%94%E2%80%94Verilog-HDL%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%87%BD%E6%95%B0%E3%80%81%E7%BC%96%E8%AF%91%E5%90%91%E5%AF%BC/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/FPGA/"># FPGA</a>
+                    
+                        <a href="/tags/Verilog/"># Verilog</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/31/%E9%87%8F%E5%AD%90%E8%AE%A1%E7%AE%97%E6%9C%BA/">量子计算机</a>
+            
+            
+            <a class="next" rel="next" href="/2019/10/17/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B-%E2%80%94%E2%80%94Verilog-HDL%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/">FPGA学习笔记(四)——Verilog HDL条件语句与循环语句</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

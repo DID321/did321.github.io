@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>CMake学习笔记 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">CMake学习笔记</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 8, 2019&nbsp;&nbsp;16:55:59</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Cmake/">Cmake</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.3k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">5</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-CMake的简介"><a href="#1-CMake的简介" class="headerlink" title="1.CMake的简介"></a>1.CMake的简介</h2><blockquote>
+<ul>
+<li>CMake是一个跨平台的安装（编译）工具，可以用简单的语句来描述所有平台的安装(编译过程)。他能够输出各种各样的makefile或者project文件</li>
+<li>CMake主要是编写CMakeLists.txt文件，然后用cmake命令将CMakeLists.txt文件转化为make所需要的makefile文件，最后用make命令编译源码生成可执行程序</li>
+</ul>
+</blockquote>
+<h2 id="2-CMake的编译小技巧"><a href="#2-CMake的编译小技巧" class="headerlink" title="2.CMake的编译小技巧"></a>2.CMake的编译小技巧</h2><blockquote>
+<ul>
+<li>cmake  指向CMakeLists.txt所在的目录，例如cmake .. 表示CMakeLists.txt在当前目录的上一级目录。cmake后会生成很多编译的中间文件以及makefile文件，所以一般建议新建一个新的目录，专门用来编译</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir build     建立一个新的文件夹专门存放中间的编译文件</span><br><span class="line">cd build        进入这个文件目录</span><br><span class="line">cmake ..        必须在有CMakeLists.txt所在的目录下cmake</span><br><span class="line">make            最后编译生成可执行程序</span><br></pre></td></tr></table></figure>
+<h2 id="3-CMake语法"><a href="#3-CMake语法" class="headerlink" title="3.CMake语法"></a>3.CMake语法</h2><blockquote>
+<ul>
+<li>变量使用${}方式取值,但是在 IF 控制语句中是直接使用变量名；</li>
+<li>指令(参数 1 参数 2…)，参数使用括弧括起,参数之间使用空格或分号分开；</li>
+<li>指令是大小写无关的,参数和变量是大小写相关的。推荐全部使用大写指令。</li>
+</ul>
+</blockquote>
+<h2 id="4-编写一个C程序理解整个CMake过程"><a href="#4-编写一个C程序理解整个CMake过程" class="headerlink" title="4.编写一个C程序理解整个CMake过程"></a>4.编写一个C程序理解整个CMake过程</h2><p>文件目录结构如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190208165337478.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p>wd.h</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#ifndef WD_TEST</span><br><span class="line">#define WD_TEST</span><br><span class="line">#include&lt;math.h&gt;</span><br><span class="line">double wd_sqrt(double value);</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>wd.c</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;../include/wd.h&quot;</span><br><span class="line">double wd_sqrt(double value)</span><br><span class="line">&#123;</span><br><span class="line">    return sqrt(value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>main.c</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;../include/wd.h&quot;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main(int argc, char** argv)</span><br><span class="line">&#123;</span><br><span class="line">    double a = 0.0; </span><br><span class="line">    double b = 0.0;</span><br><span class="line">    printf(&quot;please input a number:\n&quot;);</span><br><span class="line">    scanf(&quot;%lf&quot;,&amp;a);</span><br><span class="line">    b = wd_sqrt(a);</span><br><span class="line">    printf(&quot;sqrt result:%f\n&quot;,b); </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-CMake常用命令"><a href="#5-CMake常用命令" class="headerlink" title="5.CMake常用命令"></a>5.CMake常用命令</h2><p><strong>1. cmake_minimum_required(VERSION 3.4.1)</strong></p>
+<blockquote>
+<ul>
+<li>规定cmake程序的最低版本。这行命令是可选的，我们可以不写这句话，但在有些情况下，如果CMakeLists.txt文件中使用了一些高版本cmake特有的一些命令的时候，就需要加上这样一行，提醒用户升级到该版本之后再执行cmake。</li>
+</ul>
+</blockquote>
+<p><strong>2. project(  &lt; projectname&gt;    [languageName1 languageName2 … ] )</strong></p>
+<blockquote>
+<ul>
+<li>为本工程设置一个工程名，一般与文件名相对应。后面的可选项还可以让你指定你的工程可以支持的语言。比如CXX(即C++)，C等等。在默认条件下，支持C和C++语言。</li>
+</ul>
+</blockquote>
+<p><strong>3. include_directories()</strong></p>
+<blockquote>
+<ul>
+<li>CMake中，添加头文件路径，对应的函数叫include_directories。然后在参数中，把所有需要添加的路径，加进去就可以了。</li>
+</ul>
+</blockquote>
+<p><strong>4.aux_source_directory(&lt; dir &gt; &lt; variable &gt;)</strong></p>
+<blockquote>
+<ul>
+<li>搜集所有在指定路径下的源文件的文件名，将输出结果列表储存在指定的变量中。</li>
+</ul>
+</blockquote>
+<p><strong>5. set()</strong></p>
+<blockquote>
+<ul>
+<li>经常配合set命令使用的CMake变量，使用set(variable value)进行设置。</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 设置可执行文件的输出路径(EXCUTABLE_OUTPUT_PATH是全局变量)</span><br><span class="line">set(EXECUTABLE_OUTPUT_PATH [output_path])</span><br><span class="line"># 设置库文件的输出路径(LIBRARY_OUTPUT_PATH是全局变量)</span><br><span class="line">set(LIBRARY_OUTPUT_PATH [output_path])</span><br><span class="line"># 设置C++编译参数(CMAKE_CXX_FLAGS是全局变量)</span><br><span class="line">set(CMAKE_CXX_FLAGS &quot;-Wall std=c++11&quot;)</span><br><span class="line"># 设置源文件集合(SOURCE_FILES是本地变量即自定义变量)</span><br><span class="line">set(SOURCE_FILES main.cpp test.cpp ...)</span><br><span class="line">#set命令还可以设置自定义变量，比如</span><br><span class="line">set(MY_GREETINGS &quot;hello world&quot;)</span><br><span class="line">#设置环境变量，编译用到的源文件全部都要放到这里</span><br><span class="line">set(WD_MATH $&#123;DIR_SRCS) </span><br></pre></td></tr></table></figure>
+
+<p><strong>6. add_executable(&lt;可执行文件名字&gt; &lt;源文件列表&gt;)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#使用SRC_LIST源文件列表里的文件生成一个可执行文件hello</span><br><span class="line">add_executable(hello $&#123;SRC_LIST&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>7. add_library(&lt; name&gt; [STATIC | SHARED | MODULE | UNKNOWN] IMPORTED)</strong></p>
+<blockquote>
+<ul>
+<li>导入一个库,STATIC, SHARED, MODULE参数来指定要创建的库的类型, STATIC对应的静态库(.a)，SHARED对应共享动态库(.so)</li>
+<li>导入了一个已存在的<name>库文件，导入库一般配合set_target_properties使用，这个命令用来指定导入库的路径,比如：</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">add_library(test SHARED IMPORTED) </span><br><span class="line">set_target_properties( </span><br><span class="line">			test #指定目标库名称 </span><br><span class="line">			PROPERTIES IMPORTED_LOCATION  #指明要设置的参数              libs/src/$&#123;ANDROID_ABI&#125;/libtest.so </span><br><span class="line">			#设定导入库的路径) </span><br></pre></td></tr></table></figure>
+
+<p><strong>8. target_link_libraries(&lt;目标文件&gt;&lt;库文件&gt;)</strong></p>
+<blockquote>
+<ul>
+<li>该指令的作用为将目标文件与库文件进行链接.</li>
+</ul>
+</blockquote>
+<p><strong>9. find_package()</strong></p>
+<blockquote>
+<ul>
+<li>查找并加载外来工程的设置</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">find_package(&lt;package&gt; [version] [EXACT] [QUIET]</span><br><span class="line">               [[REQUIRED|COMPONENTS] [components...]]</span><br><span class="line">               [NO_POLICY_SCOPE])</span><br><span class="line">查找并加载外来工程的设置。该命令会设置&lt;package&gt;_FOUND变量，用来指示要找的包是否被找到了。如果这个包被找到了，与它相关的信息可以通过包自身记载的变量中得到。QUIET选项将会禁掉包没有被发现时的警告信息。REQUIRED选项表示如果报没有找到的话，cmake的过程会终止，并输出警告信息。</span><br></pre></td></tr></table></figure>
+
+<p><strong>10. if命令</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if($&#123;CMAKE_BUILD_TYPE&#125; MATCHES &quot;debug&quot;)</span><br><span class="line">    ...</span><br><span class="line">else()</span><br><span class="line">    ...</span><br><span class="line">endif()</span><br></pre></td></tr></table></figure>
+
+<p><strong>11.list命令</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">list(APPEND SRC_LIST </span><br><span class="line">    a.cpp</span><br><span class="line">    b.cpp</span><br><span class="line">)</span><br><span class="line">list(REMOVE_ITEM SRC_LIST</span><br><span class="line">    a.cpp</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-编写CMakeLists-txt"><a href="#6-编写CMakeLists-txt" class="headerlink" title="6.编写CMakeLists.txt"></a>6.编写CMakeLists.txt</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#指定cmake版本 </span><br><span class="line">cmake_minimum_required(VERSION 3.2) </span><br><span class="line">#指定项目的名称，一般和项目的文件夹名称对应</span><br><span class="line">PROJECT(wd)</span><br><span class="line">#头文件目录</span><br><span class="line">INCLUDE_DIRECTORIES(</span><br><span class="line">include</span><br><span class="line">) </span><br><span class="line">#源文件目录</span><br><span class="line">AUX_SOURCE_DIRECTORY(src DIR_SRCS) </span><br><span class="line">#设置环境变量，编译用到的源文件全部都要放到这里</span><br><span class="line">SET(WD_MATH</span><br><span class="line">$&#123;DIR_SRCS&#125;</span><br><span class="line">) </span><br><span class="line">#添加要编译的可执行文件</span><br><span class="line">ADD_EXECUTABLE($&#123;PROJECT_NAME&#125; $&#123;WD_MATH&#125;) </span><br><span class="line"></span><br><span class="line">TARGET_LINK_LIBRARIES($&#123;PROJECT_NAME&#125; m)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>这样cmake .. 之后就生成了一个makefile文件，再make就生成了一个可执行程序。</li>
+</ul>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/02/08/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">https://did321.github.io/2019/02/08/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/CMake/"># CMake</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/03/25/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80-%E2%80%94%E2%80%94%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E7%83%A7%E5%86%99%E5%B7%A5%E5%85%B7/">C51单片机学习笔记(一)——搭建开发环境及烧写工具</a>
+            
+            
+            <a class="next" rel="next" href="/2019/02/07/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C/">python学习笔记(二)</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

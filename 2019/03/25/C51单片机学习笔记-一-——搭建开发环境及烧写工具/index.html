@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>C51单片机学习笔记(一)——搭建开发环境及烧写工具 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">C51单片机学习笔记(一)——搭建开发环境及烧写工具</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 25, 2019&nbsp;&nbsp;22:00:29</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C51%E5%8D%95%E7%89%87%E6%9C%BA/">C51单片机</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">749</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">2</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <div id="article_content" class="article_content clearfix">
+<p></p><div class="toc"><h2><a name="t1"></a>文章目录</h2><ul><ul><ul><li><a href="#1Keil_uVision_3" rel="nofollow" data-token="955307e5175d2973e22eac2945988c43" target="_self">1.搭建软件开发环境及使用(Keil uVision)</a></li><li><a href="#2_33" rel="nofollow" data-token="8defd6f4b429703833f904ef51a0184f" target="_self">2.将程序下载到单片机（烧写）</a></li><li><a href="#sublime_Text3_38" rel="nofollow" data-token="18dfa14c5c5301f002cbc8855a7f9200" target="_self">在sublime Text3中配置单片机的编写环境</a></li></ul></ul></ul></div><p></p>
+<blockquote>
+<ul>
+<li>最近学校焊接了单片机的最小系统板，故开始学习单片机，以后我将自己的学习笔记及心得提供给大家。</li>
+</ul>
+</blockquote>
+<h2><a name="t2"></a><a id="1Keil_uVision_3"></a>1.搭建软件开发环境及使用(Keil uVision)</h2>
+<blockquote>
+<ul>
+<li>目前常用的有Keil uVision2、Keil uVision3、Keil uVision4，这些软件可以很方便的在网络上下载，我这里使用的是Keil uVision4.</li>
+</ul>
+</blockquote>
+<p>** 1. 创建一个工程：（以点亮一个发光二极管为例）</p>
+<ul>
+<li>菜单点击Project  -&gt; New uVision Project ,给工程命名、选择储存位置然后保存<br>
+<img src="https://img-blog.csdnimg.cn/20190325212522477.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>选芯片，根据自己的单片机型号选择对应的芯片，我使用的是AT89C52<br>
+<img src="https://img-blog.csdnimg.cn/20190325212935971.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>之后弹出 是否将系统自带的初始化文件添加到工程？一般选择是，这是主界面左边Project面板会显示新建的工程。<br>
+<img src="https://img-blog.csdnimg.cn/20190325213236497.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>新建源程序文件<br>
+点击File -&gt; New ，在软件编辑窗口会出现一个文本编辑窗口，此时先不要输入文本，ctrl+s保存（默认和工程文件在一个文件夹里）给源文件命名时要加上扩展名 “.c"表明是一个C语言文件<br>
+<img src="https://img-blog.csdnimg.cn/20190325213802737.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>将源文件添加到工程中，在Project 面板中 鼠标右击Source Group 点击 Add File to Group ’Source Group1 ‘，选择刚才的 点亮LED.c 源文件<br>
+<img src="https://img-blog.csdnimg.cn/20190325214103865.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>设置发布选项 因为烧入单片机的是扩展名为“ .hex”文件，所以要编译生成的是“.hex”文件，点击Project -&gt; Options for ‘Target1’，选择Output 勾选 “Great HEX File"(即建立.hex文件)<br>
+<img src="https://img-blog.csdnimg.cn/20190325214538533.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>编写点亮LED的C语言程序并且编译（红色圈住的是编译）</li>
+</ul>
+<pre class="prettyprint"><code class="prism language-c has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;reg52.h&gt;</span>  </span><span class="token comment">//头文件</span>
+sbit LED <span class="token operator">=</span> P2<span class="token operator">^</span><span class="token number">0</span><span class="token punctuation">;</span>    <span class="token comment">//定义P2.0引脚的标识为LED</span>
+<span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        LED <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+</pre>
+<p><img src="https://img-blog.csdnimg.cn/20190325214910647.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2><a name="t3"></a><a id="2_33"></a>2.将程序下载到单片机（烧写）</h2>
+<ul>
+<li>我用的烧写软件是STC_ISP,可以方便得从网上下载，打开界面，选择芯片，和单片机型号一样，并打开程序文件（”.hex“）<br>
+<img src="https://img-blog.csdnimg.cn/20190325215346409.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>之后就点击下载，然后再开启单片机，注意一定要先下载，再开启单片机，之后就会发现单片机上的LED灯亮了。</li>
+</ul>
+<h2><a name="t4"></a><a id="sublime_Text3_38"></a>在sublime Text3中配置单片机的编写环境</h2>
+<blockquote>
+<ul>
+<li>之前的编译软件有点low，我一般喜欢用sublime</li>
+<li>打开ST，菜单栏Tool–&gt;Build System–&gt;New Build System…<br>
+　　复制以下内容：</li>
+</ul>
+</blockquote>
+<pre class="prettyprint"><code class="prism language-c has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="token punctuation">&#123;</span>
+     <span class="token string">"cmd"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"CMD"</span><span class="token punctuation">,</span> <span class="token string">"/C"</span><span class="token punctuation">,</span> <span class="token string">"C51 $&#123;file&#125; &amp; BL51 $&#123;file_path&#125;/$&#123;file_base_name&#125;.OBJ &amp; OH51 $&#123;file_path&#125;/$&#123;file_base_name&#125;"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+     <span class="token string">"file_regex"</span><span class="token punctuation">:</span> <span class="token string">"^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"</span><span class="token punctuation">,</span>
+     <span class="token string">"working_dir"</span><span class="token punctuation">:</span> <span class="token string">"D:\\Program Files (x86)\\Keil_v5\\C51\\BIN"</span><span class="token punctuation">,</span>
+     <span class="token string">"selector"</span><span class="token punctuation">:</span> <span class="token string">"source.c"</span><span class="token punctuation">,</span>
+     <span class="token string">"shell"</span><span class="token punctuation">:</span> true
+ <span class="token punctuation">&#125;</span>
+<div class="hljs-button &#123;2&#125;" data-title="复制"></div></code></pre>
+<blockquote>
+<p>*注意"working_dir": “D:\Program Files (x86)\Keil_v5\C51\BIN”,一行中改为自己的keil uvsion安装目录<br>
+*然后Ctrl+S保存，不用改路径，直接命名为C51.sublime-build即可（C51可自行更改，这决定后续菜单里显示的内容，但后缀必须是.sublime-build</p>
+</blockquote>
+                    </div>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/03/25/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80-%E2%80%94%E2%80%94%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E7%83%A7%E5%86%99%E5%B7%A5%E5%85%B7/">https://did321.github.io/2019/03/25/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80-%E2%80%94%E2%80%94%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%8F%8A%E7%83%A7%E5%86%99%E5%B7%A5%E5%85%B7/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"># C51单片机</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/03/28/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E8%8A%B1%E6%A0%B7%E6%B5%81%E6%B0%B4%E7%81%AF%E7%9A%84%E5%AE%9E%E7%8E%B0/">C51单片机学习笔记(二)——花样流水灯的实现</a>
+            
+            
+            <a class="next" rel="next" href="/2019/02/08/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">CMake学习笔记</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

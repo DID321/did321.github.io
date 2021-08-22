@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Machine Learning 学习笔记(七)——神经网络(Neural Networks) | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Machine Learning 学习笔记(七)——神经网络(Neural Networks)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 30, 2019&nbsp;&nbsp;8:25:21</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Machine-Learning/">Machine Learning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">3.1k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">11</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
+<li>前面我们已经讨论过了线性回归和逻辑回归，下面我们将讨论神经网络的机器学习方法，下面我们将介绍为什么要引入神经网络，和引入神经网络的必要性，这一篇我们就初步的了解一下神经网络的基本内容，后面再讨论求解方法。</li>
+</ul>
+<h2 id="1-非线性假设"><a href="#1-非线性假设" class="headerlink" title="1.非线性假设"></a>1.非线性假设</h2><ul>
+<li><p>下面来举例说明一下为什么要引入神经网络，前面我们已经讲到了逻辑回归的分类问题，如下图所示，我们要找到一个非线性的边界决策线，那么这个假设函数就不再是一次的线性的表达式了，他就应该是一个高次的多项式：</p>
+<p>$$<br>h(x)=g(\theta_0+\theta_1x_1+\theta_2x_2+\theta_3x_1x_2+\theta_4x_1^2x_2+\theta_5x_1^3x_2+···)<br>$$</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730081649503.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+<li><p>这样可以拟合出来一条曲线将其分隔开，但是这只是考虑了两种特征变量，多项式的项数还不是很多，但实际问题中，比如说房价问题，它不仅与房子面积有关，还与房子楼层，房间数，年龄等等都有关系，那么这时的特征变量就很多了，表达式中的多项式可能就有他们很多变量的高次相乘的情况，这样一来我们要计算的就复杂得多了，另一方面，特征变量越多越容易出现过拟合情况，所以这时用之前的方法就有点复杂。</p>
+</li>
+<li><p>再举一个识别汽车图片的例子：</p>
+<p><img src="https://img-blog.csdnimg.cn/2019073008171038.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"><br>  我们人可以很清楚得识别一辆汽车，但是计算机识别缺很复杂，比如汽车的手把这一个小方块，在计算机眼中，他就是一张像素表，每一个数字代表该像素的灰度值，下面要使计算机能够识别图片是其汽车而不是其他物品：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730081727720.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p>这里我们仅选取两个位置的像素表来判断该图片是否是一辆汽车：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730081752536.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<p>这时候的分类问题可能就如下图所示，这就又是一个非线性的逻辑回归问题，这里我们讨论的特征是像素，对于每一个像素来说，他都是一个矩阵，加入我们上面选取的是50*50个像素，这样一共有2500个像素，也就是说我们输入一个x就有2500个分量，如果我们只考虑两个特征的乘积项x1*x2，那么特征就有大约三百万个，这还只是考虑了相乘项，还没有考虑高次项，这个计算量是相当大的，这么多的特征还很容易发生过拟合，这里也说明了之前的算法在这里不合适，需要引进新的学习算法解决这一问题。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730081809481.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<h2 id="2-神经元与大脑"><a href="#2-神经元与大脑" class="headerlink" title="2.神经元与大脑"></a>2.神经元与大脑</h2><ul>
+<li>前面已经说明了要找一个新的学习算法，就是我们要引入的神经网络，这个是在80年代就已经有的东西，到如今再次拿来重新用，因为当时的计算机运算速度还不行，无法进行实际的运用，现在的计算机计算能力提升了，所以继续用于神经网络。</li>
+<li>神经网络，就是说我们想让计算机像大脑一样进行思考计算，在我们的大脑皮层上有听觉皮层，视觉皮层，触觉皮层等等，如果我们想让机器拥有和我们一样的感官，我们是不是要写不同的算法分别来实现不同的功能了？答案肯定是不，这样问题还是会复杂化，在实验中我们发现，如果断掉耳朵和听觉皮层间的神经，我们让眼睛和听觉皮层相连，这样我们就让听觉皮层学会了看，是不是很不可思议，下面还有一些不可思议的实例，比如让舌头学会看，或者更神奇的，我们给青蛙第三只眼睛，那只眼睛也会学会看等等。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/2019073008182838.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li><p>那么既然要模拟大脑的工作，我们就来先看一下大脑的最小组成单元——神经元的构造：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730081846256.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+<li><p>对于Dendrite(树突)我们称为输入线，他是用来接受其他神经元发送的信号的；对于Axon(轴突)我们称为输出线，它是用来传递信号给其他神经元的；那么我们是怎样感受到外界并做出相应的反应的了？其实感知并做出相应的反应不过是树突对我们接收到的信息给我们的神经元核心进行分析然后给轴突进行输出到相应的器官上做出反应。所以这个问题的简化就是有输入，处理中心，输出，我们对此也给出了神经网络的模型，如下图所示。</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190730081906380.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li><p>这个模型中，x1、x2、x3是输入，h(x)是输出，中间是处理单元，在这个问题中我们有时会给输入多加一个x0，我们称为bias unit(偏置单元)，我们通常设置为1，这样输入就是：</p>
+<p>$$<br>x=\begin{bmatrix} x0\\x1 \\ x2 \\ x3 \end{bmatrix}<br>$$</p>
+<p>参数就是：</p>
+<p>$$<br>\theta =\begin{bmatrix} \theta 0\\ \theta 1 \\ \theta 2 \\ \theta 3 \end{bmatrix}<br>$$</p>
+<p>在这里我们把参数称为weights(权重)，这里的h(x)，</p>
+<p>$$<br>h(x)=\frac{1}{1+e^{-\theta ^{\top }x}}<br>$$</p>
+<p>还是我们前面给大家介绍的逻辑函数。</p>
+</li>
+<li><p>下面我们来看一个具体的神经网络结构：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730081932106.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+<li><p>如果我们把第二层遮住，这样我们就会得到和前面一样的模型，在这里我们同样把第一层称为输入层，第三层称为输出层，只是这里比较特殊的是多了一个第二层，在这里我们称第二层为隐藏层，同样我们在除了输出层外的其他层加一个偏置单元。在这个问题中xi依然是输入，h(x)为输出，而这里的a_i ^j则是第j层第i个单元的activation，下面我们来表示出</p>
+</li>
+</ul>
+<p>$$<br>a_{1}^{(2)}=g(\Theta <em>{10}^{(1)}x</em>{0}+\Theta <em>{11}^{(1)}x</em>{1}+\Theta <em>{12}^{(1)}x</em>{2}+\Theta <em>{13}^{(1)}x</em>{3}) \\<br>a_{2}^{(2)}=g(\Theta <em>{20}^{(1)}x</em>{0}+\Theta <em>{21}^{(1)}x</em>{1}+\Theta <em>{22}^{(1)}x</em>{2}+\Theta <em>{23}^{(1)}x</em>{3}) \\<br>a_{3}^{(2)}=g(\Theta <em>{30}^{(1)}x</em>{0}+\Theta <em>{31}^{(1)}x</em>{1}+\Theta <em>{32}^{(1)}x</em>{2}+\Theta <em>{33}^{(1)}x</em>{3}) \\<br>而我们的h_{\Theta }(x)=a_{1}^{(3)}=g(\Theta <em>{10}^{(2)}a</em>{0}^{(2)}+\Theta <em>{11}^{(2)}a</em>{1}^{(2)}+\Theta <em>{12}^{(2)}a</em>{2}^{(2)}+\Theta <em>{13}^{(2)}a</em>{3}^{(2)}) \\<br>在这里我们有\Theta ^{(1)}=\begin{bmatrix} \Theta <em>{10}^{(1)} &amp; \Theta <em>{11}^{(1)} &amp; \Theta <em>{12}^{(1)} &amp;\Theta <em>{13}^{(1)} \\ \Theta <em>{20}^{(1)} &amp;\Theta <em>{21}^{(1)} &amp; \Theta <em>{22}^{(1)} &amp; \Theta <em>{23}^{(1)} \\ \Theta <em>{30}^{(1)}&amp;\Theta <em>{31}^{(1)} &amp; \Theta <em>{32}^{(1)} &amp; \Theta <em>{33}^{(1)} \end{bmatrix}，\\称为权值控制函数矩阵的映射，大小是第j+1层的层数*(第j层的层数+1)，如果我们把第j层的层数用s</em>{j}来表示，\\ 则\Theta ^{(j)}的大小为s</em>{j+1}\times (s</em>{j}+1)，\\ 如果我们对a</em>{1}^{(2)}表达式中的输入参数\Theta <em>{10}^{(1)}x</em>{0}+\Theta <em>{11}^{(1)}x</em>{1}+\Theta <em>{12}^{(1)}x</em>{2}+\Theta <em>{13}^{(1)}x</em>{3}用z</em>{1}^{(2)}来代替，这样a</em>{1}^{(2)}=g(z</em>{1}^{(2)}) \\ 同样地，后面也可以这样表示，这样表达式就成了x=\begin{bmatrix} x0\\x1 \\ x2 \\ x3 \end{bmatrix}\\ 我们对x用a^{(1)}表示，z^{(2)}=\begin{bmatrix} z</em>{1}^{(2)} \\ z</em>{2}^{(2)} \\ z</em>{3}^{(2)} \end{bmatrix}，z^{(2)}=\Theta ^{(1)}a^{(1)}，a^{(2)}=g(z^{(2)})，\\ 我们加上a</em>{0}^{(2)}=1，则z^{(3)}=\Theta ^{(2)}a^{(2)}，h</em>{\Theta }(x)=a^{(3)}=g(z^{(3)})，这个时候表达式就比较简单了。<br>$$</p>
+<ul>
+<li><p>以上就是神经网络的模型解释，并将每一个进行向量化，方便后面的求解计算，那么为什么使用这种模型就可以大大简化计算呢？原因是如果我们盖住中间的隐藏层，只有输入和输出层，给出输入就可以得到输出，中间的隐藏层是他自己完成的，是一个自我学习的过程。下面的模型是一个含有两个隐藏层的例子，这也意味着我们可以求更复杂的问题：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730082157670.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<h2 id="3-例子与直觉理解"><a href="#3-例子与直觉理解" class="headerlink" title="3.例子与直觉理解"></a>3.例子与直觉理解</h2><ul>
+<li><p>以上的分析比较抽象，都是仅仅给出了模型结构，下面通过几个例子详细的分析一下神经网络的原理。</p>
+</li>
+<li><p>非线性的分类问题（XOR异或、XNOR异或非），如下图所示，关于两个输入x1、x2(他们的取值都只有0和1)，这是一个异或非的问题，对于这个问题，很明显是一个非线性的，那么该如何构造神经网络来对此进行解决了？</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730082214709.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<ol>
+<li><p>AND</p>
+<p>在这里x1,x2{0,1}，y=x1 AND x2，在这里我们构造出神经网络模型如图所示，我们还相应地给出了每个输入对应的权重（参数），分别是-30、20、20，则</p>
+<p>$$<br>h_\theta(x)=g(-30+20x_1+20x_2)<br>$$</p>
+<p>而这个g(z)函数，我们在前面时已经给大家做过介绍，在这里我们同样用它，而当z=4.6时，g(z)=0.99接近于1，当z=-4.6时，g(z)=0.01接近于0，所以对于这个表达式，我们可以列出真值表.</p>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20190730082230957.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<table>
+<thead>
+<tr>
+<th align="center">x1</th>
+<th align="center">x2</th>
+<th align="center">h(x)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">g(-30)=0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">g(-10)=0</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">g(-10)=0</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">g(10)=1</td>
+</tr>
+</tbody></table>
+<p>我们根据这个真值表可以看出，只有当x1和x2都为1时，最后结果才为1，即h(x) = x1 AND x2.</p>
+<ol start="2">
+<li><p>OR</p>
+<p>在这里我们要实现或的功能，我们同样给出神经网络的模型如图所示。只是这里的权重(参数)有所改变，为-10、20、20，则</p>
+<p>$$<br>h_{\Theta }(x)=g(-10+20x_{1}+20x_{2})<br>$$</p>
+<p>同样我们给大家列出真值表如下</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730082250622.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">x1</th>
+<th align="center">x2</th>
+<th align="center">h(x)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">g(-10)=0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">g(10)=1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">g(10)=1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">g(30)=1</td>
+</tr>
+</tbody></table>
+<p>很明显这是一个OR运算,即h(x) = x1 OR x2.</p>
+<ol start="3">
+<li><p>NOT</p>
+<p>取反运算。模型如图所示，输入只有一个，再加上一个偏置单元，我们给的权重是10、-20，则 h(x) = g(10 - 20 x1),他的真值表如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730082306861.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">x1</th>
+<th align="center">h(x)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">g(10)=1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">g(-10)=0</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>有了上面的AND、OR、NOT，下面我们回到刚开始的问题，构建XNOR（异或非），大家首先要明白 </p>
+<p>$$<br>x1 \quad XNOR \quad x2 = (\overline{x1}\quad AND \quad \overline{x2})OR(x1\quad AND \quad x2)<br>$$</p>
+<p>下面我们就有x1 AND x2，（NOTx1） AND（ NOTx2）、x1 OR x2.</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730082324145.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<p>所以现在我们就可以用以上三种来构造出更复杂的神经网络XNOR了：</p>
+<p><img src="https://img-blog.csdnimg.cn/2019073008234091.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p>同样地，我们列出真值表如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">x1</th>
+<th align="center">x2</th>
+<th align="center">a1(2)</th>
+<th align="center">a2(2)</th>
+<th align="center">h(x)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<h2 id="4-多元分类"><a href="#4-多元分类" class="headerlink" title="4.多元分类"></a>4.多元分类</h2><ul>
+<li><p>在我们的实际生活中，很多分类的问题不止只有两类，比如前面给大家介绍的怎样在几张照片中找出小车，那如果现在我们把问题更加复杂化，我们需要对最后的结果进行分类，哪些是小车，哪些是行人，哪些是摩托车等等，这个时候输出的结果就不能只用单一的0或1表示了，如图所示的分类问题。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190730082356634.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p>  这个时候，神经网络大概是这样的，如图所示，输出的结果就不止一个了这个时候结果就不能只用一个分量来表示了。</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190730082414987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p>$$<br>在这里我们用h_{\Theta }(x)\approx \begin{bmatrix} 1\\ 0 \\ 0 \\ 0 \end{bmatrix}来表示结果是行人，\\h_{\Theta }(x)\approx \begin{bmatrix} 0\\ 1 \\ 0 \\ 0 \end{bmatrix}来表示结果是小车等等。\\这个时候我们的训练集还是(x^{(1)},y^{(1)})，(x^{(2)},y^{(2)})，…，(x^{(m)},y^{(m)})，\\不过y就不是在属于1，2，3，4了，而是我们这里的\begin{bmatrix} 1\\0 \\ 0 \\ 0 \end{bmatrix}、\begin{bmatrix} 0\\1 \\ 0 \\ 0 \end{bmatrix}、\begin{bmatrix} 0\\0 \\ 1 \\ 0 \end{bmatrix}、\begin{bmatrix} 0\\0 \\ 0 \\ 1 \end{bmatrix}，\\他们分别代表上面的四种结果。<br>$$</p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><ul>
+<li>以上就是神经网络的基本内容，后面一篇将讨论神经网络的具体参数求解算法，如果有哪些叙述不对的地方，希望大家能够指出，谢谢。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/07/30/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%83-%E2%80%94%E2%80%94%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-Neural-Networks/">https://did321.github.io/2019/07/30/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%83-%E2%80%94%E2%80%94%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-Neural-Networks/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"># 机器学习</a>
+                    
+                        <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"># 神经网络</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/08/26/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%A7%A3%E6%9E%90%E3%80%8A%E5%8D%97%E7%93%9C%E4%B9%A6%E3%80%8B%E9%A1%B9%E7%9B%AE%E9%93%BE%E6%8E%A5/">《机器学习》解析《南瓜书》项目链接</a>
+            
+            
+            <a class="next" rel="next" href="/2019/07/16/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%85%AD-%E2%80%94%E2%80%94%E6%AD%A3%E5%88%99%E5%8C%96-regularization/">Machine Learning 学习笔记(六)——正则化(regularization)</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

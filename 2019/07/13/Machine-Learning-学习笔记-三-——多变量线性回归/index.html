@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Machine Learning 学习笔记(三)——多变量线性回归 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Machine Learning 学习笔记(三)——多变量线性回归</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 13, 2019&nbsp;&nbsp;10:07:30</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Machine-Learning/">Machine Learning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">3.1k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">11</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <ul>
+<li>上一篇我们讨论了单变量的线性回归问题，题目背景是房子尺寸和价格的关系，但是实际中房价不仅只与房子的尺寸有关，还和房子的楼层，屋子数量，建造时间，所处位置等等有关，所以我们涉及到的是多变量的线性回归问题，下面主要来讨论这一种情况。</li>
+</ul>
+<h2 id="1-多变量的定义"><a href="#1-多变量的定义" class="headerlink" title="1.多变量的定义"></a>1.多变量的定义</h2><p><img src="https://img-blog.csdnimg.cn/2019071309571376.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li><p>假如现在的房价与四个变量有关，分别是尺寸、房屋数、楼层数、房屋年龄，这些都是特征变量，分别用x1,x2,x3,x4来表示他们，</p>
+<p>n表示特征变量的个数，m表示样本数据的个数（以行计）,下面这种上标为2是训练集的索引，表示为某一行的向量<br>$$<br>x^{(2)} = \left[\begin{array}{cc\r}1416 \\ 3 \\ 2\\ 40 \\  \end{array}\right]<br>$$</p>
+</li>
+</ul>
+<p>$$<br>x^{(2)}_3 = 2  \\代表第2个特征向量的第3个特征值<br>$$</p>
+<ul>
+<li>假设函数的修改<br>$$<br>原来的假设函数为 h_\theta(x) = \theta_0+\theta_1x,这是单一变量，我们要改为多变量<br>$$</li>
+</ul>
+<p>$$<br>修改之后的假设函数为h_\theta(x) = \theta_0+\theta_1x_1+\theta_2x_2+\theta_3x_3+\theta_4x_4<br>$$</p>
+<p>  接下来为了简化等式的表示方式，我们将x0=1,这时候我们的特征向量X就表示为：<br>$$<br>X= \left[\begin{array}{cc\r}x_0 \\ x_1 \\ x_2 \\ ··· \\ x_n \end{array}\right]<br>$$<br>  同时可以把参数也看成一个参数向量，表示为：<br>$$<br>\theta= \left[\begin{array}{cc\r} \theta_0 \\ \theta_1\\ \theta_2\\···\\ \theta_n \end{array}\right]<br>$$<br>那么此时假设函数就可以写成两个向量之间的关系：<br>$$<br>h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+···+\theta_nx_n=[\theta_0,\theta_1,···\theta_n] * \left[\begin{array}{cc\r}x_0 \\x_1\\x_2\\···\\x_n \end{array}\right] \\=\theta^TX<br>$$<br>即，先把参数向量θ向量转置，再与特征向量X相乘，就得到了假设函数。</p>
+<h2 id="2-多元梯度下降法"><a href="#2-多元梯度下降法" class="headerlink" title="2.多元梯度下降法"></a>2.多元梯度下降法</h2><ul>
+<li><p>在之前我们讨论过单变量的代价函数以及梯度下降参数的更新表达式，那么对于多元的代价函数和梯度下降表达式也可以以此类推：<br>$$<br>代价函数：J(\theta) = \frac{1}{2m}\sum_{i=1}^{m}{(h_\theta(x^{(i)}) - y^{(i)})^2}<br>$$</p>
+</li>
+<li><p>梯度下降更新表达式：<br>$$<br>\theta_0 =\theta_0- \alpha\frac{1}{m}\sum_{i=1}^{m}{(h_\theta(x_i) - y_i)x^{(i)}_0}<br>$$</p>
+<p>$$<br>\theta_1 =\theta_1- \alpha\frac{1}{m}\sum_{i=1}^{m}{(h_\theta(x_i) - y_i)x^{(i)}_1}<br>$$</p>
+<p>$$<br>\theta_2 =\theta_2- \alpha\frac{1}{m}\sum_{i=1}^{m}{(h_\theta(x_i) - y_i)x^{(i)}_2}<br>$$</p>
+<p>$$<br>···<br>$$</p>
+<p>$$<br>\theta_n =\theta_n- \alpha\frac{1}{m}\sum_{i=1}^{m}{(h_\theta(x_i) - y_i)x^{(i)}_n}<br>$$</p>
+<p>(其中x0 = 1)</p>
+</li>
+<li><p>这样我们得到的就是多元的梯度下降表达式，如果有多个变量的线性回归，我们也可以实现了。</p>
+</li>
+</ul>
+<h2 id="3-多元梯度下降法——特征缩放"><a href="#3-多元梯度下降法——特征缩放" class="headerlink" title="3.多元梯度下降法——特征缩放"></a>3.多元梯度下降法——特征缩放</h2><ul>
+<li><p>实际的多变量梯度下降中，每一个变量的取值范围不同，比如上面的房子价格例题中 x1=size 范围是(0-2000)，x2=number of bedrooms 范围是(1-5)，那么这样得出的θ1和θ2相差的范围也很大，最终画出的代价函数的图像就如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190713095824274.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<p>他的图像就比较细长，原因是θ1*x1，x1范围大，相对于乘的θ1就小，x2范围小，相对于乘的θ2就大，这就导致代价函数的图像为椭圆，故在梯度下降的时候需要经过很长时间才能到达最优解，中间的过程基本都是在来回徘徊，走的是折线，下降速度很慢。</p>
+<ul>
+<li><p>为了解决这一问题，我们发现了问题的根源是因为特征值的取值范围相差过大导致的，那么我们就可以让这些特征值的范围在相同的范围内，这样梯度下降的就比较快。</p>
+<p>$$<br>x_1 = \frac{size}{2000} (0\leq x1 \leq1 )<br>$$</p>
+</li>
+</ul>
+<p>$$<br>x_2 = \frac{number-of-rooms}{5}(0 \leq x2\leq1)<br>$$</p>
+<p>这样把x1，x2的范围都规定到[0,1]，画出来的代价函数等位线图如下，就近似为一个圆，这样梯度下降的就比较快。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190713095842834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li><p>我们所希望的是让每个特征值都大约在-1&lt;=xi&lt;=1范围内，x0=1所以不需要处理，但是其实“1”这个值并不是绝对的，我们对数据进行放缩的目的是让数据的取值范围尽量保证在一个接近的范围内，但也不一定要相同，比如：x1：0<del>3、x2：-2</del>0.5等等也都是可以的，不会很大程度上影响J(θ)的收敛程度，但是如果有x3：-100<del>100、x4：-0.0001</del>0.0001，这个时候，范围相差太大，就会有影响了。</p>
+</li>
+<li><p>下面介绍一种特征缩放的方法————均值归一化（Mean normalization）<br>$$<br>x=\frac{x-\mu}{s}\\\mu即每个特征值的平均值\\s为特征值的最大值减去最小值\\比如x_1=\frac{x_1-1000}{2000}(-0.5\leq x_1 \leq 0.5)\\x_2=\frac{rooms-2}{4}(-0.5 \leq x_2 \leq0.5)<br>$$<br>这样用均值归一化的方法可以有效的解决上述问题。</p>
+</li>
+</ul>
+<h2 id="4-控制学习速率（Learning-rate）"><a href="#4-控制学习速率（Learning-rate）" class="headerlink" title="4.控制学习速率（Learning rate）"></a>4.控制学习速率（Learning rate）</h2><ul>
+<li><p>和前面所讨论a的取值一样，学习速率会影响到梯度下降的速度，但是我们刚开始不知道a到底应该取多少较为合适，所以我们可以画出代价函数的值与迭代次数的关系图像：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190713095958150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<p>​    可以计算每一次代价函数的值，将他的图像画出来，通过这个图像来检验我们a的取值是否正确，上面是正常的图像，随着迭代次数的增加，J的值应该减小，直到最后趋近于0，最终收敛（迭代次数可能不是图上的几百次）。</p>
+<ul>
+<li>如果出现了下图所示的图像，就表明你的a取值过大，导致下降的时候跨过了最低点，从而一次次跨过最低点，J的值越来越大，这时候要做的是减小a的取值。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190713100014389.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li>如果出现了下面的图像，这也表明你的a取值过大，需要减小a的取值。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190713100412962.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li>总之，我们取值a不对的话，图像就会出现异常，基本上都是a过大，理论上来说a足够小的话，他是肯定能够到达最低点，只是时间较长，故我们取值a的时候可以按下面的取值进行：<br>$$<br>···，0.001，0.003，0.01，0.03，0.1，0.3，1，···<br>$$</li>
+</ul>
+<h2 id="5-特征和多项式回归"><a href="#5-特征和多项式回归" class="headerlink" title="5.特征和多项式回归"></a>5.特征和多项式回归</h2><ul>
+<li><p>对于房子的预测问题，假如price是与房子的宽度和深度有关，这样就有了两个变量frontage和depth，但是实际上不需要这两个变量，用一个size变量就可以描述，size = frontage*depth，这样就把两个变量转化为一个变量，问题就会变得简单，就变成了之前的问题。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190713100441866.png"></p>
+</li>
+<li><p>在前面的介绍中，我们一直都是在用线性关系来描述y和x的关系，但是从下面的图中可以看出，用线性关系来描述显然是不够准确的。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190713100458292.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+<li><p>从图像前面的走向似乎是一个二次函数，不妨我们设假设函数为</p>
+<p>$$<br>h(x)=\theta_0+\theta_1x+\theta_2x^2<br>$$</p>
+<p>这样的话假设函数就不是线性函数了，就变成了一个多项式，如何解决这类问题呢，其实我们可以把多项式转化为线性的。</p>
+<p>$$<br>h(x)=\theta_0+\theta_1x_1+\theta_2x_2 \\ x_1=size,x_2=size^2<br>$$</p>
+<p>这样用前面的梯度下降就可以很好得解决这个二次函数拟合的问题，但是二次函数是一个关于对称轴对称的图形，表明到了后面，会是下降的趋势，而根据实际情况可知，price是不会下降的，所以我们可以猜想</p>
+<p>$$<br>h(x)=\theta_0+\theta_1x+\theta_2x^2+\theta_3x^3<br>$$</p>
+<p>这就是一个三次函数多项式了，同上面一样我们仍然可以转化为线性的。</p>
+<p>$$<br>h(x)=\theta_0+\theta_1x_1+\theta_2x_2+\theta_3x_3 \\ x_1=size,x_2=size^2,x_3=size^3<br>$$</p>
+<p>而根据图像和所学函数的图像，似乎我们还有另外一个更好的函数关系来描述两者的关系：</p>
+<p>$$<br>h(x)=\theta_0+\theta_1x_1+\theta_2x_2 \\ x_1=size,x_2=\sqrt{size}<br>$$</p>
+</li>
+<li><p>这里所讲的就是如何处理多项式回归的问题，本质上还是将其转化为线性回归的问题，因为有许多函数可以选择，所以到底选择哪一个函数也不确定，以后会讨论如何选择哪个多项式的问题。</p>
+</li>
+</ul>
+<h2 id="6-正规方程Normal-equation（区别于迭代方法的直接解法）"><a href="#6-正规方程Normal-equation（区别于迭代方法的直接解法）" class="headerlink" title="6.正规方程Normal equation（区别于迭代方法的直接解法）"></a>6.正规方程Normal equation（区别于迭代方法的直接解法）</h2><ul>
+<li><p>这时我们回到刚开始讨论梯度下降的时候，我们为什么要引入梯度下降，目的是为了求解代价函数J(θ)的最小值所满足的条件，那么用数学方法求一个函数的最小值，可以用一阶导数等于0的方法，求出对应的θ</p>
+<p>$$<br>比如说J(\theta) = a<em>\theta^2+b</em>\theta +c,为了找到J最小的\theta\\我们对J求一阶导数使其等于0，即：\frac{dJ(\theta)}{d\theta}=0时的\theta的值<br>$$</p>
+<p><img src="https://img-blog.csdnimg.cn/20190713100532628.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+<li><p>对于多变量的J(θ)，我们也可以用上述方法来求得θ向量：</p>
+<p>$$<br>\frac{\partial J(\theta)}{\partial\theta_j}=0(for-every- j)<br>$$</p>
+</li>
+<li><p>实际上我们不用这种方法，这种方法需要求很多导数，下面介绍一种正规方程的解法，假如房子的price与以下几个变量有关：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190713100557750.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p> 这里用到了前面讲的特征矩阵X，和特征向量y，特征矩阵把x0=1也加进去了方便求解，x是一个m*（n+1）的矩阵，y是一个m维向量。那么θ就有如下的表达：</p>
+</li>
+</ul>
+<p>$$<br>\theta=(X^{\top }X)^{-1}X^{\top }y，\\<br>\\<br>$$</p>
+<p>  至于关于这个式子的数学推导，大家可以只做了解，不需要深入地探究。下面是推导过程：</p>
+<p>$$<br>J(\theta)=\frac{1}{2m}\sum_{i=1}^{m}(h(x^{(i)})-y^{(i)})^2\Rightarrow J(\theta)=\frac{1}{2m}\left | h(x^{i})-y^{(i)} \right |^2\\=\frac{1}{2m}(X\theta -y)^{\top }(X\theta -y)，<br>$$</p>
+<p>  再对J(θ)关于θ求导并令其为0，即可求出对应的θ,值得注意的是X^TX必须是可逆矩阵，即每个特征都是相互独立的，没有多余的特征.</p>
+<ul>
+<li><p>正规方程和梯度下降的对比</p>
+<p>讨论了两种方法，那么大家肯定对于选择哪一种方法产生疑惑，下面讨论两种方法的优缺点：</p>
+<ul>
+<li><p>梯度下降</p>
+<p>优点：特征值比较多时也可以很好的求解问题</p>
+<p>缺点：a（学习速率）不好调控，还需要画出J与迭代次数的图像从而检查梯度下降，这个比较麻烦。还有就是迭代次数较多，有时花费的时间较长。并且有时需要用到特征缩放来加快下降。</p>
+</li>
+<li><p>正规方程</p>
+<p>优点：不需要迭代，直接解一个矩阵变换即可，实现较容易，不用控制学习速率和特征缩放。</p>
+<p>缺点：因为计算机计算逆矩阵时也要花费时间，当特征值比较多的时候，矩阵的维度也会增多，所以逆矩阵计算也相当费时间。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>我们大致有一个评判标准，当n=10000多时，我们就选择梯度下降而当n小于这个值时，我们就果断地选择正规方程。</p>
+<h2 id="7-正规方程在矩阵不可逆下的解决方法"><a href="#7-正规方程在矩阵不可逆下的解决方法" class="headerlink" title="7.正规方程在矩阵不可逆下的解决方法"></a>7.正规方程在矩阵不可逆下的解决方法</h2><ul>
+<li><p>根据我们所学的线性代数的知识，我们知道一个矩阵是否可逆是有判断条件的，其充要条件为：</p>
+<p>$$<br>|A|\neq 0 且 A^{-1}=\frac{A^*}{|A|}\\其中A^*是A的伴随矩阵<br>$$</p>
+<p>那么，我们在构建特征矩阵X的时候，有以下两个因素会导致矩阵不可逆</p>
+<ul>
+<li><p>特征值之间有线性的关系，比如x1=feet^2，x2=m^2,平方米和英寸之间有一个系数关系，他们之间有线性关系，那么学过线性代数的都知道，若有两列成比例，那么他的行列式等于0，即上述式子分母为0，这一种情况是矩阵不可逆的。</p>
+<p>解决办法：消除特征值之间的线性关系</p>
+</li>
+<li><p>数据集m个数很少，而特征值n的数量很多，导致要从很少的数据中拟合多个参数，这样的话会导致矩阵不可逆</p>
+<p>解决办法：尽量减少特征值的个数，如果实在减少不了，后面会讲到用正则化来处理较少少数据集求多个参数的情况。</p>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/07/13/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94%E5%A4%9A%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">https://did321.github.io/2019/07/13/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94%E5%A4%9A%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"># 机器学习</a>
+                    
+                        <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"># 线性回归</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/07/14/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B-%E2%80%94%E2%80%94Matlab%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">Machine Learning 学习笔记(四)——Matlab基础教程</a>
+            
+            
+            <a class="next" rel="next" href="/2019/07/11/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D-Gradient-Descent/">Machine Learning 学习笔记(二)——梯度下降(Gradient Descent)</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>C51单片机学习笔记(五)——数码管的静态显示和动态显示 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">C51单片机学习笔记(五)——数码管的静态显示和动态显示</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">April 7, 2019&nbsp;&nbsp;23:06:55</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C51%E5%8D%95%E7%89%87%E6%9C%BA/">C51单片机</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.7k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">7</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <div id="article_content" class="article_content clearfix">
+<div class="toc"><h2><a name="t1"></a>文章目录</h2><ul><ul><ul><li><a href="#1_2" rel="nofollow" data-token="b4837eca7731279548a28b8afe6a8737" target="_self">1.数码管的显示原理</a></li><li><a href="#2_6" rel="nofollow" data-token="9e1c500b7f2f593feb509401990ece07" target="_self">2.数码管的静态显示</a></li><li><a href="#3_46" rel="nofollow" data-token="150fdc37a21017a0961e4cbef61806c3" target="_self">3.数码管的动态显示（不用锁存器）</a></li><li><a href="#4_90" rel="nofollow" data-token="244277bc391d734956b55c6f9109a9ce" target="_self">4.中断与数码管结合的计时器</a></li></ul></ul></ul></div><p></p>
+<h2><a name="t2"></a><a id="1_2"></a>1.数码管的显示原理</h2>
+<ul>
+<li>数码管有一位和多位一体两类，它是由8个LED（a,b,c,d,e,f,g,dp）排列组成，任意一个LED叫作一个“段”。通过给a,b,c,d,e,f,g,dp各个脚加上不同的控制电压可以使不同的LED导通发亮，从而显示0~9各个数字和ABCDEF各个字母。</li>
+<li>由于8个LED共有16个引脚，为了减少引脚，形成了共阳极和共阴极两种数码管，如下图，如果是共阴极，点亮方法就是公共脚加低电平，引出脚加高电平，如果是共阳极，公共脚加高电平，引出脚加低电平即可。（我的数码管是共阳极，所以下面我就使用共阳极进行说明）<br>
+<img src="https://img-blog.csdnimg.cn/20190406120054579.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+<h2><a name="t3"></a><a id="2_6"></a>2.数码管的静态显示</h2>
+<ul>
+<li>所谓静态显示，就是数码管的笔画点亮后，这些笔画就一直处于点亮状态，而不是处于周期性点亮状态。下面我将以我的原理图为例说明如何点亮静态显示。<br>
+<img src="https://img-blog.csdnimg.cn/20190406145440969.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>我的数码管的a,b,c,d,e,f,g,dp接在P0.0~P0.7脚，故我让哪一个二极管亮，就使其脚加低电平，几个LED组合在一起就可以拼出一个数字或字母，下面给出常用的字形码</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190406150626609.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>例如要使用‘3’，则数码管的a,b,g,c,d应点亮，其引脚为低电平，其他引脚为高电平，二进制数为dp g f e d c b a    1011 0000,每四位转成十六进制就是b0，所以要先显示‘3’，给P0端口赋值0xb0即可，其他字符的编码类似。</li>
+</ul>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg52.h&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uchar unsigned char </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uint unsigned int</span></span><br><span class="line">sbit DI1=P1^<span class="number">0</span>; <span class="comment">//定义四位数码管位选信号 </span></span><br><span class="line">sbit DI2=P1^<span class="number">1</span>; </span><br><span class="line">sbit DI3=P1^<span class="number">2</span>; </span><br><span class="line">sbit DI4=P1^<span class="number">3</span>; </span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(uint z)</span> <span class="comment">//定义延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	uint x,y;</span><br><span class="line">	<span class="keyword">for</span>(x = z;x&gt;<span class="number">0</span>;x--)</span><br><span class="line">		<span class="keyword">for</span>(y = <span class="number">110</span>;y&gt;<span class="number">0</span>;y--); </span><br><span class="line">&#125; <span class="comment">/*定义数码管显示字符跟数字的对应数组关系*/</span> </span><br><span class="line">uchar code table[]=&#123;<span class="number">0xc0</span>,<span class="number">0xf9</span>,<span class="number">0xa4</span>,<span class="number">0xb0</span>,<span class="number">0x99</span>,<span class="number">0x92</span>,<span class="number">0x82</span>,<span class="number">0xf8</span>, <span class="comment">//数码管显示编码(0-F) </span></span><br><span class="line"><span class="number">0x80</span>,<span class="number">0x90</span>,<span class="number">0x88</span>,<span class="number">0x83</span>,<span class="number">0xc6</span>,<span class="number">0xa1</span>,<span class="number">0x86</span>,<span class="number">0x8e</span>&#125;; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	P0=<span class="number">0x00</span>; <span class="comment">//P0口初始化 </span></span><br><span class="line">	DI1=<span class="number">0</span>; <span class="comment">//第一位数码管位选 </span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		P0 = table[i];</span><br><span class="line">		<span class="built_in">delay</span>(<span class="number">1000</span>);	  <span class="comment">//延时约1s</span></span><br><span class="line">		i++;</span><br><span class="line">		<span class="keyword">if</span>(i&gt;<span class="number">15</span>)   <span class="comment">//n=15时显示F，当n=16时从头开始</span></span><br><span class="line">		i = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><a name="t4"></a><a id="3_46"></a>3.数码管的动态显示（不用锁存器）</h2>
+<ul>
+<li>由于我的板子上没有锁存器。。。所以这里只介绍不用锁存器的动态显示，锁存器的好处只是可以节省I/O口，其实不用锁存器依然可以使数码管动态显示。</li>
+<li>动态显示的特点是将所有位数码管的段选线并联在一起，由位选线控制是哪一位数码管有效。这样一来，就没有必要每一位数码管配一个锁存器，从而大大地简化了硬件电路。选亮数码管采用动态扫描显示。</li>
+<li>所谓动态扫描,即是通过分时轮流送出字形码和相应的位选，使各个数码管轮流受控显示。在轮流显示过程中，每位元数码管的点亮时间为1～2ms，由于人的视觉暂留现象及发光二极体的余辉效应，尽管实际上各位数码管并非同时点亮，但只要扫描的速度足够快，给人的印象就是一组稳定的显示资料，不会有闪烁感，动态显示的效果和静态显示是一样的，能够节省大量的I/O口，而且功耗更低。</li>
+</ul>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg51.h&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uchar unsigned char </span></span><br><span class="line">sbit DI1=P1^<span class="number">0</span>; <span class="comment">//定义四位数码管位选信号 </span></span><br><span class="line">sbit DI2=P1^<span class="number">1</span>; </span><br><span class="line">sbit DI3=P1^<span class="number">2</span>; </span><br><span class="line">sbit DI4=P1^<span class="number">3</span>; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(uchar x)</span> <span class="comment">//定义延时函数 </span></span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	uchar j; </span><br><span class="line">	<span class="keyword">while</span>(x--)</span><br><span class="line">	&#123; </span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">125</span>;j++) </span><br><span class="line">		&#123;;&#125; </span><br><span class="line">	&#125; </span><br><span class="line">&#125; <span class="comment">/*定义数码管显示字符跟数字的对应数组关系*/</span> </span><br><span class="line">uchar code table[]=&#123;<span class="number">0xc0</span>,<span class="number">0xf9</span>,<span class="number">0xa4</span>,<span class="number">0xb0</span>,<span class="number">0x99</span>,<span class="number">0x92</span>,<span class="number">0x82</span>,<span class="number">0xf8</span>, <span class="comment">//数码管显示编码(0-F) </span></span><br><span class="line"><span class="number">0x80</span>,<span class="number">0x90</span>,<span class="number">0xa0</span>,<span class="number">0x83</span>,<span class="number">0xc6</span>,<span class="number">0xa1</span>,<span class="number">0x84</span>,<span class="number">0x8e</span>,<span class="number">0x00</span>&#125;;</span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"> </span>&#123; </span><br><span class="line"> 	P0=<span class="number">0x00</span>; <span class="comment">//P0口初始化 </span></span><br><span class="line"> 	DI1=<span class="number">0</span>; <span class="comment">//第一位数码管位选 </span></span><br><span class="line"> 	P0=table[<span class="number">0</span>]; <span class="comment">//第一位数码管显示0 </span></span><br><span class="line"> 	<span class="built_in">delay</span>(<span class="number">5</span>); </span><br><span class="line"> 	DI1=<span class="number">1</span>; <span class="comment">//关闭第一位数码管位选 </span></span><br><span class="line"> 	DI2=<span class="number">0</span>; <span class="comment">//第二位数码管位选 </span></span><br><span class="line"> 	P0=table[<span class="number">1</span>]; <span class="comment">//第二位数码管显示1 </span></span><br><span class="line"> 	<span class="built_in">delay</span>(<span class="number">5</span>); </span><br><span class="line"> 	DI2=<span class="number">1</span>; <span class="comment">//关闭第二位数码管位选 </span></span><br><span class="line"> 	DI3=<span class="number">0</span>; <span class="comment">//第三位数码管位选 </span></span><br><span class="line"> 	P0=table[<span class="number">2</span>]; <span class="comment">//第三位数码管显示2 </span></span><br><span class="line"> 	<span class="built_in">delay</span>(<span class="number">5</span>); </span><br><span class="line"> 	DI3=<span class="number">1</span>; <span class="comment">//关闭第三位数码管位选 </span></span><br><span class="line"> 	DI4=<span class="number">0</span>; <span class="comment">//第四位数码管位选 </span></span><br><span class="line"> 	P0=table[<span class="number">3</span>]; <span class="comment">//第四位数码管显示3 </span></span><br><span class="line"> 	<span class="built_in">delay</span>(<span class="number">5</span>); </span><br><span class="line"> 	DI4=<span class="number">1</span>; <span class="comment">//关闭第四位数码管位选 &#125;</span></span><br></pre></td></tr></table></figure>
+<h2><a name="t5"></a><a id="4_90"></a>4.中断与数码管结合的计时器</h2>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;reg52.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uchar unsigned char</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uint unsigned int</span></span><br><span class="line">uchar num = <span class="number">0</span>;</span><br><span class="line">sbit DI1=P1^<span class="number">0</span>; </span><br><span class="line">sbit DI2=P1^<span class="number">1</span>; </span><br><span class="line">sbit DI3=P1^<span class="number">2</span>; </span><br><span class="line">sbit DI4=P1^<span class="number">3</span>; </span><br><span class="line">uchar i4 = <span class="number">0</span>;</span><br><span class="line">uchar i3 = <span class="number">0</span>;</span><br><span class="line">uchar i2 = <span class="number">0</span>;</span><br><span class="line">uchar i1 = <span class="number">0</span>;</span><br><span class="line">uchar code table[]=&#123;<span class="number">0xc0</span>,<span class="number">0xf9</span>,<span class="number">0xa4</span>,<span class="number">0xb0</span>,<span class="number">0x99</span>,<span class="number">0x92</span>,<span class="number">0x82</span>,<span class="number">0xf8</span>,<span class="number">0x80</span>,<span class="number">0x90</span>&#125;;</span><br><span class="line">uchar code table2[]=&#123;<span class="number">0x40</span>,<span class="number">0x79</span>,<span class="number">0x24</span>,<span class="number">0x30</span>,<span class="number">0x19</span>,<span class="number">0x12</span>,<span class="number">0x02</span>,<span class="number">0x78</span>,<span class="number">0x00</span>,<span class="number">0x10</span>&#125;; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(uint z)</span> <span class="comment">//定义延时函数</span></span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	uint x,y;</span><br><span class="line">	<span class="keyword">for</span>(x = z;x&gt;<span class="number">0</span>;x--)</span><br><span class="line">		<span class="keyword">for</span>(y = <span class="number">110</span>;y&gt;<span class="number">0</span>;y--); </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	P0=<span class="number">0x00</span>; <span class="comment">//P0口初始化 </span></span><br><span class="line"> 	DI1=<span class="number">0</span>; <span class="comment">//第一位数码管位选 </span></span><br><span class="line"> 	P0=table[i1]; <span class="comment">//第一位数码管显示0 </span></span><br><span class="line"> 	<span class="built_in">delay</span>(<span class="number">5</span>); </span><br><span class="line"> 	DI1=<span class="number">1</span>; <span class="comment">//关闭第一位数码管位选 </span></span><br><span class="line"> 	DI2=<span class="number">0</span>; <span class="comment">//第二位数码管位选 </span></span><br><span class="line"> 	P0=table2[i2]; <span class="comment">//第二位数码管显示1 </span></span><br><span class="line"> 	<span class="built_in">delay</span>(<span class="number">5</span>); </span><br><span class="line"> 	DI2=<span class="number">1</span>; <span class="comment">//关闭第二位数码管位选 </span></span><br><span class="line"> 	DI3=<span class="number">0</span>; <span class="comment">//第三位数码管位选 </span></span><br><span class="line"> 	P0=table[i3]; <span class="comment">//第三位数码管显示2 </span></span><br><span class="line"> 	<span class="built_in">delay</span>(<span class="number">5</span>); </span><br><span class="line"> 	DI3=<span class="number">1</span>; <span class="comment">//关闭第三位数码管位选 </span></span><br><span class="line"> 	DI4=<span class="number">0</span>; <span class="comment">//第四位数码管位选 </span></span><br><span class="line"> 	P0=table[i4]; <span class="comment">//第四位数码管显示3 </span></span><br><span class="line"> 	<span class="built_in">delay</span>(<span class="number">5</span>); </span><br><span class="line"> 	DI4=<span class="number">1</span>; <span class="comment">//关闭第四位数码管位选</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//P0 = 0x00;</span></span><br><span class="line">	TMOD = <span class="number">0x01</span>;<span class="comment">//将定时器0设为方式1，即16位定时器</span></span><br><span class="line">	<span class="comment">/*TH0中每增加1，就相当于计了256个数，所以TH0装入初值是对256取模，TL0是对256取余*/</span></span><br><span class="line">	TH0 = (<span class="number">65536</span><span class="number">-45872</span>)/<span class="number">256</span>;<span class="comment">//给定时器的高八位赋初值</span></span><br><span class="line">	TL0 = (<span class="number">65536</span><span class="number">-45872</span>)%<span class="number">256</span>;<span class="comment">//给定时器的低八位赋初值</span></span><br><span class="line">	EA = <span class="number">1</span>;<span class="comment">//开总中断</span></span><br><span class="line">	ET0 = <span class="number">1</span>;<span class="comment">//开定时器0中断</span></span><br><span class="line">	TR0 = <span class="number">1</span>;<span class="comment">//启动定时器T0</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;	   </span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(num == <span class="number">20</span>) <span class="comment">//num=20代表用了50ms*20  = 1s</span></span><br><span class="line">		&#123;</span><br><span class="line">			num = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">if</span>(i4 == <span class="number">9</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				i4 = <span class="number">0</span>;</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">if</span>(i3 == <span class="number">5</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					i3 = <span class="number">0</span>;</span><br><span class="line">					</span><br><span class="line">					<span class="keyword">if</span>(i2 == <span class="number">9</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						i2 = <span class="number">0</span>;</span><br><span class="line">						i1++;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span></span><br><span class="line">					&#123;</span><br><span class="line">						i2++;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					i3++;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				i4++;</span><br><span class="line">			&#125;	</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">display</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">T0time</span><span class="params">()</span> interrupt 1</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TH0 = (<span class="number">65536</span><span class="number">-45872</span>)/<span class="number">256</span>;</span><br><span class="line">	TL0 = (<span class="number">65536</span><span class="number">-45872</span>)%<span class="number">256</span>;</span><br><span class="line">	num++;		  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>                &lt;/div&gt;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/04/07/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%94-%E2%80%94%E2%80%94%E6%95%B0%E7%A0%81%E7%AE%A1%E7%9A%84%E9%9D%99%E6%80%81%E6%98%BE%E7%A4%BA%E5%92%8C%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA/">https://did321.github.io/2019/04/07/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%94-%E2%80%94%E2%80%94%E6%95%B0%E7%A0%81%E7%AE%A1%E7%9A%84%E9%9D%99%E6%80%81%E6%98%BE%E7%A4%BA%E5%92%8C%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C51%E5%8D%95%E7%89%87%E6%9C%BA/"># C51单片机</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/05/01/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%85%AD-%E2%80%94%E2%80%94%E6%B6%B2%E6%99%B6%E6%98%BE%E7%A4%BA%E5%B1%8F%E7%9A%84%E4%BD%BF%E7%94%A8/">C51单片机学习笔记(六)——液晶显示屏的使用</a>
+            
+            
+            <a class="next" rel="next" href="/2019/04/05/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B-%E2%80%94%E2%80%94%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F%E5%8F%8A%E5%BA%94%E7%94%A8/">C51单片机学习笔记(四)——中断系统及应用</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Mysql学习笔记(二)——表格及数据的插入 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Mysql学习笔记(二)——表格及数据的插入</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 13, 2019&nbsp;&nbsp;12:08:24</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Mysql/">Mysql</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">2.8k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">12</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <ul>
+<li>说在前面：以下命令都是用管理员权限打开CMD执行的，创建的表要按要求创建，后面查询的时候直接拿创建的表进行。这个笔记也是自己在学习过程总写的，难免有瑕疵，如果有问题可以直接指正。</li>
+</ul>
+<h2 id="1-Mysql常用指令"><a href="#1-Mysql常用指令" class="headerlink" title="1.Mysql常用指令"></a>1.Mysql常用指令</h2><p><code>net start mysql</code></p>
+<blockquote>
+<ul>
+<li>启动服务器</li>
+</ul>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\WINDOWS\system32&gt;net start mysql</span><br><span class="line">MySQL 服务正在启动 .</span><br><span class="line">MySQL 服务已经启动成功。</span><br></pre></td></tr></table></figure>
+
+<p><code>net stop mysql</code></p>
+<blockquote>
+<ul>
+<li>停止服务器</li>
+</ul>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\WINDOWS\system32&gt;net stop mysql</span><br><span class="line">MySQL 服务正在停止.</span><br><span class="line">MySQL 服务已成功停止。</span><br></pre></td></tr></table></figure>
+
+<p><code>mysql -u root -p</code></p>
+<blockquote>
+<ul>
+<li>输入配置的密码即可进入后台系统</li>
+</ul>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">C:\WINDOWS\system32&gt;mysql -u root -p</span><br><span class="line">Enter password: *********</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 3</span><br><span class="line">Server version: 5.7.17 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>show databases;</code></p>
+<blockquote>
+<ul>
+<li>查看mysql系统中存在的数据库</li>
+</ul>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| robocup3d          |</span><br><span class="line">| school             |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line"><span class="number">6</span> rows <span class="keyword">in</span> <span class="built_in">set</span> (<span class="number">0.19</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>create database 数据库名字;</code></p>
+<blockquote>
+<ul>
+<li>创建数据库</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create database school;</span><br><span class="line">Query OK,1 row affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p><code>use 数据库名字;</code></p>
+<blockquote>
+<ul>
+<li>选择数据库，使用数据库时一定要先选择数据库</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use school;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>drop database 数据库名字;</code></p>
+<blockquote>
+<ul>
+<li>删除指定的数据库</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop database school;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-创建表格"><a href="#2-创建表格" class="headerlink" title="2.创建表格"></a>2.创建表格</h2><ul>
+<li><p>CREATE TABLE &lt;表名&gt;</p>
+<p>​      （&lt;列名&gt; &lt;数据类型&gt;[&lt;列级完整性约束条件&gt;],</p>
+<p>  [&lt;列名&gt; &lt;数据类型&gt;[&lt;列级完整性约束条件&gt;]] …[&lt;表级完整性约束条件&gt;]);</p>
+<blockquote>
+<ul>
+<li>表名：所要定义的基本表的名字</li>
+<li>列名：组成该表的各个属性（列）</li>
+<li>列级完整性约束条件：涉及相应属性列的完整性约束条件</li>
+<li>表级完整性约束条件：涉及一个或多个属性列的完整性约束条件</li>
+</ul>
+</blockquote>
+</li>
+<li><p>例：建立一个“学生”表Student，它由学号Sno、姓名Sname、性别Ssex、年龄Sage、所在系Sdept五个属性组成。其中学号不能为空，值是唯一的，姓名也不能重复。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Student</span><br><span class="line">  (Sno varCHAR(5)  NOT NULL  UNIQUE， </span><br><span class="line">   Sname  varCHAR(20) UNIQUE，          </span><br><span class="line">   Ssex  varCHAR(1) ，</span><br><span class="line">   Sage  INT，</span><br><span class="line">   Sdept  varCHAR(15))； </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="A-数据类型"><a href="#A-数据类型" class="headerlink" title="A.数据类型"></a>A.数据类型</h3><ul>
+<li>整数类型：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">字节数</th>
+<th align="center">范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">tinyint</td>
+<td align="center">1字节</td>
+<td align="center">0~255</td>
+</tr>
+<tr>
+<td align="center">smallint</td>
+<td align="center">2字节</td>
+<td align="center">0~2的16次方-1</td>
+</tr>
+<tr>
+<td align="center">mediumint</td>
+<td align="center">3字节</td>
+<td align="center">0~2的24次方-1</td>
+</tr>
+<tr>
+<td align="center">int</td>
+<td align="center">4字节</td>
+<td align="center">0~2的32次方-1</td>
+</tr>
+<tr>
+<td align="center">bigint</td>
+<td align="center">8字节</td>
+<td align="center">0~2的64次方-1</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>备注:整数类型比较简单,但是它的选择也比较多,开发时注意选择范围即可。</p>
+</blockquote>
+<ul>
+<li><p>高精度型：(decimal和numeric)</p>
+<blockquote>
+<p>decimal和numeric类型在MySQL中被视为相同的类型,可以用以保存精确的值,比如工资、商品单价等。<br>Numeric(10,2) 指字段是数字型,长度为10 小数为两位的<br>备注:通常价格、工资等字段使用这种类型</p>
+</blockquote>
+</li>
+<li><p>char和varchar类型: </p>
+<blockquote>
+<p>char (N) 表示定长字符 N取值0<del>255 varchar(N) 表示变长字符 N取值0</del>2的16次方-1 </p>
+<p>char和varchar是最常用的两种字符类型,varchar更为常用 有点类似字符数组</p>
+</blockquote>
+</li>
+<li><p>日期类型：</p>
+<blockquote>
+<p>DateTime    8个子节<br>TimeStamp    4个子节<br>Date    3个子节<br>Year    1个子节<br>Time    1个子节<br>备注:TimeStamp和DateTime显示时间格式是相同的,显示范围不同. TimeStamp类型可以设置自动更新时间为当前时间。 这也是建表时比较常用的一个类型。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="B-完整性约束条件"><a href="#B-完整性约束条件" class="headerlink" title="B.完整性约束条件"></a>B.完整性约束条件</h3><ul>
+<li><p>常用完整性约束<br>主码约束：    PRIMARY  KEY<br>唯一性约束：    UNIQUE<br>非空值约束：    NOT NULL<br>参照完整性约束</p>
+</li>
+<li><p>PRIMARY KEY 与 UNIQUE 的区别?</p>
+<blockquote>
+<p>PRIMARY KEY = UNIQUE + NOT NULL<br>主码就是要求唯一和非空，否则就不能区别其他行，主码为空就意味着这一行是冗余的。</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>创建学生选课表，其中Cno(课程号)为主码</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create Table Course(Cno varCHAR(3), </span><br><span class="line">					Cname varCHAR(60), Cpno varCHAR(3), </span><br><span class="line">					Ccredit int not null, Primary key(Cno));</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>[例]  建立一个“学生选课”表SC，它由学号Sno、课程号Cno，修课成绩Grade组成，其中(Sno, Cno)为主码，Sno，Cno还分别为外码。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE SC(Sno varCHAR(5), Cno varCHAR(3), </span><br><span class="line">				Grade int, Primary key (Sno, Cno), </span><br><span class="line">				FOREIGN KEY (Sno) REFERENCES Student(Sno), </span><br><span class="line">				FOREIGN KEY (Cno) REFERENCES Course(Cno));</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-查看表格"><a href="#3-查看表格" class="headerlink" title="3.查看表格"></a>3.查看表格</h2><p><code> show create table sc;</code></p>
+<blockquote>
+<ul>
+<li>可以查看已创建表的属性</li>
+</ul>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">| Table | Create Table</span><br><span class="line">+-------+-----------------------------------------------------------------------------------------------</span><br><span class="line">--------------------------------------------------------------------------------------------------------</span><br><span class="line">-------------------------------------------------------------------------------------------------------+</span><br><span class="line">| sc    | CREATE TABLE `sc` (</span><br><span class="line">  `Sno` varchar(5) NOT NULL,</span><br><span class="line">  `Cno` varchar(3) NOT NULL,</span><br><span class="line">  `Grade` int(11) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`Sno`,`Cno`),</span><br><span class="line">  KEY `Cno` (`Cno`),</span><br><span class="line">  CONSTRAINT `sc_ibfk_1` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`),</span><br><span class="line">  CONSTRAINT `sc_ibfk_2` FOREIGN KEY (`Cno`) REFERENCES `course` (`Cno`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</span><br><span class="line">+-------+-----------------------------------------------------------------------------------------------</span><br><span class="line">--------------------------------------------------------------------------------------------------------</span><br><span class="line">-------------------------------------------------------------------------------------------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<p><code>show tables;</code></p>
+<blockquote>
+<ul>
+<li>查看当前数据库中的所有表</li>
+</ul>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show tables;</span></span><br><span class="line">+------------------+</span><br><span class="line">| Tables_in_school |</span><br><span class="line">+------------------+</span><br><span class="line">| course           |</span><br><span class="line">| sc               |</span><br><span class="line">| student          |</span><br><span class="line">+------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>describe sc;</code></p>
+<blockquote>
+<ul>
+<li>使用describe（可以缩写为desc）命令查看表的结构</li>
+</ul>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> describe sc;</span></span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type       | Null | Key | Default | Extra |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| Sno   | varchar(5) | NO   | PRI | NULL    |       |</span><br><span class="line">| Cno   | varchar(3) | NO   | PRI | NULL    |       |</span><br><span class="line">| Grade | int(11)    | YES  |     | NULL    |       |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-修改表格"><a href="#4-修改表格" class="headerlink" title="4.修改表格"></a>4.修改表格</h2><ul>
+<li><p>ALTER TABLE &lt;表名&gt;<br>[ ADD &lt;新列名&gt; &lt;数据类型&gt; [ 完整性约束 ] ]<br>[ DROP &lt;完整性约束名&gt; ]<br>[ MODIFY &lt;列名&gt; &lt;数据类型&gt; ]；</p>
+<p>&lt;表名&gt;：要修改的基本表<br>ADD子句：增加新列和新的完整性约束条件<br>DROP子句：删除指定的完整性约束条件<br>MODIFY子句：用于修改列名和数据类型</p>
+</li>
+<li><p>例: 向Student表增加“入学时间”列，其数据类型为日期型。</p>
+<p><code> ALTER TABLE Student ADD Scome DATE；</code></p>
+<p>不论基本表中原来是否已有数据，新增加的列一律为空值。 </p>
+</li>
+<li><p>删除属性列<br>例：<code>ALTER TABLE Student  Drop Scome；</code></p>
+</li>
+<li><p>例: 将年龄的数据类型改为半字长整数。</p>
+<p><code>ALTER TABLE Student MODIFY Sage SMALLINT；</code></p>
+<p>注：修改原有的列定义有可能会破坏已有数据</p>
+</li>
+<li><p>例: 删除学生姓名必须取唯一值的约束。</p>
+<p><code>ALTER TABLE Student DROP key Sname；</code><br><code>alter table Student add unique key sname(sname);</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">+---------+-------------------------------------</span><br><span class="line">------------------------------------------------</span><br><span class="line">-------------------+</span><br><span class="line">| student | CREATE TABLE `student` (</span><br><span class="line">  `Sno` varchar(5) NOT NULL,</span><br><span class="line">  `Sname` varchar(20) DEFAULT NULL,</span><br><span class="line">  `Ssex` varchar(1) DEFAULT NULL,</span><br><span class="line">  `Sage` smallint(6) DEFAULT NULL,</span><br><span class="line">  `Sdept` varchar(15) DEFAULT NULL,</span><br><span class="line">  UNIQUE KEY `Sno` (`Sno`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</span><br><span class="line">+---------+-------------------------------------</span><br><span class="line">------------------------------------------------</span><br><span class="line">-------------------+</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="5-插入元组"><a href="#5-插入元组" class="headerlink" title="5.插入元组"></a>5.插入元组</h2><ul>
+<li>语句格式<br>INSERT<pre><code> INTO &lt;表名&gt; [(&lt;属性列1&gt;[，&lt;属性列2 &gt;…)]
+ VALUES (&lt;常量1&gt; [，&lt;常量2&gt;]    …           )
+</code></pre>
+功能<br>将新元组插入指定表中</li>
+</ul>
+<blockquote>
+<ul>
+<li>INTO子句<br>属性列的顺序可与表定义中的顺序不一致<br>没有指定属性列<br>指定部分属性列</li>
+<li>VALUES子句<br>提供的值必须与INTO子句匹配<br>值的个数<br>值的类型</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>例:  将一个新学生元组（学号：95010；姓名：陈冬；性别：男；所在系：IS；年龄：18岁）插入到Student表中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash">INSERT</span></span><br><span class="line">INTO  Student (Sno，Sname，Ssex，Sdept，Sage)</span><br><span class="line">VALUES (&#x27;95010&#x27;，&#x27;陈冬&#x27;，&#x27;男&#x27;，&#x27;IS&#x27;，18)；</span><br></pre></td></tr></table></figure></li>
+<li><p>例: 将学生张成民的信息插入到Student表中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash">INSERT</span></span><br><span class="line">    INTO  Student</span><br><span class="line">    VALUES (&#x27;95011&#x27;,&#x27;张成民&#x27;,&#x27;男&#x27;,18,&#x27;CS&#x27;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以不写属性元组，但是直接写VALUES的话一定要和表的属性顺序保持一致</p>
+</blockquote>
+</li>
+<li><p>例: 插入一条选课记录(‘95011’，’1’)。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">INSERT</span><br><span class="line">    INTO SC(Sno，Cno)</span><br><span class="line">    VALUES (&#x27;95011&#x27; ， &#x27;1&#x27;)；</span><br><span class="line"><span class="meta">#</span><span class="bash">RDBMS将在新插入记录的Grade列上自动地赋空值。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">或者：</span></span><br><span class="line">INSERT</span><br><span class="line">    INTO SC             </span><br><span class="line">    VALUES (&#x27; 95011 &#x27;，&#x27; 1 &#x27;，NULL)；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>此时显示插入失败，原因是在SC这张表中，（SNO，CNO）是主码，但是Cno和Sno又是外码（Course和student的主码），由于Cno在course那张表中未定义课程信息，故这里出现就是错误的数据，所以这就要求，外码所在的那张表中必须要有值。</li>
+</ul>
+</blockquote>
+<ul>
+<li>下面用同样的方法添加下面的student表和course表和Sc表</li>
+</ul>
+<p><code>select * from student;</code></p>
+<blockquote>
+<p>可以查看表中所有的信息</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">| Sno   | Sname        | Ssex | Sage | Sdept |</span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">| 95001 | 张三         | 男   |   20 | CS    |</span><br><span class="line">| 95002 | 李四         | 男   |   21 | IS    |</span><br><span class="line">| 95003 | 王五         | 男   |   18 | MA    |</span><br><span class="line">| 95004 | 马六         | 女   |   19 | CS    |</span><br><span class="line">| 95005 | 苏三         | 女   |   19 | IS    |</span><br><span class="line">| 95006 | 刘七         | 女   |   18 | IS    |</span><br><span class="line">| 95007 | 刘三姐       | 女   |   22 | IS    |</span><br><span class="line">| 95008 | 欧阳锋       | 男   |   23 | MA    |</span><br><span class="line">| 95009 | 欧阳大侠     | 男   |   22 | MA    |</span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select * from course;</span></span><br><span class="line">+-----+-----------+------+---------+</span><br><span class="line">| Cno | Cname     | Cpno | Ccredit |</span><br><span class="line">+-----+-----------+------+---------+</span><br><span class="line">| 1   | MATH      | NULL |       6 |</span><br><span class="line">| 2   | DB_DESIGN | 3    |       2 |</span><br><span class="line">| 3   | P_DESIGN  | 4    |       3 |</span><br><span class="line">| 4   | OS        | NULL |       2 |</span><br><span class="line">+-----+-----------+------+---------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select * from sc;</span></span><br><span class="line">+-------+-----+-------+</span><br><span class="line">| Sno   | Cno | Grade |</span><br><span class="line">+-------+-----+-------+</span><br><span class="line">| 95001 | 1   |    92 |</span><br><span class="line">| 95001 | 2   |    94 |</span><br><span class="line">| 95001 | 3   |    90 |</span><br><span class="line">| 95001 | 4   |    97 |</span><br><span class="line">| 95002 | 2   |    90 |</span><br><span class="line">| 95002 | 3   |    80 |</span><br><span class="line">| 95003 | 2   |  NULL |</span><br><span class="line">| 95004 | 3   |  NULL |</span><br><span class="line">| 95004 | 4   |    87 |</span><br><span class="line">| 95005 | 1   |    90 |</span><br><span class="line">| 95005 | 2   |    98 |</span><br><span class="line">| 95005 | 3   |    90 |</span><br><span class="line">| 95005 | 4   |    89 |</span><br><span class="line">+-------+-----+-------+</span><br><span class="line">14 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="6-修改数据"><a href="#6-修改数据" class="headerlink" title="6.修改数据"></a>6.修改数据</h2><ul>
+<li><p>语句格式<br>UPDATE  &lt;表名&gt;<br> SET  &lt;列名&gt;=&lt;表达式&gt;[，&lt;列名&gt;=&lt;表达式&gt;]…<br> [WHERE &lt;条件&gt;]；</p>
+<p>功能<br>修改指定表中满足WHERE子句条件的元组</p>
+<blockquote>
+<ul>
+<li>SET子句<br>指定修改方式<br>要修改的列<br>修改后取值 </li>
+<li>WHERE子句<br>指定要修改的元组<br>缺省表示要修改表中的所有元组</li>
+</ul>
+</blockquote>
+</li>
+<li><p>例:  将学生95002的年龄改为22岁 （修改单个元组的值）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UPDATE  Student</span><br><span class="line">         SET Sage=22            #将年龄改为22  </span><br><span class="line">         WHERE  Sno=&#x27; 95002 &#x27;； #找出学号为95002的那一行</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>例：  将所有学生的年龄增加1岁  （修改多个元组的值）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE Student</span><br><span class="line">         SET Sage= Sage+1；   # 这里缺省where代表对所有元组操作         </span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="7-删除数据"><a href="#7-删除数据" class="headerlink" title="7.删除数据"></a>7.删除数据</h2><ul>
+<li>语句格式<pre><code>DELETE
+FROM     &lt;表名&gt;
+[WHERE &lt;条件&gt;]；
+</code></pre>
+功能<br>删除指定表中满足WHERE子句条件的元组<br>WHERE子句<br>指定要删除的元组<br>缺省表示要删除表中的全部元组，表的定义仍在字典中</li>
+</ul>
+<blockquote>
+<p>下面的删除例子可以不用执行，因为后面还要用到这三张表，知道怎么写的就行。</p>
+</blockquote>
+<ul>
+<li><p>例：  删除学号为95009的学生记录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DELETE</span><br><span class="line">         FROM Student</span><br><span class="line">         WHERE Sno= &#x27;95009&#x27;；</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>例：  删除所有的学生选课记录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DELETE</span><br><span class="line">        FROM SC；             #where为空，所以默认是整个表的元组</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>在执行修改语句时会检查修改或删除操作是否破坏表上已定义的完整性规则<br>实体完整性<br>参照完整性<br>用户定义的完整性<br>NOT NULL约束<br>UNIQUE约束<br>值域约束</p>
+</li>
+<li><p>这时把前面插入报错的SC那个信息再重新插入，就会发现插入成功，原因是course中已经有了课程信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">INSERT</span><br><span class="line">    INTO SC             </span><br><span class="line">    VALUES (&#x27; 95011 &#x27;，&#x27; 1 &#x27;，NULL)；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>此时再将student表中的学号为’95011’改为’95022’</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> update student <span class="built_in">set</span> sno=<span class="string">&#x27;95022&#x27;</span> <span class="built_in">where</span> sno=<span class="string">&#x27;95011&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`school`.`sc`, CONSTRAINT `sc_ibfk_1</span><br><span class="line">` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`))</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"></span></span><br><span class="line"><span class="bash"></span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>发现报错，原因是在student表中修改主码，会影响到SC选课表中的Sno，这个修改会导致SC表中的那一行无意义，所以不能修改。</p>
+</blockquote>
+<ul>
+<li>这时尝试删除student中的’95011’的学生信息</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> delete from student <span class="built_in">where</span> sno=<span class="string">&#x27;95011&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`school`.`sc`, CONSTRAINT `sc_ibfk_1</span><br><span class="line">` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`))</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"></span></span><br><span class="line"><span class="bash"></span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>发现依然报错，原因和上面类似，如果删除这个信息，会导致sc表中的数据无意义，就因为sno在sc那张表中是外码。</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><strong>本次笔记就讲了表格和数据的创建，后面会更新笔记，在创建的这三张表上进行查询操作，所以创建的数据库不要删！如果觉本篇笔记总结还不错的话，请点个赞，以鼓励我更上一层楼！</strong></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/06/13/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E8%A1%A8%E6%A0%BC%E5%8F%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8F%92%E5%85%A5/">https://did321.github.io/2019/06/13/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E8%A1%A8%E6%A0%BC%E5%8F%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8F%92%E5%85%A5/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Mysql/"># Mysql</a>
+                    
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"># 数据库</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/06/13/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%AF%86%E7%A0%81%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/">C51单片机学习——密码锁的实现</a>
+            
+            
+            <a class="next" rel="next" href="/2019/06/12/Mysql%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE-%E6%94%AF%E6%8C%81%E4%B8%AD%E6%96%87/">Mysql安装与配置+支持中文</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>MathJax Test | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MathJax Test</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 30, 2020&nbsp;&nbsp;9:49:03</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Github/">Github</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.1k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">5</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="行内公式与块公式"><a href="#行内公式与块公式" class="headerlink" title="行内公式与块公式"></a>行内公式与块公式</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$f(x)=ax+b$ 这是行内公式.</span><br><span class="line">$$f(x)=ax+b$$ 这是块公式，单独占一行.</span><br></pre></td></tr></table></figure>
+
+<p>$f(x)=ax+b$ 这是行内公式.<br>$$<br>f(x)=ax+b<br>$$<br>这是块公式，单独占一行.</p>
+<h2 id="上标与下标"><a href="#上标与下标" class="headerlink" title="上标与下标"></a>上标与下标</h2><p>使用 <code>^</code> 表示上标，使用 <code>_</code> 表示下标，如果上下标的内容多于一个字符，可以使用大括号括起来：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$f(x) = a_1x^n + a_2x^&#123;n-1&#125; + a_3x^&#123;n-2&#125;$$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>f(x) = a_1x^n + a_2x^{n-1} + a_3x^{n-2}<br>$$<br>如果左右两边都有上下标可以使用 \sideset 语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$\sideset&#123;^n_k&#125;&#123;^x_y&#125;a$$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\sideset{^n_k}{^x_y}a<br>$$</p>
+<h2 id="括号"><a href="#括号" class="headerlink" title="括号"></a>括号</h2><p>在 markdown 语法中，, $, {, }, _都是有特殊含义的，所以需要加\转义。小括号与方括号可以使用原始的() [] 大括号需要转义\也可以使用\lbrace和 \rbrace</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$ \\&#123;x*y\\&#125; $$  --注：大括号在markdown中已有一次转义，在mathjax中还要再转一次，所以为两个斜杠</span><br><span class="line"></span><br><span class="line">$$\lbrace x*y \rbrace$$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：</p>
+<p>$$<br>\{x*y\}<br>$$</p>
+<p>原始符号不会随着公式大小自动缩放，需要使用 \left 和 \right 来实现自动缩放：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$\left \lbrace \sum_&#123;i=0&#125;^n i^3 = \frac&#123;(n^2+n)(n+6)&#125;&#123;9&#125; \right \rbrace$$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\left \lbrace \sum_{i=0}^n i^3 = \frac{(n^2+n)(n+6)}{9} \right \rbrace<br>$$<br>不使用\left 和 \right的效果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$ \lbrace \sum_&#123;i=0&#125;^n i^3 = \frac&#123;(n^2+n)(n+6)&#125;&#123;9&#125;  \rbrace$$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\lbrace \sum_{i=0}^n i^3 = \frac{(n^2+n)(n+6)}{9}  \rbrace<br>$$</p>
+<h2 id="分数与开方"><a href="#分数与开方" class="headerlink" title="分数与开方"></a>分数与开方</h2><p>可以使用\frac 或者 \over 实现分数的显示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$$\frac xy $$</span><br><span class="line">$$ x+3 \over y+5 $$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\frac xy \\ x+3 \over y+5<br>$$<br>开方使用\sqrt:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$$ \sqrt&#123;x^5&#125; $$</span><br><span class="line">$$ \sqrt[3]&#123;\frac xy&#125; $$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\sqrt{x^5} \\<br> \sqrt[3]{xy}<br>$$</p>
+<h2 id="求和、累乘、积分"><a href="#求和、累乘、积分" class="headerlink" title="求和、累乘、积分"></a>求和、累乘、积分</h2><p>求和使用\sum,可加上下标，积分使用\int可加上下限，双重积分用\iint</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$$ \sum_&#123;i=0&#125;^n $$</span><br><span class="line">$$ \prod_&#123;n=1&#125;^&#123;99&#125; $$</span><br><span class="line">$$ \int_1^\infty $$</span><br><span class="line">$$ \iint_1^\infty $$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\sum_{i=0}^n \\\prod_{n=1}^{99}\\ \int_1^\infty \\ \iint_1^\infty<br>$$</p>
+<h2 id="极限"><a href="#极限" class="headerlink" title="极限"></a>极限</h2><p>极限使用\lim:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$ \lim_&#123;x \to 0&#125; $$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\lim_{x \to 0}<br>$$</p>
+<h2 id="表格与矩阵"><a href="#表格与矩阵" class="headerlink" title="表格与矩阵"></a>表格与矩阵</h2><p>表格样式lcr表示居中，|加入一条竖线，\hline表示行间横线，列之间用&amp;分隔，行之间用\分隔：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$\begin&#123;array&#125;&#123;c|lcr&#125;</span><br><span class="line">n &amp; \text&#123;Left&#125; &amp; \text&#123;Center&#125; &amp; \text&#123;Right&#125; \\\\</span><br><span class="line">\hline</span><br><span class="line">1 &amp; 1.97 &amp; 5 &amp; 12 \\\\</span><br><span class="line">2 &amp; -11 &amp; 19 &amp; -80 \\\\</span><br><span class="line">3 &amp; 70 &amp; 209 &amp; 1+i \\\\</span><br><span class="line">\end&#123;array&#125;$$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\begin{array}{c|lcr}<br>n &amp; \text{Left} &amp; \text{Center} &amp; \text{Right} \\<br>\hline<br>1 &amp; 1.97 &amp; 5 &amp; 12 \\<br>2 &amp; -11 &amp; 19 &amp; -80 \\<br>3 &amp; 70 &amp; 209 &amp; 1+i \\<br>\end{array}<br>$$</p>
+<h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$$\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">V_A \\\\</span><br><span class="line">V_B \\\\</span><br><span class="line">V_C \\\\</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right] =</span><br><span class="line">\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">1 &amp; 0 &amp; L \\\\</span><br><span class="line">-cosψ &amp; sinψ &amp; L \\\\</span><br><span class="line">-cosψ &amp; -sinψ &amp; L</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right]</span><br><span class="line">\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">V_x \\\\</span><br><span class="line">V_y \\\\</span><br><span class="line">W \\\\</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right] $$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\left[<br>\begin{matrix}<br>V_A \\<br>V_B \\<br>V_C \\<br>\end{matrix}<br>\right] =<br>\left[<br>\begin{matrix}<br>1 &amp; 0 &amp; L \\<br>-cosψ &amp; sinψ &amp; L \\<br>-cosψ &amp; -sinψ &amp; L<br>\end{matrix}<br>\right]<br>\left[<br>\begin{matrix}<br>V_x \\<br>V_y \\<br>W \\<br>\end{matrix}<br>\right]<br>$$<br>综合测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$$\frac&#123;\partial u&#125;&#123;\partial t&#125;</span><br><span class="line">= h^2 \left( \frac&#123;\partial^2 u&#125;&#123;\partial x^2&#125; +</span><br><span class="line">\frac&#123;\partial^2 u&#125;&#123;\partial y^2&#125; +</span><br><span class="line">\frac&#123;\partial^2 u&#125;&#123;\partial z^2&#125;\right)$$</span><br></pre></td></tr></table></figure>
+
+<p>显示效果：<br>$$<br>\frac{\partial u}{\partial t}<br>= h^2 \left( \frac{\partial^2 u}{\partial x^2} +<br>\frac{\partial^2 u}{\partial y^2} +<br>\frac{\partial^2 u}{\partial z^2}\right)<br>$$</p>
+<h2 id="希腊字母"><a href="#希腊字母" class="headerlink" title="希腊字母"></a>希腊字母</h2><table>
+<thead>
+<tr>
+<th align="center">大写</th>
+<th align="center">Markdown</th>
+<th align="center">小写</th>
+<th align="center">Markdown</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><em>A</em></td>
+<td align="center">A</td>
+<td align="center">$\alpha$</td>
+<td align="center">\alpha</td>
+</tr>
+<tr>
+<td align="center"><em>B</em></td>
+<td align="center">B</td>
+<td align="center">$\beta$</td>
+<td align="center">\beta</td>
+</tr>
+<tr>
+<td align="center"><em>Γ</em></td>
+<td align="center">\Gamma</td>
+<td align="center">$\gamma$</td>
+<td align="center">\gamma</td>
+</tr>
+<tr>
+<td align="center"><em>Δ</em></td>
+<td align="center">\Delta</td>
+<td align="center">$\delta$</td>
+<td align="center">\delta</td>
+</tr>
+<tr>
+<td align="center"><em>E</em></td>
+<td align="center">E</td>
+<td align="center">$\epsilon$</td>
+<td align="center">\epsilon</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">$\varepsilon$</td>
+<td align="center">\varepsilon</td>
+</tr>
+<tr>
+<td align="center"><em>Z</em></td>
+<td align="center">Z</td>
+<td align="center">$\zeta$</td>
+<td align="center">\zeta</td>
+</tr>
+<tr>
+<td align="center"><em>H</em></td>
+<td align="center">H</td>
+<td align="center">$\eta$</td>
+<td align="center">\eta</td>
+</tr>
+<tr>
+<td align="center"><em>Θ</em></td>
+<td align="center">\Theta</td>
+<td align="center">$\theta$</td>
+<td align="center">\theta</td>
+</tr>
+<tr>
+<td align="center"><em>I</em></td>
+<td align="center">I</td>
+<td align="center">$\iota$</td>
+<td align="center">\iota</td>
+</tr>
+<tr>
+<td align="center"><em>K</em></td>
+<td align="center">K</td>
+<td align="center">$\kappa$</td>
+<td align="center">\kappa</td>
+</tr>
+<tr>
+<td align="center"><em>Λ</em></td>
+<td align="center">\Lambda</td>
+<td align="center">$\lambda$</td>
+<td align="center">\lambda</td>
+</tr>
+<tr>
+<td align="center"><em>M</em></td>
+<td align="center">M</td>
+<td align="center">$\mu$</td>
+<td align="center">\mu</td>
+</tr>
+<tr>
+<td align="center"><em>N</em></td>
+<td align="center">N</td>
+<td align="center">$\nu$</td>
+<td align="center">\nu</td>
+</tr>
+<tr>
+<td align="center">$\Xi$</td>
+<td align="center">\Xi</td>
+<td align="center">$\xi$</td>
+<td align="center">\xi</td>
+</tr>
+<tr>
+<td align="center"><em>O</em></td>
+<td align="center">O</td>
+<td align="center">$\omicron$</td>
+<td align="center">\omicron</td>
+</tr>
+<tr>
+<td align="center"><em>Π</em></td>
+<td align="center">\Pi</td>
+<td align="center">π</td>
+<td align="center">\pi</td>
+</tr>
+<tr>
+<td align="center"><em>P</em></td>
+<td align="center">P</td>
+<td align="center">$\rho$</td>
+<td align="center">\rho</td>
+</tr>
+<tr>
+<td align="center">Σ</td>
+<td align="center">\Sigma</td>
+<td align="center">$\sigma$</td>
+<td align="center">\sigma</td>
+</tr>
+<tr>
+<td align="center"><em>T</em></td>
+<td align="center">T</td>
+<td align="center">$\tau$</td>
+<td align="center">\tau</td>
+</tr>
+<tr>
+<td align="center">$\Upsilon$</td>
+<td align="center">\Upsilon</td>
+<td align="center">$\upsilon$</td>
+<td align="center">\upsilon</td>
+</tr>
+<tr>
+<td align="center">$\Phi$</td>
+<td align="center">\Phi</td>
+<td align="center">$\phi$</td>
+<td align="center">\phi</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">$\varphi$</td>
+<td align="center">\varphi</td>
+</tr>
+<tr>
+<td align="center"><em>X</em></td>
+<td align="center">X</td>
+<td align="center">$\chi$</td>
+<td align="center">\chi</td>
+</tr>
+<tr>
+<td align="center">$\Psi$</td>
+<td align="center">\Psi</td>
+<td align="center">$\psi$</td>
+<td align="center">\psi</td>
+</tr>
+<tr>
+<td align="center">$\Omega$</td>
+<td align="center">\Omega</td>
+<td align="center">$\omega$</td>
+<td align="center">\omega</td>
+</tr>
+</tbody></table>
+<h2 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h2><table>
+<thead>
+<tr>
+<th align="center">运算符</th>
+<th align="center">Markdown</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$\pm$</td>
+<td align="center">\pm</td>
+</tr>
+<tr>
+<td align="center">$\times$</td>
+<td align="center">\times</td>
+</tr>
+<tr>
+<td align="center">$\cdot$</td>
+<td align="center">\cdot</td>
+</tr>
+<tr>
+<td align="center">$\div$</td>
+<td align="center">\div</td>
+</tr>
+<tr>
+<td align="center">$\neq$</td>
+<td align="center">\neq</td>
+</tr>
+<tr>
+<td align="center">$\equiv$</td>
+<td align="center">\equiv</td>
+</tr>
+<tr>
+<td align="center">$\leq$</td>
+<td align="center">\leq</td>
+</tr>
+<tr>
+<td align="center">$\geq$</td>
+<td align="center">\geq</td>
+</tr>
+</tbody></table>
+<h2 id="其它特殊字符"><a href="#其它特殊字符" class="headerlink" title="其它特殊字符"></a>其它特殊字符</h2><table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="center">Markdown</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$\forall$</td>
+<td align="center">\forall</td>
+</tr>
+<tr>
+<td align="center">$\infty$</td>
+<td align="center">\infty</td>
+</tr>
+<tr>
+<td align="center">$\emptyset$</td>
+<td align="center">\emptyset</td>
+</tr>
+<tr>
+<td align="center">$\exists$</td>
+<td align="center">\exists</td>
+</tr>
+<tr>
+<td align="center">$\nabla$</td>
+<td align="center">\nabla</td>
+</tr>
+<tr>
+<td align="center">$\bot$</td>
+<td align="center">\bot</td>
+</tr>
+<tr>
+<td align="center">$\angle$</td>
+<td align="center">\angle</td>
+</tr>
+<tr>
+<td align="center">$\because$</td>
+<td align="center">\because</td>
+</tr>
+<tr>
+<td align="center">$\therefore$</td>
+<td align="center">\therefore</td>
+</tr>
+</tbody></table>
+<p>花括号:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$ c(u)=\begin&#123;cases&#125; \sqrt\frac&#123;1&#125;&#123;N&#125;，u=0\\ \sqrt\frac&#123;2&#125;&#123;N&#125;， u\neq0\end&#123;cases&#125;  $$</span><br></pre></td></tr></table></figure>
+
+<p>$$<br>c(u)=\begin{cases} \sqrt\frac{1}{N}，u=0\\ \sqrt\frac{2}{N}， u\neq0\end{cases}<br>$$</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2020/07/30/MathJax-Test/">https://did321.github.io/2020/07/30/MathJax-Test/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/08/03/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B9%9D-%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E6%A0%91/">Machine Learning 学习笔记(九)——决策树</a>
+            
+            
+            <a class="next" rel="next" href="/2020/07/29/Python%E7%88%AC%E5%8F%96%E5%A4%A9%E6%B0%94%E6%95%B0%E6%8D%AE%E5%8F%8A%E5%8F%AF%E8%A7%86%E5%8C%96%E5%88%86%E6%9E%90/">Python爬取天气数据及可视化分析</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

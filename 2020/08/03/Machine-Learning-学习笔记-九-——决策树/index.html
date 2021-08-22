@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Machine Learning 学习笔记(九)——决策树 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Machine Learning 学习笔记(九)——决策树</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">August 3, 2020&nbsp;&nbsp;15:32:29</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Machine-Learning/">Machine Learning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">4.4k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">20</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
+<li>本文参考了 <a target="_blank" rel="noopener" href="https://blog.csdn.net/jiaoyangwm/article/details/79525237">https://blog.csdn.net/jiaoyangwm/article/details/79525237</a>这篇博客，这篇博客写的很好，值得推荐，就是里面有一个错误是列表拷贝的问题，要用到深拷贝。否则会使属性列表清空计算的信息增益为0。</li>
+<li>其次参考了西瓜书中的叙述，这里决策树的信息增益其实和信息论相联系。</li>
+<li>本篇文章是从jupyter notebook 中直接导出的，后面添加了图片，格式稍微有点不美观。<h2 id="1-决策树（decision-tree）"><a href="#1-决策树（decision-tree）" class="headerlink" title="1.决策树（decision tree）"></a>1.决策树（decision tree）</h2></li>
+</ul>
+<ul>
+<li>是一种基本的分类与回归方法，此处主要讨论分类的决策树。在分类问题中，表示基于特征对实例进行分类的过程，可以认为是if-then的集合，也可以认为是定义在特征空间与类空间上的条件概率分布。</li>
+<li>决策树通常有三个步骤：特征选择、决策树的生成、决策树的修剪。</li>
+<li>用决策树分类：从根节点开始，对实例的某一特征进行测试，根据测试结果将实例分配到其子节点，此时每个子节点对应着该特征的一个取值，如此递归的对实例进行测试并分配，直到到达叶节点，最后将实例分到叶节点的类中。</li>
+</ul>
+<h2 id="2-决策树的构建"><a href="#2-决策树的构建" class="headerlink" title="2.决策树的构建"></a>2.决策树的构建</h2><ul>
+<li>决策树学习的算法通常是一个递归地选择最优特征，并根据该特征对训练数据进行分割，使得各个子数据集有一个最好的分类的过程。这一过程对应着对特征空间的划分，也对应着决策树的构建。</li>
+</ul>
+<p>（1） 开始：构建根节点，将所有训练数据都放在根节点，选择一个最优特征，按着这一特征将训练数据集分割成子集，使得各个子集有一个在当前条件下最好的分类。</p>
+<p>（2） 如果这些子集已经能够被基本正确分类，那么构建叶节点，并将这些子集分到所对应的叶节点去。</p>
+<p>（3）如果还有子集不能够被正确的分类，那么就对这些子集选择新的最优特征，继续对其进行分割，构建相应的节点，如果递归进行，直至所有训练数据子集被基本正确的分类，或者没有合适的特征为止。</p>
+<p>（4）每个子集都被分到叶节点上，即都有了明确的类，这样就生成了一颗决策树。</p>
+<h3 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h3><ul>
+<li>划分数据集的大原则是：将无序数据变得更加有序，但是各种方法都有各自的优缺点，信息论是量化处理信息的分支科学，在划分数据集前后信息发生的变化称为信息增益，获得信息增益最高的特征就是最好的选择，所以必须先学习如何计算信息增益，集合信息的度量方式称为香农熵，或者简称熵。</li>
+<li>熵定义为信息的期望值，如果待分类的事物可能划分在多个类之中，则符号$x_i$的信息定义为：</li>
+</ul>
+<p> $$<br>   I(x_i)=−log_2p(x_i)<br> $$</p>
+<p>  为了计算熵，我们需要计算所有类别所有可能值所包含的信息期望值，通过下式得到：</p>
+<p>  $$<br>  H=-\sum_{i=1}^np(x_i)log_2p(x_i)<br>  $$</p>
+<p>  其中，n为分类数目，熵越大，随机变量的不确定性就越大。</p>
+<ul>
+<li><p>当熵中的概率由数据估计(特别是最大似然估计)得到时，所对应的熵称为经验熵(empirical entropy)。什么叫由数据估计？比如有10个数据，一共有两个类别，A类和B类。其中有7个数据属于A类，则该A类的概率即为十分之七。其中有3个数据属于B类，则该B类的概率即为十分之三。浅显的解释就是，这概率是我们根据数据数出来的。我们定义样本数据表中的数据为训练数据集D，则训练数据集D的经验熵为H(D)，|D|表示其样本容量，及样本个数。设有K个类Ck，k = 1,2,3,···,K，|Ck|为属于类Ck的样本个数，这经验熵公式可以写为：</p>
+<p>$$<br>H(D)=−\sum \frac{|c_k|}{D}log_2\frac{c_k}{D}<br>$$</p>
+</li>
+<li><p>在理解信息增益之前，要明确——条件熵<br>信息增益表示得知特征X的信息而使得类Y的信息不确定性减少的程度。<br>条件熵H(Y∣X)H(Y∣X)表示在已知随机变量X的条件下随机变量Y的不确定性，随机变量X给定的条件下随机变量Y的条件熵(conditional entropy) H(Y|X)，定义X给定条件下Y的条件概率分布的熵对X的数学期望：</p>
+<p>$$<br> H(Y|X) = \sum_{i=1}^{n}p_iH(Y|X=x_i)<br>$$</p>
+</li>
+<li><p>信息增益：信息增益是相对于特征而言的。所以，特征A对训练数据集D的信息增益Gain(D,A)，定义为集合D的经验熵H(D)与特征A给定条件下D的经验条件熵H(D|A)之差，即：</p>
+<p>$$<br> Gain(D,A) = H(D)-H(D|A)<br>$$</p>
+<p>一般地，熵H(D)与条件熵H(D|A)之差成为互信息(mutual information)。决策树学习中的信息增益等价于训练数据集中类与特征的互信息。</p>
+</li>
+<li><p>信息增益比(增益率)：特征A对训练数据集D的信息增益比Gain_ratio定义为其信息增益Gain(D,A)与训练数据集D的经验熵之比：</p>
+<p>$$<br>Gain_ratio=\frac{Gain(D,A)}{H(D)}<br>$$</p>
+</li>
+</ul>
+<h2 id="3-计算经验熵-信息熵"><a href="#3-计算经验熵-信息熵" class="headerlink" title="3.计算经验熵(信息熵)"></a>3.计算经验熵(信息熵)</h2><p><img src="https://img-blog.csdnimg.cn/20200803152921493.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> log</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">creatDataSet</span>():</span></span><br><span class="line">    <span class="comment"># 数据集</span></span><br><span class="line">    dataSet=[[<span class="string">&#x27;青绿&#x27;</span>,<span class="string">&#x27;蜷缩&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;清晰&#x27;</span>,<span class="string">&#x27;凹陷&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;是&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;乌黑&#x27;</span>,<span class="string">&#x27;蜷缩&#x27;</span>,<span class="string">&#x27;沉闷&#x27;</span>,<span class="string">&#x27;清晰&#x27;</span>,<span class="string">&#x27;凹陷&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;是&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;乌黑&#x27;</span>,<span class="string">&#x27;蜷缩&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;清晰&#x27;</span>,<span class="string">&#x27;凹陷&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;是&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;青绿&#x27;</span>,<span class="string">&#x27;蜷缩&#x27;</span>,<span class="string">&#x27;沉闷&#x27;</span>,<span class="string">&#x27;清晰&#x27;</span>,<span class="string">&#x27;凹陷&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;是&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;浅白&#x27;</span>,<span class="string">&#x27;蜷缩&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;清晰&#x27;</span>,<span class="string">&#x27;凹陷&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;是&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;青绿&#x27;</span>,<span class="string">&#x27;稍蜷&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;清晰&#x27;</span>,<span class="string">&#x27;稍凹&#x27;</span>,<span class="string">&#x27;软粘&#x27;</span>,<span class="string">&#x27;是&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;乌黑&#x27;</span>,<span class="string">&#x27;稍蜷&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;稍糊&#x27;</span>,<span class="string">&#x27;稍凹&#x27;</span>,<span class="string">&#x27;软粘&#x27;</span>,<span class="string">&#x27;是&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;乌黑&#x27;</span>,<span class="string">&#x27;稍蜷&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;清晰&#x27;</span>,<span class="string">&#x27;稍凹&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;是&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;乌黑&#x27;</span>,<span class="string">&#x27;稍蜷&#x27;</span>,<span class="string">&#x27;沉闷&#x27;</span>,<span class="string">&#x27;稍糊&#x27;</span>,<span class="string">&#x27;稍凹&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;否&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;青绿&#x27;</span>,<span class="string">&#x27;硬挺&#x27;</span>,<span class="string">&#x27;清脆&#x27;</span>,<span class="string">&#x27;清晰&#x27;</span>,<span class="string">&#x27;平坦&#x27;</span>,<span class="string">&#x27;软粘&#x27;</span>,<span class="string">&#x27;否&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;浅白&#x27;</span>,<span class="string">&#x27;硬挺&#x27;</span>,<span class="string">&#x27;清脆&#x27;</span>,<span class="string">&#x27;模糊&#x27;</span>,<span class="string">&#x27;平坦&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;否&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;浅白&#x27;</span>,<span class="string">&#x27;蜷缩&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;模糊&#x27;</span>,<span class="string">&#x27;平坦&#x27;</span>,<span class="string">&#x27;软粘&#x27;</span>,<span class="string">&#x27;否&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;青绿&#x27;</span>,<span class="string">&#x27;稍蜷&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;稍糊&#x27;</span>,<span class="string">&#x27;凹陷&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;否&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;浅白&#x27;</span>,<span class="string">&#x27;稍蜷&#x27;</span>,<span class="string">&#x27;沉闷&#x27;</span>,<span class="string">&#x27;稍糊&#x27;</span>,<span class="string">&#x27;凹陷&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;否&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;乌黑&#x27;</span>,<span class="string">&#x27;稍蜷&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;清晰&#x27;</span>,<span class="string">&#x27;稍凹&#x27;</span>,<span class="string">&#x27;软粘&#x27;</span>,<span class="string">&#x27;否&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;浅白&#x27;</span>,<span class="string">&#x27;蜷缩&#x27;</span>,<span class="string">&#x27;浊响&#x27;</span>,<span class="string">&#x27;模糊&#x27;</span>,<span class="string">&#x27;平坦&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;否&#x27;</span>],</span><br><span class="line">             [<span class="string">&#x27;青绿&#x27;</span>,<span class="string">&#x27;蜷缩&#x27;</span>,<span class="string">&#x27;沉闷&#x27;</span>,<span class="string">&#x27;稍糊&#x27;</span>,<span class="string">&#x27;稍凹&#x27;</span>,<span class="string">&#x27;硬滑&#x27;</span>,<span class="string">&#x27;否&#x27;</span>]]</span><br><span class="line">    <span class="comment"># 分类属性</span></span><br><span class="line">    labels = [<span class="string">&#x27;色泽&#x27;</span>,<span class="string">&#x27;根蒂&#x27;</span>,<span class="string">&#x27;敲声&#x27;</span>,<span class="string">&#x27;纹理&#x27;</span>,<span class="string">&#x27;脐部&#x27;</span>,<span class="string">&#x27;触感&#x27;</span>]</span><br><span class="line">    <span class="keyword">return</span> dataSet, labels</span><br><span class="line">dataSet, labels = creatDataSet()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_Ent</span>(<span class="params">dataSet</span>):</span></span><br><span class="line">    <span class="comment"># 返回数据集行数</span></span><br><span class="line">    n = <span class="built_in">len</span>(dataSet)</span><br><span class="line">    label_counts = &#123;&#125;</span><br><span class="line">    <span class="comment"># 对每组特征向量进行统计</span></span><br><span class="line">    <span class="keyword">for</span> feat <span class="keyword">in</span> dataSet:</span><br><span class="line">        current_label = feat[-<span class="number">1</span>]    <span class="comment"># 提取标签信息</span></span><br><span class="line">        <span class="keyword">if</span> current_label <span class="keyword">not</span> <span class="keyword">in</span> label_counts.keys():</span><br><span class="line">            label_counts[current_label] = <span class="number">0</span></span><br><span class="line">        label_counts[current_label] += <span class="number">1</span></span><br><span class="line">    Ent = <span class="number">0.0</span></span><br><span class="line">    <span class="comment"># 计算经验熵</span></span><br><span class="line">    <span class="built_in">print</span>(label_counts)</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> label_counts:</span><br><span class="line">        prob = <span class="built_in">float</span>(label_counts[key]/n)    <span class="comment"># 该标签的概率p</span></span><br><span class="line">        Ent -= prob * log(prob,<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> Ent</span><br><span class="line">Ent = calculate_Ent(dataSet)</span><br><span class="line">Ent</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#x27;是&#x27;: 8, &#x27;否&#x27;: 9&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.9975025463691153</span><br></pre></td></tr></table></figure>
+<h2 id="4-计算信息增益"><a href="#4-计算信息增益" class="headerlink" title="4.计算信息增益"></a>4.计算信息增益</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">split_dataSet</span>(<span class="params">dataSet,axis,value</span>):</span></span><br><span class="line">    ret_dataSet = []</span><br><span class="line">    <span class="keyword">for</span> feat <span class="keyword">in</span> dataSet:</span><br><span class="line">        <span class="keyword">if</span> feat[axis] == value:</span><br><span class="line">            reduce_feat = feat[:axis]</span><br><span class="line">            reduce_feat.extend(feat[axis+<span class="number">1</span>:])</span><br><span class="line">            ret_dataSet.append(reduce_feat)</span><br><span class="line">    <span class="keyword">return</span> ret_dataSet</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose_beat_feature</span>(<span class="params">dataSet</span>):</span></span><br><span class="line">    <span class="comment"># 特征数量</span></span><br><span class="line">    num_feat = <span class="built_in">len</span>(dataSet[<span class="number">0</span>]) - <span class="number">1</span></span><br><span class="line">    <span class="comment"># 计算数据集的信息熵</span></span><br><span class="line">    Ent = calculate_Ent(dataSet)</span><br><span class="line">    <span class="comment"># 最佳信息增益</span></span><br><span class="line">    best_gain = <span class="number">0.0</span></span><br><span class="line">    <span class="comment"># 最佳信息增益索引值</span></span><br><span class="line">    best_feat = -<span class="number">1</span></span><br><span class="line">    <span class="comment"># 遍历所有特征</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_feat):</span><br><span class="line">        <span class="comment"># 获取dataSet的第i个属性</span></span><br><span class="line">        feat_list = [example[i] <span class="keyword">for</span> example <span class="keyword">in</span> dataSet]</span><br><span class="line">        <span class="comment"># 创建set集合，元素不可重复</span></span><br><span class="line">        feats = <span class="built_in">set</span>(feat_list)</span><br><span class="line">        <span class="comment"># 信息条件熵</span></span><br><span class="line">        Ent_condition = <span class="number">0.0</span></span><br><span class="line">        <span class="comment"># 计算条件熵</span></span><br><span class="line">        <span class="keyword">for</span> value <span class="keyword">in</span> feats:</span><br><span class="line">            <span class="comment"># 划分后的子集</span></span><br><span class="line">            sub_dataSet = split_dataSet(dataSet,i,value)</span><br><span class="line">            <span class="comment"># 计算子集的概率 (|Dv|/|D|)</span></span><br><span class="line">            prob = <span class="built_in">len</span>(sub_dataSet)/<span class="built_in">float</span>(<span class="built_in">len</span>(dataSet))</span><br><span class="line">            <span class="comment"># 根据公式求条件熵</span></span><br><span class="line">            Ent_condition += prob * calculate_Ent(sub_dataSet)</span><br><span class="line">        <span class="comment"># 求出信息增益</span></span><br><span class="line">        gain = Ent - Ent_condition</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\&quot;%s\&quot;属性的信息增益为%.3f&quot;</span> %(labels[i],gain))</span><br><span class="line">        <span class="keyword">if</span> gain &gt; best_gain:</span><br><span class="line">            best_gain = gain</span><br><span class="line">            best_feat = i</span><br><span class="line">    <span class="keyword">return</span> best_feat</span><br><span class="line">best_feat = choose_beat_feature(dataSet)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最优属性索引值为：&quot;</span>+labels[best_feat])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#x27;是&#x27;: 8, &#x27;否&#x27;: 9&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 3, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 4&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 4, &#x27;否&#x27;: 2&#125;</span><br><span class="line">&quot;色泽&quot;属性的信息增益为0.108</span><br><span class="line">&#123;&#x27;是&#x27;: 3, &#x27;否&#x27;: 4&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 5, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&quot;根蒂&quot;属性的信息增益为0.143</span><br><span class="line">&#123;&#x27;是&#x27;: 6, &#x27;否&#x27;: 4&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 2, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&quot;敲声&quot;属性的信息增益为0.141</span><br><span class="line">&#123;&#x27;否&#x27;: 3&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 7, &#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 4&#125;</span><br><span class="line">&quot;纹理&quot;属性的信息增益为0.381</span><br><span class="line">&#123;&#x27;是&#x27;: 5, &#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 3, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 4&#125;</span><br><span class="line">&quot;脐部&quot;属性的信息增益为0.289</span><br><span class="line">&#123;&#x27;是&#x27;: 6, &#x27;否&#x27;: 6&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 2, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&quot;触感&quot;属性的信息增益为0.006</span><br><span class="line">最优属性索引值为：纹理</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-用ID3算法构建决策树"><a href="#5-用ID3算法构建决策树" class="headerlink" title="5.用ID3算法构建决策树"></a>5.用ID3算法构建决策树</h2><ul>
+<li>ID3算法的核心是在决策树各个结点上对应信息增益准则选择特征，递归地构建决策树。<br>具体方法是：</li>
+</ul>
+<p>（1）从根结点(root node)开始，对结点计算所有可能的特征的信息增益，选择信息增益最大的特征作为结点的特征。</p>
+<p>（2）由该特征的不同取值建立子节点，再对子结点递归地调用以上方法，构建决策树；直到所有特征的信息增益均很小或没有特征可以选择为止；</p>
+<p>（3）最后得到一个决策树。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200803153115493.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">major_cnt</span>(<span class="params">class_list</span>):</span></span><br><span class="line">    class_count = &#123;&#125;</span><br><span class="line">    <span class="comment"># 统计每个类别中元素出现的次数</span></span><br><span class="line">    <span class="keyword">for</span> vote <span class="keyword">in</span> class_list:</span><br><span class="line">        <span class="keyword">if</span> vote <span class="keyword">not</span> <span class="keyword">in</span> class_count.keys():</span><br><span class="line">            class_count[vote] = <span class="number">0</span></span><br><span class="line">        class_count[vote] += <span class="number">1</span></span><br><span class="line">    sorted_class_cnt = <span class="built_in">sorted</span>(class_count.items(),key=operator.itemgetter(<span class="number">1</span>),reverse=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> sorted_class_cnt[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">creat_tree</span>(<span class="params">dataSet, labels, feat_labels</span>):</span></span><br><span class="line">    <span class="comment"># 取分类标签</span></span><br><span class="line">    class_list = [example[-<span class="number">1</span>] <span class="keyword">for</span> example <span class="keyword">in</span> dataSet]</span><br><span class="line">    <span class="comment"># 如果类别完全相同，则停止继续分类</span></span><br><span class="line">    <span class="keyword">if</span> class_list.count(class_list[<span class="number">0</span>]) == <span class="built_in">len</span>(class_list):</span><br><span class="line">        <span class="keyword">return</span> class_list[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 遍历完所有特征时返回出现次数最多的类标签</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(dataSet[<span class="number">0</span>]) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> major_cnt(class_list)</span><br><span class="line">    <span class="comment"># 选择最优特征</span></span><br><span class="line">    best_feat = choose_beat_feature(dataSet)</span><br><span class="line">    <span class="comment"># 最优特征的标签</span></span><br><span class="line">    best_feat_label = labels[best_feat]</span><br><span class="line">    feat_labels.append(best_feat_label)</span><br><span class="line">    <span class="comment"># 根据最优特征生成树</span></span><br><span class="line">    mytree = &#123;best_feat_label:&#123;&#125;&#125;</span><br><span class="line">    <span class="comment"># 删除已经使用的特征标签</span></span><br><span class="line">    <span class="keyword">del</span>(labels[best_feat])</span><br><span class="line">    <span class="comment"># 得到训练集中所有最优特征的属性值</span></span><br><span class="line">    feat_values = [example[best_feat] <span class="keyword">for</span> example <span class="keyword">in</span> dataSet]</span><br><span class="line">    <span class="comment"># 去掉重复的属性值</span></span><br><span class="line">    feat = <span class="built_in">set</span>(feat_values)</span><br><span class="line">    <span class="comment"># 遍历特征，创建决策树</span></span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> feat:</span><br><span class="line">        labels2 = copy.deepcopy(labels)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;现在进行的是%s 下面的\&quot;%s\&quot;类&quot;</span> % (best_feat_label,value))</span><br><span class="line">        mytree[best_feat_label][value] = creat_tree(split_dataSet(dataSet,best_feat,value),labels2,feat_labels)</span><br><span class="line">    <span class="keyword">return</span> mytree</span><br><span class="line">feat_labels=[]</span><br><span class="line">dataSet,labels = creatDataSet() </span><br><span class="line">mytree = creat_tree(dataSet,labels,feat_labels)</span><br><span class="line"><span class="built_in">print</span>(mytree)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#x27;是&#x27;: 8, &#x27;否&#x27;: 9&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 3, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 4&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 4, &#x27;否&#x27;: 2&#125;</span><br><span class="line">&quot;色泽&quot;属性的信息增益为0.108</span><br><span class="line">&#123;&#x27;是&#x27;: 3, &#x27;否&#x27;: 4&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 5, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&quot;根蒂&quot;属性的信息增益为0.143</span><br><span class="line">&#123;&#x27;是&#x27;: 6, &#x27;否&#x27;: 4&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 2, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&quot;敲声&quot;属性的信息增益为0.141</span><br><span class="line">&#123;&#x27;否&#x27;: 3&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 7, &#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 4&#125;</span><br><span class="line">&quot;纹理&quot;属性的信息增益为0.381</span><br><span class="line">&#123;&#x27;是&#x27;: 5, &#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 3, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 4&#125;</span><br><span class="line">&quot;脐部&quot;属性的信息增益为0.289</span><br><span class="line">&#123;&#x27;是&#x27;: 6, &#x27;否&#x27;: 6&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 2, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&quot;触感&quot;属性的信息增益为0.006</span><br><span class="line">现在进行的是纹理 下面的&quot;模糊&quot;类</span><br><span class="line">现在进行的是纹理 下面的&quot;清晰&quot;类</span><br><span class="line">&#123;&#x27;是&#x27;: 7, &#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 3, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 3, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;色泽&quot;属性的信息增益为0.043</span><br><span class="line">&#123;&#x27;是&#x27;: 2, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 5&#125;</span><br><span class="line">&quot;根蒂&quot;属性的信息增益为0.458</span><br><span class="line">&#123;&#x27;是&#x27;: 5, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 2&#125;</span><br><span class="line">&quot;敲声&quot;属性的信息增益为0.331</span><br><span class="line">&#123;&#x27;是&#x27;: 5&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 2, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;脐部&quot;属性的信息增益为0.458</span><br><span class="line">&#123;&#x27;是&#x27;: 6&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 2&#125;</span><br><span class="line">&quot;触感&quot;属性的信息增益为0.458</span><br><span class="line">现在进行的是根蒂 下面的&quot;稍蜷&quot;类</span><br><span class="line">&#123;&#x27;是&#x27;: 2, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;色泽&quot;属性的信息增益为0.252</span><br><span class="line">&#123;&#x27;是&#x27;: 2, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;根蒂&quot;属性的信息增益为0.000</span><br><span class="line">&#123;&#x27;是&#x27;: 2, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;敲声&quot;属性的信息增益为0.000</span><br><span class="line">&#123;&#x27;是&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;脐部&quot;属性的信息增益为0.252</span><br><span class="line">现在进行的是色泽 下面的&quot;青绿&quot;类</span><br><span class="line">现在进行的是色泽 下面的&quot;乌黑&quot;类</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;色泽&quot;属性的信息增益为0.000</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;根蒂&quot;属性的信息增益为0.000</span><br><span class="line">&#123;&#x27;是&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;敲声&quot;属性的信息增益为1.000</span><br><span class="line">现在进行的是触感 下面的&quot;硬滑&quot;类</span><br><span class="line">现在进行的是触感 下面的&quot;软粘&quot;类</span><br><span class="line">现在进行的是根蒂 下面的&quot;硬挺&quot;类</span><br><span class="line">现在进行的是根蒂 下面的&quot;蜷缩&quot;类</span><br><span class="line">现在进行的是纹理 下面的&quot;稍糊&quot;类</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 4&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 2&#125;</span><br><span class="line">&quot;色泽&quot;属性的信息增益为0.322</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 3&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 1&#125;</span><br><span class="line">&quot;根蒂&quot;属性的信息增益为0.073</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 1&#125;</span><br><span class="line">&#123;&#x27;否&#x27;: 3&#125;</span><br><span class="line">&quot;敲声&quot;属性的信息增益为0.322</span><br><span class="line">&#123;&#x27;否&#x27;: 2&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1, &#x27;否&#x27;: 2&#125;</span><br><span class="line">&quot;脐部&quot;属性的信息增益为0.171</span><br><span class="line">&#123;&#x27;否&#x27;: 4&#125;</span><br><span class="line">&#123;&#x27;是&#x27;: 1&#125;</span><br><span class="line">&quot;触感&quot;属性的信息增益为0.722</span><br><span class="line">现在进行的是触感 下面的&quot;硬滑&quot;类</span><br><span class="line">现在进行的是触感 下面的&quot;软粘&quot;类</span><br><span class="line">&#123;&#x27;纹理&#x27;: &#123;&#x27;模糊&#x27;: &#x27;否&#x27;, &#x27;清晰&#x27;: &#123;&#x27;根蒂&#x27;: &#123;&#x27;稍蜷&#x27;: &#123;&#x27;色泽&#x27;: &#123;&#x27;青绿&#x27;: &#x27;是&#x27;, &#x27;乌黑&#x27;: &#123;&#x27;触感&#x27;: &#123;&#x27;硬滑&#x27;: &#x27;是&#x27;, &#x27;软粘&#x27;: &#x27;否&#x27;&#125;&#125;&#125;&#125;, &#x27;硬挺&#x27;: &#x27;否&#x27;, &#x27;蜷缩&#x27;: &#x27;是&#x27;&#125;&#125;, &#x27;稍糊&#x27;: &#123;&#x27;触感&#x27;: &#123;&#x27;硬滑&#x27;: &#x27;否&#x27;, &#x27;软粘&#x27;: &#x27;是&#x27;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-绘制决策树"><a href="#6-绘制决策树" class="headerlink" title="6.绘制决策树"></a>6.绘制决策树</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> matplotlib.font_manager <span class="keyword">import</span> FontProperties</span><br><span class="line"><span class="comment"># 获取树的叶子节点数目</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_num_leafs</span>(<span class="params">decision_tree</span>):</span></span><br><span class="line">    num_leafs = <span class="number">0</span></span><br><span class="line">    first_str = <span class="built_in">next</span>(<span class="built_in">iter</span>(decision_tree))</span><br><span class="line">    second_dict = decision_tree[first_str]</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> second_dict.keys():</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(second_dict[k], <span class="built_in">dict</span>):</span><br><span class="line">            num_leafs += get_num_leafs(second_dict[k])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            num_leafs += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> num_leafs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取树的深度</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_tree_depth</span>(<span class="params">decision_tree</span>):</span></span><br><span class="line">    max_depth = <span class="number">0</span></span><br><span class="line">    first_str = <span class="built_in">next</span>(<span class="built_in">iter</span>(decision_tree))</span><br><span class="line">    second_dict = decision_tree[first_str]</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> second_dict.keys():</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(second_dict[k], <span class="built_in">dict</span>):</span><br><span class="line">            this_depth = <span class="number">1</span> + get_tree_depth(second_dict[k])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            this_depth = <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> this_depth &gt; max_depth:</span><br><span class="line">            max_depth = this_depth</span><br><span class="line">    <span class="keyword">return</span> max_depth</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制节点</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_node</span>(<span class="params">node_txt, center_pt, parent_pt, node_type</span>):</span></span><br><span class="line">    arrow_args = <span class="built_in">dict</span>(arrowstyle=<span class="string">&#x27;&lt;-&#x27;</span>)</span><br><span class="line">    font = FontProperties(fname=<span class="string">r&#x27;C:\Windows\Fonts\STXINGKA.TTF&#x27;</span>, size=<span class="number">15</span>)</span><br><span class="line">    create_plot.ax1.annotate(node_txt, xy=parent_pt,  xycoords=<span class="string">&#x27;axes fraction&#x27;</span>, xytext=center_pt,</span><br><span class="line">                            textcoords=<span class="string">&#x27;axes fraction&#x27;</span>, va=<span class="string">&quot;center&quot;</span>, ha=<span class="string">&quot;center&quot;</span>, bbox=node_type,</span><br><span class="line">                            arrowprops=arrow_args, FontProperties=font)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标注划分属性</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_mid_text</span>(<span class="params">cntr_pt, parent_pt, txt_str</span>):</span></span><br><span class="line">    font = FontProperties(fname=<span class="string">r&#x27;C:\Windows\Fonts\MSYH.TTC&#x27;</span>, size=<span class="number">10</span>)</span><br><span class="line">    x_mid = (parent_pt[<span class="number">0</span>] - cntr_pt[<span class="number">0</span>]) / <span class="number">2.0</span> + cntr_pt[<span class="number">0</span>]</span><br><span class="line">    y_mid = (parent_pt[<span class="number">1</span>] - cntr_pt[<span class="number">1</span>]) / <span class="number">2.0</span> + cntr_pt[<span class="number">1</span>]</span><br><span class="line">    create_plot.ax1.text(x_mid, y_mid, txt_str, va=<span class="string">&quot;center&quot;</span>, ha=<span class="string">&quot;center&quot;</span>, color=<span class="string">&#x27;red&#x27;</span>, FontProperties=font)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制决策树</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_tree</span>(<span class="params">decision_tree, parent_pt, node_txt</span>):</span></span><br><span class="line">    d_node = <span class="built_in">dict</span>(boxstyle=<span class="string">&quot;sawtooth&quot;</span>, fc=<span class="string">&quot;0.8&quot;</span>)</span><br><span class="line">    leaf_node = <span class="built_in">dict</span>(boxstyle=<span class="string">&quot;round4&quot;</span>, fc=<span class="string">&#x27;0.8&#x27;</span>)</span><br><span class="line">    num_leafs = get_num_leafs(decision_tree)</span><br><span class="line">    first_str = <span class="built_in">next</span>(<span class="built_in">iter</span>(decision_tree))</span><br><span class="line">    cntr_pt = (plot_tree.xoff + (<span class="number">1.0</span> +<span class="built_in">float</span>(num_leafs))/<span class="number">2.0</span>/plot_tree.totalW, plot_tree.yoff)</span><br><span class="line">    plot_mid_text(cntr_pt, parent_pt, node_txt)</span><br><span class="line">    plot_node(first_str, cntr_pt, parent_pt, d_node)</span><br><span class="line">    second_dict = decision_tree[first_str]</span><br><span class="line">    plot_tree.yoff = plot_tree.yoff - <span class="number">1.0</span>/plot_tree.totalD</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> second_dict.keys():</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(second_dict[k], <span class="built_in">dict</span>):</span><br><span class="line">            plot_tree(second_dict[k], cntr_pt, k)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            plot_tree.xoff = plot_tree.xoff + <span class="number">1.0</span>/plot_tree.totalW</span><br><span class="line">            plot_node(second_dict[k], (plot_tree.xoff, plot_tree.yoff), cntr_pt, leaf_node)</span><br><span class="line">            plot_mid_text((plot_tree.xoff, plot_tree.yoff), cntr_pt, k)</span><br><span class="line">    plot_tree.yoff = plot_tree.yoff + <span class="number">1.0</span>/plot_tree.totalD</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_plot</span>(<span class="params">dtree</span>):</span></span><br><span class="line">    fig = plt.figure(<span class="number">1</span>, facecolor=<span class="string">&#x27;white&#x27;</span>)</span><br><span class="line">    fig.clf()</span><br><span class="line">    axprops = <span class="built_in">dict</span>(xticks=[], yticks=[])</span><br><span class="line">    create_plot.ax1 = plt.subplot(<span class="number">111</span>, frameon=<span class="literal">False</span>, **axprops)</span><br><span class="line">    plot_tree.totalW = <span class="built_in">float</span>(get_num_leafs(dtree))</span><br><span class="line">    plot_tree.totalD = <span class="built_in">float</span>(get_tree_depth(dtree))</span><br><span class="line">    plot_tree.xoff = -<span class="number">0.5</span>/plot_tree.totalW</span><br><span class="line">    plot_tree.yoff = <span class="number">1.0</span></span><br><span class="line">    plot_tree(dtree, (<span class="number">0.5</span>, <span class="number">1.0</span>), <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line">create_plot(mytree)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20200803153144228.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2020/08/03/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B9%9D-%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E6%A0%91/">https://did321.github.io/2020/08/03/Machine-Learning-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B9%9D-%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E6%A0%91/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"># 机器学习</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/03/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Tensorflow2-2-GPU%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/">深度学习Tensorflow2.2 GPU框架搭建</a>
+            
+            
+            <a class="next" rel="next" href="/2020/07/30/MathJax-Test/">MathJax Test</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

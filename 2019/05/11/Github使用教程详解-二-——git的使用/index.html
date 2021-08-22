@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Github使用教程详解(二)——git的使用 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Github使用教程详解(二)——git的使用</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 11, 2019&nbsp;&nbsp;11:47:39</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Github/">Github</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">913</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">3</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <div id="article_content" class="article_content clearfix">
+         <h3><a name="t0"></a><a id="_0"></a>说在前面：</h3>
+<ul>
+<li>之前的一篇是在官网上的一些操作，这次的是使用git来在本地提交到指定仓库</li>
+<li>参考博客链接：<a target="_blank" href="https://blog.csdn.net/qq_25066049/article/details/82820678" rel="nofollow noopener" data-token="b54507a83f55c3250606265855635a6c">https://blog.csdn.net/qq_25066049/article/details/82820678</a></li>
+</ul>
+<div id="article_content" class="article_content clearfix csdn-tracking-statistics">
+                                
+<div class="htmledit_views" id="content_views">
+                <p>github是一个代码托管平台，可以实现了代码的版本控制以及实现协同开发。作为一个新的程序员每天工作的结束将一天的工作上传到git是是一个好的习惯。下面来介绍如何使用git。</p>
+</div></div><h2><a name="t1"></a><a></a>一、git环境的创建</h2>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 1、使用git的首先需要一个在<a href="https://github.com/" rel="nofollow" target="_blank" data-token="85dd3cc1d806fc4496e1178180118e22">https://github.com/</a>上注册一个账号。假如注册的 账号：12345@qq.com;密码：12345（<span>后面本地仓库上传工程到git上的时候需要用到</span>）。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 2、在本地也就是自己电脑上安装一个Github下载地址&nbsp;<a href="https://desktop.github.com/" rel="nofollow" target="_blank" data-token="6c8d27a611b4fa874c97858a70115b54">https://desktop.github.com/</a>。下载完成之后，安装即可，一路next。</p>
+<p><img alt="" class="has" height="401" src="https://img-blog.csdn.net/20180923110232972?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDY2MDQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="565"><img alt="" class="has" height="256" src="https://img-blog.csdn.net/2018092311111768?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDY2MDQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="273"></p>
+<p>下载安装完成以后右键可以看见git bash here。（git bash here：在当前位置打开git命令行。git gui here：在当前位置打开git图形化界面，<span>下面只介绍命令行的使用方式</span>）。</p>
+<h2><a name="t2"></a><a></a>二、git 的使用</h2>
+<p>&nbsp; &nbsp; &nbsp; 现在我有一个名叫"JDBCTest"的工程需要上传到git。</p>
+<p>&nbsp; &nbsp; &nbsp; 1、首先我需要在git的网站上面创建一个在线的仓库。</p>
+<p><img alt="" class="has" height="370" src="https://img-blog.csdn.net/20180923111853489?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDY2MDQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="1115"><img alt="" class="has" height="661" src="https://img-blog.csdn.net/20180923112133867?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDY2MDQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="846"></p>
+<p><img alt="" class="has" height="659" src="https://img-blog.csdn.net/2018092311294272?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDY2MDQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="998"></p>
+<p>&nbsp; &nbsp;2、配置Git</p>
+<p>&nbsp; &nbsp; &nbsp;第一次打开软件，首先在本地创建<code>ssh key，</code>在需要在你电脑上获得一个密匙，<code>（<span>用我们之前上面注册的账号和密码</span>，这一步只是第一次用到）</code></p>
+<pre class="has prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-selector-tag">ssh-keygen</span> <span class="hljs-selector-tag">-t</span> <span class="hljs-selector-tag">rsa</span> <span class="hljs-selector-tag">-C</span> "12345@<span class="hljs-keyword">QQ</span>.<span class="hljs-keyword">com</span>"</code><div class="hljs-button {2}"></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul></pre>
+<p>&nbsp; &nbsp;如果成功的话会在<code>C/用户/用户名</code>下生成<code>.ssh文件夹，打开</code>id_rsa可以看见ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIskXqZF3SSFtACK6zoNGJabikTBC3kig6+4j4dCq1tswhA9YkuJCi0WpRmGYWBQ67dyT2or7RedFZlU。。。。的秘钥。</p>
+<p>&nbsp; &nbsp;然后登录到你的GitHub上边添加这个密匙</p>
+<p><img alt="" class="has" height="364" src="https://img-blog.csdn.net/20180923115304196?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDY2MDQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="295"><img alt="" class="has" height="395" src="https://img-blog.csdn.net/20180923115333508?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDY2MDQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="203"><img alt="" class="has" height="357" src="https://img-blog.csdn.net/20180923115449696?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MDY2MDQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" width="806"></p>
+<p>为了检查是否成功绑定 输入ssh -T git@github.com</p>
+<p>在输入密码确认后，如果出现了：You've successfully authenticated, but GitHub does not provide shell access 表示成功了。</p>
+<pre class="has prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-selector-tag">ssh</span> <span class="hljs-selector-tag">-T</span> <span class="hljs-selector-tag">git</span>@<span class="hljs-keyword">github</span>.<span class="hljs-keyword">com</span></code><div class="hljs-button {2}"></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul></pre>
+<h2><a name="t3"></a><a></a>3、完成客户端和服务器端的绑定之后。下面就可以在本地创建一个项目提交到github上了。</h2>
+<p>&nbsp;</p>
+<p>例如我要将本地的JDBCTest的一个android项目提交到git上。</p>
+<p>第一次提交需要依次执行下面几句代码：</p>
+<pre class="has prettyprint" name="code"><code class="language-java hljs has-numbering"></code><ol class="hljs-ln"><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">git init</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">git add .</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">git commit -m <span class="hljs-string">"first commit"</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">git remote add origin https:<span class="hljs-comment">//github.com/linliangliang/JDBCTest.git</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">git push -u origin master</div></div></li></ol><div class="hljs-button &#123;2&#125;"></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul></pre>
+<p>具体执行操作：</p>
+<p>1、进入JDBCTest项目的根目录下，右键-&gt;git bash here-&gt;打开了git命令窗口。</p>
+<p>2、输入git init,初始化项目，会在当前文件夹下面生成一个.git文件夹，该语句只在第一次提交的时候会用到，.git文件生成后第二次提交就不需要重复执行，如果没有看到，是因为被隐藏了，这是一个隐藏文件夹，不知道怎么显示的可以自行百度。</p>
+<p>3、执行git add .&nbsp; 最后面的”点”表示，将当前文件夹下的所有文件添加到本地仓库。亦可以只添加指定文件。</p>
+<p>4、git commit -m"first commit"; 将添加的文件提交到仓库， -m表示备注，用于记录本次提交做了哪些修改。</p>
+<p>5、git remote add origin https://github.com/linliangliang/JDBCTest.git 指定要提交到github的那个仓库，“linliangliang/JDBCTest.git”表示“用户名/项目名”</p>
+<p>6、<strong>git push -u origin master 推送到服务器上面。</strong></p>
+<h3><a name="t4"></a><a></a>4、如果之后再对项目进行修改需要更新JDBCTest项目的时候，只需要执行</h3>
+<pre class="has prettyprint" name="code"><code class="language-java hljs has-numbering"></code><ol class="hljs-ln"><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">git add .</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">git commit -m <span class="hljs-string">"second commit"</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">git push -u origin master</div></div></li></ol><div class="hljs-button {2}"></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul></pre>
+<p>&nbsp;</p>            
+                    </div>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/05/11/Github%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E8%AF%A6%E8%A7%A3-%E4%BA%8C-%E2%80%94%E2%80%94git%E7%9A%84%E4%BD%BF%E7%94%A8/">https://did321.github.io/2019/05/11/Github%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E8%AF%A6%E8%A7%A3-%E4%BA%8C-%E2%80%94%E2%80%94git%E7%9A%84%E4%BD%BF%E7%94%A8/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Github/"># Github</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/06/09/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/">Mysql学习笔记(一)</a>
+            
+            
+            <a class="next" rel="next" href="/2019/05/11/Github%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E8%AF%A6%E8%A7%A3-%E4%B8%80-%E2%80%94%E2%80%94%E5%AE%98%E7%BD%91%E6%8C%87%E5%8D%97/">Github使用教程详解(一)——官网指南</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

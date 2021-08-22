@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>FPGA学习笔记(三)——Verilog HDL基本语句 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">FPGA学习笔记(三)——Verilog HDL基本语句</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 2, 2019&nbsp;&nbsp;12:24:58</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/FPGA/">FPGA</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">4.6k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">17</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-过程语句"><a href="#1-过程语句" class="headerlink" title="1.过程语句"></a>1.过程语句</h2><ul>
+<li><p>Verilog中有两种结构化过程语句：initial和always语句，是行为建模的两种基本语句，所有的行为语句只能出现在这两种结构化过程语句里。</p>
+</li>
+<li><p>每个initial语句和always语句代表一个独立的执行过程（或过程块）。</p>
+</li>
+<li><p>一个模块可以包含多条always语句和多条initial语句。每条语句启动一个单独的控制流。每条语句都在0时刻开始并行执行。</p>
+</li>
+<li><p>这两种语句不能嵌套使用。Verilog本质上是并发的，这些块并发执行，而不是顺序执行。</p>
+</li>
+</ul>
+<h3 id="initial语句"><a href="#initial语句" class="headerlink" title="initial语句"></a>initial语句</h3><ul>
+<li><p>initial语句指定的内容只执行一次 ，initial语句主要用于仿真测试，不能进行逻辑综合。</p>
+<p>initial语句的格式如下：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">initial</span></span><br><span class="line">	<span class="keyword">begin</span></span><br><span class="line">		语句<span class="number">1</span>;</span><br><span class="line">		......</span><br><span class="line">		语句n;</span><br><span class="line">	<span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>举例说明：memory存储器初始化</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">initial</span></span><br><span class="line">	<span class="keyword">begin</span></span><br><span class="line">		<span class="keyword">for</span>(index = <span class="number">0</span>;index &lt; size;index = index+<span class="number">1</span>)</span><br><span class="line">		memory[index] = <span class="number">0</span>;  </span><br><span class="line">	<span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在这个例子中用initial语句在仿真开始时对各变量进行初始化，注意这个初始化过程不需要任何仿真时问，即在时间内，便可以完成存储器的初始化工作。</li>
+</ul>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> stimulus;</span><br><span class="line"><span class="keyword">reg</span>  x, y, a, b, m;</span><br><span class="line"><span class="keyword">initial</span></span><br><span class="line"> m=<span class="number">1</span>’b0;<span class="comment">//一条语句，无需begin-end</span></span><br><span class="line"><span class="keyword">initial</span></span><br><span class="line">  <span class="keyword">begin</span> <span class="comment">//多条语句，需begin-end</span></span><br><span class="line">    #<span class="number">5</span> a=<span class="number">1</span>’b1;</span><br><span class="line">    #<span class="number">25</span> b=<span class="number">1</span>’b0;  </span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">initial</span></span><br><span class="line"> <span class="keyword">begin</span></span><br><span class="line">   #<span class="number">10</span> x=<span class="number">1</span>’b0;</span><br><span class="line">   #<span class="number">25</span> y=<span class="number">1</span>’b1;</span><br><span class="line"> <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span>      </span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20191002121947827.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li>下面是用modelsim仿真出来的结果：</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20191002121958378.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li><p>一个模块中若有多个initial块，则它们同时并行执行。</p>
+<p>块内若有多条语句，需要用begin和end将它们组合，一条语句则不需要。</p>
+<p>initial块常用于测试文件和虚拟模块的编写，用来产生仿真测试信号和设置信号记录等仿真环境。</p>
+</li>
+</ul>
+<h3 id="always语句"><a href="#always语句" class="headerlink" title="always语句"></a>always语句</h3><ul>
+<li><p>always块内的语句是不断重复执行的，在仿真和逻辑综合中均可使用。</p>
+<p>always块的语句是否执行，要看它的触发条件是否满足。如满足则运行过程块一次;如不断满足，则不断地循环执行。      </p>
+<p>声明格式如下：</p>
+<p>   <code>always  &lt;时序控制&gt;   &lt;语句&gt;</code></p>
+</li>
+<li><p>always语句由于其不断活动的特性，只有和一定的时序控制结合在一起才有用。</p>
+<p>举例：</p>
+<p>​      <code>always  clk = ~clk;</code>  //这是一个死循环</p>
+<p> 但如果加上时序控制，以上这个always语句将变为一条非常有用的描述语句：</p>
+<p>​    <code>always  #half_period  clk = ~clk;</code> </p>
+<p> 则生成了一个周期为2* half_period的无限延续的信号波形。当经过half_period时间单位时，时钟信号取反，在经过half_period时间单位，就再取反为一个周期。</p>
+</li>
+<li><p>敏感信号表达式：</p>
+<p>always语句的时序控制可以使用事件表达式或敏感信号列表，即当表达式中变量的值改变时，就会引发块内语句的执行。其形式为：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">always</span>@(敏感信号表达式 )</span><br><span class="line">	<span class="keyword">begin</span></span><br><span class="line">	<span class="comment">//过程赋值</span></span><br><span class="line">	<span class="comment">//if-else,case,casex,casez选择语句</span></span><br><span class="line">	<span class="comment">//task,function调用</span></span><br><span class="line">    <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>敏感信号表达式中应列出影响块内取值的所有信号。</p>
+<p>always的时间控制可以是沿触发也可以是电平触发的，可以单个信号也可以多个信号，中间需要用关键字or连接。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//由多个电平触发的always块，只要a、b、c中任何一个发生变化，从高到低或从低到高都会执行一次过程块。 </span></span><br><span class="line"><span class="keyword">always</span>@(a <span class="keyword">or</span> b <span class="keyword">or</span> c)</span><br><span class="line">   <span class="keyword">begin</span></span><br><span class="line">       …………..</span><br><span class="line">   <span class="keyword">end</span></span><br><span class="line"><span class="comment">//由两个沿触发的always只要其中一个沿出现，就立即执行一次过程块。</span></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clock <span class="keyword">or</span> <span class="keyword">negedge</span> reset)</span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">       ………..</span><br><span class="line">   <span class="keyword">end</span></span><br><span class="line"><span class="comment">//posedge代表上升沿  negedge代表下降沿</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Verilog中，用always块可以设计组合逻辑电路和时序电路。注意一些问题是：</p>
+<p>在赋值表达式右端参与赋值的所有信号都必须在always @(敏感电平列表)中列出；而且将块的所有输入都列入敏感表是很好的描述习惯。</p>
+<p>​          always @ (a or b or c) </p>
+<p>​                e = a &amp; b &amp; c; </p>
+</li>
+<li><p>如果在赋值表达式右端引用了敏感信号列表中没有列出的信号，在综合时将会为没有列出的信号隐含地产生一个透明锁存器。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">input</span> a,b,c;</span><br><span class="line"><span class="keyword">output</span> e,d;</span><br><span class="line"><span class="keyword">reg</span> e,d;</span><br><span class="line"><span class="keyword">always</span>@(a <span class="keyword">or</span> b <span class="keyword">or</span> c)</span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    e = a &amp; b &amp; d;</span><br><span class="line">    d = e|c;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="comment">//d不在敏感信号列表中，d的变化e不会立即变化，直到a,b,c中的某一个变化。</span></span><br></pre></td></tr></table></figure></li>
+<li><p>always中if语句的判断表达式必须在敏感电平列表中列出。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191002122015468.png"></p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">always</span> @ (a <span class="keyword">or</span> b <span class="keyword">or</span> sel) </span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">       <span class="keyword">if</span> (sel)   </span><br><span class="line">             c = a;</span><br><span class="line">       <span class="keyword">else</span>   </span><br><span class="line">             c = b;</span><br><span class="line">    <span class="keyword">end</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Verilog中，用always块设计时序电路时，敏感列表中包括时钟信号和控制信号。 </p>
+<p><code>always @ ( posedge clk  or  negedge clr)</code> </p>
+<p><img src="https://img-blog.csdnimg.cn/20191002122028466.png"></p>
+</li>
+<li><p>每一个always块最好只由一种类型的敏感信号触发，而不要将边沿敏感型和电平敏感型信号列在一起。 </p>
+</li>
+<li><p>如果组合逻辑块语句的输人变量很多，那么编写敏感列表会很烦琐并且容易出错。针对这种情况，Verilog提供另外两个特殊的符号：<code>@*</code>和<code>@(*)</code>，它们都表示对其后面语句块中所有输入变量的变化是敏感的。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">always</span>@(a <span class="keyword">or</span> b <span class="keyword">or</span> c <span class="keyword">or</span> d <span class="keyword">or</span> e <span class="keyword">or</span> f <span class="keyword">or</span> g <span class="keyword">or</span> h <span class="keyword">or</span> p <span class="keyword">or</span> m)</span><br><span class="line">          <span class="keyword">begin</span>  out1 =  a ? b+c : d+e;</span><br><span class="line">                    out2 =  f  ? g+h:p+m;</span><br><span class="line">          <span class="keyword">end</span></span><br><span class="line"><span class="keyword">always</span>@( * )</span><br><span class="line">          <span class="keyword">begin</span>  out1 =  a ? b+c : d+e;</span><br><span class="line">                    out2 =  f  ? g+h:p+m;</span><br><span class="line">          <span class="keyword">end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>边沿触发：</p>
+<p>​    在同步时序逻辑电路中，触发器状态的变化仅仅发生在时钟脉冲的上升沿或下降沿，Verilog HDL提供了posedge（上升沿）与negedge（下降沿）两个关键字来进行描述。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如：同步清零的时序逻辑</span></span><br><span class="line">      <span class="keyword">always</span> @( <span class="keyword">posedge</span> clk )</span><br><span class="line">        <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (!reset)</span><br><span class="line">                q = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                q &lt;= d;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"><span class="comment">//例如：同步置位/清零的计数器</span></span><br><span class="line"><span class="keyword">module</span> sync(out,d,load,clr,clk)</span><br><span class="line">	<span class="keyword">input</span> d,load,clk,clr;</span><br><span class="line">    <span class="keyword">input</span>[<span class="number">7</span>:<span class="number">0</span>] d;</span><br><span class="line">    <span class="keyword">output</span>[<span class="number">7</span>:<span class="number">0</span>]out;</span><br><span class="line">    <span class="keyword">reg</span>[<span class="number">7</span>:<span class="number">0</span>] out;</span><br><span class="line">    <span class="keyword">always</span> @ ( <span class="keyword">posedge</span> clk )      <span class="comment">//clk上升沿触发</span></span><br><span class="line">         <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> ( !clr )  out &lt;= <span class="number">8</span>’h00;   <span class="comment">//同步清0，低电平有效</span></span><br><span class="line">   　　      <span class="keyword">else</span> <span class="keyword">if</span> ( load ) out &lt;= d;     <span class="comment">//同步置数</span></span><br><span class="line">            <span class="keyword">else</span>   out &lt;= out+<span class="number">1</span>           <span class="comment">//计数</span></span><br><span class="line">         <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"><span class="comment">//例如：异步清零：</span></span><br><span class="line">   <span class="keyword">module</span> async(d,clk,clr,q);</span><br><span class="line">       <span class="keyword">input</span> d,clk,clr;</span><br><span class="line">       <span class="keyword">output</span> q:</span><br><span class="line">       <span class="keyword">reg</span> q;</span><br><span class="line">       <span class="keyword">always</span> @ ( <span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">posedge</span> clr)  </span><br><span class="line">         <span class="keyword">begin</span></span><br><span class="line">        	 <span class="keyword">if</span> ( clr ) </span><br><span class="line">              q &lt;= <span class="number">1</span>’b0;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">              q &lt;= d;</span><br><span class="line">       <span class="keyword">end</span></span><br><span class="line">   <span class="keyword">endmodule</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>电平敏感时序控制：</p>
+<p>前面所讨论的事件控制都需要等待信号值的变化或者事件的触发，使用符号@和后面的敏感列表来表示。</p>
+<p>Verilog同时也允许使用另外一种形式表示的电平敏感时序控制(即后面的语句和语句块需要等待某个条件为真才能执行)。Verilog语言用关键字wait来表示等待电平敏感的条件为真。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">always</span> </span><br><span class="line">     <span class="keyword">wait</span>(count_enable)  #<span class="number">20</span> count=count+<span class="number">1</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>多always语句块 </p>
+<p>一个模块中可有多个always语句;</p>
+<p>每个always语句只要有相应的触发事件产生，对应的语句就执行;</p>
+<p>与各个always语句书写的前后顺序无关，它们之间是并行运行的。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> many_always(clk1,clk2,a,b,out1,out2,out3);</span><br><span class="line">	  	<span class="keyword">input</span> clk1,clk2;</span><br><span class="line">		<span class="keyword">input</span> a,b;</span><br><span class="line">		<span class="keyword">output</span> out1,out2,out3;</span><br><span class="line">		<span class="keyword">wire</span> clk1,clk2;</span><br><span class="line">		<span class="keyword">wire</span> a,b;</span><br><span class="line">		<span class="keyword">reg</span> out1,out2,out3;</span><br><span class="line">    <span class="keyword">always</span>@(<span class="keyword">posedge</span> clk1) <span class="comment">//当clk1的上升沿来时，令out1等于a和b的逻辑与。</span></span><br><span class="line">		out1 &lt;= a&amp;b;</span><br><span class="line">    <span class="keyword">always</span>@(<span class="keyword">posedge</span> clk1 <span class="keyword">or</span> <span class="keyword">negedge</span> clk2) <span class="comment">//当clk1的上升沿或者clk2的下降沿来时，令out2等于a和b的逻辑或。</span></span><br><span class="line">		out2 &lt;= a|b;</span><br><span class="line">    <span class="keyword">always</span>@(a <span class="keyword">or</span> b) <span class="comment">//当a或b的值变化时，令out3等于a和b的算术和。</span></span><br><span class="line">		out3 = a+b;</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
+<li><p>always和initial并存：</p>
+<p>在每一个模块(module)中，使用initial和always语句的次数是不受限制的。</p>
+<p>initial和always块不能相互嵌套。</p>
+<p>每个initial和always块的关系都是并行的，所有的initial语句和always语句都是从0时刻并行执行。</p>
+<p>例如：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> clk_gen(clk);</span><br><span class="line">    <span class="keyword">output</span>  clk;</span><br><span class="line">    <span class="keyword">parameter</span> period =<span class="number">50</span>,duty_cycle=<span class="number">50</span>;</span><br><span class="line"><span class="keyword">initial</span> </span><br><span class="line">    clk = <span class="number">1&#x27;b0</span>;</span><br><span class="line"><span class="keyword">always</span> </span><br><span class="line">     <span class="variable">#(period*duty_cycle/100)</span> clk = ~clk;</span><br><span class="line"><span class="keyword">initial</span></span><br><span class="line">     #<span class="number">100</span> <span class="built_in">$finish</span>;</span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*运行结果为：</span></span><br><span class="line"><span class="comment">时刻  |   执行时间</span></span><br><span class="line"><span class="comment">0		clk=1&#x27;b0</span></span><br><span class="line"><span class="comment">25		clk=1&#x27;b1;</span></span><br><span class="line"><span class="comment">50		clk=1&#x27;b0;</span></span><br><span class="line"><span class="comment">75		clk=1&#x27;b1;</span></span><br><span class="line"><span class="comment">100		$finish</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure></li>
+<li><p>学习了Verilog语法中两种最重要的结构语句initial和always。 需要牢记的是:</p>
+<p>  一个程序模块可以有多个initial和always过程块。</p>
+<p>  每个initial和always说明语句在仿真的一开始便同时立即开始运行。</p>
+<p>  initial语句在模块中只执行一次。</p>
+<p>   always语句则是不断地活动着。直到仿真过程结束。</p>
+<p>   always语句后跟着的过程块是否运行，则要看它的触发条件是否满足，如满足则运行过程块一次，再次满足则再运行一次，循环往复直至仿真过程结束。</p>
+<p>   always的时间控制可以是沿触发也可以是电平触发的，可以单个信号也可以多个信号，中间需要用关键字or或“，”连接。</p>
+<p>   沿触发的always块常常描述时序行为，如有限状态机。而电平触发的: always块常常用来描述组合逻辑的行为。</p>
+</li>
+</ul>
+<h2 id="2-块语句"><a href="#2-块语句" class="headerlink" title="2.块语句"></a>2.块语句</h2><ul>
+<li>在Verilog HDL描述逻辑功能中，当操作需要多条Verilog HDL语句才能描述时，这时就需要用块语句将多条Verilog HDL语句复合在一起。</li>
+</ul>
+<h3 id="begin–end-串行块"><a href="#begin–end-串行块" class="headerlink" title="begin–end 串行块"></a>begin–end 串行块</h3><ul>
+<li><p>begin ……end之间可以添加多条语句，并且语句是按照出现的顺序执行的。</p>
+</li>
+<li><p>如果语句前面有延时符号“＃”，那么延时的长度相对于前一条语句而言的。<br>由begin ……end构成的块语句形式为：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">begin</span></span><br><span class="line">          语句<span class="number">1</span>;</span><br><span class="line">          语句<span class="number">2</span>;</span><br><span class="line">            ......</span><br><span class="line">          语句n;</span><br><span class="line">     <span class="keyword">end</span></span><br><span class="line"><span class="keyword">begin</span>：块名</span><br><span class="line">          块内声明语句</span><br><span class="line">          语句<span class="number">1</span>;</span><br><span class="line">          语句<span class="number">2</span>;</span><br><span class="line">             ......</span><br><span class="line">          语句n;</span><br><span class="line">  <span class="keyword">end</span></span><br></pre></td></tr></table></figure></li>
+<li><p>其中可以在begin后声明该块的名字，一个标识名。块内声明语句可以是参数声明语句、reg型变量声明语句、integer型变量声明语句和real 变量声明语句。</p>
+</li>
+<li><p>顺序块(串行块)有以下特点:<br>（1）块内的语句是按顺序执行的，即只有上面一条语句执行完后下面的语句才能执行。<br>（2）每条语句的延迟时间是相对于前一条语句的仿真时间而言的。<br>（3）直到最后一条语句执行完，程序流程控制才跳出该语句块。</p>
+</li>
+</ul>
+<h3 id="fork–join并行快"><a href="#fork–join并行快" class="headerlink" title="fork–join并行快"></a>fork–join并行快</h3><ul>
+<li><p>fork–join之间可以添加多条语句，并且语句的关系是并行的，是同时执行的。</p>
+<p>如果语句前面有延时符号“＃”，那么延时的长度是相对于fork ……join块开始时间而言的。即块内每条语句的延迟时间是相对于程序流程控制进入到块内的仿真时间的。</p>
+<p>当按时间时序排序在最后的语句执行完后或一个disable语句执行时，程序流程控制跳出该程序块。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">格式<span class="number">1</span>如下：</span><br><span class="line">    <span class="keyword">fork</span></span><br><span class="line">          语句<span class="number">1</span>;</span><br><span class="line">          语句<span class="number">2</span>;</span><br><span class="line">           .......</span><br><span class="line">          语句n;</span><br><span class="line">   <span class="keyword">join</span></span><br><span class="line">格式<span class="number">2</span>如下：</span><br><span class="line">    <span class="keyword">fork</span>  :块名</span><br><span class="line">          块内声明语句</span><br><span class="line">          语句<span class="number">1</span>;</span><br><span class="line">          语句<span class="number">2</span>;</span><br><span class="line">           .......</span><br><span class="line">          语句n;</span><br><span class="line">   <span class="keyword">join</span></span><br></pre></td></tr></table></figure></li>
+<li><p>块名即标识该块的一个名字，相当于一个标识符。</p>
+<p>块内说明语句可以是参数说明语句、reg型变量声明语句、integer型变量声明语句、real型变量声明语句、time型变量声明语句和事件(event)说明语句。</p>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用 begin ……end顺序块：</span></span><br><span class="line"> <span class="keyword">reg</span>[<span class="number">7</span>:<span class="number">0</span>]  r;</span><br><span class="line"> <span class="keyword">begin</span></span><br><span class="line">    #<span class="number">50</span>  r = ‘h35;</span><br><span class="line">    #<span class="number">50</span>  r = ‘hE2;</span><br><span class="line">    #<span class="number">50</span>  r = ‘h00;</span><br><span class="line">    #<span class="number">50</span>  r = ‘hF7;</span><br><span class="line">    #<span class="number">50</span>  -&gt;end_wave;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="comment">//使用 fork ……join并行块：</span></span><br><span class="line"> <span class="keyword">reg</span>[<span class="number">7</span>:<span class="number">0</span>]  r;</span><br><span class="line">  <span class="keyword">fork</span></span><br><span class="line">    #<span class="number">50</span>  r = ‘h35;</span><br><span class="line">    #<span class="number">100</span>  r = ‘hE2;</span><br><span class="line">    #<span class="number">150</span>  r = ‘h00;</span><br><span class="line">    #<span class="number">200</span>  r = ‘hF7;</span><br><span class="line">    #<span class="number">250</span>  -&gt;end_wave;</span><br><span class="line"> <span class="keyword">join</span></span><br><span class="line"><span class="comment">//以上两个代码是等价的</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>起始时间和结束时间</p>
+<p>在并行块和顺序块中都有一个起始时间和结束时间的概念。</p>
+<p>顺序块起始时间就是第一条语句开始被执行的时间，结束时间就是最后一条语句执行完的时问。</p>
+<p>而对于并行块来说，起始时间对于块内所有的语句是相同的，即程序流程控制进入该块的时间，其结束时间是按时间排序在最后的语句执行结束的时间。</p>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">initial</span></span><br><span class="line"> <span class="keyword">fork</span></span><br><span class="line">    #<span class="number">10</span>  a = <span class="number">1</span>;</span><br><span class="line">    #<span class="number">15</span>  b = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">       #<span class="number">20</span>  c = <span class="number">1</span></span><br><span class="line">       #<span class="number">10</span>  d = <span class="number">1</span>;</span><br><span class="line">     <span class="keyword">end</span></span><br><span class="line">    #<span class="number">25</span>  e = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">join</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">该程序运行的结果如下：</span></span><br><span class="line"><span class="comment">    时刻    |    执行的语句</span></span><br><span class="line"><span class="comment">      10      |     a=1;</span></span><br><span class="line"><span class="comment">      15      |     b=1;</span></span><br><span class="line"><span class="comment">      20      |     c=1;</span></span><br><span class="line"><span class="comment">      25      |     e=1;</span></span><br><span class="line"><span class="comment">      30      |     d=1;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-赋值语句"><a href="#3-赋值语句" class="headerlink" title="3.赋值语句"></a>3.赋值语句</h2><ul>
+<li><p>两种赋值方法:连续赋值(Continuous Assignment), 过程赋值(Procedural Assignment)。</p>
+<p>过程赋值:阻塞赋值(Blocking Assignment),非阻塞赋值(Nonblocking Assignment)。</p>
+</li>
+</ul>
+<h3 id="连续赋值"><a href="#连续赋值" class="headerlink" title="连续赋值"></a>连续赋值</h3><ul>
+<li><p>连续赋值</p>
+<p>连续赋值常用于数据流行为建模。</p>
+<p>连续赋值语句，位于过程块语句外，常以assign为关键字。</p>
+<p>它只能为<strong>线网型变量赋值</strong>，并且线网型变量也必须用连续赋值的方法赋值。</p>
+<p>注意：只有当变量声明为线网型变量后，才能使用连续赋值语句进行赋值。</p>
+</li>
+<li><p>语句格式： <code>assign 赋值目标线网变量 = 表达式</code></p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一种</span></span><br><span class="line"><span class="keyword">wire</span> adder_out;</span><br><span class="line"><span class="keyword">assign</span> adder_out = mult_out + out;</span><br><span class="line"><span class="comment">//第二种</span></span><br><span class="line"><span class="keyword">wire</span> adder_out = mult_out+out;　</span><br><span class="line">　<span class="comment">//隐含了连续赋值语句</span></span><br><span class="line"><span class="comment">//第三种带函数调用的连续赋值语句：</span></span><br><span class="line">　　<span class="keyword">assign</span> c = max( a,b );    </span><br><span class="line"><span class="comment">//调用了函数max,将函数返回值赋给c</span></span><br></pre></td></tr></table></figure></li>
+<li><p>特点</p>
+<p>连续赋值语句中“=”的左边必须是线网型变量，右边可以是线网型、寄存器型变量或者是函数调用语句。</p>
+<p>连续赋值语属即刻赋值，即赋值号右边的运算值一旦变化，被赋值变量立刻随之变化。</p>
+<p>assign可以使用条件运算符进行条件判断后赋值。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如：连续赋值方式描述一个比较器</span></span><br><span class="line"> <span class="keyword">module</span> compare2 ( equal,a,b );</span><br><span class="line">   <span class="keyword">input</span> [<span class="number">1</span>:<span class="number">0</span>] a,b;</span><br><span class="line">   <span class="keyword">output</span>  equal;</span><br><span class="line">   <span class="keyword">assign</span>  equal=（a==b）？<span class="number">1</span>：<span class="number">0</span>; </span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="过程赋值"><a href="#过程赋值" class="headerlink" title="过程赋值"></a>过程赋值</h3><ul>
+<li><p>过程赋值</p>
+<p>多用于对reg型变量进行赋值，这类型变量在被赋值后，其值保持不变，直到赋值进程又被触发，变量才被赋予新值。</p>
+<p>过程赋值主要出现在过程块always和initial语句内。</p>
+<p>分为阻塞赋值和非阻塞赋值两种，它们在功能和特点上有佷大不同。</p>
+</li>
+<li><p>非阻塞赋值</p>
+<p>（1）非阻塞(Non_Blocking)赋值方式</p>
+<p>   操作符: “&lt;=”；非阻塞赋值符“&lt;=”与小于等于符“&lt;=”看起来是一样的，但意义完全不同。</p>
+<p>   其基本语法格式如下：</p>
+<p>​          <code>寄存器变量(reg)  &lt;=  表达式/变量; </code></p>
+<p>​                如 <code>b  &lt;=  a;</code></p>
+<p>   非阻塞赋值在整个过程块结束后才完成赋值操作。即在语句块中，上面语句所赋的变量值不能立即就为下面的语句所用;</p>
+<p>   在语句块中，连续的非阻塞赋值操作是同时完成的，即在同一个顺序块 中，非阻塞赋值表达式的书写顺序，不影响赋值的结果。  </p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//连续的非阻塞赋值实例：</span></span><br><span class="line">	<span class="keyword">module</span> non_blocking(reg_c,reg_d,data,clk);</span><br><span class="line"> 		 <span class="keyword">output</span> reg_c,reg_d;</span><br><span class="line"> 		 <span class="keyword">input</span> clk,data;</span><br><span class="line"> 		 <span class="keyword">reg</span> reg_c, reg_d;</span><br><span class="line">  		<span class="keyword">always</span> @( <span class="keyword">posedge</span> clk )</span><br><span class="line">   		 <span class="keyword">begin</span></span><br><span class="line">    	     reg_c &lt;= data;</span><br><span class="line">      		 reg_d &lt;= reg_c;</span><br><span class="line">    		<span class="keyword">end</span></span><br><span class="line">    <span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20191002122126980.png"></p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20191002122137721.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<ul>
+<li><p>在clk的上升沿，将data的值赋给reg_c，同时将reg_c原来的值（不是data）赋值给reg_d。即：上面语句所赋的变量值不能立即就为下面的语句所用，要等到过程块结束，同时并行赋值。</p>
+</li>
+<li><p>阻塞赋值</p>
+<p>（2）阻塞(Blocking)赋值方式</p>
+<pre><code> 操作符:  “ = ” 
+</code></pre>
+<p>   基本语法格式如下：</p>
+<pre><code>         `寄存器变量(reg) = 表达式/变量;` 
+              如 `b = a;`
+</code></pre>
+<p>   阻塞赋值在该语句结束时就立即完成赋值操作，即b的值在该条语句结束后立刻改变。<br>   如果在一个块语句中有多条阻塞赋值语句，那么写在前面的赋值语句没有完成之前，后面的语句就不能被执行，仿佛被阻塞了（blocking）一样，因而被称为阻塞赋值。<br>   连续的阻塞赋值操作是顺序完成的。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如：连续的阻塞赋值</span></span><br><span class="line">  	 <span class="keyword">module</span> blocking(reg_c,reg_d,data,clk);</span><br><span class="line">    	   <span class="keyword">output</span> reg_c,reg_d;</span><br><span class="line">       <span class="keyword">input</span> clk,data;</span><br><span class="line">       <span class="keyword">reg</span> reg_c, reg_d;</span><br><span class="line">       <span class="keyword">always</span> @( <span class="keyword">posedge</span> clk )</span><br><span class="line">         <span class="keyword">begin</span></span><br><span class="line">            reg_c = data;</span><br><span class="line">            reg_d = reg_c;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20191002122148362.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/20191002122158995.png"></p>
+<ul>
+<li><p>为了避免出错，在同一个always块内，最好不要将输出再作为输入使用，为了用阻塞赋值方式完成与上述非阻塞赋值同样的功能，可采用两个always块来实现，如下所示。</p>
+<p>在下面的例子中，两个always过程块是并发执行的。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">module</span> non_blocking(reg_c,reg_d,data,clk);</span><br><span class="line">    <span class="keyword">output</span> reg_c,reg_d;</span><br><span class="line">    <span class="keyword">input</span> clk,data;</span><br><span class="line">    <span class="keyword">reg</span> reg_c, reg_d;</span><br><span class="line">    <span class="keyword">always</span> @( <span class="keyword">posedge</span> clk )</span><br><span class="line">      <span class="keyword">begin</span></span><br><span class="line">         reg_c = data;</span><br><span class="line">     <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">always</span> @( <span class="keyword">posedge</span> clk )</span><br><span class="line">     <span class="keyword">begin</span></span><br><span class="line">       reg_d = reg_c;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
+<li><p>总的来说，多条阻塞赋值语句是顺序执行的，而多条非阻塞语句是并行执行的.</p>
+</li>
+<li><p>在使用always块描述组合逻辑(电平敏感)时使用阻塞赋值，在使用always块描述时序逻辑（边沿敏感）时使用非阻塞赋值。建立latch模型时，采用非阻塞赋值语句。在一个always块中同时有组合和时序逻辑时，采用非阻塞赋值语句。</p>
+</li>
+<li><p>不要在同一个always块内同时使用阻塞赋值和非阻塞赋值。</p>
+</li>
+<li><p>无论是使用阻塞赋值还是非阻塞赋值，不要在不同的always块内为<strong>同一个变量</strong>赋值。因为佷难保证不会引起赋值冲突。 </p>
+</li>
+</ul>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例子：在不同的always块为相同的变量赋值</span></span><br><span class="line">    <span class="keyword">module</span> wrong_assign(out,a,b,sel,clk);    </span><br><span class="line">      <span class="keyword">input</span> a,b,sel,clk;</span><br><span class="line">      <span class="keyword">output</span> out;</span><br><span class="line">      <span class="keyword">wire</span> a,b,sel,clk;</span><br><span class="line">      <span class="keyword">reg</span>  out;</span><br><span class="line">      <span class="comment">/*下面两个always块中都为out赋了值，</span></span><br><span class="line"><span class="comment">                            但似乎不会引起冲突      */</span></span><br><span class="line">     <span class="keyword">always</span> @ (<span class="keyword">posedge</span> clk)</span><br><span class="line">   		 <span class="keyword">if</span> (sel == <span class="number">1</span>) out &lt;= a;</span><br><span class="line">     <span class="keyword">always</span> @ (<span class="keyword">posedge</span> clk)</span><br><span class="line">         <span class="keyword">if</span> (sel == <span class="number">0</span>) out &lt;= b;<span class="comment">//由于两个块同时执行，一个要更新数值，一个要维持不变，因而可能引起冲突。</span></span><br><span class="line">  <span class="keyword">endmodule</span></span><br><span class="line">   </span><br><span class="line"><span class="comment">//上例的正确的写法为：</span></span><br><span class="line">   <span class="keyword">module</span> correct_assign(out,a,b,sel,clk); </span><br><span class="line">     <span class="keyword">input</span> a,b,sel,clk;</span><br><span class="line">     <span class="keyword">output</span> out;</span><br><span class="line">     <span class="keyword">wire</span> a,b,sel,clk;</span><br><span class="line">     <span class="keyword">reg</span>  out;</span><br><span class="line">     <span class="comment">//在同一个always块内为同一个变量赋值</span></span><br><span class="line">     <span class="keyword">always</span> @ (<span class="keyword">posedge</span> clk)</span><br><span class="line">       <span class="keyword">begin</span></span><br><span class="line">          <span class="keyword">if</span> ( sel== <span class="number">1</span>) </span><br><span class="line">              out&lt;=a;</span><br><span class="line">         <span class="keyword">else</span></span><br><span class="line">              out&lt;=b;</span><br><span class="line">         <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>阻塞语句，如果没有写延迟时间看起来是在同一时刻运行，但实际上是有先后的，即在前面的先运行，然后再运行下面的语句，阻塞语句的次序与逻辑行为有很大的关系。</li>
+<li>而非阻塞的就不同了，在begin-end之间的所有非阻塞语句都在同一时刻被赋值，因此逻辑行为与非阻塞语句的次序就没有关系。在硬件实现时这两者有很大的不同。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/10/02/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94Verilog-HDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E5%8F%A5/">https://did321.github.io/2019/10/02/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94Verilog-HDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E5%8F%A5/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/FPGA/"># FPGA</a>
+                    
+                        <a href="/tags/Verilog/"># Verilog</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/10/17/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B-%E2%80%94%E2%80%94Verilog-HDL%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/">FPGA学习笔记(四)——Verilog HDL条件语句与循环语句</a>
+            
+            
+            <a class="next" rel="next" href="/2019/09/30/FPGA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94Verilog-HDL%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/">FPGA学习笔记(二)——Verilog HDL语法基础</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

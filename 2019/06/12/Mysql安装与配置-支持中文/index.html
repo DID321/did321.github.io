@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Mysql安装与配置+支持中文 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Mysql安装与配置+支持中文</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 12, 2019&nbsp;&nbsp;10:20:06</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Mysql/">Mysql</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.2k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">4</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-win7-64-位安装与配置"><a href="#1-win7-64-位安装与配置" class="headerlink" title="1.win7 64 位安装与配置"></a>1.win7 64 位安装与配置</h2><ul>
+<li> （1）解压缩安装包 mysql‐5.7.17‐winx64，注意 mysql 安装目录不能出 现中文字符。比如：我的解压缩目录为 D:\mysql</li>
+<li> （2）在解压包里面有个服务启动默认配置文件 my‐default.ini。删除 这个文件，并将百度网盘中提供的 my.ini 复制到该目录。</li>
+<li> （3）修改系统变量： 我的电脑/计算机‐&gt;属性‐&gt;高级系统设置‐&gt;环境变量‐&gt;（系统变量） path‐&gt;编辑，将你的 mysql 软件下的 bin 目录的全路径放里面。我建 议童鞋们放在最前面，最后在那个目录的路径后面加个英文的分号（;） 保存就行了。如我的配置 D:\mysql\bin; 注意：是在 path 里面添加这个语句，千万不用把 path 原来里面的东 西删除，否则只能重装系统！</li>
+<li> （4）以管理员身份运行 cmd.exe，win7 同学可在开始‐&gt;命令框中输 入 cmd，选中 cmd.exe，点击鼠标右键，选择“管理员身份运行”，否 则后面安装 mysql 会出错！</li>
+</ul>
+<h2 id="2-win10-64-位安装与配置"><a href="#2-win10-64-位安装与配置" class="headerlink" title="2.win10 64 位安装与配置"></a>2.win10 64 位安装与配置</h2><ul>
+<li>Win10 同学：“开始”菜单上右键，在弹出菜单上选择“命令提示符<br>  （管理员） ”，其中“命令提示符（管理员）”用于运行某些需要管理<br>  员权限的命令。 使用 dos 指令进入 mysql 的 bin 目录，如我的：</li>
+<li>A．安装服务：输入 mysqld install 回车运行；</li>
+<li>B．再输入 mysqld –initialize 初始化 data 目录；（注意 mysqld 后面 一定要有空格，还有两条“-”，一定是两条减号）</li>
+<li>C．启动服务：接着就是输入 net start mysql 启动服务；</li>
+<li>D. 输入 mysql –u root ‐p回车，提示你输入密码，这个随机密码可 在 data 目录下的*。Err 文件中啊、找到，用记事本打开，找到关键 词 password，后面的就是随机密码，认证通过后进入 mysql 后台；</li>
+<li>E．输入 use mysql;打开系统数据库；</li>
+<li>F．配置自己的新密码：mysql&gt; set password for root@localhost = password(‘hellodsp’);</li>
+</ul>
+<h2 id="3-my-ini文件"><a href="#3-my-ini文件" class="headerlink" title="3.my.ini文件"></a>3.my.ini文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">    [mysql]</span><br><span class="line">    <span class="comment"># 设置mysql客户端默认字符集</span></span><br><span class="line">    default-character-<span class="built_in">set</span>=utf8 </span><br><span class="line">    [mysqld]</span><br><span class="line">    <span class="comment">#设置3306端口</span></span><br><span class="line">    port = <span class="number">3306</span> </span><br><span class="line">    skip-grant-tables</span><br><span class="line">    <span class="comment"># 设置mysql的安装目录</span></span><br><span class="line">    basedir=D:\mysql</span><br><span class="line">    <span class="comment"># 设置mysql数据库的数据的存放目录</span></span><br><span class="line">    datadir=D:\mysql\data</span><br><span class="line">    <span class="comment"># 允许最大连接数</span></span><br><span class="line">    max_connections=<span class="number">200</span></span><br><span class="line">    <span class="comment"># 服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line">    character-<span class="built_in">set</span>-server=utf8</span><br><span class="line">    <span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line">    default-storage-engine=INNODB</span><br><span class="line">    </span><br><span class="line">    [client]</span><br><span class="line">    <span class="comment">#default_character_set=utf8</span></span><br><span class="line">```    </span><br><span class="line"><span class="comment">## 4.Mysql支持中文配置</span></span><br><span class="line">    </span><br><span class="line">*    （<span class="number">1</span>）以管理员身份运行cmd.exe，win7同学可在开始-&gt;命令框中输入cmd，选中cmd.exe，点击鼠标右键，选择“管理员身份运行”，否则后面安装mysql会出错！</span><br><span class="line">*    （<span class="number">2</span>）输入net stop mysql停止mysql服务；</span><br><span class="line">*    （<span class="number">3</span>）删除安装目录下的data文件夹里面的所有文件，注意不要删除data目录</span><br><span class="line">*    （<span class="number">4</span>）打开配置文件my.ini，将语句skip-grant-tables前面注释符号<span class="comment">#去掉；将sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES注释掉；</span></span><br><span class="line">    在<span class="comment"># server_id = …后面另起一行，添加如下三行：</span></span><br><span class="line">    ```python</span><br><span class="line">    default_storage_engine=INNODB</span><br><span class="line">    character_set_server=utf8</span><br><span class="line">    collation_server=utf8_general_ci</span><br></pre></td></tr></table></figure>
+<pre><code>在最后一行添加：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">default_character_set=utf8</span><br></pre></td></tr></table></figure>
+保存。
+</code></pre>
+<ul>
+<li>（5）输入<code>mysqld –initialize</code> 初始化data目录；<br>  启动服务：接着就是输入 <code>net start mysql </code>启动服务；<br>  输入 <code>mysql –u root</code> 回车进入mysql后台；<br>  输入<code>use mysql;</code>打开系统数据库；<br>  输入<code>pdate user set authentication_string = password(&#39;请在此处设置你的密码&#39;) where user = &#39;root&#39;;</code>注意：密码请记住，否则无法进入后台管理系统。<br>  输入<code>exit</code>回车退出mysql；<br>  输入<code>net stop mysql</code>停止mysql服务；<br>  打开配置文件my.ini，将语句skip-grant-tables前面加个注释符合#以屏蔽这条指令。如下：<br>  <code># skip-grant-tables  </code>这样下次进入mysql就需要身份认证<br>  输入<code>net start mysql </code>重新启动服务<br>  输入<code>mysql -u root –p</code>回车，输入你刚才配置的密码即可顺利进入后台系统。  输入<code>show variables like &#39;character%&#39;;</code>如果都是utf8和binary字符，没有lartin1字符，则表示配置成功；<br>  输入<code>show databases;</code>显示所有的数据库；如果提示再次配置密码，则输入<code>SET PASSWORD = PASSWORD(‘你上次配置的密码’);</code><h2 id="5-配置mysql的问题解决与更正"><a href="#5-配置mysql的问题解决与更正" class="headerlink" title="5.配置mysql的问题解决与更正"></a>5.配置mysql的问题解决与更正</h2></li>
+<li>安装MySQL中的一点问题更正 如果电脑中不存在 D盘，需要修改my.ini中的路径的盘符为当前存在的盘符，否则会报<code>Errcode: 13 &quot;Permission denied&quot;</code>错误 pdf中有一条命令mysql –u root -p需要手动输入<br>  <code>mysql -u root -p</code><br>  直接复制会出错<br>  语句<code>set password for root@localhost =password(‘hellodsp’);</code>报错，正确的是<br>  <code>set password for root@localhost = password(‘hellodsp’);</code><br>  无换行，将中文单引号改成英文<br>  输入上述正确命令时可能会报错<code>ERROR 1290 (HY000): Unknown error 1290</code>，需要输入<br>  <code>flush privileges;</code><br>  刷新权限后再重新输入</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/06/12/Mysql%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE-%E6%94%AF%E6%8C%81%E4%B8%AD%E6%96%87/">https://did321.github.io/2019/06/12/Mysql%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE-%E6%94%AF%E6%8C%81%E4%B8%AD%E6%96%87/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Mysql%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/"># Mysql安装配置</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/06/13/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E8%A1%A8%E6%A0%BC%E5%8F%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8F%92%E5%85%A5/">Mysql学习笔记(二)——表格及数据的插入</a>
+            
+            
+            <a class="next" rel="next" href="/2019/06/09/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/">Mysql学习笔记(一)</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

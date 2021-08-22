@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>ESP32+TFT+分光棱镜实现透明小电视 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">ESP32+TFT+分光棱镜实现透明小电视</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 28, 2021&nbsp;&nbsp;13:00:55</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C51%E5%8D%95%E7%89%87%E6%9C%BA/">C51单片机</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">5.9k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">26</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>​                                                           <img src="https://img-blog.csdnimg.cn/2a3540e3478344f580583038116a08e0.png" alt="image-20210724152917592" style="zoom: 50%;" />        <img src="https://img-blog.csdnimg.cn/74ca5e8ad6af44d48567407327fbbf1e.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt="image-20210724152857345" style="zoom:50%;" /></p>
+<h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
+<li>主要参考了稚晖君的HoloCubic和旺仔爸爸造物社的透明手表教程。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Pkq7gmrbVfeZjG7krhSlTg">https://mp.weixin.qq.com/s/Pkq7gmrbVfeZjG7krhSlTg</a></li>
+<li>第一次在B站发视频，视频难免有瑕疵，如果有口误不正确的地方，请大家多多包涵，有什么错误或疑问都可以在评论区指出。</li>
+</ul>
+<h2 id="1-材料"><a href="#1-材料" class="headerlink" title="1. 材料"></a>1. 材料</h2><ul>
+<li><p>ESP32 + TFT + 分光棱镜材料：</p>
+<table>
+<thead>
+<tr>
+<th align="center">器件</th>
+<th align="center">尺寸</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ESP32开发板（乐鑫ESP-WROOM-32模组）</td>
+<td align="center">54.9mm×27.9mm</td>
+</tr>
+<tr>
+<td align="center">高清SPI TFT彩屏（8引脚）</td>
+<td align="center">1.44寸  26.5mm×25.5mm</td>
+</tr>
+<tr>
+<td align="center">分光棱镜 半透半反1:1</td>
+<td align="center">25.4mm×25.4mm</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>某宝链接：</p>
+<p><a target="_blank" rel="noopener" href="https://m.tb.cn/h.4zJX7F9?sm=4420ad">https://m.tb.cn/h.4zJX7F9?sm=4420ad</a>  Goouuu-ESP32模块开发板 无线WiFi+蓝牙 2合1 双核CPU<br><a target="_blank" rel="noopener" href="https://m.tb.cn/h.4zJXVqe?sm=704883">https://m.tb.cn/h.4zJXVqe?sm=704883</a>  高清SPI1.44寸 TFT显示彩屏 OLED液晶屏 st7735<br>分光棱镜: <a target="_blank" rel="noopener" href="https://m.tb.cn/h.4zFqoKL?sm=9cef79">https://m.tb.cn/h.4zFqoKL?sm=9cef79</a>  分光棱镜 25.4mm实验教学仪器 半透半反1:1分光 影像分光投射棱镜，注意一定要是1：1</p>
+</li>
+<li><p>ESP8266 + OLED + 分光棱镜材料：</p>
+<table>
+<thead>
+<tr>
+<th align="center">器件</th>
+<th align="center">尺寸</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ESP8266开发板（推荐ESP-01S）</td>
+<td align="center">24.82mm×14.81mm</td>
+</tr>
+<tr>
+<td align="center">OLED屏幕单色（四引脚）</td>
+<td align="center">23.45mm×23.45mm</td>
+</tr>
+<tr>
+<td align="center">分光棱镜 半透半反1:1</td>
+<td align="center">25mm×25mm</td>
+</tr>
+<tr>
+<td align="center">ESP8266串口下载器</td>
+<td align="center">——</td>
+</tr>
+<tr>
+<td align="center">3.7V锂电池 300mAh</td>
+<td align="center">——</td>
+</tr>
+<tr>
+<td align="center">1A锂电池充电保护板(Type-C充电口)</td>
+<td align="center">——</td>
+</tr>
+<tr>
+<td align="center">开关</td>
+<td align="center">——</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<img src="https://img-blog.csdnimg.cn/766af537a01344d4b0306b72eabdfbb2.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724091931181" style="zoom:50%;" />
+
+<ul>
+<li>ESP32和ESP8266是性价比非常高的Wi-Fi模块，非常适合物联网领域的DIY项目，两款芯片都属于32位处理器。ESP32是双核CPU，而ESP8266是单核处理器，可以通过Wi-Fi或蓝牙（ESP32）轻松地远程控制和监控设备。</li>
+<li>ESP32是ESP8266继任者。它增加了额外的CPU内核，更快的Wi-Fi，更多的GPIO，并支持蓝牙4.2和蓝牙低功耗。此外，ESP32配有触摸感应针脚。</li>
+</ul>
+<h2 id="2-EPS32-硬件连接方式"><a href="#2-EPS32-硬件连接方式" class="headerlink" title="2. EPS32 硬件连接方式"></a>2. EPS32 硬件连接方式</h2><ul>
+<li><p>EPS32 和 TFT彩屏接线图：</p>
+<img src="https://img-blog.csdnimg.cn/e6a2e88388094362ba579e50222f1e75.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724095057482" style="zoom:80%;" />
+
+<img src="https://img-blog.csdnimg.cn/b7b021b28f3941328871ae1f4a3997a2.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724094918405" style="zoom:50%;" /></li>
+</ul>
+<h2 id="3-Arduino-ESP32开发环境的搭建"><a href="#3-Arduino-ESP32开发环境的搭建" class="headerlink" title="3. Arduino + ESP32开发环境的搭建"></a>3. Arduino + ESP32开发环境的搭建</h2><ul>
+<li><p>官网下载Arduino1.8.15 <a target="_blank" rel="noopener" href="https://www.arduino.cc/en/software">https://www.arduino.cc/en/software</a> (建议不要下载2.0 beta 版，可能会有问题)。</p>
+</li>
+<li><p>安装ESP32开发包，文件-&gt; 首选项-&gt;附加开发板管理器 输入<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://dl.espressif.com/dl/package_esp32_index.json">https://dl.espressif.com/dl/package_esp32_index.json</a></p>
+<img src="https://img-blog.csdnimg.cn/ffa0743fe1d04c259333daa291ff74fa.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724101953258" style="zoom: 67%;" />
+
+<p>然后重启Arduino，工具-&gt; 开发板-&gt;开发板管理器，搜索ESP32下载</p>
+<img src="https://img-blog.csdnimg.cn/7c74bbf2e4794116a4c61a76278e5cb8.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724102224386" style="zoom:50%;" />
+
+<p><strong>这种方法下载速度很慢一般用下述方法：</strong></p>
+</li>
+<li><p>将文件夹下Espressif文件考到Arduino安装目录/hardware下，可以直接完成ESP32的配置。</p>
+<img src="https://img-blog.csdnimg.cn/770ebf472dd848db99b4d9280fb68372.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724100814799" style="zoom: 67%;" /></li>
+<li><p>工具-&gt;开发板选择 ESP32的开发板，并且设置下载速度为921600，频率为80MHZ。</p>
+<img src="https://img-blog.csdnimg.cn/8c1c77286d6a41e3904d7f46629b2897.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724102443337" style="zoom:67%;" /></li>
+<li><p>至此Arduino 和 ESP32 开发环境已经搭建好了。</p>
+</li>
+</ul>
+<hr>
+<p>下面采用官方例程验证是否有问题，能否下载程序。</p>
+<ul>
+<li>打开文件官方示例：ChipID，获取开发板芯片ID号。</li>
+</ul>
+<img src="https://img-blog.csdnimg.cn/513f1b97f6034a369373d52f3b789066.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724102651671" style="zoom: 50%;" />
+
+<ul>
+<li><p>点击烧写按钮，在下方看到烧写完成100%。<strong>注意下方提示Connect 时，此时开发板需要手动按下boot按钮才可烧写（踩坑记录，刚开始还以为板子坏了QAQ）</strong></p>
+<img src="https://img-blog.csdnimg.cn/e0262e9fe1834307a95a7846c242e84b.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724102926723" style="zoom: 50%;" /></li>
+<li><p>点击右上角串口监视器，可以看到ESP32芯片的ID号。证明环境搭建成功！</p>
+<img src="https://img-blog.csdnimg.cn/de608d44ccec42beaa63cd378e88447b.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724103019210" style="zoom:50%;" /></li>
+</ul>
+<h2 id="4-TFT-eSPI库的安装和基本使用"><a href="#4-TFT-eSPI库的安装和基本使用" class="headerlink" title="4. TFT_eSPI库的安装和基本使用"></a>4. TFT_eSPI库的安装和基本使用</h2><ul>
+<li><p>本文件的ESP32包已经有了TFT_eSPI库，如果自行下载的，需要到库管理中下载。</p>
+</li>
+<li><p>打开<code>.\Arduino\hardware\espressif\esp32\libraries\TFT_eSPI</code>下的&lt;User_Setup.h&gt;文件，在众多的驱动文件中，选择驱动ST7735，其他用不到的注释掉。 （文件夹中的是修改好的，如果TFT屏幕驱动和我的一样就选择ST7735）</p>
+<img src="https://img-blog.csdnimg.cn/b3eadda498a94bd4b2077eebae96a19a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724104800558" style="zoom:50%;" /></li>
+<li><p>接着设置屏幕显示的颜色和屏幕的尺寸大小，我们设置屏幕的宽度为128×128，屏幕颜色有RGB和BGR两种类型。TFT默认的是BGR类型，我们图片一般是RGB，后面在显示图片教程中会详细说明。</p>
+</li>
+</ul>
+<ul>
+<li><p>下面这行代码取消注释，是解决屏幕显示偏移的问题，主要是针对7735驱动的，出现屏幕下方和右方一条花纹线，没有颜色显示，原因就是屏幕原点（0，0）发生了偏移，把这行代码取消注释就可以了。（<strong>踩坑记录，找了好久才知道是这个问题，还以为TFT屏幕坏了QAQ</strong>）</p>
+<img src="https://img-blog.csdnimg.cn/290caf89aeb04f11a2486cf4fb280b2a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724105342971" style="zoom:50%;" /></li>
+<li><p>接下来是SPI引脚的设置，按照下图中的引脚设置即可，和前面的ESP32连线保持一致。</p>
+<img src="https://img-blog.csdnimg.cn/aa74da3d793e406889a41a52ddd1127a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724105037348" style="zoom:50%;" /></li>
+<li><p>下面是频率的设置，按照下图设置即可。</p>
+<img src="https://img-blog.csdnimg.cn/3c3a8e7566c041d49796f5a0aa158830.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724105208229" style="zoom:50%;" /></li>
+<li><p>新建文件写入如下代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;SPI.h&gt;</span> <span class="comment">//导入库</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;TFT_eSPI.h&gt;</span> </span></span><br><span class="line">  </span><br><span class="line">TFT_eSPI tft = TFT_eSPI(); </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// put your setup code here, to run once:</span></span><br><span class="line">  tft.init();                               <span class="comment">//初始化</span></span><br><span class="line">  tft.fillScreen(TFT_BLACK);                <span class="comment">//屏幕颜色</span></span><br><span class="line">  tft.setCursor(<span class="number">10</span>, <span class="number">10</span>, <span class="number">1</span>);                 <span class="comment">//设置起始坐标(10, 10)，2 号字体</span></span><br><span class="line">  tft.setTextColor(TFT_YELLOW);             <span class="comment">//设置文本颜色为白色</span></span><br><span class="line">  tft.setTextSize(<span class="number">2</span>);                       <span class="comment">//设置文字的大小 (1~7)</span></span><br><span class="line">  tft.println(<span class="string">&quot;TFT_Text&quot;</span>);                  <span class="comment">//显示文字</span></span><br><span class="line">  tft.fillCircle(<span class="number">30</span>,<span class="number">30</span>,<span class="number">10</span>,TFT_BLUE);        <span class="comment">//画圆</span></span><br><span class="line">  tft.drawLine(<span class="number">10</span>,<span class="number">50</span>, <span class="number">118</span>, <span class="number">50</span>, TFT_WHITE);  <span class="comment">//画线</span></span><br><span class="line">  tft.drawPixel(<span class="number">70</span>,<span class="number">70</span>,TFT_RED);             <span class="comment">//画点</span></span><br><span class="line">  tft.setTextColor(TFT_WHITE,TFT_BLUE);     <span class="comment">//设置文字颜色和背景颜色</span></span><br><span class="line">  tft.setCursor(<span class="number">10</span>, <span class="number">80</span>, <span class="number">1</span>);                 <span class="comment">//设置起始坐标(10, 10)，2 号字体</span></span><br><span class="line">  tft.println(<span class="string">&quot;TFT_Text&quot;</span>);                  <span class="comment">//显示文字</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// put your main code here, to run repeatedly:</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>按之前步骤进行烧写，结果如下图所示：</p>
+<img src="https://img-blog.csdnimg.cn/5717a5fab6234ef2bd2952d74634246b.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210724111531391" style="zoom: 67%;" /></li>
+<li><p>TFT常用函数原型：</p>
+<p><code>tft.init();</code> tft 初始化</p>
+<p><code>tft.fillScreen(Color); </code> color 可用内置的也可以自己设置屏幕颜色</p>
+<p><code>tft.setCursor(X, Y, L); </code>设置起始坐标(X, Y)，L号字体 L:0~6</p>
+<p><code>tft.setTextColor(Color); </code>设置文本颜色</p>
+<p><code>tft.setTextSize(S);</code>  设置文字的大小 S:(1~7)</p>
+<p><code>tft.println(Str);</code> 显示文字字符串，仅可显示英文字符，中文字符后续会出详细教程（需要自建汉字库显示）</p>
+<p><code>tft.fillCircle(X,Y,R,Color);</code> 画圆 以(X，Y)为圆心，R为半径。</p>
+<p><code>tft.drawLine(X1,Y1, X2, Y2, Color); </code>画线，起点（X1，Y1），终点（X2，Y2）。</p>
+<p><code>tft.drawPixel(X,Y,Color);</code>画点 （X，Y）</p>
+<p><code>tft.setTextColor(fg,bg); </code> 设置文字颜色fg和背景颜色bg。</p>
+</li>
+</ul>
+<h2 id="5-TFT显示中文汉字"><a href="#5-TFT显示中文汉字" class="headerlink" title="5. TFT显示中文汉字"></a>5. TFT显示中文汉字</h2><ul>
+<li><p>新建一个字库文件<code>MyFont.h</code>用来存储汉字字模数据，将每个汉字转换成对应的16进制数，就可以显示任意中文词语或者句子，但其实显示汉字或图片这种操作是比较占用单片机运行内存的，我们需要将这些不会变化的数据定义为不可变的const类型，因为用const修饰的变量，在硬件上会被保存到ROM中即“程序存储器”，而用于计算的“随机存储器”RAM空间比ROM小很多。</p>
+</li>
+<li><p>定义每个汉字的显示大小为16×16像素，在<code>MyFont.h</code>中写入如下代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pgmspace.h&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> hz_zhou PROGMEM[] =</span><br><span class="line">&#123;</span><br><span class="line">	<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x3F</span>,<span class="number">0xF8</span>,<span class="number">0x21</span>,<span class="number">0x08</span>,<span class="number">0x21</span>,<span class="number">0x08</span>,<span class="number">0x2F</span>,<span class="number">0xE8</span>,<span class="number">0x21</span>,<span class="number">0x08</span>,<span class="number">0x21</span>,<span class="number">0x08</span>,<span class="number">0x3F</span>,<span class="number">0xF8</span>,</span><br><span class="line">	<span class="number">0x20</span>,<span class="number">0x08</span>,<span class="number">0x27</span>,<span class="number">0xC8</span>,<span class="number">0x24</span>,<span class="number">0x48</span>,<span class="number">0x24</span>,<span class="number">0x48</span>,<span class="number">0x27</span>,<span class="number">0xC8</span>,<span class="number">0x40</span>,<span class="number">0x08</span>,<span class="number">0x40</span>,<span class="number">0x28</span>,<span class="number">0x80</span>,<span class="number">0x10</span><span class="comment">/*&quot;周&quot;,0*/</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> hz_Mon PROGMEM[] =</span><br><span class="line">&#123;</span><br><span class="line">	<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0xFF</span>,<span class="number">0xFE</span>,</span><br><span class="line">	<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span><span class="comment">/*&quot;一&quot;,1*/</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">... <span class="comment">// 省略其余字模数据</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">FNT_HZ</span> // 汉字字模数据结构</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">char</span>  Index[<span class="number">4</span>];	<span class="comment">// 汉字内码索引,如&quot;中&quot;,在UTF-8编码下，每个汉字占3个字节，第四个是结束符0</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>* hz_Id;  <span class="comment">// 点阵码数据，存放内码后对应的点阵序列每个字需要32个字节的点阵序列</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">char</span> hz_width;    <span class="comment">//序列长度</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义结构数组</span></span><br><span class="line">PROGMEM <span class="keyword">const</span> FNT_HZ hanzi[] =</span><br><span class="line">&#123;</span><br><span class="line">  &#123;<span class="string">&quot;周&quot;</span>, hz_zhou,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;一&quot;</span>, hz_Mon,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;二&quot;</span>, hz_Tue,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;三&quot;</span>, hz_Wed,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;四&quot;</span>, hz_Thu,<span class="number">16</span>&#125;,</span><br><span class="line">  &#123;<span class="string">&quot;五&quot;</span>, hz_Fri,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;六&quot;</span>, hz_Sat,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;日&quot;</span>, hz_Sunday,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;晴&quot;</span>, hz_sun,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;阴&quot;</span>, hz_cloudy,<span class="number">16</span>&#125;,</span><br><span class="line">  &#123;<span class="string">&quot;雨&quot;</span>, hz_rain,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;雪&quot;</span>, hz_snow,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;多&quot;</span>, hz_duo,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;云&quot;</span>, hz_yun,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;许&quot;</span>,hz_xu,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;昌&quot;</span>, hz_chang, <span class="number">16</span>&#125;,</span><br><span class="line">  &#123;<span class="string">&quot;东&quot;</span>, hz_dong,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;西&quot;</span>, hz_xi,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;南&quot;</span>, hz_nan,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;北&quot;</span>,hz_bei,<span class="number">16</span>&#125;, &#123;<span class="string">&quot;风&quot;</span>, hz_feng, <span class="number">16</span>&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>打开字体取模软件<code>PCtoLCD2002.exe</code>，选项进行如下设置：</p>
+<img src="https://img-blog.csdnimg.cn/81c61b6a1a2e414e9334dafae0e96116.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210725174446722" style="zoom: 80%;" /></li>
+<li><p>然后在下方打入需要取的汉字，点击生成字模，就可以复制下来按照上述方式定义汉字数组，存储这些字模就可以使用了。</p>
+<p><img src="https://img-blog.csdnimg.cn/911535808a304d4789e82c9b63daebeb.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210725174926505"></p>
+</li>
+<li><p>下面是导入字模，在TFT屏幕上显示汉字的方法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*******************单个汉字显示****************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">showMyFont</span><span class="params">(<span class="keyword">int32_t</span> x, <span class="keyword">int32_t</span> y, <span class="keyword">const</span> <span class="keyword">char</span> c[<span class="number">3</span>], <span class="keyword">uint32_t</span> color)</span> </span>&#123; </span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">25</span>; k++)<span class="comment">// 根据字库的字数调节循环的次数</span></span><br><span class="line">    <span class="keyword">if</span> (hanzi[k].Index[<span class="number">0</span>] == c[<span class="number">0</span>] &amp;&amp; hanzi[k].Index[<span class="number">1</span>] == c[<span class="number">1</span>] &amp;&amp; hanzi[k].Index[<span class="number">2</span>] == c[<span class="number">2</span>])</span><br><span class="line">    &#123; </span><br><span class="line">        tft.drawBitmap(x, y, hanzi[k].hz_Id, hanzi[k].hz_width, <span class="number">16</span>, color);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*******************整句汉字显示****************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">showMyFonts</span><span class="params">(<span class="keyword">int32_t</span> x, <span class="keyword">int32_t</span> y, <span class="keyword">const</span> <span class="keyword">char</span> str[], <span class="keyword">uint32_t</span> color)</span> </span>&#123; <span class="comment">//显示整句汉字，字库比较简单，上下、左右输出是在函数内实现</span></span><br><span class="line">  <span class="keyword">int</span> x0 = x;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(str); i += <span class="number">3</span>) &#123;</span><br><span class="line">    showMyFont(x0, y, str+i, color);</span><br><span class="line">    x0 += <span class="number">17</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showMyFonts(<span class="number">40</span>, <span class="number">50</span>, <span class="string">&quot;周日晴&quot;</span>, TFT_YELLOW); <span class="comment">//在(40，50)处显示“周日晴”</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="6-TFT显示图片（包含动态图片）"><a href="#6-TFT显示图片（包含动态图片）" class="headerlink" title="6. TFT显示图片（包含动态图片）"></a>6. TFT显示图片（包含动态图片）</h2><ul>
+<li><p>同样新建一个图片文件<code>pic.h</code>，将图片取模的的数据用相同的方式存进去，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;pgmspace.h&gt;</span><br><span class="line"></span><br><span class="line">const uint16_t weather0[0x1000] PROGMEM =&#123;</span><br><span class="line">0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,   // 0x0010 (16)</span><br><span class="line">0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, </span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,   // 0x0FE0 (4064)</span><br><span class="line">0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,   // 0x0FF0 (4080)</span><br><span class="line">0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,   // 0x1000 (4096)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const uint16_t weather1[0x1000] PROGMEM =&#123;...&#125;;</span><br><span class="line"></span><br><span class="line">const uint16_t weather2[0x1000] PROGMEM =&#123;...&#125;;</span><br><span class="line"></span><br><span class="line">const uint16_t weather3[0x1000] PROGMEM =&#123;...&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>图片取模方法：打开图片取模软件<code>ImageConverter565.exe</code>，Open image选择要转换的图片文件，可以看到像素大小，选择Arduino，保存为.c文件。</p>
+</li>
+<li><p>将其改为<code>const uint16_t Name[ ] PROGMEM =&#123;...&#125;</code>方式，和字体一样存到程序存储器中。</p>
+</li>
+<li><p>下面就可以采用以下程序在TFT屏幕上显示图片了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tft.setSwapBytes(<span class="literal">true</span>);              <span class="comment">// RGB-&gt;BGR 加上这句才能正确显示颜色。</span></span><br><span class="line">tft.pushImage(<span class="number">4</span>, <span class="number">4</span>, <span class="number">120</span>, <span class="number">120</span>, Name); <span class="comment">// 在(4,4)处显示Name图片 128×128像素</span></span><br></pre></td></tr></table></figure></li>
+<li><p>对于动态照片的显示，将动态照片分解成几帧，在loop函数中，定义一个全局变量i控制显示的帧数，每次运行loop显示一帧照片并延时，就可以完成动态照片的显示。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pgmspace.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//每一帧太空人的照片，一共九帧</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span> astronaut1[<span class="number">0x1000</span>] PROGMEM =&#123;</span><br><span class="line"><span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>,   <span class="comment">// 0x0010 (16)</span></span><br><span class="line"><span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>,   <span class="comment">// 0x0020 (32)</span></span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line"><span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span> astronaut2[<span class="number">0x1000</span>] PROGMEM =&#123;...&#125;;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span> astronaut3[<span class="number">0x1000</span>] PROGMEM =&#123;...&#125;;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span> astronaut4[<span class="number">0x1000</span>] PROGMEM =&#123;...&#125;;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span> astronaut5[<span class="number">0x1000</span>] PROGMEM =&#123;...&#125;;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span> astronaut6[<span class="number">0x1000</span>] PROGMEM =&#123;...&#125;;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span> astronaut7[<span class="number">0x1000</span>] PROGMEM =&#123;...&#125;;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span> astronaut8[<span class="number">0x1000</span>] PROGMEM =&#123;...&#125;;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span> astronaut9[<span class="number">0x1000</span>] PROGMEM =&#123;...&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义太空人照片的指针数组</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">uint16_t</span>* Astronaut [] PROGMEM = &#123;astronaut1,astronaut2,astronaut3,astronaut4,astronaut5,astronaut6,astronaut7,astronaut8,astronaut9&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">void</span> loop&#123;</span><br><span class="line">    tft.setSwapBytes(<span class="literal">true</span>);             <span class="comment">//使图片颜色由RGB-&gt;BGR</span></span><br><span class="line">    tft.pushImage(<span class="number">10</span>, <span class="number">55</span>,  <span class="number">64</span>, <span class="number">64</span>, Astronaut[i]); <span class="comment">// (10,55) 显示 64 × 64 像素的图片</span></span><br><span class="line">    delay(<span class="number">100</span>);							<span class="comment">//延时</span></span><br><span class="line">    i+=<span class="number">1</span>;								<span class="comment">//下一帧</span></span><br><span class="line">    <span class="keyword">if</span>(i&gt;<span class="number">8</span>)&#123;i=<span class="number">0</span>;&#125;							</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="7-TFT镜像设置-分光棱镜"><a href="#7-TFT镜像设置-分光棱镜" class="headerlink" title="7. TFT镜像设置+分光棱镜"></a>7. TFT镜像设置+分光棱镜</h2><ul>
+<li><p>分光棱镜是一种用于分离光线的水平偏振和垂直偏振的光学元件，是由两个三棱镜组成，中间镀制了多层膜结构，其中透射和反射是1：1。</p>
+<img src="https://img-blog.csdnimg.cn/69b3b9ea81f04b09be4c2048dcc8cf0d.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210726090804948" style="zoom: 33%;" />
+
+<img src="https://img-blog.csdnimg.cn/3d0af764ce404545aa358def85e92220.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210726090921476" style="zoom:33%;" /></li>
+<li><p>而它所成的像是上下颠倒的，这就需要我们在程序中把屏幕设置为镜像显示。</p>
+<img src="https://img-blog.csdnimg.cn/dba95dbd67824557b2953dbc55c69121.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210726094234640" style="zoom:50%;" /></li>
+<li><p>打开文件<code>E:\Arduino\hardware\espressif\esp32\libraries\TFT_eSPI\TFT_Drivers\ST7735_Rotation.h</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">rotation = m % <span class="number">5</span>; <span class="comment">// 修改 Limit the range of values to 0-4</span></span><br><span class="line"></span><br><span class="line">  writecommand(TFT_MADCTL);</span><br><span class="line">  <span class="keyword">switch</span> (rotation) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">     <span class="keyword">if</span> (tabcolor == INITR_BLACKTAB) &#123;</span><br><span class="line">       writedata(TFT_MAD_MX | TFT_MAD_MY | TFT_MAD_COLOR_ORDER);</span><br><span class="line">     &#125; <span class="keyword">else</span> <span class="keyword">if</span>(tabcolor == INITR_GREENTAB2) &#123;</span><br><span class="line">       ...</span><br><span class="line">       ...</span><br><span class="line">       ...</span><br><span class="line">      _width  = _init_height;</span><br><span class="line">      _height = _init_width;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">         </span><br><span class="line">    <span class="comment">/****添加case4**********/</span>     </span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">       	writedata(<span class="number">0x39</span>);  <span class="comment">// 设置镜像旋转</span></span><br><span class="line">        _width  = _init_width;</span><br><span class="line">      	_height = _init_height;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>之后在代码中<code>Setup()</code>函数设置镜像就可以了，这样TFT屏幕就显示镜像。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setup</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    tft.init();                         <span class="comment">//初始化显示寄存器</span></span><br><span class="line">    tft.fillScreen(TFT_WHITE);          <span class="comment">//屏幕颜色</span></span><br><span class="line">    tft.setTextColor(TFT_BLACK);        <span class="comment">//设置字体颜色黑色</span></span><br><span class="line">    tft.setCursor(<span class="number">15</span>, <span class="number">30</span>, <span class="number">1</span>);           <span class="comment">//设置文字开始坐标(15,30)及1号字体</span></span><br><span class="line">    tft.setTextSize(<span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    tft.setRotation(<span class="number">4</span>);    <span class="comment">//设置显示镜像 + 旋转90°</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="8-NTP获取时间"><a href="#8-NTP获取时间" class="headerlink" title="8. NTP获取时间"></a>8. NTP获取时间</h2><ul>
+<li><p>网络时间协议（Network Time Protocol，NTP）是用来使计算机时间同步化的一种协议，它可以使计算机对其服务器或时钟源（如石英钟，GPS等等)做同步化，它可以提供高精准度的时间校正，与标准时间的误差小于1ms。标准时间来源于原子钟，卫星，天文台等。</p>
+</li>
+<li><p>我们就是要从NTP服务器上获取当前日期和时间，常用的NTP服务器如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pool.ntp.org     		 <span class="comment"># 国外的NTP服务器，国内地址为：cn.pool.ntp.orgntp.aliyun.com   		 # 阿里云time1.cloud.tencent.com  # 腾讯time.google.com 		 # 谷歌ntp.tuna.tsinghua.edu.cn # 清华大学ntp.sjtu.edu.cn  		 # 上海交通大学ntp.fudan.edu.cn		 # 复旦大学 </span></span><br></pre></td></tr></table></figure></li>
+<li><p>在Arduino安装<code>NTPClient</code>和<code>Wifi</code>库，在工具-&gt;库管理工具中搜索，如果当时用的我分享的ESP32包，里面自带的有就不需要下载了。</p>
+<img src="https://img-blog.csdnimg.cn/de7f864b08c44791926f2f4c35a58df8.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728102800071" style="zoom:50%;" /></li>
+<li><p>下面打开官方例程，文件-&gt;例程-&gt;NTPClient-&gt;Basic，进行如下修改：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;NTPClient.h&gt;</span>#<span class="meta-keyword">include</span> <span class="meta-string">&lt;WiFi.h&gt;</span> <span class="comment">// for WiFi shield#include &lt;WiFiUdp.h&gt;const char *ssid    = &quot;   &quot;;  //wifi账号const char *password = &quot;   &quot;;  //wifi密码WiFiUDP ntpUDP;NTPClient timeClient(ntpUDP,&quot;ntp.aliyun.com&quot;);  //NTP服务器地址void setup()&#123;  Serial.begin(115200);  //连接wifi  WiFi.begin(ssid, password);  while ( WiFi.status() != WL_CONNECTED ) &#123;    delay ( 500 );    Serial.print ( &quot;.&quot; );  &#125;  timeClient.begin();&#125;void loop() &#123;  timeClient.update();  //打印时间  Serial.println(timeClient.getFormattedTime());  delay(1000);&#125;</span></span></span><br></pre></td></tr></table></figure></li>
+<li><p>下载后我们通过串口监视器查看打印结果，发现打印出来的时间和电脑中显示的时间并不同步，基本相差8个小时。原因在于时区，我们所处的位置是东8区，所以要与东8区时间同步，进行如下修改：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setup</span><span class="params">()</span></span>&#123;</span><br><span class="line">  Serial.begin(<span class="number">115200</span>);</span><br><span class="line">  <span class="comment">//连接wifi</span></span><br><span class="line">  WiFi.begin(ssid, password);</span><br><span class="line">  <span class="keyword">while</span> ( WiFi.status() != WL_CONNECTED ) &#123;</span><br><span class="line">    delay ( <span class="number">500</span> );</span><br><span class="line">    Serial.print ( <span class="string">&quot;.&quot;</span> );</span><br><span class="line">  &#125;</span><br><span class="line">  timeClient.begin();</span><br><span class="line">  timeClient.setTimeOffset(<span class="number">28800</span>);  <span class="comment">// + 1区 偏移3600， +8区 ：3600×8 = 28800  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>下面是获取具体年、月、日、星期、小时、分钟的代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">timeClient.update();</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> epochTime = timeClient.getEpochTime();</span><br><span class="line">    Serial.print(<span class="string">&quot;Epoch Time: &quot;</span>);</span><br><span class="line">    Serial.println(epochTime);</span><br><span class="line">    <span class="comment">//打印时间</span></span><br><span class="line">    <span class="keyword">int</span> currentHour = timeClient.getHours();</span><br><span class="line">    Serial.print(<span class="string">&quot;Hour: &quot;</span>);</span><br><span class="line">    Serial.println(currentHour);</span><br><span class="line">    <span class="keyword">int</span> currentMinute = timeClient.getMinutes();</span><br><span class="line">    Serial.print(<span class="string">&quot;Minutes: &quot;</span>);</span><br><span class="line">    Serial.println(currentMinute);</span><br><span class="line">    <span class="keyword">int</span> weekDay = timeClient.getDay();</span><br><span class="line">    Serial.print(<span class="string">&quot;Week Day: &quot;</span>);</span><br><span class="line">    Serial.println(weekDay);</span><br><span class="line">    <span class="comment">//将epochTime换算成年月日</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">tm</span> *<span class="title">ptm</span> =</span> gmtime ((<span class="keyword">time_t</span> *)&amp;epochTime);</span><br><span class="line">    <span class="keyword">int</span> monthDay = ptm-&gt;tm_mday;</span><br><span class="line">    Serial.print(<span class="string">&quot;Month day: &quot;</span>);</span><br><span class="line">    Serial.println(monthDay);</span><br><span class="line">    <span class="keyword">int</span> currentMonth = ptm-&gt;tm_mon+<span class="number">1</span>;</span><br><span class="line">    Serial.print(<span class="string">&quot;Month: &quot;</span>);</span><br><span class="line">    Serial.println(currentMonth);</span><br><span class="line">    delay(<span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+<img src="https://img-blog.csdnimg.cn/62173142c0d14a458fc23e3c7ddd6bc6.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728105635342" style="zoom:50%;" /></li>
+<li><p>Epoch Time: 其实它指的是一个特定的时间：1970-01-01 00:00:00 ，也就是世界标准时间1970年1月1日0时0分0秒，以这个时间为起点，每过去一秒，数值加1。对应的就可以算出公历时间日期（不算闰秒）。</p>
+</li>
+<li><p>可以利用NTP库文件中提供的方法直接计算出年月日、星期等数据，获取到时间数据后只需要按照前面介绍的显示文本与汉字的方法就可以在TFT彩屏显示时间数据了。</p>
+</li>
+</ul>
+<h2 id="9-天气信息获取"><a href="#9-天气信息获取" class="headerlink" title="9. 天气信息获取"></a>9. 天气信息获取</h2><ul>
+<li><p>采用的是心知天气<code>seniverse.com</code>官方API，选择这个是因为对于用户免费提供天气实况及未来三天的天气，这对于我们的项目完全够用了。首先注册登录，点击控制台-&gt;免费版。</p>
+<img src="https://img-blog.csdnimg.cn/fbb3f0cd1dc94af2a072b6c147391b2e.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728114143590" style="zoom:50%;" /></li>
+<li><p>在基本信息中可以查看自己的公钥和私钥，私钥用于API的访问。</p>
+<img src="https://img-blog.csdnimg.cn/871217cc297c4b7ead3b16c6bb68b464.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728114259323" style="zoom: 50%;" /></li>
+<li><p>点击文档-&gt; V3版本文档-&gt;天气实况，这里有具体的接口地址、参数说明和返回结果说明。</p>
+<img src="https://img-blog.csdnimg.cn/a0db99ce96c5467ea5461e9b4d31c9ba.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728114454737" style="zoom:50%;" /></li>
+<li><p>天气实况API：<code>https://api.seniverse.com/v3/weather/now.json?key=你的私钥&amp;location=查询城市的拼音&amp;language=zh-Hans&amp;unit=c</code></p>
+</li>
+<li><p>当天+未来3天天气API: <code>https://api.seniverse.com/v3/weather/daily.json?key=你的私钥&amp;location=查询城市的拼音&amp;language=zh-Hans&amp;unit=c&amp;start=0&amp;days=5</code></p>
+</li>
+<li><p>生活指数API ：<code>https://api.seniverse.com/v3/life/suggestion.json?key=你的私钥&amp;location=查询城市的拼音&amp;language=zh-Hans</code></p>
+</li>
+<li><p>下面以查询上海的天气实况为例，直接在网站输入上述网址。返回结果如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;results&quot;</span>:[</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="attr">&quot;location&quot;</span>:</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="attr">&quot;id&quot;</span>:<span class="string">&quot;WTW3SJ5ZBJUY&quot;</span>,</span><br><span class="line">				<span class="attr">&quot;name&quot;</span>:<span class="string">&quot;上海&quot;</span>,</span><br><span class="line">				<span class="attr">&quot;country&quot;</span>:<span class="string">&quot;CN&quot;</span>,</span><br><span class="line">				<span class="attr">&quot;path&quot;</span>:<span class="string">&quot;上海,上海,国&quot;</span>,</span><br><span class="line">				<span class="attr">&quot;timezone&quot;</span>:<span class="string">&quot;Asia/Shanghai&quot;</span>,</span><br><span class="line">				<span class="attr">&quot;timezone_offset&quot;</span>:<span class="string">&quot;+08:00&quot;</span>&#125;,</span><br><span class="line">			<span class="attr">&quot;now&quot;</span>:</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="attr">&quot;text&quot;</span>:<span class="string">&quot;阴&quot;</span>,</span><br><span class="line">				<span class="attr">&quot;code&quot;</span>:<span class="string">&quot;9&quot;</span>,</span><br><span class="line">				<span class="attr">&quot;temperature&quot;</span>:<span class="string">&quot;28&quot;</span></span><br><span class="line">			&#125;,</span><br><span class="line">			<span class="attr">&quot;last_update&quot;</span>:<span class="string">&quot;2021-07-28T11:25:27+08:00&quot;</span></span><br><span class="line">		&#125;</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>可以看到返回的是json数据格式，我们在程序中采用Http协议去访问这个API获得json数据，在Arduino中安装<code>httpclient</code>库用来发送请求，建立连接。安装<code>arduino json</code>库用于json数据的解析。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;WiFi.h&gt;</span> <span class="comment">//wifi库</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ArduinoJson.h&gt;</span>  <span class="comment">//Json库</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;HTTPClient.h&gt;</span>  <span class="comment">//HTTP库</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* ssid    = <span class="string">&quot;  &quot;</span>;  <span class="comment">//wifi账号</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* password = <span class="string">&quot;  &quot;</span>;  <span class="comment">//wifi密码</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* host = <span class="string">&quot;api.seniverse.com&quot;</span>;  <span class="comment">//心知天气服务器地址</span></span><br><span class="line">String now_address=<span class="string">&quot;&quot;</span>,now_time=<span class="string">&quot;&quot;</span>,now_temperature=<span class="string">&quot;&quot;</span>;<span class="comment">//用来存储报文得到的字符串</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setup</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  Serial.begin(<span class="number">115200</span>);</span><br><span class="line">  <span class="comment">// 连接网络</span></span><br><span class="line">  WiFi.begin(ssid, password);</span><br><span class="line">  <span class="comment">//等待wifi连接</span></span><br><span class="line">  <span class="keyword">while</span> (WiFi.status() != WL_CONNECTED)</span><br><span class="line">  &#123;</span><br><span class="line">    delay(<span class="number">500</span>);</span><br><span class="line">    Serial.print(<span class="string">&quot;.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  Serial.println(<span class="string">&quot;&quot;</span>);</span><br><span class="line">  Serial.println(<span class="string">&quot;WiFi connected&quot;</span>); <span class="comment">//连接成功</span></span><br><span class="line">  Serial.print(<span class="string">&quot;IP address: &quot;</span>);    <span class="comment">//打印IP地址</span></span><br><span class="line">  Serial.println(WiFi.localIP());</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">loop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//创建TCP连接</span></span><br><span class="line">    WiFiClient client;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> httpPort = <span class="number">80</span>;</span><br><span class="line">    <span class="keyword">if</span> (!client.connect(host, httpPort))</span><br><span class="line">    &#123;</span><br><span class="line">      Serial.println(<span class="string">&quot;connection failed&quot;</span>);  <span class="comment">//网络请求无响应打印连接失败</span></span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//URL请求地址</span></span><br><span class="line">    String url =<span class="string">&quot;/v3/weather/now.json?key=SeAeuMjbRTJo4I_ZN&amp;location=shanghai&amp;language=zh-Hans&amp;unit=c&quot;</span>;</span><br><span class="line">    <span class="comment">//发送网络请求</span></span><br><span class="line">    client.print(String(<span class="string">&quot;GET &quot;</span>) + url + <span class="string">&quot; HTTP/1.1\r\n&quot;</span> +</span><br><span class="line">              <span class="string">&quot;Host: &quot;</span> + host + <span class="string">&quot;\r\n&quot;</span> +</span><br><span class="line">              <span class="string">&quot;Connection: close\r\n\r\n&quot;</span>);</span><br><span class="line">    delay(<span class="number">5000</span>);</span><br><span class="line">    <span class="comment">//定义answer变量用来存放请求网络服务器后返回的数据</span></span><br><span class="line">    String answer;</span><br><span class="line">    <span class="keyword">while</span>(client.available())</span><br><span class="line">    &#123;</span><br><span class="line">      String line = client.readStringUntil(<span class="string">&#x27;\r&#x27;</span>);</span><br><span class="line">      answer += line;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//断开服务器连接</span></span><br><span class="line">  client.stop();</span><br><span class="line">  Serial.println();</span><br><span class="line">  Serial.println(<span class="string">&quot;closing connection&quot;</span>);</span><br><span class="line"><span class="comment">//获得json格式的数据</span></span><br><span class="line">  String jsonAnswer;</span><br><span class="line">  <span class="keyword">int</span> jsonIndex;</span><br><span class="line">  <span class="comment">//找到有用的返回数据位置i 返回头不要</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; answer.length(); i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (answer[i] == <span class="string">&#x27;&#123;&#x27;</span>) &#123;</span><br><span class="line">      jsonIndex = i;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  jsonAnswer = answer.substring(jsonIndex);</span><br><span class="line">  Serial.println();</span><br><span class="line">  Serial.println(<span class="string">&quot;JSON answer: &quot;</span>);</span><br><span class="line">  Serial.println(jsonAnswer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://img-blog.csdnimg.cn/65e457b8b2ae44e89f297102f6f00772.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728120157491" style="zoom:50%;" /></li>
+<li><p>下面是处理json数据的代码，如何从json数据中提取到我们需要的天气字符串，采用官方的json处理网站：<a href="">arduinojson.org</a>  点击Assistant，进行如下设置：</p>
+<img src="https://img-blog.csdnimg.cn/df5f3fb687cf4d79aada30e13d37baab.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728120652863" style="zoom:50%;" /></li>
+<li><p>点击Next -&gt; json，将刚刚获取的json代码复制过来：</p>
+<img src="https://img-blog.csdnimg.cn/6c578957e58142aa8277953549bcf9a5.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728120748427" style="zoom:50%;" /></li>
+<li><p>然后一直下一步，给出解析json数据的代码如下：</p>
+<img src="https://img-blog.csdnimg.cn/87baf55c4a61466a87da4d2241559dd5.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728120848532" style="zoom:50%;" /></li>
+<li><p>将其复制到主程序中，其中第二行input 修改为之前返回的json数据，可以把判断error的代码去掉，因为我们前面得到的肯定是正确的json数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;WiFi.h&gt;</span> <span class="comment">//wifi库</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ArduinoJson.h&gt;</span>  <span class="comment">//Json库</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;HTTPClient.h&gt;</span>  <span class="comment">//HTTP库</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *ssid     = <span class="string">&quot;HUAWEI-86BPKD&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *password = <span class="string">&quot;changgebaitong&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* host = <span class="string">&quot;api.seniverse.com&quot;</span>;  <span class="comment">//心知天气服务器地址</span></span><br><span class="line">String now_address=<span class="string">&quot;&quot;</span>,now_weather=<span class="string">&quot;&quot;</span>,now_temperature=<span class="string">&quot;&quot;</span>;<span class="comment">//用来存储报文得到的字符串</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setup</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  Serial.begin(<span class="number">115200</span>);</span><br><span class="line">  <span class="comment">// 连接网络</span></span><br><span class="line">  WiFi.begin(ssid, password);</span><br><span class="line">  <span class="comment">//等待wifi连接</span></span><br><span class="line">  <span class="keyword">while</span> (WiFi.status() != WL_CONNECTED)</span><br><span class="line">  &#123;</span><br><span class="line">    delay(<span class="number">500</span>);</span><br><span class="line">    Serial.print(<span class="string">&quot;.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  Serial.println(<span class="string">&quot;&quot;</span>);</span><br><span class="line">  Serial.println(<span class="string">&quot;WiFi connected&quot;</span>); <span class="comment">//连接成功</span></span><br><span class="line">  Serial.print(<span class="string">&quot;IP address: &quot;</span>);    <span class="comment">//打印IP地址</span></span><br><span class="line">  <span class="comment">//Serial.println(WiFi.localIP());</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">loop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//创建TCP连接</span></span><br><span class="line">    WiFiClient client;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> httpPort = <span class="number">80</span>;</span><br><span class="line">    <span class="keyword">if</span> (!client.connect(host, httpPort))</span><br><span class="line">    &#123;</span><br><span class="line">      Serial.println(<span class="string">&quot;connection failed&quot;</span>);  <span class="comment">//网络请求无响应打印连接失败</span></span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//URL请求地址</span></span><br><span class="line">    String url =<span class="string">&quot;/v3/weather/now.json?key=SeAeuMjbRTJo4I_ZN&amp;location=shanghai&amp;language=zh-Hans&amp;unit=c&quot;</span>;</span><br><span class="line">    <span class="comment">//发送网络请求</span></span><br><span class="line">    client.print(String(<span class="string">&quot;GET &quot;</span>) + url + <span class="string">&quot; HTTP/1.1\r\n&quot;</span> +</span><br><span class="line">              <span class="string">&quot;Host: &quot;</span> + host + <span class="string">&quot;\r\n&quot;</span> +</span><br><span class="line">              <span class="string">&quot;Connection: close\r\n\r\n&quot;</span>);</span><br><span class="line">    delay(<span class="number">5000</span>);</span><br><span class="line">    <span class="comment">//定义answer变量用来存放请求网络服务器后返回的数据</span></span><br><span class="line">    String answer;</span><br><span class="line">    <span class="keyword">while</span>(client.available())</span><br><span class="line">    &#123;</span><br><span class="line">      String line = client.readStringUntil(<span class="string">&#x27;\r&#x27;</span>);</span><br><span class="line">      answer += line;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//断开服务器连接</span></span><br><span class="line">    client.stop();</span><br><span class="line">    Serial.println();</span><br><span class="line">    Serial.println(<span class="string">&quot;closing connection&quot;</span>);</span><br><span class="line">    <span class="comment">//获得json格式的数据</span></span><br><span class="line">    String jsonAnswer;</span><br><span class="line">    <span class="keyword">int</span> jsonIndex;</span><br><span class="line">    <span class="comment">//找到有用的返回数据位置i 返回头不要</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; answer.length(); i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (answer[i] == <span class="string">&#x27;&#123;&#x27;</span>) &#123;</span><br><span class="line">        jsonIndex = i;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    jsonAnswer = answer.substring(jsonIndex);</span><br><span class="line">    Serial.println();</span><br><span class="line">    Serial.println(<span class="string">&quot;JSON answer: &quot;</span>);</span><br><span class="line">    Serial.println(jsonAnswer);</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">StaticJsonDocument&lt;<span class="number">512</span>&gt; doc;</span><br><span class="line"></span><br><span class="line">deserializeJson(doc, jsonAnswer);</span><br><span class="line"></span><br><span class="line">JsonObject results_0 = doc[<span class="string">&quot;results&quot;</span>][<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">JsonObject results_0_location = results_0[<span class="string">&quot;location&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* results_0_location_name = results_0_location[<span class="string">&quot;name&quot;</span>]; <span class="comment">// &quot;上海&quot;</span></span><br><span class="line"></span><br><span class="line">JsonObject results_0_now = results_0[<span class="string">&quot;now&quot;</span>];</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* results_0_now_text = results_0_now[<span class="string">&quot;text&quot;</span>]; <span class="comment">// &quot;阴&quot;</span></span><br><span class="line"><span class="comment">//const char* results_0_now_code = results_0_now[&quot;code&quot;]; // &quot;9&quot;</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* results_0_now_temperature = results_0_now[<span class="string">&quot;temperature&quot;</span>]; <span class="comment">// &quot;28&quot;</span></span><br><span class="line">now_address = results_0_location_name;</span><br><span class="line">now_weather = results_0_now_text;</span><br><span class="line">now_temperature = results_0_now_temperature;</span><br><span class="line">Serial.print(<span class="string">&quot;Now address:&quot;</span>);</span><br><span class="line">Serial.println(now_address);</span><br><span class="line">Serial.print(<span class="string">&quot;Now weather:&quot;</span>);</span><br><span class="line">Serial.println(now_weather);</span><br><span class="line">Serial.print(<span class="string">&quot;Now temperature:&quot;</span>);</span><br><span class="line">Serial.println(now_temperature);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://img-blog.csdnimg.cn/2f08c04843ed4c878664078ce4c1f50b.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210728121521274" style="zoom:67%;" /></li>
+<li><p>得到了这些字符串之后结合之前教程TFT显示中文汉字，就可以在屏幕任意位置显示天气信息了。</p>
+</li>
+</ul>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><ul>
+<li>至此所有知识都讲完了，将以上所有内容进行整合就可以完成该项目，具体代码可以参考文件中的TransparentScreen.ino , 有什么疑问或者问题都可以在评论区提出，谢谢大家。</li>
+</ul>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h2 id="ESP32-获取B站粉丝数和关注数"><a href="#ESP32-获取B站粉丝数和关注数" class="headerlink" title="ESP32 获取B站粉丝数和关注数"></a>ESP32 获取B站粉丝数和关注数</h2><p>API ： <code>https://api.bilibili.com/x/relation/stat?vmid=270875564&amp;jsonp=jsonp</code></p>
+<p>其中：270875564 为要查看用户的UID，在个人资料的右下角查看：</p>
+<ul>
+<li>和获取天气信息一样，在网站上输入该链接可以返回相应的json数据：</li>
+</ul>
+<ul>
+<li><p>在源代码中添加以下函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* host2 = <span class="string">&quot;api.bilibili.com&quot;</span>; <span class="comment">// B站服务器地址</span></span><br><span class="line">String UID = <span class="string">&quot;270875564&quot;</span>;               <span class="comment">// B站用户UID数字号</span></span><br><span class="line"><span class="keyword">int</span> following = <span class="number">0</span>;                      <span class="comment">// 关注数</span></span><br><span class="line"><span class="keyword">int</span> follower = <span class="number">0</span>;                       <span class="comment">// 粉丝数 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">get_Bstation_follow</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//创建TCP连接</span></span><br><span class="line">    WiFiClient client;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> httpPort = <span class="number">80</span>;</span><br><span class="line">    <span class="keyword">if</span> (!client.connect(host2, httpPort))</span><br><span class="line">    &#123;</span><br><span class="line">      Serial.println(<span class="string">&quot;Connection failed&quot;</span>);  <span class="comment">//网络请求无响应打印连接失败</span></span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//URL请求地址</span></span><br><span class="line">    String url =<span class="string">&quot;/x/relation/stat?vmid=&quot;</span>+ UID + <span class="string">&quot;&amp;jsonp=jsonp&quot;</span>; <span class="comment">// B站粉丝数链接，注意修改UID</span></span><br><span class="line">    <span class="comment">//发送网络请求</span></span><br><span class="line">    client.print(String(<span class="string">&quot;GET &quot;</span>) + url + <span class="string">&quot; HTTP/1.1\r\n&quot;</span> +</span><br><span class="line">              <span class="string">&quot;Host: &quot;</span> + host2 + <span class="string">&quot;\r\n&quot;</span> +</span><br><span class="line">              <span class="string">&quot;Connection: close\r\n\r\n&quot;</span>);</span><br><span class="line">    delay(<span class="number">2000</span>);</span><br><span class="line">    <span class="comment">//定义answer变量用来存放请求网络服务器后返回的数据</span></span><br><span class="line">    String answer;</span><br><span class="line">    <span class="keyword">while</span>(client.available())</span><br><span class="line">    &#123;</span><br><span class="line">      String line = client.readStringUntil(<span class="string">&#x27;\r&#x27;</span>);</span><br><span class="line">      answer += line;</span><br><span class="line">    &#125;</span><br><span class="line">      <span class="comment">//断开服务器连接</span></span><br><span class="line">    client.stop();</span><br><span class="line">    Serial.println();</span><br><span class="line">    Serial.println(<span class="string">&quot;closing connection&quot;</span>);</span><br><span class="line">    <span class="comment">//获得json格式的数据</span></span><br><span class="line">    </span><br><span class="line">    String jsonAnswer;</span><br><span class="line">    <span class="keyword">int</span> jsonIndex;</span><br><span class="line">    <span class="comment">//找到有用的返回数据位置i 返回头不要</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; answer.length(); i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (answer[i] == <span class="string">&#x27;&#123;&#x27;</span>) &#123;</span><br><span class="line">        jsonIndex = i;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    jsonAnswer = answer.substring(jsonIndex);</span><br><span class="line">    Serial.println();</span><br><span class="line">    Serial.println(<span class="string">&quot;JSON answer: &quot;</span>);</span><br><span class="line">    Serial.println(jsonAnswer);  </span><br><span class="line">    StaticJsonDocument&lt;<span class="number">256</span>&gt; doc;</span><br><span class="line"></span><br><span class="line">    deserializeJson(doc, jsonAnswer);</span><br><span class="line">    JsonObject data = doc[<span class="string">&quot;data&quot;</span>];</span><br><span class="line">    following = data[<span class="string">&quot;following&quot;</span>]; <span class="comment">// 59</span></span><br><span class="line">    follower = data[<span class="string">&quot;follower&quot;</span>]; <span class="comment">// 411</span></span><br><span class="line"></span><br><span class="line">    Serial.println(<span class="string">&quot;Following: &quot;</span>);</span><br><span class="line">    Serial.println(following);</span><br><span class="line">    Serial.println(<span class="string">&quot;follower: &quot;</span>);</span><br><span class="line">    Serial.println(follower);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_Bstation</span><span class="params">(<span class="keyword">uint16_t</span> fg,<span class="keyword">uint16_t</span> bg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    tft.setSwapBytes(<span class="literal">true</span>);             <span class="comment">//使图片颜色由RGB-&gt;BGR</span></span><br><span class="line">    tft.pushImage(<span class="number">4</span>, <span class="number">20</span>,  <span class="number">120</span>, <span class="number">50</span>, Bili);</span><br><span class="line"></span><br><span class="line">    showMyFonts(<span class="number">20</span>, <span class="number">80</span>, <span class="string">&quot;关注数&quot;</span>, fg);</span><br><span class="line">    showMyFonts(<span class="number">20</span>, <span class="number">100</span>, <span class="string">&quot;粉丝数&quot;</span>, fg);</span><br><span class="line">    showtext(<span class="number">85</span>,<span class="number">80</span>,<span class="number">1</span>,<span class="number">2</span>,TFT_YELLOW,bg, String(following));</span><br><span class="line">    showtext(<span class="number">85</span>,<span class="number">100</span>,<span class="number">1</span>,<span class="number">2</span>,TFT_YELLOW,bg, String(follower));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="外接锂电池-充电保护板供电"><a href="#外接锂电池-充电保护板供电" class="headerlink" title="外接锂电池+充电保护板供电"></a>外接锂电池+充电保护板供电</h2><ul>
+<li>锂电池：3.7V，300mAh，1A充电保护板-TypeC接口充电。</li>
+</ul>
+<ul>
+<li><strong>充电时负载要断开，所以负载处用了一个开关进行控制，充满电时充电保护板蓝色指示灯亮，这里提醒一下，如果锂电池出现膨胀，一定不要再使用了，具有安全隐患</strong>。</li>
+</ul>
+<ul>
+<li>开关用的是拨动开关，中间引脚是公共端，使用只需两个引脚，波动到哪边，哪边与中间引脚相通，可控制负载。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2021/07/28/ESP32-TFT-%E5%88%86%E5%85%89%E6%A3%B1%E9%95%9C%E5%AE%9E%E7%8E%B0%E9%80%8F%E6%98%8E%E5%B0%8F%E7%94%B5%E8%A7%86/">https://did321.github.io/2021/07/28/ESP32-TFT-%E5%88%86%E5%85%89%E6%A3%B1%E9%95%9C%E5%AE%9E%E7%8E%B0%E9%80%8F%E6%98%8E%E5%B0%8F%E7%94%B5%E8%A7%86/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ESP32/"># ESP32</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/08/22/hello-world/">Hello World</a>
+            
+            
+            <a class="next" rel="next" href="/2021/07/05/%E5%9F%BA%E4%BA%8EResNet%E7%9A%84MSTAR%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9B%AE%E6%A0%87%E5%88%86%E7%B1%BB/">基于ResNet的MSTAR数据集目标分类</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

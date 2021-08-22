@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Mysql学习笔记(三)——单表查询 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Mysql学习笔记(三)——单表查询</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 15, 2019&nbsp;&nbsp;12:35:55</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Mysql/">Mysql</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">5.1k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">23</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <ul>
+<li>说在前面：本篇笔记里面的表在上一篇中已经创建，直接在student，course，sc三张表中进行查询。</li>
+</ul>
+<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><ul>
+<li>语句格式<br>SELECT [ALL|DISTINCT] &lt;目标列表达式&gt;<br>[，&lt;目标列表达式&gt;] …<br>FROM &lt;表名或视图名&gt;[， &lt;表名或视图名&gt; ] …<br>[ WHERE &lt;条件表达式&gt; ]<br>[ GROUP BY &lt;列名1&gt; [ HAVING &lt;条件表达式&gt; ] ]<br>[ ORDER BY &lt;列名2&gt; [ ASC|DESC ] ]；</li>
+</ul>
+<blockquote>
+<p>SELECT子句：指定要显示的属性列<br>FROM子句：指定查询对象(基本表或视图)<br>WHERE子句：指定查询条件<br>GROUP BY子句：对查询结果按指定列的值分组，该属性列值相等的元组为一个组。通常会在每组中作用集函数。<br>HAVING短语：筛选出只有满足指定条件的组<br>ORDER BY子句：对查询结果表按指定列值的升序或降序排序 </p>
+</blockquote>
+<h2 id="2-查询若干列"><a href="#2-查询若干列" class="headerlink" title="2.查询若干列"></a>2.查询若干列</h2><ul>
+<li><p>查询指定列</p>
+</li>
+<li><p>[例1]  查询全体学生的学号与姓名。<br>SELECT Sno，Sname<br>FROM Student； </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select sno,sname from student;</span></span><br><span class="line">+-------+--------------+</span><br><span class="line">| sno   | sname        |</span><br><span class="line">+-------+--------------+</span><br><span class="line">| 95001 | 张三         |</span><br><span class="line">| 95002 | 李四         |</span><br><span class="line">| 95003 | 王五         |</span><br><span class="line">| 95004 | 马六         |</span><br><span class="line">| 95005 | 苏三         |</span><br><span class="line">| 95006 | 刘七         |</span><br><span class="line">| 95007 | 刘三姐       |</span><br><span class="line">| 95008 | 欧阳锋       |</span><br><span class="line">| 95009 | 欧阳大侠     |</span><br><span class="line">| 95010 | 陈东         |</span><br><span class="line">| 95011 | 张成民       |</span><br><span class="line">+-------+--------------+</span><br><span class="line">11 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>该句的执行过程是，从student表中取出一个元组，取出元组在属性Sno和Sname上的值，形成一个新的元组进行输出，这样遍历所有元组。</p>
+<p>目标列表达式中的各个列的先后顺序可以与表中的顺序不一致，可以根据自己的需要改变列的显示顺序。</p>
+</blockquote>
+</li>
+<li><p>[例2]  查询全体学生的姓名、学号、所在系。<br>SELECT Sname，Sno，Sdept<br>FROM Student；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname,sno,sdept from student;</span></span><br><span class="line">+--------------+-------+-------+</span><br><span class="line">| Sname        | sno   | sdept |</span><br><span class="line">+--------------+-------+-------+</span><br><span class="line">| 张三         | 95001 | CS    |</span><br><span class="line">| 李四         | 95002 | IS    |</span><br><span class="line">| 王五         | 95003 | MA    |</span><br><span class="line">| 马六         | 95004 | CS    |</span><br><span class="line">| 苏三         | 95005 | IS    |</span><br><span class="line">| 刘七         | 95006 | IS    |</span><br><span class="line">| 刘三姐       | 95007 | IS    |</span><br><span class="line">| 欧阳锋       | 95008 | MA    |</span><br><span class="line">| 欧阳大侠     | 95009 | MA    |</span><br><span class="line">| 陈东         | 95010 | IS    |</span><br><span class="line">| 张成民       | 95011 | CS    |</span><br><span class="line">+--------------+-------+-------+</span><br><span class="line">11 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+<li><p>[例3]  查询全体学生的详细记录。(查询全部列)<br>SELECT  Sno，Sname，Ssex，Sage，Sdept<br>FROM Student；<br>   或<br>SELECT  *<br>FROM Student； </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select * from student;     <span class="comment"># &#x27;*&#x27;就代表所有属性，即所有列</span></span></span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">| Sno   | Sname        | Ssex | Sage | Sdept |</span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">| 95001 | 张三         | 男   |   21 | CS    |</span><br><span class="line">| 95002 | 李四         | 男   |   23 | IS    |</span><br><span class="line">| 95003 | 王五         | 男   |   19 | MA    |</span><br><span class="line">| 95004 | 马六         | 女   |   20 | CS    |</span><br><span class="line">| 95005 | 苏三         | 女   |   20 | IS    |</span><br><span class="line">| 95006 | 刘七         | 女   |   19 | IS    |</span><br><span class="line">| 95007 | 刘三姐       | 女   |   23 | IS    |</span><br><span class="line">| 95008 | 欧阳锋       | 男   |   24 | MA    |</span><br><span class="line">| 95009 | 欧阳大侠     | 男   |   23 | MA    |</span><br><span class="line">| 95010 | 陈东         | 男   |   19 | IS    |</span><br><span class="line">| 95011 | 张成民       | 男   |   19 | CS    |</span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">11 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+<li><p>查询经过计算的值</p>
+<blockquote>
+<p>SELECT子句的&lt;目标列表达式&gt; 不仅可以是表中的属性也可以是表达式、算术表达式、字符串常量、函数、列别名等。 </p>
+</blockquote>
+</li>
+<li><p>[例4]  查全体学生的姓名及其出生年份。<br>SELECT Sname，2019-Sage<br>FROM Student； </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname,2019-Sage from student;</span></span><br><span class="line">+--------------+-----------+</span><br><span class="line">| Sname        | 2019-Sage |</span><br><span class="line">+--------------+-----------+</span><br><span class="line">| 张三         |      1998 |</span><br><span class="line">| 李四         |      1996 |</span><br><span class="line">| 王五         |      2000 |</span><br><span class="line">| 马六         |      1999 |</span><br><span class="line">| 苏三         |      1999 |</span><br><span class="line">| 刘七         |      2000 |</span><br><span class="line">| 刘三姐       |      1996 |</span><br><span class="line">| 欧阳锋       |      1995 |</span><br><span class="line">| 欧阳大侠     |      1996 |</span><br><span class="line">| 陈东         |      2000 |</span><br><span class="line">| 张成民       |      2000 |</span><br><span class="line">+--------------+-----------+</span><br><span class="line">11 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+<li><p>[例5]  查询全体学生的姓名、出生年份和所有系，要求用小写字母表示所有系名。</p>
+<p>SELECT Sname，’Year of Birth:’，2019-Sage，LCASE(Sdept)<br>FROM Student； </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname,<span class="string">&#x27;Year of Birth: &#x27;</span>,2019-Sage,LCASE(Sdept) from student;</span></span><br><span class="line">+--------------+-----------------+-----------+--------------+</span><br><span class="line">| Sname        | Year of Birth:  | 2019-Sage | LCASE(Sdept) |</span><br><span class="line">+--------------+-----------------+-----------+--------------+</span><br><span class="line">| 张三         | Year of Birth:  |      1998 | cs           |</span><br><span class="line">| 李四         | Year of Birth:  |      1996 | is           |</span><br><span class="line">| 王五         | Year of Birth:  |      2000 | ma           |</span><br><span class="line">| 马六         | Year of Birth:  |      1999 | cs           |</span><br><span class="line">| 苏三         | Year of Birth:  |      1999 | is           |</span><br><span class="line">| 刘七         | Year of Birth:  |      2000 | is           |</span><br><span class="line">| 刘三姐       | Year of Birth:  |      1996 | is           |</span><br><span class="line">| 欧阳锋       | Year of Birth:  |      1995 | ma           |</span><br><span class="line">| 欧阳大侠     | Year of Birth:  |      1996 | ma           |</span><br><span class="line">| 陈东         | Year of Birth:  |      2000 | is           |</span><br><span class="line">| 张成民       | Year of Birth:  |      2000 | cs           |</span><br><span class="line">+--------------+-----------------+-----------+--------------+</span><br><span class="line">11 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这时候可以发现并没有我们想象的那样把出生年份作为列名。</p>
+</blockquote>
+</li>
+<li><p>[例5.1] 使用列别名改变查询结果的列标题<br>SELECT Sname NAME，’Year of Birth:’ BIRTH，2019-Sage  BIRTHDAY， LCASE(Sdept)  DEPARTMENT FROM Student；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname NAME,<span class="string">&#x27;Year of Birth:&#x27;</span> BIRTH,2019-Sage BIRTHDAY,LCASE(Sdept) Department</span></span><br><span class="line"> from Student;</span><br><span class="line">+--------------+----------------+----------+------------+</span><br><span class="line">| NAME         | BIRTH          | BIRTHDAY | Department |</span><br><span class="line">+--------------+----------------+----------+------------+</span><br><span class="line">| 张三         | Year of Birth: |     1998 | cs         |</span><br><span class="line">| 李四         | Year of Birth: |     1996 | is         |</span><br><span class="line">| 王五         | Year of Birth: |     2000 | ma         |</span><br><span class="line">| 马六         | Year of Birth: |     1999 | cs         |</span><br><span class="line">| 苏三         | Year of Birth: |     1999 | is         |</span><br><span class="line">| 刘七         | Year of Birth: |     2000 | is         |</span><br><span class="line">| 刘三姐       | Year of Birth: |     1996 | is         |</span><br><span class="line">| 欧阳锋       | Year of Birth: |     1995 | ma         |</span><br><span class="line">| 欧阳大侠     | Year of Birth: |     1996 | ma         |</span><br><span class="line">| 陈东         | Year of Birth: |     2000 | is         |</span><br><span class="line">| 张成民       | Year of Birth: |     2000 | cs         |</span><br><span class="line">+--------------+----------------+----------+------------+</span><br><span class="line">11 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以发现，select后面目标列表达式后面+空格+列别名，就可以将列名显示为规定的别名。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="3-查询若干元组"><a href="#3-查询若干元组" class="headerlink" title="3.查询若干元组"></a>3.查询若干元组</h2><ul>
+<li><p>消除取值重复的行</p>
+<p>在SELECT子句中使用DISTINCT短语</p>
+</li>
+<li><p>[例6]  查询选修了课程的学生学号。<br>(1) SELECT Sno</p>
+<pre><code>  FROM SC;
+    或(默认 ALL)
+    SELECT ALL Sno
+    FROM SC;
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno from sc;</span></span><br><span class="line">+-------+</span><br><span class="line">| Sno   |</span><br><span class="line">+-------+</span><br><span class="line">| 95001 |</span><br><span class="line">| 95005 |</span><br><span class="line">| 95011 |</span><br><span class="line">| 95001 |</span><br><span class="line">| 95002 |</span><br><span class="line">| 95003 |</span><br><span class="line">| 95005 |</span><br><span class="line">| 95001 |</span><br><span class="line">| 95002 |</span><br><span class="line">| 95004 |</span><br><span class="line">| 95005 |</span><br><span class="line">| 95001 |</span><br><span class="line">| 95004 |</span><br><span class="line">| 95005 |</span><br><span class="line">+-------+</span><br><span class="line">14 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以发现，这并不是我们想要的，因为这里面有重复的行，即一个学号选了多门课程，应该只出现一个学号。</p>
+</blockquote>
+<p>(2)  SELECT DISTINCT Sno</p>
+<pre><code>     FROM SC;
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select distinct Sno from sc;  <span class="comment">#加上distinct就可以消除取值相同的行</span></span></span><br><span class="line">+-------+</span><br><span class="line">| Sno   |</span><br><span class="line">+-------+</span><br><span class="line">| 95001 |</span><br><span class="line">| 95002 |</span><br><span class="line">| 95003 |</span><br><span class="line">| 95004 |</span><br><span class="line">| 95005 |</span><br><span class="line">| 95011 |</span><br><span class="line">+-------+</span><br><span class="line">6 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意 DISTINCT短语的作用范围是所有目标列<br>例：查询选修课程的各种成绩<br>错误的写法:<br>SELECT DISTINCT Cno，DISTINCT Grade<br>FROM SC;<br>正确的写法:<br>  SELECT DISTINCT Cno，Grade</p>
+<pre><code>     FROM SC; 
+</code></pre>
+</blockquote>
+</li>
+<li><p>查询满足条件的元组</p>
+<blockquote>
+<p>WHERE子句常用的查询条件</p>
+</blockquote>
+<p><img src="C:\Users\wangdi\AppData\Roaming\Typora\typora-user-images\1560418045557.png" alt="1560418045557"></p>
+</li>
+</ul>
+<ol>
+<li>在WHERE子句的&lt;比较条件&gt;中使用比较运算符<br>=，&gt;，&lt;，&gt;=，&lt;=，!= 或 &lt;&gt;，!&gt;，!&lt;， 逻辑运算符NOT  +  比较运算符</li>
+</ol>
+<ul>
+<li><p>[例8]  查询所有年龄在20岁以下的学生姓名及其年龄。<br>SELECT Sname，Sage<br>FROM    Student    </p>
+<p>WHERE Sage &lt; 20；         或  </p>
+<p>SELECT Sname，Sage<br>FROM    Student<br>WHERE NOT Sage &gt;= 20；  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select sname,sage from student <span class="built_in">where</span> NOT sage &gt;=20;</span></span><br><span class="line">+-----------+------+</span><br><span class="line">| sname     | sage |</span><br><span class="line">+-----------+------+</span><br><span class="line">| 王五      |   19 |</span><br><span class="line">| 刘七      |   19 |</span><br><span class="line">| 陈东      |   19 |</span><br><span class="line">| 张成民    |   19 |</span><br><span class="line">+-----------+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>使用谓词   BETWEEN …  AND  …<pre><code>NOT BETWEEN  …  AND  …
+</code></pre>
+</li>
+</ol>
+<ul>
+<li><p>[例10]  查询年龄在20~23岁（包括20岁和23岁）之间的学生的姓名、系别和年龄。<br>SELECT Sname，Sdept，Sage<br>FROM   Student<br>WHERE Sage BETWEEN 20 AND 23；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname,Sdept,Sage from student <span class="built_in">where</span> Sage between 20 and 23;</span></span><br><span class="line">+--------------+-------+------+</span><br><span class="line">| Sname        | Sdept | Sage |</span><br><span class="line">+--------------+-------+------+</span><br><span class="line">| 张三         | CS    |   21 |</span><br><span class="line">| 李四         | IS    |   23 |</span><br><span class="line">| 马六         | CS    |   20 |</span><br><span class="line">| 苏三         | IS    |   20 |</span><br><span class="line">| 刘三姐       | IS    |   23 |</span><br><span class="line">| 欧阳大侠     | MA    |   23 |</span><br><span class="line">+--------------+-------+------+</span><br></pre></td></tr></table></figure></li>
+<li><p>[例11]  查询年龄不在20~23岁之间的学生姓名、系别和年龄。</p>
+<p>SELECT Sname，Sdept，Sage<br>FROM    Student<br>WHERE Sage NOT BETWEEN 20 AND 23； </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname,Sdept,Sage from student <span class="built_in">where</span> Sage not between 20 and 23;</span></span><br><span class="line">+-----------+-------+------+</span><br><span class="line">| Sname     | Sdept | Sage |</span><br><span class="line">+-----------+-------+------+</span><br><span class="line">| 王五      | MA    |   19 |</span><br><span class="line">| 刘七      | IS    |   19 |</span><br><span class="line">| 欧阳锋    | MA    |   24 |</span><br><span class="line">| 陈东      | IS    |   19 |</span><br><span class="line">| 张成民    | CS    |   19 |</span><br><span class="line">+-----------+-------+------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+<li><p>确定集合</p>
+<p>使用谓词     IN &lt;值表&gt;,  NOT IN &lt;值表&gt;</p>
+<pre><code>      &lt;值表&gt;：用逗号分隔的一组取值
+</code></pre>
+</li>
+<li><p>[例12]查询信息系（IS）、数学系（MA）和计</p>
+<pre><code>算机科学系（CS）学生的姓名和性别。
+</code></pre>
+<p>SELECT Sname，Ssex<br>FROM  Student<br>WHERE Sdept IN ( ‘IS’，’MA’，’CS’ );</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname,Ssex from student <span class="built_in">where</span> Sdept <span class="keyword">in</span>(<span class="string">&#x27;IS&#x27;</span>,<span class="string">&#x27;MA&#x27;</span>,<span class="string">&#x27;CS&#x27;</span>);</span></span><br><span class="line">+--------------+------+</span><br><span class="line">| Sname        | Ssex |</span><br><span class="line">+--------------+------+</span><br><span class="line">| 张三         | 男   |</span><br><span class="line">| 李四         | 男   |</span><br><span class="line">| 王五         | 男   |</span><br><span class="line">| 马六         | 女   |</span><br><span class="line">| 苏三         | 女   |</span><br><span class="line">| 刘七         | 女   |</span><br><span class="line">| 刘三姐       | 女   |</span><br><span class="line">| 欧阳锋       | 男   |</span><br><span class="line">| 欧阳大侠     | 男   |</span><br><span class="line">| 陈东         | 男   |</span><br><span class="line">| 张成民       | 男   |</span><br><span class="line">+--------------+------+</span><br><span class="line">11 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+<li><p>[例13]查询既不是信息系、数学系，也不是计算机科学系的学生的姓名和性别。<br>SELECT Sname，Ssex<br>FROM Student</p>
+<pre><code> WHERE Sdept NOT IN ( &#39;IS&#39;，&#39;MA&#39;，&#39;CS&#39; );
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname,Ssex from student <span class="built_in">where</span> Sdept NOT <span class="keyword">in</span>(<span class="string">&#x27;IS&#x27;</span>,<span class="string">&#x27;MA&#x27;</span>,<span class="string">&#x27;CS&#x27;</span>);</span></span><br><span class="line">Empty set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>发现查询的数据为空。</p>
+</blockquote>
+</li>
+<li><p>字符串匹配</p>
+<p>[NOT] LIKE  ‘&lt;匹配串&gt;’  [ESCAPE ‘&lt;换码字符&gt;’]<br>&lt;匹配串&gt;：指定匹配模板</p>
+<pre><code>  匹配模板：固定字符串或含通配符的字符串
+  当匹配模板为固定字符串时，
+  可以用 = 运算符取代 LIKE 谓词
+  用 != 或 &lt;&gt;运算符取代 NOT LIKE 谓词
+</code></pre>
+<p>% (百分号)  代表任意长度（长度可以为0）的字符串<br>例：a%b表示以a开头，以b结尾的任意长度的字符串。如acb，addgb，ab 等都满足该匹配串</p>
+<p>_ (下横线)  代表任意单个字符<br>例：a_b表示以a开头，以b结尾的长度为3的任意字符串。如acb，afb等都满足该匹配.</p>
+<p>[例14]  查询学号为95001的学生的详细情况。</p>
+<pre><code> SELECT *    
+ FROM  Student  
+ WHERE  Sno LIKE &#39;95001&#39;；
+</code></pre>
+<p>等价于： </p>
+<p>​      SELECT  *<br>​      FROM  Student<br>​      WHERE Sno = ‘95001’；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select * from student <span class="built_in">where</span> Sno=<span class="string">&#x27;95001&#x27;</span>;</span></span><br><span class="line">+-------+--------+------+------+-------+</span><br><span class="line">| Sno   | Sname  | Ssex | Sage | Sdept |</span><br><span class="line">+-------+--------+------+------+-------+</span><br><span class="line">| 95001 | 张三   | 男   |   21 | CS    |</span><br><span class="line">+-------+--------+------+------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="A-匹配模板为含通配符的字符串"><a href="#A-匹配模板为含通配符的字符串" class="headerlink" title="A 匹配模板为含通配符的字符串"></a>A 匹配模板为含通配符的字符串</h3><p>  [例15]  查询所有姓刘学生的姓名、学号和性别。<br>      SELECT Sname，Sno，Ssex<br>      FROM Student<br>      WHERE  Sname LIKE ‘刘%’；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname,Sno,Ssex from student <span class="built_in">where</span> Sname like <span class="string">&#x27;刘%&#x27;</span>;</span></span><br><span class="line">+-----------+-------+------+</span><br><span class="line">| Sname     | Sno   | Ssex |</span><br><span class="line">+-----------+-------+------+</span><br><span class="line">| 刘七      | 95006 | 女   |</span><br><span class="line">| 刘三姐    | 95007 | 女   |</span><br><span class="line">+-----------+-------+------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>匹配模板为含通配符的字符串（续）</p>
+<p>[例16]  查询姓“刘”且全名为三个汉字的学生的姓名。</p>
+<pre><code>  SELECT Sname
+  FROM   Student
+  WHERE  Sname LIKE ‘刘_ _&#39;；
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname from student <span class="built_in">where</span> Sname like <span class="string">&#x27;刘__&#x27;</span>;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 这里两个下划线间没有空格，上面例子只是显示提示要打两个空格</span></span><br><span class="line">+-----------+</span><br><span class="line">| Sname     |</span><br><span class="line">+-----------+</span><br><span class="line">| 刘三姐    |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+<li><p>匹配模板为含通配符的字符串（续）</p>
+<p>[例17]  查询名字中第2个字为“三”字的学生的姓名和学号。</p>
+<pre><code>  SELECT Sname，Sno
+  FROM Student
+  WHERE Sname LIKE ‘_三%&#39;；
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname,Sno from student <span class="built_in">where</span> Sname like <span class="string">&#x27;_三%&#x27;</span>;</span></span><br><span class="line">+-----------+-------+</span><br><span class="line">| Sname     | Sno   |</span><br><span class="line">+-----------+-------+</span><br><span class="line">| 张三      | 95001 |</span><br><span class="line">| 苏三      | 95005 |</span><br><span class="line">| 刘三姐    | 95007 |</span><br><span class="line">+-----------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+<li><p>匹配模板为含通配符的字符串（续）</p>
+<p>[例18]  查询所有不姓刘的学生姓名。</p>
+<pre><code>  SELECT Sname，Sno，Ssex
+  FROM Student
+  WHERE Sname NOT LIKE &#39;刘%&#39;；
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname from student <span class="built_in">where</span> Sname NOT LIKE <span class="string">&#x27;刘%&#x27;</span>;</span></span><br><span class="line">+--------------+</span><br><span class="line">| Sname        |</span><br><span class="line">+--------------+</span><br><span class="line">| 张三         |</span><br><span class="line">| 李四         |</span><br><span class="line">| 王五         |</span><br><span class="line">| 马六         |</span><br><span class="line">| 苏三         |</span><br><span class="line">| 欧阳锋       |</span><br><span class="line">| 欧阳大侠     |</span><br><span class="line">| 陈东         |</span><br><span class="line">| 张成民       |</span><br><span class="line">+--------------+</span><br><span class="line">9 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="B-使用换码字符将通配符转义为普通字符"><a href="#B-使用换码字符将通配符转义为普通字符" class="headerlink" title="B 使用换码字符将通配符转义为普通字符"></a>B 使用换码字符将通配符转义为普通字符</h3><p>当用户要查询的字符串本身就含有 % 或 _ 时，要使用\ 对通配符进行转义</p>
+<p> [例19]  查询DB_Design课程的课程号和学分。<br>      SELECT Cno，Ccredit<br>      FROM Course<br>      WHERE Cname LIKE ‘DB\_DESIGN’;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Cno,Ccredit from course <span class="built_in">where</span> Cname LIKE <span class="string">&#x27;DB\_DESIGN&#x27;</span>;</span></span><br><span class="line">+-----+---------+</span><br><span class="line">| Cno | Ccredit |</span><br><span class="line">+-----+---------+</span><br><span class="line">| 2   |       2 |</span><br><span class="line">+-----+---------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>使用换码字符将通配符转义为普通字符(续)</p>
+<p>[例20]  查询以”DB_”开头，且倒数第3个字符为 I的课程的详细情况。</p>
+<pre><code>  SELECT  *
+  FROM   Course
+  WHERE  Cname LIKE  &#39;DB\\\_%I_ _ _&#39;；
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select * from course <span class="built_in">where</span> Cname LIKE <span class="string">&#x27;DB\_%I__&#x27;</span>;</span></span><br><span class="line">+-----+-----------+------+---------+</span><br><span class="line">| Cno | Cname     | Cpno | Ccredit |</span><br><span class="line">+-----+-----------+------+---------+</span><br><span class="line">| 2   | DB_DESIGN | 3    |       2 |</span><br><span class="line">+-----+-----------+------+---------+</span><br><span class="line">1 row in set (0.00 sec) </span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="C-涉及空值的查询"><a href="#C-涉及空值的查询" class="headerlink" title="C 涉及空值的查询"></a>C 涉及空值的查询</h3><p>  使用谓词 IS NULL 或 IS NOT NULL<br>  “IS NULL” 不能用 “= NULL” 代替<br>[例21]  某些学生选修课程后没有参加考试，所以有选课记录，但没有考试成绩。查询缺少成绩的学生的学号和相应的课程号。<br>     SELECT Sno，Cno<br>      FROM SC<br>      WHERE Grade IS NULL；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Cno from SC <span class="built_in">where</span> Grade IS NULL;</span></span><br><span class="line">+-------+-----+</span><br><span class="line">| Sno   | Cno |</span><br><span class="line">+-------+-----+</span><br><span class="line">| 95003 | 2   |</span><br><span class="line">| 95004 | 3   |</span><br><span class="line">| 95011 | 1   |</span><br><span class="line">+-------+-----+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>[例22]  查所有有成绩的学生学号和课程号。</p>
+<p>SELECT Sno，Cno<br>FROM  SC<br>WHERE  Grade IS NOT NULL； </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Cno from SC <span class="built_in">where</span> Grade IS NOT NULL;</span></span><br><span class="line">+-------+-----+</span><br><span class="line">| Sno   | Cno |</span><br><span class="line">+-------+-----+</span><br><span class="line">| 95001 | 1   |</span><br><span class="line">| 95001 | 2   |</span><br><span class="line">| 95001 | 3   |</span><br><span class="line">| 95001 | 4   |</span><br><span class="line">| 95002 | 2   |</span><br><span class="line">| 95002 | 3   |</span><br><span class="line">| 95004 | 4   |</span><br><span class="line">| 95005 | 1   |</span><br><span class="line">| 95005 | 2   |</span><br><span class="line">| 95005 | 3   |</span><br><span class="line">| 95005 | 4   |</span><br><span class="line">+-------+-----+</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="D-多重条件的查询"><a href="#D-多重条件的查询" class="headerlink" title="D 多重条件的查询"></a>D 多重条件的查询</h3><ul>
+<li><p>用逻辑运算符AND和 OR来联结多个查询条件<br>AND的优先级高于OR<br>可以用括号改变优先级<br>可用来实现多种其他谓词<br> [NOT] IN<br> [NOT] BETWEEN …   AND  …</p>
+</li>
+<li><p>[例23]  查询计算机系年龄在20岁以下的学生姓名。</p>
+<pre><code>SELECT Sname
+  FROM  Student
+  WHERE Sdept= &#39;CS&#39; AND Sage&lt;20；
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sname from student <span class="built_in">where</span> Sdept=<span class="string">&#x27;CS&#x27;</span> AND Sage &lt; 20;</span></span><br><span class="line">+-----------+</span><br><span class="line">| Sname     |</span><br><span class="line">+-----------+</span><br><span class="line">| 张成民     |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="4-对查询结果排序"><a href="#4-对查询结果排序" class="headerlink" title="4.对查询结果排序"></a>4.对查询结果排序</h2><ul>
+<li><p>使用ORDER BY子句</p>
+<p>可以按一个或多个属性列排序<br>升序：ASC；降序：DESC；缺省值为升序<br>当排序列含空值时<br>ASC：排序列为空值的元组最先显示<br>DESC：排序列为空值的元组最后显示 </p>
+</li>
+<li><p>[例24]  查询选修了3号课程的学生的学号及其成绩，查询结果按分数降序排列。</p>
+<p>SELECT Sno，Grade<br>FROM  SC<br>WHERE  Cno= ‘ 3 ‘<br>ORDER BY Grade DESC； </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by Grade DESC;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95001 |    91 |</span><br><span class="line">| 95005 |    90 |</span><br><span class="line">| 95002 |    80 |</span><br><span class="line">| 95004 |  NULL |</span><br><span class="line">+-------+-------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>[例24-补充]  查询选修了3号课程且成绩最高的学生的学号及其成绩。</p>
+<p>SELECT Sno, Grade FROM SC WHERE Cno=’3’ ORDER BY Grade DESC limit 1;</p>
+<p>SELECT Sno, Grade FROM SC WHERE Cno=’3’ ORDER BY Grade DESC limit 0,1;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95001 |    91 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 0,1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95001 |    91 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 1,1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95005 |    90 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 2,1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95002 |    80 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 1,2;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95005 |    90 |</span><br><span class="line">| 95002 |    80 |</span><br><span class="line">+-------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>limit A，B 代表从第A行开始数，一共数B行（如果要取第一行，那么就要从第零行开始取一行）</p>
+</blockquote>
+</li>
+<li><p>多属性排序</p>
+<p>[例25]  查询全体学生情况，查询结果按所在系的系号升序排列，同一系中的学生按年龄降序排列。</p>
+<p>SELECT  *<br>FROM  Student<br>ORDER BY Sdept，Sage DESC； </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select * from student order by Sdept,Sage DESC;</span></span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">| Sno   | Sname        | Ssex | Sage | Sdept |</span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">| 95001 | 张三         | 男   |   21 | CS    |</span><br><span class="line">| 95004 | 马六         | 女   |   20 | CS    |</span><br><span class="line">| 95011 | 张成民       | 男   |   19 | CS    |</span><br><span class="line">| 95002 | 李四         | 男   |   23 | IS    |</span><br><span class="line">| 95007 | 刘三姐       | 女   |   23 | IS    |</span><br><span class="line">| 95005 | 苏三         | 女   |   20 | IS    |</span><br><span class="line">| 95006 | 刘七         | 女   |   19 | IS    |</span><br><span class="line">| 95010 | 陈东         | 男   |   19 | IS    |</span><br><span class="line">| 95008 | 欧阳锋       | 男   |   24 | MA    |</span><br><span class="line">| 95009 | 欧阳大侠     | 男   |   23 | MA    |</span><br><span class="line">| 95003 | 王五         | 男   |   19 | MA    |</span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">11 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>先对系进行字母升序(默认) 之后在对每一个系的进行年龄降序</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="5-使用集函数"><a href="#5-使用集函数" class="headerlink" title="5.使用集函数"></a>5.使用集函数</h2><ul>
+<li><p>5类主要集函数<br>计数<br>COUNT（[DISTINCT|ALL] *）<br>COUNT（[DISTINCT|ALL] &lt;列名&gt;）<br>计算总和<br>SUM（[DISTINCT|ALL] &lt;列名&gt;）<br>计算平均值<br>AVG（[DISTINCT|ALL] &lt;列名&gt;）</p>
+<p>求最大值<br>MAX（[DISTINCT|ALL] &lt;列名&gt;）    </p>
+<pre><code>求最小值
+</code></pre>
+<p>MIN（[DISTINCT|ALL] &lt;列名&gt;）<br>DISTINCT短语：在计算时要取消指定列中的重复值<br>ALL短语：不取消重复值<br>ALL为缺省值</p>
+</li>
+<li><p>[例26]  查询学生总人数。</p>
+<pre><code>SELECT COUNT(*)
+FROM  Student；
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select COUNT(*) from Student;</span></span><br><span class="line">+----------+</span><br><span class="line">| COUNT(*) |</span><br><span class="line">+----------+</span><br><span class="line">|       11 |</span><br><span class="line">+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>[例27]  查询选修了课程的学生人数。</p>
+<pre><code> SELECT COUNT(DISTINCT Sno)
+ FROM SC；
+</code></pre>
+<p>注：用DISTINCT以避免重复计算学生人数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select COUNT(DISTINCT Sno) from SC;</span></span><br><span class="line">+---------------------+</span><br><span class="line">| COUNT(DISTINCT Sno) |</span><br><span class="line">+---------------------+</span><br><span class="line">|                   6 |</span><br><span class="line">+---------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+<li><p>[例28]  计算1号课程的学生平均成绩。</p>
+<pre><code>SELECT AVG(Grade)
+FROM SC
+WHERE Cno= &#39; 1 &#39;；
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select AVG(Grade) from SC <span class="built_in">where</span> Cno = <span class="string">&#x27;1&#x27;</span>;</span></span><br><span class="line">+------------+</span><br><span class="line">| AVG(Grade) |</span><br><span class="line">+------------+</span><br><span class="line">|    91.5000 |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>[例29]  查询选修1号课程的学生最高分数。</p>
+<pre><code> SELECT MAX(Grade)
+ FROM SC
+ WHERE Cno= &#39; 1 &#39;； 
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select MAX(Grade) from sc <span class="built_in">where</span> Cno = <span class="string">&#x27;1&#x27;</span>;</span></span><br><span class="line">+------------+</span><br><span class="line">| MAX(Grade) |</span><br><span class="line">+------------+</span><br><span class="line">|         93 |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="6-对查询结果进行分组"><a href="#6-对查询结果进行分组" class="headerlink" title="6.对查询结果进行分组"></a>6.对查询结果进行分组</h2><ul>
+<li><p>使用GROUP BY子句分组<br>细化集函数的作用对象<br> 未对查询结果分组，集函数将作用于整个查询结果<br> 对查询结果分组后，集函数将分别作用于每个组 </p>
+</li>
+<li><p>[例30]  求选课表中各个被选课程号及相应的选课人数。</p>
+<pre><code>SELECT Cno，COUNT(Sno)
+FROM    SC
+GROUP BY Cno； 
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Cno,COUNT(Sno) from SC GROUP BY Cno;</span></span><br><span class="line">+-----+------------+</span><br><span class="line">| Cno | COUNT(Sno) |</span><br><span class="line">+-----+------------+</span><br><span class="line">| 1   |          3 |</span><br><span class="line">| 2   |          4 |</span><br><span class="line">| 3   |          4 |</span><br><span class="line">| 4   |          3 |</span><br><span class="line">+-----+------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>先对Cno进行分组，一样的分为一组，在对每一组中的Sno进行计数，得出选课人数</p>
+</blockquote>
+</li>
+<li><p>GROUP BY子句的作用对象是查询的中间结果表<br>分组方法：按指定的一列或多列值分组，值相等的为一组。<br>一般要与集函数配合使用，以细化集函数（count，sum，avg，max，min）的作用对象。<br>使用GROUP BY子句后，SELECT子句的列名列表中只能出现分组属性和集函数</p>
+</li>
+<li><p>使用HAVING短语筛选最终输出结果</p>
+<p>[例31]  查询选修了3门以上课程的学生学号。</p>
+<pre><code> SELECT Sno
+ FROM  SC
+ GROUP BY Sno
+ HAVING  COUNT(*) &gt;=3；   
+</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno from sc GROUP BY Sno HAVING COUNT(*) &gt;=3;</span></span><br><span class="line">+-------+</span><br><span class="line">| Sno   |</span><br><span class="line">+-------+</span><br><span class="line">| 95001 |</span><br><span class="line">| 95005 |</span><br><span class="line">+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>[例32]  查询有3门以上课程是90分以上的</p>
+<pre><code>学生的学号及（90分以上的）课程数
+</code></pre>
+<p>  SELECT  Sno,  COUNT(*)<br>  FROM   SC<br>  WHERE Grade&gt;=90<br>  GROUP BY Sno<br>  HAVING COUNT(*)&gt;=3;                </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,count(*) from SC <span class="built_in">where</span> Grade&gt;=90 GROUP BY Sno HAVING COUNT(*)&gt;=3;</span></span><br><span class="line">+-------+----------+</span><br><span class="line">| Sno   | count(*) |</span><br><span class="line">+-------+----------+</span><br><span class="line">| 95001 |        4 |</span><br><span class="line">| 95005 |        3 |</span><br><span class="line">+-------+----------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>先把成绩&gt;=90分以上的元组选出来，按照学号分组，之后在每个组进行筛选，选出个数大于等于3的组。</p>
+</blockquote>
+</li>
+<li><p>只有满足HAVING短语指定条件的组才输出<br>HAVING短语与WHERE子句的区别：作用对象不同<br>WHERE子句作用于基表，从中选择满足条件的元组。<br>HAVING短语作用于组，从中选择满足条件的组。 </p>
+</li>
+<li><p>查询语句的select 和group by ,having 子句是集函数唯一出现的地方，在where 子句中不能使用集函数<br>在没有集函数的情况下，DISTINCT和GROUP BY的结果没有区别</p>
+<p>SELECT Sno FROM SC GROUP BY Sno;</p>
+<p>SELECT DISTINCT Sno FROM SC;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno from Sc GROUP BY Sno;</span></span><br><span class="line">+-------+</span><br><span class="line">| Sno   |</span><br><span class="line">+-------+</span><br><span class="line">| 95001 |</span><br><span class="line">| 95002 |</span><br><span class="line">| 95003 |</span><br><span class="line">| 95004 |</span><br><span class="line">| 95005 |</span><br><span class="line">| 95011 |</span><br><span class="line">+-------+</span><br><span class="line">6 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>用了group by，则select之后的字段除了集函数外都必须出现在group by中，你可以少于group by中的字段，但不能包含group by中没有的字段</p>
+<p>SELECT Sno,Cno FROM SC GROUP BY Sno; </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Cno from sc GROUP BY Sno;</span></span><br><span class="line">ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains no</span><br><span class="line">naggregated column &#x27;school.sc.Cno&#x27; which is not functionally dependent on columns in GROUP</span><br><span class="line"> BY clause; this is incompatible with sql_mode=only_full_group_by</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>SELECT Sno,count(Cno) FROM SC GROUP BY Sno;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,count(Cno) from sc GROUP BY Sno;</span></span><br><span class="line">+-------+------------+</span><br><span class="line">| Sno   | count(Cno) |</span><br><span class="line">+-------+------------+</span><br><span class="line">| 95001 |          4 |</span><br><span class="line">| 95002 |          2 |</span><br><span class="line">| 95003 |          1 |</span><br><span class="line">| 95004 |          2 |</span><br><span class="line">| 95005 |          4 |</span><br><span class="line">| 95011 |          1 |</span><br><span class="line">+-------+------------+</span><br><span class="line">6 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>GROUP BY 对多个字段的查询</p>
+<p>SELECT Cno,Sno FROM SC GROUP BY Cno,Sno;</p>
+<p>SELECT Sno,Cno FROM SC GROUP BY Sno,Cno;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Cno,Sno from sc group by Cno,Sno;</span></span><br><span class="line">+-----+-------+</span><br><span class="line">| Cno | Sno   |</span><br><span class="line">+-----+-------+</span><br><span class="line">| 1   | 95001 |</span><br><span class="line">| 1   | 95005 |</span><br><span class="line">| 1   | 95011 |</span><br><span class="line">| 2   | 95001 |</span><br><span class="line">| 2   | 95002 |</span><br><span class="line">| 2   | 95003 |</span><br><span class="line">| 2   | 95005 |</span><br><span class="line">| 3   | 95001 |</span><br><span class="line">| 3   | 95002 |</span><br><span class="line">| 3   | 95004 |</span><br><span class="line">| 3   | 95005 |</span><br><span class="line">| 4   | 95001 |</span><br><span class="line">| 4   | 95004 |</span><br><span class="line">| 4   | 95005 |</span><br><span class="line">+-----+-------+</span><br><span class="line">14 rows in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Cno from sc group by Sno,Cno;</span></span><br><span class="line">+-------+-----+</span><br><span class="line">| Sno   | Cno |</span><br><span class="line">+-------+-----+</span><br><span class="line">| 95001 | 1   |</span><br><span class="line">| 95001 | 2   |</span><br><span class="line">| 95001 | 3   |</span><br><span class="line">| 95001 | 4   |</span><br><span class="line">| 95002 | 2   |</span><br><span class="line">| 95002 | 3   |</span><br><span class="line">| 95003 | 2   |</span><br><span class="line">| 95004 | 3   |</span><br><span class="line">| 95004 | 4   |</span><br><span class="line">| 95005 | 1   |</span><br><span class="line">| 95005 | 2   |</span><br><span class="line">| 95005 | 3   |</span><br><span class="line">| 95005 | 4   |</span><br><span class="line">| 95011 | 1   |</span><br><span class="line">+-------+-----+</span><br><span class="line">14 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查询每个系男生和女生的平均年龄<br>select sdept,ssex,avg(sage) from student group by sdept,ssex;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sdept,Ssex,avg(sage) from student group by Sdept,Ssex;</span></span><br><span class="line">+-------+------+-----------+</span><br><span class="line">| Sdept | Ssex | avg(sage) |</span><br><span class="line">+-------+------+-----------+</span><br><span class="line">| CS    | 女   |   20.0000 |</span><br><span class="line">| CS    | 男   |   20.0000 |</span><br><span class="line">| IS    | 女   |   20.6667 |</span><br><span class="line">| IS    | 男   |   21.0000 |</span><br><span class="line">| MA    | 男   |   22.0000 |</span><br><span class="line">+-------+------+-----------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>GROUP BY 和 ORDER BY 同时使用</p>
+<p>group by 比order by先执行，order by不会对group by 内部进行排序，而是对组进行排序，所以ORDER BY 子句中的列必须包含在聚合函数或 GROUP BY 子句中。</p>
+<p>如果group by后只有一条记录，那么order by 将无效</p>
+</li>
+<li><p>查询每个系男生和女生的平均年龄，按照所在系的降序排列<br>select sdept, ssex, avg(sage) from student group by sdept, ssex order by sdept desc;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sdept,Ssex,AVG(Sage) from student group by Sdept,Ssex order by Sdept desc;</span></span><br><span class="line">+-------+------+-----------+</span><br><span class="line">| Sdept | Ssex | AVG(Sage) |</span><br><span class="line">+-------+------+-----------+</span><br><span class="line">| MA    | 男   |   22.0000 |</span><br><span class="line">| IS    | 女   |   20.6667 |</span><br><span class="line">| IS    | 男   |   21.0000 |</span><br><span class="line">| CS    | 女   |   20.0000 |</span><br><span class="line">| CS    | 男   |   20.0000 |</span><br><span class="line">+-------+------+-----------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>```shell<br>mysql&gt; select sdept, ssex, avg(sage) from student group by sdept, ssex having avg(sage)&gt;19<br> order by sdept desc, ssex desc;<br>+——-+——+———–+<br>| sdept | ssex | avg(sage) |<br>+——-+——+———–+<br>| MA    | 男   |   22.0000 |<br>| IS    | 男   |   21.0000 |<br>| IS    | 女   |   20.6667 |<br>| CS    | 男   |   20.0000 |<br>| CS    | 女   |   20.0000 |<br>+——-+——+———–+<br>5 rows in set (0.00 sec)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```shell</span><br><span class="line">  mysql&gt; select sdept, ssex, avg(sage) from student group by sdept, ssex order by AVG(Sage) asc;</span><br><span class="line">  +-------+------+-----------+</span><br><span class="line">  | sdept | ssex | avg(sage) |</span><br><span class="line">  +-------+------+-----------+</span><br><span class="line">  | CS    | 女   |   20.0000 |</span><br><span class="line">  | CS    | 男   |   20.0000 |</span><br><span class="line">  | IS    | 女   |   20.6667 |</span><br><span class="line">  | IS    | 男   |   21.0000 |</span><br><span class="line">  | MA    | 男   |   22.0000 |</span><br><span class="line">  +-------+------+-----------+</span><br><span class="line">  5 rows in set (0.00 sec)</span><br><span class="line">  </span><br></pre></td></tr></table></figure></li>
+<li><pre><code class="shell">mysql&gt; select sdept, ssex, avg(sage) from student group by sdept, ssex having avg(sage)&gt;19
+ order by sdept desc, AVG(Sage) asc;
++-------+------+-----------+
+| sdept | ssex | avg(sage) |
++-------+------+-----------+
+| MA    | 男   |   22.0000 |
+| IS    | 女   |   20.6667 |
+| IS    | 男   |   21.0000 |
+| CS    | 男   |   20.0000 |
+| CS    | 女   |   20.0000 |
++-------+------+-----------+
+5 rows in set (0.00 sec)
+</code></pre>
+</li>
+</ul>
+<h2 id="7-结尾"><a href="#7-结尾" class="headerlink" title="7.结尾"></a>7.结尾</h2><ul>
+<li>本篇笔记针对单表查询做了很多详细的例子，基本涵盖了所有的单表查询操作，后面一篇将分享连接查询表，如果觉得对你有帮助，请点个赞鼓励我更上一层楼！</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2019/06/15/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94%E5%8D%95%E8%A1%A8%E6%9F%A5%E8%AF%A2/">https://did321.github.io/2019/06/15/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94%E5%8D%95%E8%A1%A8%E6%9F%A5%E8%AF%A2/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Mysql/"># Mysql</a>
+                    
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"># 数据库</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/06/17/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B-%E2%80%94%E2%80%94%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/">Mysql学习笔记(四)——多表查询</a>
+            
+            
+            <a class="next" rel="next" href="/2019/06/13/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%AF%86%E7%A0%81%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/">C51单片机学习——密码锁的实现</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Tensorflow 2.0 实现神经网络 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Tensorflow 2.0 实现神经网络</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 7, 2020&nbsp;&nbsp;16:23:39</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Deep-Learning/">Deep Learning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">2.5k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">11</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-加载fashion-mnist数据集"><a href="#1-加载fashion-mnist数据集" class="headerlink" title="1.加载fashion_mnist数据集"></a>1.加载fashion_mnist数据集</h2><ul>
+<li>fashion_mnist是一个替代mnist手写数字集的图像数据集，包含60000个示例的训练集和10000个示例的测试集。每个示例都是一个28x28灰度图像，分为10个类别（’T-shirt’, ‘Trouser’, ‘Pullover’, ‘Dress’, ‘Coat’, ‘Sandal’, ‘Shirt’, ‘Sneaker’, ‘Bag’, ‘Ankle boot’）</li>
+<li>下面通过tenssorflow加载该数据集，第一次加载可能稍慢，他要从官网上下载数据集。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">(train_image, train_lable),(test_image, test_label) = tf.keras.datasets.fashion_mnist.load_data() <span class="comment"># 加载fashion_mnist数据</span></span><br><span class="line"><span class="comment"># 显示部分数据集</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_imgs</span>(<span class="params">n_rows, n_cols, x_data, y_data, class_names</span>):</span></span><br><span class="line">		<span class="keyword">assert</span> <span class="built_in">len</span>(x_data) == <span class="built_in">len</span>(y_data)</span><br><span class="line">		<span class="keyword">assert</span> n_rows * n_cols &lt; <span class="built_in">len</span>(y_data)</span><br><span class="line">		plt.figure(figsize = (n_cols * <span class="number">1.4</span>, n_cols * <span class="number">1.6</span>))</span><br><span class="line">		<span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(n_rows):</span><br><span class="line">			<span class="keyword">for</span> col <span class="keyword">in</span> <span class="built_in">range</span>(n_cols):</span><br><span class="line">				index = n_cols * row + col</span><br><span class="line">				plt.subplot(n_rows, n_cols, index+<span class="number">1</span>)</span><br><span class="line">				plt.imshow(x_data[index], cmap=<span class="string">&#x27;binary&#x27;</span>, interpolation = <span class="string">&#x27;nearest&#x27;</span>)</span><br><span class="line">				plt.axis(<span class="string">&#x27;off&#x27;</span>)</span><br><span class="line">				plt.title(class_names[y_data[index]])</span><br><span class="line">		plt.show()</span><br><span class="line">class_names = [<span class="string">&#x27;T-shirt&#x27;</span>, <span class="string">&#x27;Trouser&#x27;</span>, <span class="string">&#x27;Pullover&#x27;</span>, <span class="string">&#x27;Dress&#x27;</span>, <span class="string">&#x27;Coat&#x27;</span>, <span class="string">&#x27;Sandal&#x27;</span>, <span class="string">&#x27;Shirt&#x27;</span>, <span class="string">&#x27;Sneaker&#x27;</span>, <span class="string">&#x27;Bag&#x27;</span>, <span class="string">&#x27;Ankle boot&#x27;</span>]</span><br><span class="line"></span><br><span class="line">show_imgs(<span class="number">3</span>, <span class="number">9</span>, train_image, train_lable, class_names)</span><br></pre></td></tr></table></figure>
+
+<p>运行的结果如下图所示：可以发现他们有10种不同的类别。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200207162202439.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<h2 id="2-搭建三层神经网络"><a href="#2-搭建三层神经网络" class="headerlink" title="2.搭建三层神经网络"></a>2.搭建三层神经网络</h2><ul>
+<li><p>这里搭建神经网络就使用tensorflow中的keras进行搭建，下面详细讲解搭建的过程：</p>
+</li>
+<li><p>首先在纸上把整个神经网络的框架画出来：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200207162219823.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p> 由于每一张图片维度都是28*28，所以输入层的单元数为28*28；因为是一张图片图像，像素比较多，故需要隐藏层维度大一点在此先设置为128，后面会说明隐藏层的大小对其结果的影响；输出层维度为10，因为有十个类别，最后可以通过softmax将其转化为10个概率，概率最大的那一个就是最佳的类别。</p>
+</li>
+<li><p>用keras中的顺序模型来搭建神经网络模型，模型是一层一层添加的，按照顺序。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model = tf.keras.Sequential()</span><br></pre></td></tr></table></figure></li>
+<li><p>添加输入层，使用Flatten()，将输入的二维向量转化为一位向量，即28*28的一维向量，作为输入单元数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.add(tf.keras.layers.Flatten(input_shape=(<span class="number">28</span>,<span class="number">28</span>)))</span><br></pre></td></tr></table></figure></li>
+<li><p>添加隐藏层，使用Dense()层，第一个参数为隐藏层维度，activation参数为激活函数，即通过激活函数传到下一层。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.add(tf.keras.layers.Dense(<span class="number">128</span>, activation=<span class="string">&#x27;relu&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>常用的激活函数有：’relu’、’sigmoid’、’tanh’、’Leak relu’</p>
+<p><strong>sigmoid函数</strong></p>
+<p>Sigmoid函数是一个在生物学中常见的S型函数，也称为S型生长曲线。在信息科学中，由于其单增以及反函数单增等性质，Sigmoid函数常被用作神经网络的阈值函数，将变量映射到0,1之间。公式如下</p>
+<p><img src="https://gss2.bdstatic.com/-fo3dSag_xI4khGkpoWK1HF6hhy/baike/pic/item/962bd40735fae6cdc554878203b30f2443a70f74.jpg" alt="img"></p>
+<p>函数图像如下</p>
+<p><img src="https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike116%2C5%2C5%2C116%2C38/sign=662513026ed9f2d3341c2cbdc885e176/730e0cf3d7ca7bcb1797ebccb2096b63f724a860.jpg" alt="img"></p>
+<p><strong>tanh函数</strong></p>
+<p>Tanh是双曲函数中的一个，Tanh()为双曲正切。在数学中，双曲正切“Tanh”是由基本双曲函数双曲正弦和双曲余弦推导而来。公式如下</p>
+<p><img src="https://gss0.bdstatic.com/-4o3dSag_xI4khGkpoWK1HF6hhy/baike/pic/item/09fa513d269759ee31ce4e28befb43166c22dfb2.jpg" alt="img"></p>
+<p>函数图像如下</p>
+<p><img src="https://gss0.bdstatic.com/94o3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike72%2C5%2C5%2C72%2C24/sign=5484883dfc1f3a294ec5dd9cf84cd754/b64543a98226cffcc6c79651b5014a90f703ea60.jpg" alt="img"></p>
+<p><strong>relu函数</strong></p>
+<p>Relu激活函数（The Rectified Linear Unit），用于隐层神经元输出。公式如下</p>
+<p><img src="https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/pic/item/9a504fc2d5628535b85bf9c29cef76c6a6ef639d.jpg" alt="img"></p>
+<p>函数图像如下</p>
+<p><img src="https://gss0.bdstatic.com/-4o3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=9df52608bafd5266b3263446ca71fc4e/f31fbe096b63f624775e13e08b44ebf81b4ca3d5.jpg" alt="img"></p>
+</li>
+<li><p>添加输出层，使用Dence()层，这里的激活函数就使用softmax函数，将其转化为概率输出。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.add(tf.keras.layers.Dense(<span class="number">10</span>, activation=<span class="string">&#x27;softmax&#x27;</span>))</span><br></pre></td></tr></table></figure></li>
+<li><p>至此神经网络模型搭建完毕，我们可以使用<code>model.summary()</code>来查看建立的模型的结构：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Model: <span class="string">&quot;sequential&quot;</span></span><br><span class="line">_________________________________________________________________</span><br><span class="line">Layer (<span class="built_in">type</span>)                 Output Shape              Param <span class="comment">#   </span></span><br><span class="line">=================================================================</span><br><span class="line">flatten (Flatten)            (<span class="literal">None</span>, <span class="number">784</span>)               <span class="number">0</span>         </span><br><span class="line">_________________________________________________________________</span><br><span class="line">dense (Dense)                (<span class="literal">None</span>, <span class="number">128</span>)               <span class="number">100480</span>    </span><br><span class="line">_________________________________________________________________</span><br><span class="line">dense_1 (Dense)              (<span class="literal">None</span>, <span class="number">10</span>)                <span class="number">1290</span>      </span><br><span class="line">=================================================================</span><br><span class="line">Total params: <span class="number">101</span>,<span class="number">770</span></span><br><span class="line">Trainable params: <span class="number">101</span>,<span class="number">770</span></span><br><span class="line">Non-trainable params: <span class="number">0</span></span><br><span class="line">_________________________________________________________________</span><br><span class="line"><span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<p>​    可以发现每一层的维度大小都有给出，包括每一层的参数个数paramters，这里隐藏层的参数为100480 = （784 + 1）* 128，原因是前面的神经网络的介绍中已经说明，需要多加一个偏置单元，同理后面的1290 = （128 + 1）* 10，也默认添加了一个偏置单元。  </p>
+</li>
+<li><p>对该模型进行编译：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.<span class="built_in">compile</span>(optimizer=<span class="string">&#x27;adam&#x27;</span>, loss=<span class="string">&#x27;sparse_categorical_crossentropy&#x27;</span>, metrics=[<span class="string">&#x27;acc&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<p>​    optimizer:是优化方法，常用的优化方法有adam、SGD（随机梯度下降优化器）、RMSprop等；</p>
+<p>​    loss:是损失函数，常用的有’mes’(均方差)，这里由于是分类问题，使用的是前面所讨论的交叉熵损失函数，有两种’sparse_categorical_crossentropy’(适用于最后分类的顺序编码)、’categorical_crossentropy’(适用于最后分类是独热编码)；</p>
+<p>​    metrics=[‘acc’]可查看每一次的准确率；</p>
+</li>
+<li><p>用该模型训练数据集：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">history = model.fit(train_image, train_lable, epochs=<span class="number">5</span>,validation_data=(test_image,test_label))</span><br></pre></td></tr></table></figure>
+
+<p>epochs为训练代数，前面是训练集，后面是验证集。每次训练的结果都存在history里面，后面可以根据history将学习曲线以及准确率曲线画出来。</p>
+</li>
+</ul>
+<h2 id="3-模型训练"><a href="#3-模型训练" class="headerlink" title="3.模型训练"></a>3.模型训练</h2><ul>
+<li><p>下面是整个的完整代码，将学习曲线给画出来了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">(train_image, train_lable),(test_image, test_label) = tf.keras.datasets.fashion_mnist.load_data() <span class="comment"># 加载fashion_mnist数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_imgs</span>(<span class="params">n_rows, n_cols, x_data, y_data, class_names</span>):</span></span><br><span class="line">		<span class="keyword">assert</span> <span class="built_in">len</span>(x_data) == <span class="built_in">len</span>(y_data)</span><br><span class="line">		<span class="keyword">assert</span> n_rows * n_cols &lt; <span class="built_in">len</span>(y_data)</span><br><span class="line">		plt.figure(figsize = (n_cols * <span class="number">1.4</span>, n_cols * <span class="number">1.6</span>))</span><br><span class="line">		<span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(n_rows):</span><br><span class="line">			<span class="keyword">for</span> col <span class="keyword">in</span> <span class="built_in">range</span>(n_cols):</span><br><span class="line">				index = n_cols * row + col</span><br><span class="line">				plt.subplot(n_rows, n_cols, index+<span class="number">1</span>)</span><br><span class="line">				plt.imshow(x_data[index], cmap=<span class="string">&#x27;binary&#x27;</span>, interpolation = <span class="string">&#x27;nearest&#x27;</span>)</span><br><span class="line">				plt.axis(<span class="string">&#x27;off&#x27;</span>)</span><br><span class="line">				plt.title(class_names[y_data[index]])</span><br><span class="line">		plt.show()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_learning_curves</span>(<span class="params">history</span>):</span></span><br><span class="line">	pd.DataFrame(history.history).plot(figsize=(<span class="number">8</span>,<span class="number">5</span>))</span><br><span class="line">	plt.grid(<span class="literal">True</span>)</span><br><span class="line">	plt.gca().set_ylim(<span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">	plt.show()</span><br><span class="line">class_names = [<span class="string">&#x27;T-shirt&#x27;</span>, <span class="string">&#x27;Trouser&#x27;</span>, <span class="string">&#x27;Pullover&#x27;</span>, <span class="string">&#x27;Dress&#x27;</span>, <span class="string">&#x27;Coat&#x27;</span>, <span class="string">&#x27;Sandal&#x27;</span>, <span class="string">&#x27;Shirt&#x27;</span>, <span class="string">&#x27;Sneaker&#x27;</span>, <span class="string">&#x27;Bag&#x27;</span>, <span class="string">&#x27;Ankle boot&#x27;</span>]</span><br><span class="line"></span><br><span class="line">show_imgs(<span class="number">3</span>, <span class="number">9</span>, train_image, train_lable, class_names)</span><br><span class="line"><span class="comment"># 归一化</span></span><br><span class="line">train_image = train_image/<span class="number">255</span></span><br><span class="line">test_image = test_image/<span class="number">255</span></span><br><span class="line">model = tf.keras.Sequential()</span><br><span class="line">model.add(tf.keras.layers.Flatten(input_shape=(<span class="number">28</span>,<span class="number">28</span>))) <span class="comment"># 28*28向量 将矩阵转化为向量</span></span><br><span class="line">model.add(tf.keras.layers.Dense(<span class="number">128</span>, activation=<span class="string">&#x27;relu&#x27;</span>))</span><br><span class="line">model.add(tf.keras.layers.Dense(<span class="number">10</span>, activation=<span class="string">&#x27;softmax&#x27;</span>))</span><br><span class="line">model.<span class="built_in">compile</span>(optimizer=<span class="string">&#x27;adam&#x27;</span>, loss=<span class="string">&#x27;sparse_categorical_crossentropy&#x27;</span>, metrics=[<span class="string">&#x27;acc&#x27;</span>])</span><br><span class="line">history = model.fit(train_image, train_lable, epochs=<span class="number">5</span>,validation_data=(test_image,test_label))</span><br><span class="line">plot_learning_curves(history)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20200207162241248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<p>通过输出的结果可以发现loss: 0.2982 - acc: 0.8909 - val_loss: 0.3448 - val_acc: 0.8773，准确度为0.89，测试集的准确度为0.87。</p>
+<h2 id="4-利用Dropout抑制过拟合"><a href="#4-利用Dropout抑制过拟合" class="headerlink" title="4.利用Dropout抑制过拟合"></a>4.利用Dropout抑制过拟合</h2><ul>
+<li><p>前面我们讨论过，一个神经网络越复杂，神经元越多，隐藏层越多拟合能力越强，但拟合的速度也越慢，更容易产生过拟合现象，那么为了抑制过拟合这里可以使用添加Dropout层抑制过拟合。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> model = tf.keras.Sequential()</span><br><span class="line">model.add(tf.keras.layers.Flatten(input_shape=(<span class="number">28</span>,<span class="number">28</span>))) <span class="comment"># 28*28向量 将矩阵转化为向量</span></span><br><span class="line">model.add(tf.keras.layers.Dense(<span class="number">128</span>, activation=<span class="string">&#x27;relu&#x27;</span>))</span><br><span class="line">model.add(tf.keras.layers.Dropout(<span class="number">0.5</span>)) <span class="comment"># 添加Dropout层抑制过拟合</span></span><br><span class="line">model.add(tf.keras.layers.Dense(<span class="number">10</span>, activation=<span class="string">&#x27;softmax&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>就是在之前搭建的神经网络模型的基础上添加一层，参数为0.5代表抑制程度，Dropout的基本原理就是按照一定方法去掉一些神经元，使网络变简单，从而可以抑制过拟合。</p>
+</li>
+</ul>
+<h2 id="5-使用回调函数"><a href="#5-使用回调函数" class="headerlink" title="5.使用回调函数"></a>5.使用回调函数</h2><ul>
+<li><p>前面我们的学习曲线是根据训练完成后的history来画的，但当训练代数比较大时，我们需要时刻监控损失是否下降，以便更好得调整方法，即：在训练数据没有训练完成之前可以返回一些参数做别的操作，这就是回调函数的作用。</p>
+</li>
+<li><p>首先创建一个存放callbacks的文件夹，具体代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">logdir = <span class="string">&#x27;./callbacks&#x27;</span> <span class="comment"># 如果报错改为绝对路径</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(logdir):</span><br><span class="line">	os.mkdir(logdir)</span><br><span class="line">output_model_file = os.path.join(logdir,<span class="string">&#x27;fashion_mnist_model.h5&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>这里只设置三种callbacks：TensorBoard、ModelCheckpoint、Earlyshopping;其他的callbacks请参考<a target="_blank" rel="noopener" href="https://keras-cn.readthedocs.io/en/latest/other/callbacks/">https://keras-cn.readthedocs.io/en/latest/other/callbacks/</a>官方中文文档</p>
+</li>
+<li><p>TensorBoard:该回调函数是一个可视化的展示器</p>
+<p>TensorBoard是TensorFlow提供的可视化工具，该回调函数将日志信息写入TensorBorad，使得你可以动态的观察训练和测试指标的图像以及不同层的激活值直方图。</p>
+<p>如果已经通过pip安装了TensorFlow，我们可通过下面的命令启动TensorBoard：</p>
+<p><code>tensorboard --logdir=/full_path_to_your_logs</code></p>
+</li>
+<li><p>EarlyStoping:当监测值不再改善时，该回调函数将中止训练</p>
+</li>
+<li><p>ModelCheckpoint:该回调函数将在每个epoch后保存模型到<code>filepath</code></p>
+<p><code>filepath</code>可以是格式化的字符串，里面的占位符将会被<code>epoch</code>值和传入<code>on_epoch_end</code>的<code>logs</code>关键字所填入</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">logdir = <span class="string">&#x27;./callbacks&#x27;</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(logdir):</span><br><span class="line">	os.mkdir(logdir)</span><br><span class="line">output_model_file = os.path.join(logdir,<span class="string">&#x27;fashion_mnist_model.h5&#x27;</span>)</span><br><span class="line">callbacks = [ tf.keras.callbacks.TensorBoard(logdir),</span><br><span class="line">tf.keras.callbacks.ModelCheckpoint(output_model_file,save_best_only=<span class="literal">True</span>),]</span><br><span class="line"></span><br><span class="line">history = model.fit(train_image, train_lable, epochs=<span class="number">5</span>,validation_data=(test_image,test_label),callbacks = callbacks)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>下面是通过<code>tensorboard --logdir=callbacks</code>生成的本地网页数据:<code>http://localhost:6006/</code>(通过端口6006在网页中打开)</p>
+<p><img src="https://img-blog.csdnimg.cn/20200207162254200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+</li>
+</ul>
+<h2 id="6-（附）上一次用python实现的神经网络改为用Tensorflow2-0实现"><a href="#6-（附）上一次用python实现的神经网络改为用Tensorflow2-0实现" class="headerlink" title="6.（附）上一次用python实现的神经网络改为用Tensorflow2.0实现"></a>6.（附）上一次用python实现的神经网络改为用Tensorflow2.0实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_data</span>():</span> <span class="comment"># 产生数据集</span></span><br><span class="line">    np.random.seed(<span class="number">0</span>)</span><br><span class="line">    X, y = datasets.make_moons(<span class="number">200</span>, noise=<span class="number">0.20</span>) <span class="comment"># 产生月牙形状的数据集</span></span><br><span class="line">    <span class="keyword">return</span> X, y</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_decision_boundary</span>(<span class="params">model, X, y</span>):</span> <span class="comment"># 画决策边界线</span></span><br><span class="line">    <span class="comment"># 设置图像边界最大值与最小值</span></span><br><span class="line">    x_min, x_max = X[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">.5</span>, X[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">.5</span></span><br><span class="line">    y_min, y_max = X[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">.5</span>, X[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">.5</span></span><br><span class="line">    h = <span class="number">0.01</span> <span class="comment">#采样间隔</span></span><br><span class="line">    <span class="comment"># 生成网格矩阵</span></span><br><span class="line">    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))</span><br><span class="line">    <span class="comment">#sample = next(iter(np.c_[xx.ravel(), yy.ravel()]))</span></span><br><span class="line">    pred = model.predict(np.c_[xx.ravel(), yy.ravel()])</span><br><span class="line">    pred = tf.argmax(pred, axis=<span class="number">1</span>)</span><br><span class="line">    pred_numpy = pred.numpy()</span><br><span class="line">    <span class="comment"># 对整个网格矩阵进行预测</span></span><br><span class="line">    Z = pred_numpy.reshape(xx.shape) <span class="comment"># 使预测结果重新变成网格数组大小</span></span><br><span class="line">    <span class="comment"># 画出决策边界</span></span><br><span class="line">    plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)</span><br><span class="line">    <span class="comment"># 画出数据点</span></span><br><span class="line">    plt.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], s = <span class="number">20</span>,c=y, cmap=plt.cm.Spectral) </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    X, y = generate_data()</span><br><span class="line">    model = tf.keras.Sequential()</span><br><span class="line">    model.add(tf.keras.layers.Flatten(input_shape=(<span class="number">2</span>, )))</span><br><span class="line">    model.add(tf.keras.layers.Dense(<span class="number">5</span>, activation=<span class="string">&#x27;tanh&#x27;</span>))</span><br><span class="line">    <span class="comment"># model.add(tf.keras.layers.Dropout(0.5)) # 添加Dropout层抑制过拟合</span></span><br><span class="line">    model.add(tf.keras.layers.Dense(<span class="number">2</span>, activation=<span class="string">&#x27;softmax&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(model.summary())</span><br><span class="line">    model.<span class="built_in">compile</span>(optimizer=<span class="string">&#x27;adam&#x27;</span>, loss=<span class="string">&#x27;sparse_categorical_crossentropy&#x27;</span>, metrics=[<span class="string">&#x27;acc&#x27;</span>])</span><br><span class="line">    history = model.fit(X, y, epochs=<span class="number">2000</span>)</span><br><span class="line">    model.evaluate(X,y)</span><br><span class="line">    plt.plot(history.epoch,history.history.get(<span class="string">&#x27;loss&#x27;</span>))</span><br><span class="line">    plt.figure(<span class="number">2</span>)</span><br><span class="line">    plot_decision_boundary(model, X, y)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20200207162304492.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p>可以发现代码量大大减少，并且得到了和之前相同的效果，并且在这里可以很方便的修改参数（隐藏层维度，隐藏层数量，激活函数等等）</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2020/02/07/Tensorflow2-0-%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">https://did321.github.io/2020/02/07/Tensorflow2-0-%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"># 机器学习</a>
+                    
+                        <a href="/tags/TensorFlow/"># TensorFlow</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/07/16/%E5%9F%BA%E4%BA%8Ejieba%E5%BA%93%E7%9A%84%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/">基于jieba库的词频分析</a>
+            
+            
+            <a class="next" rel="next" href="/2020/01/31/TensorFlow2-0%E6%AD%A3%E5%BC%8F%E7%89%88%E5%AE%89%E8%A3%85/">TensorFlow2.0正式版安装</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>

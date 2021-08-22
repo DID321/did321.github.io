@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>TensorFlow2.0正式版安装 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">TensorFlow2.0正式版安装</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 31, 2020&nbsp;&nbsp;12:52:51</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Deep-Learning/">Deep Learning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">2k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">8</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <div id="article_content" class="article_content clearfix">
+            <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-833878f763.css">
+                                        <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-833878f763.css">
+                <div class="htmledit_views" id="content_views">
+                                            <h2><a name="t0"></a><a name="t0"></a>0 前言</h2>
+
+<blockquote>
+<p>TensorFlow 2.0，今天凌晨，正式放出了2.0版本。</p>
+
+<p>不少网友表示，TensorFlow 2.0比PyTorch更好用，已经准备全面转向这个新升级的深度学习框架了。</p>
+</blockquote>
+
+<p><img alt="" class="has" height="299" src="https://img-blog.csdnimg.cn/2019100115042045.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly94aWFvc29uZ3NoaW5lLmJsb2cuY3Nkbi5uZXQ=,size_16,color_FFFFFF,t_70" width="532"></p>
+
+<p>本篇文章就带领大家用最简单地方式安装TF2.0正式版本（CPU与GPU），由我来踩坑，方便大家体验正式版本的TF2.0。</p>
+
+<p>废话不多说现在正式开始教程。</p>
+
+<p>&nbsp;</p>
+
+<h2><a name="t1"></a><a name="t1"></a>1 环境准备</h2>
+
+<p>我目前是在Windows10上面，使用conda管理的python环境，通过conda安装cuda与cudnn（GPU支持），通过pip安装的tensorflow2.0。经过尝试只是最简单地安装方式，无需配置复杂环境。</p>
+
+<p>（关于ubuntu与mac版本的安装可以仿照此方法，因为conda支持多平台，应该没什么问题，如果大家问题多的话，可以评论，我后面会会更新ubuntu安装教程）</p>
+
+<h3><a name="t2"></a><a name="t2"></a>1.0&nbsp;conda环境准备</h3>
+
+<p>conda是很好用python管理工具，可以方便建立管理多个python环境。后面安装的步骤里我也会介绍一些常用的conda指令。</p>
+
+<p>conda 我推荐使用安装miniconda，大家可以理解为精简版的anaconda，只保留了一些必备的组件，所以安装会比快上很多，同时也能满足我们管理python环境的需求。（anaconda一般在固态硬盘安装需要占用几个G内存，花费1-2个小时，miniconda一般几百M，10分钟就可以安装完成了）</p>
+
+<p>miniconda推荐使用清华源下载：<a target="_blank" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/" rel="nofollow noopener">https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/</a></p>
+
+<p>选择适合自己的版本就可以，</p>
+
+<ul><li>windows推荐地址：<a target="_blank" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-4.7.10-Windows-x86_64.exe" rel="nofollow noopener">https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-4.7.10-Windows-x86_64.exe</a></li>
+    <li>ubuntu推荐地址：<a target="_blank" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-4.7.10-Linux-x86_64.sh" rel="nofollow noopener">https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-4.7.10-Linux-x86_64.sh</a></li>
+    <li>Mac os推荐地址：<a target="_blank" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-4.7.10-MacOSX-x86_64.pkg" rel="nofollow noopener">https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-4.7.10-MacOSX-x86_64.pkg</a></li>
+</ul><p>下以windows版本来安装miniconda作为演示，从上述下载合适版本，下载好后以管理员权限打开点击安装。</p>
+
+<p><img alt="" class="has" src="https://img-blog.csdnimg.cn/20191001151603376.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly94aWFvc29uZ3NoaW5lLmJsb2cuY3Nkbi5uZXQ=,size_16,color_FFFFFF,t_70"></p>
+
+<p>注意这两个都要勾选，一个是让我们可以直接在cmd使用conda指令，第二个是把miniconda自带的python3.7作为系统python。</p>
+
+<p>安装好后就可以在cmd中使用conda指令了，cmd打开方式，windows键+R键，弹出输入框，输入cmd就进入了。也可以直接在windows搜索cmd点击运行。</p>
+
+<p>下面介绍些cmd conda指令：</p>
+
+<ol><li>查看conda环境：conda env list</li>
+    <li>新建conda环境(env_name就是创建的环境名，可以自定义)：conda create -n env_name</li>
+    <li>激活conda环境（ubuntu与Macos 将conda 替换为source）：conda activate&nbsp;env_name</li>
+    <li>退出conda环境：conda deactivate</li>
+    <li>安装和卸载python包：conda install numpy # conda uninstall numpy</li>
+    <li>查看已安装python列表：conda list -n&nbsp;env_name</li>
+</ol><p>知道这些指令就可以开始使用conda新建一个环境安装TF2.0了。</p>
+
+<h3><a name="t3"></a><a name="t3"></a>1.1&nbsp;TF2.0 CPU版本安装</h3>
+
+<p>TF CPU安装比较简单，因为不需要配置GPU，所以windows ubuntu macOS安装方式都类似，缺点就是运行速度慢，但是用于日常学习使用还是可以的。</p>
+
+<p>下面以windows版本做演示：一下均在命令行操作</p>
+
+<p><strong>1.1.0 新建TF2.0 CPU环境（使用conda 新建环境指令 python==3.6表示在新建环境时同时python3.6）</strong></p>
+
+<pre class="has" name="code"><code class="language-bash hljs">conda create -n TF_2C python=3.6</code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<p>当弹出 ：Proceed ([y]/n)? 输入y回车</p>
+
+<p>完成后就可以进入此环境</p>
+
+<p><strong>1.1.1 进入TF_2C环境</strong></p>
+
+<pre class="has" name="code"><code class="language-bash hljs">conda activate TF_2C</code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<p>进入后我们就可以发现：(TF_2C)在之前路径前面，表示进入了这个环境。使用conda deactivate可以退出。</p>
+
+<p><img alt="" class="has" height="147" src="https://img-blog.csdnimg.cn/20191001154459995.png" width="430"></p>
+
+<p>我们再次进入&nbsp;conda activate TF_2C ，便于执行下述命令</p>
+
+<p><strong>1.1.2&nbsp;安装TF2.0 CPU版本（后面的 -i 表示从国内清华源下载，速度比默认源快很多）</strong></p>
+
+<pre class="has" name="code"><code class="language-bash hljs">pip install tensorflow==2.0.0 -i https://pypi.tuna.tsinghua.edu.cn/simple</code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<p>如果网不好的，多执行几次。然后过一会就安装好啦。下面我们做下简单测试。</p>
+
+<p><strong>1.1.3 测试TF2.0 CPU版本(把下面代码保存到demo.py使用TF_2C python运行)</strong></p>
+
+<pre class="has" name="code"><code class="language-python hljs"><ol class="hljs-ln"><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="1"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="2"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">version = tf.__version__</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="3"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">gpu_ok = tf.test.is_gpu_available()</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="4"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">print(<span class="hljs-string">"tf version:"</span>,version,<span class="hljs-string">"\nuse GPU"</span>,gpu_ok)</div></div></li></ol></code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<p>如果没有问题的话输出结果如下：可以看到tf 版本为2.0.0 因为是cpu版本，所以gpu 为False</p>
+
+<pre class="has" name="code"><code class="language-bash hljs"><ol class="hljs-ln"><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="1"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">tf version: 2.0.0</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="2"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">use GPU False</div></div></li></ol></code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<h3><a name="t4"></a><a name="t4"></a>1.2&nbsp;TF2.0 GPU版本安装</h3>
+
+<p>GPU版本和CPU类似，但是会多一步对于GPU支持的安装。下面来一步步实现。安装之前确认你的电脑拥有Nvidia的GPU</p>
+
+<p><strong>1.2.0 新建TF2.0 GPU环境（使用conda 新建环境指令 python==3.6表示在新建环境时同时python3.6）</strong></p>
+
+<pre class="has" name="code"><code class="language-bash hljs">conda create -n TF_2G python=3.6</code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<p>当弹出 ：Proceed ([y]/n)? 输入y回车</p>
+
+<p>完成后就可以进入此环境</p>
+
+<p><strong>1.1.1 进入TF_2G环境</strong></p>
+
+<pre class="has" name="code"><code class="language-bash hljs">conda activate TF_2G</code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<p><strong>1.1.2&nbsp;安装GPU版本支持，拥有Nvidia的GPU的windows一般都有默认驱动的，只需要安装cudatoolkit 与 cudnn包就可以了，要注意一点需要安装cudatoolkit 10.0 版本，注意一点，如果系统的cudatoolkit小于10.0需要更新一下至10.0</strong></p>
+
+<pre class="has" name="code"><code class="language-bash hljs">conda install cudatoolkit=10.0 cudnn</code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<p><strong>1.1.3&nbsp;安装TF2.0 GPU版本（后面的 -i 表示从国内清华源下载，速度比默认源快很多）</strong></p>
+
+<pre class="has" name="code"><code class="language-bash hljs">pip install tensorflow-gpu==2.0.0 -i https://pypi.tuna.tsinghua.edu.cn/simple</code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<p>如果网不好的，多执行几次。然后过一会就安装好啦。下面我们做下简单测试。</p>
+
+<p><strong>1.1.3 测试TF2.0 GPU版本(把下面代码保存到demo.py使用TF_2G&nbsp;python运行)</strong></p>
+
+<pre class="has" name="code"><code class="language-python hljs"><ol class="hljs-ln"><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="1"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="2"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">version = tf.__version__</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="3"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">gpu_ok = tf.test.is_gpu_available()</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="4"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">print(<span class="hljs-string">"tf version:"</span>,version,<span class="hljs-string">"\nuse GPU"</span>,gpu_ok)</div></div></li></ol></code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<p>如果没有问题的话输出结果如下：可以看到tf 版本为2.0.0 因为是gpu版本，所以gpu 为True，这表示GPU版本安装完成了。</p>
+
+<pre class="has" name="code"><code class="language-bash hljs"><ol class="hljs-ln"><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="1"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">tf version: 2.0.0</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="2"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">use GPU True</div></div></li></ol></code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<h3><a name="t5"></a><a name="t5"></a>1.2 最后我们测试一个使用TF2.0版本方式写的线性拟合代码</h3>
+
+<p>把下述代码保存为main.py</p>
+
+<pre class="has" name="code"><code class="language-python hljs"><ol class="hljs-ln" style="width:873px"><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="1"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="2"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"> </div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="3"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">X = tf.constant([[<span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>], [<span class="hljs-number">4.0</span>, <span class="hljs-number">5.0</span>, <span class="hljs-number">6.0</span>]])</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="4"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">y = tf.constant([[<span class="hljs-number">10.0</span>], [<span class="hljs-number">20.0</span>]])</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="5"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"> </div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="6"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"> </div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="7"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Linear</span><span class="hljs-params">(tf.keras.Model)</span>:</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="8"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="9"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">        super().__init__()</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="10"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">        self.dense = tf.keras.layers.Dense(</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="11"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">            units=<span class="hljs-number">1</span>,</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="12"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">            activation=<span class="hljs-keyword">None</span>,</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="13"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">            kernel_initializer=tf.zeros_initializer(),</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="14"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">            bias_initializer=tf.zeros_initializer()</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="15"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">        )</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="16"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"> </div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="17"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">call</span><span class="hljs-params">(self, input)</span>:</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="18"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">        output = self.dense(input)</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="19"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">        <span class="hljs-keyword">return</span> output</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="20"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"> </div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="21"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"> </div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="22"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"><span class="hljs-comment"># 以下代码结构与前节类似</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="23"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">model = Linear()</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="24"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">optimizer = tf.keras.optimizers.SGD(learning_rate=<span class="hljs-number">0.01</span>)</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="25"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">100</span>):</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="26"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">    <span class="hljs-keyword">with</span> tf.GradientTape() <span class="hljs-keyword">as</span> tape:</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="27"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">        y_pred = model(X)      <span class="hljs-comment"># 调用模型 y_pred = model(X) 而不是显式写出 y_pred = a * X + b</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="28"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">        loss = tf.reduce_mean(tf.square(y_pred - y))</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="29"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">    </div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="30"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">    grads = tape.gradient(loss, model.variables)    <span class="hljs-comment"># 使用 model.variables 这一属性直接获得模型中的所有变量</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="31"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">    optimizer.apply_gradients(grads_and_vars=zip(grads, model.variables))</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="32"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">    <span class="hljs-keyword">if</span> i % <span class="hljs-number">10</span> == <span class="hljs-number">0</span>:</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="33"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">        print(i, loss.numpy())</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="34"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">print(model.variables)</div></div></li></ol></code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<h3><a name="t6"></a><a name="t6"></a>输出结果如下：</h3>
+
+<pre class="has" name="code"><code class="language-bash hljs"><ol class="hljs-ln" style="width:1167px"><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="1"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">0 250.0</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="2"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">10 0.73648137</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="3"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">20 0.6172349</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="4"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">30 0.5172956</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="5"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">40 0.4335389</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="6"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">50 0.36334264</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="7"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">60 0.3045124</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="8"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">70 0.25520816</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="9"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">80 0.2138865</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="10"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">90 0.17925593</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="11"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">[&lt;tf.Variable <span class="hljs-string">'linear/dense/kernel:0'</span> shape=(3, 1) dtype=float32, numpy=</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="12"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">array([[0.40784496],</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="13"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">       [1.191065  ],</div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n" data-line-number="14"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">       [1.9742855 ]], dtype=float32)&gt;, &lt;tf.Variable <span class="hljs-string">'linear/dense/bias:0'</span> shape=(1,) dtype=float32, numpy=array([0.78322077], dtype=float32)&gt;]</div></div></li></ol></code><div class="hljs-button {2}" data-title="复制" onclick="hljs.copyCode(event)"></div></pre>
+
+<h2><a name="t7"></a><a name="t7"></a>-1. 后记</h2>
+
+<p>回复两个评论区问的较为多的问题：</p>
+
+<blockquote>
+<p>新建tf环境了之后在安装，是必须的嘛？我几次都是直接在root里安装了</p>
+</blockquote>
+
+<p>回复：&nbsp;不新建环境直接安装时使用的是默认的环境安装。不建议这么操作，都在默认环境安装新的模块后面可能会有冲突。建议不同任务使用不同环境。。</p>
+
+<blockquote>
+<p>使用conda install就不需要事先配置cudatoolkit和cudnn了。（cudatoolkit和cudnn版本问题）</p>
+</blockquote>
+
+<p>回复：&nbsp;目前tf2.0还不支持conda install，只能使用pip install。windows可以直接使用conda install cudatoolkit cudnn。要注意一点，tf1.14以上要使用cudatoolkit &gt;= 10.0。由于windows10默认cudatoolkit是9版本的，需要手动安装10版本。其实他们关系是向下包容，就是如果你装了10版本，那么9，8，7版本都可以用conda安装</p>
+
+<p>&nbsp;</p>
+                    </div></div>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2020/01/31/TensorFlow2-0%E6%AD%A3%E5%BC%8F%E7%89%88%E5%AE%89%E8%A3%85/">https://did321.github.io/2020/01/31/TensorFlow2-0%E6%AD%A3%E5%BC%8F%E7%89%88%E5%AE%89%E8%A3%85/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"># 机器学习</a>
+                    
+                        <a href="/tags/TensorFlow/"># TensorFlow</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/02/07/Tensorflow2-0-%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">Tensorflow 2.0 实现神经网络</a>
+            
+            
+            <a class="next" rel="next" href="/2020/01/29/python%E5%AE%9E%E7%8E%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">python实现神经网络</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+    appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
+    appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
+    notify:false, 
+    verify:true, 
+    avatar:'mp', 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+<script>
+!
+function() {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+    function t() {
+        var t = e("script"),
+        o = t.length,
+        i = t[o - 1];
+        return {
+            l: o,
+            z: n(i, "zIndex", -1),     //置于主页面背后
+            o: n(i, "opacity", .5),     //线条透明度
+            c: n(i, "color", "0,0,0"),  //线条颜色
+            n: n(i, "count", 100)    //线条数量
+        }
+    }
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function(i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }),
+        x(i)
+    }
+    var a, c, u, m = document.createElement("canvas"),
+    d = t(),
+    l = "c_n" + d.l,
+    r = m.getContext("2d"),
+    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+    function(n) {
+        window.setTimeout(n, 1e3 / 45)
+    },
+    w = Math.random,
+    y = {
+        x: null,
+        y: null,
+        max: 2e4
+    };
+    m.id = l,
+    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+    e("body")[0].appendChild(m),
+    o(),
+    window.onresize = o,
+    window.onmousemove = function(n) {
+        n = n || window.event,
+        y.x = n.clientX,
+        y.y = n.clientY
+    },
+    window.onmouseout = function() {
+        y.x = null,
+        y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a,
+        g = w() * c,
+        v = 2 * w() - 1,
+        p = 2 * w() - 1;
+        s.push({
+            x: h,
+            y: g,
+            xa: v,
+            ya: p,
+            max: 6e3
+        })
+    }
+    u = s.concat([y]),
+    setTimeout(function() {
+        i()
+    },
+    100)
+} ();
+</script>
+</html>
