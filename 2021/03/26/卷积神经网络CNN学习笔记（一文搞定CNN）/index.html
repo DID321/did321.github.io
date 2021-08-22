@@ -9,6 +9,8 @@
     <meta name="author" content="WD">
 
 
+    <meta name="subtitle" content="王迪的博客">
+
 
 
 
@@ -329,7 +331,7 @@
 </li>
 <li><p>这里我就补充一下随机梯度下降SGD（Stochastic Gradient Descent）和Mini-batch梯度下降：</p>
 <p>引入随机梯度下降是因为原始的梯度下降BGD要遍历所有的数据集去计算Cost function，这样对于深度学习来说，需要大量的数据集基本都是上万数量（甚至更多）,要训练一次花费太大，并且速度较慢，故引出SGD，每次只考虑一个样本，对一个样本进行参数更新，具体训练如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 随机打乱所有数据集</span><br><span class="line">2.Repeat&#123;</span><br><span class="line">		for i = 1, 2, ... m:&#123;</span><br><span class="line">			(更新wj 参数) for j = 0,1,2,...n </span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line">外层循环是重复上述过程，一般1~10次就好了</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 随机打乱所有数据集</span><br><span class="line">2.Repeat&#123;</span><br><span class="line">		for i &#x3D; 1, 2, ... m:&#123;</span><br><span class="line">			(更新wj 参数) for j &#x3D; 0,1,2,...n </span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line">外层循环是重复上述过程，一般1~10次就好了</span><br></pre></td></tr></table></figure>
 
 <p>SGD收敛是无规律的，只是朝着全局最优的范围去，并不像BGD一样每次都找最优的方向。</p>
 </li>
@@ -388,7 +390,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://did321.github.io/2021/03/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%E6%96%87%E6%90%9E%E5%AE%9ACNN%EF%BC%89/">https://did321.github.io/2021/03/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%E6%96%87%E6%90%9E%E5%AE%9ACNN%EF%BC%89/</a></span>
+                        <span><a href="https://did321.github.io/2021/03/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%E6%96%87%E6%90%9E%E5%AE%9ACNN%EF%BC%89/">https://did321.github.io/2021/03/26/卷积神经网络CNN学习笔记（一文搞定CNN）/</a></span>
                     </p>
                 
                 
@@ -427,7 +429,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/04/07/CNN-%E5%8F%91%E5%B1%95%E7%AE%80%E5%8F%B2/">CNN 发展简史</a>
+                <a class="prev" rel="prev" href="/2021/03/31/hello-world/">Hello World</a>
             
             
             <a class="next" rel="next" href="/2021/03/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Tensorflow2-2-GPU%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/">深度学习Tensorflow2.2 GPU框架搭建</a>

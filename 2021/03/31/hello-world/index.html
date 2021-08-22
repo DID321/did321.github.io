@@ -14,7 +14,7 @@
 
 
 
-<title>如何把自己写的网页挂在Github上面(完整教程) | WD&#39;s blog</title>
+<title>Hello World | WD&#39;s blog</title>
 
 
 
@@ -177,7 +177,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">如何把自己写的网页挂在Github上面(完整教程)</h1>
+            <h1 class="post-title">Hello World</h1>
             
                 <div class="post-meta">
                     
@@ -186,38 +186,29 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">May 11, 2019&nbsp;&nbsp;10:59:12</a>
+                        Date: <a href="#">March 31, 2021&nbsp;&nbsp;12:03:31</a>
                         </span>
                      &nbsp;
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/Github/">Github</a>
-                            
-                        </span>
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <br>
-    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
-    <span class="post-count">文章字数:<a href="#">699</span></a>&nbsp;
-     <span class="post-count">阅读时长:<a href="#">2</span>min</a>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <div id="article_content" class="article_content clearfix">
-                                            <h3><a id="_1"></a>说在前面：</h3>
-<ul>
-<li>由于自己想写一个网页，没有域名，所以采用github上的域名来加载我的网页，所以查阅了一下如何在github上挂在网页。参考了下面的文章<br>
-<a target="_blank" href="https://blog.csdn.net/weixin_42152081/article/details/80635669" rel="nofollow noopener" data-token="f515e5e2a56f90c5bf27b2066185dfd5">https://blog.csdn.net/weixin_42152081/article/details/80635669</a></li>
-</ul>
-<div id="article_content" class="article_content clearfix csdn-tracking-statistics">                                                 
-                        <div class="htmledit_views" id="content_views">
-                <h4>第一步</h4><p>登陆Github账号，然后创建一个远程仓库，这里我们命名为bird，创建完成后复制其ssh的URL备用</p><p><img src="https://img-blog.csdn.net/20180609202353507?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p><p><br></p><p><img src="https://img-blog.csdn.net/2018060920261466?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""><br></p><p><br></p><h4>第二步<br></h4><p>进入到bird仓库中，选择“settings”进行仓库设置，滚动到页面底部找到“Github Pages”部分：</p><p><img src="https://img-blog.csdn.net/20180609203125715?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""><br></p><p>点击“Choose a theme”选项：</p><p><img src="https://img-blog.csdn.net/20180609203249552?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p><p>点击“Select theme”对主题进行选择，完成后一个具备远程访问功能的仓库就已经设置好了，可以通过网址进行访问了。在浏览器中输入网址：https://rfhzhj.github.io/bird/即可访问到这个仓库的首页：</p><p><br></p><p><br></p><p><img src="https://img-blog.csdn.net/20180609203828114?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""><br></p><p><br></p><h4>第三步<br></h4><p>在本地创建映射仓库，我们在本地创建一个文件夹用于承载远程仓库的克隆体（这里我创建了名为zhj的文件夹）。打开Git Bash命令行，定位到zhj文件夹，输入克隆命令（git clone + ssh的url）：git clone git@github.com:RFHzhj/bird.git;</p><p>在进行克隆的时候也可以使用https进行克隆，即输入命令（git clone + HTTPS的url）:</p><p><img src="https://img-blog.csdn.net/20180611200906681?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="">通过点击 Use SSH 可以进行SSH和HTTPS的切换。</p><p>下面正式进行克隆：<br></p><p><img src="https://img-blog.csdn.net/20180609204632944?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""><br></p><p>命令执行完成后，本地文件夹zhj目录下就会有一个远程仓库的克隆体，里面有一个固定文件夹.git和其他一些默认文件，就是之前https://rfhzhj.github.io/bird/访问到的页面。</p><p><br></p><h4>第四步<br></h4><p>打开克隆仓库，删除除了.git以外的其他文件，上传我们自己的文件。我们先完成删除环节，删除完克隆仓库的目标文件之后，在此路径下打开github命令窗口，执行以下命令：</p><p></p><pre class="prettyprint"><code class="sql hljs has-numbering"></code><ol class="hljs-ln"><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">$ git <span class="operator"><span class="keyword">add * <span>//把本地仓库的文件上传到缓存。</span></span></span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line">$ git <span class="hljs-keyword">commit</span> -m <span class="hljs-string">'del'</span> <span>//把第一步上传到缓存的东西上传到本地仓库，其中<span class="hljs-string">'del'</span>是操作标识，内容随便填，方便用户观看。</span></div></div></li><li><div class="hljs-ln-numbers"><div class="hljs-ln-line hljs-ln-n"></div></div><div class="hljs-ln-code"><div class="hljs-ln-line"><span>$ git push origin <span class="hljs-keyword">master</span> <span>//把本地仓库的文件上传到远程仓库。</span></span><span><span class="string"></span></span></div></div></li></ol><span><code class="sql hljs has-numbering"><span class="operator"></span></code><code class="sql hljs has-numbering"></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul></span><code class="sql hljs has-numbering"><span class="operator"></span></code><div class="hljs-button {2}"></div><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul></pre><img src="https://img-blog.csdn.net/2018060921021379?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""><br><p>现在，我们就成功更新了远程仓库，现在仓库里什么都没有，使用网址https://rfhzhj.github.io/bird/已经访问不到。</p><p><img src="https://img-blog.csdn.net/20180609210405372?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""><br></p><p><img src="https://img-blog.csdn.net/20180609210432113?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p><p><br></p><h4>第五步</h4><p>现在我们就可以往本地仓库里面添加我们想要展示的文件啦：</p><p><img src="https://img-blog.csdn.net/20180609210638142?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p><p>然后再次执行上一步的三个命令：</p><p><img src="https://img-blog.csdn.net/20180609212641169?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p><p>完成这一步之后，远程仓库的文件就已经完成更新了，可以通过网址来访问我们想要展示的项目了。</p><p><img src="https://img-blog.csdn.net/20180609213206649?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p><p><img src="https://img-blog.csdn.net/20180609213756147?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjE1MjA4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p><p>这样我们就成功把自己的项目挂到了Github上面了。<br></p>            </div>
-                      </div>
-                  </div>
+            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
         </div>
 
         
@@ -231,7 +222,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://did321.github.io/2019/05/11/%E5%A6%82%E4%BD%95%E6%8A%8A%E8%87%AA%E5%B7%B1%E5%86%99%E7%9A%84%E7%BD%91%E9%A1%B5%E6%8C%82%E5%9C%A8Github%E4%B8%8A%E9%9D%A2-%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B/">https://did321.github.io/2019/05/11/如何把自己写的网页挂在Github上面(完整教程)/</a></span>
+                        <span><a href="https://did321.github.io/2021/03/31/hello-world/">https://did321.github.io/2021/03/31/hello-world/</a></span>
                     </p>
                 
                 
@@ -254,12 +245,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/Github/"># Github</a>
-                    
-                        <a href="/tags/%E7%BD%91%E9%A1%B5/"># 网页</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -270,10 +255,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/05/11/Github%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E8%AF%A6%E8%A7%A3-%E4%B8%80-%E2%80%94%E2%80%94%E5%AE%98%E7%BD%91%E6%8C%87%E5%8D%97/">Github使用教程详解(一)——官网指南</a>
             
-            
-            <a class="next" rel="next" href="/2019/05/01/C51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%85%AD-%E2%80%94%E2%80%94%E6%B6%B2%E6%99%B6%E6%98%BE%E7%A4%BA%E5%B1%8F%E7%9A%84%E4%BD%BF%E7%94%A8/">C51单片机学习笔记(六)——液晶显示屏的使用</a>
+            <a class="next" rel="next" href="/2021/03/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%E6%96%87%E6%90%9E%E5%AE%9ACNN%EF%BC%89/">卷积神经网络CNN学习笔记（一文搞定CNN）</a>
             
         </section>
         <br>

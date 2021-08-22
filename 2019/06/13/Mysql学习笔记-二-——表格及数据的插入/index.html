@@ -9,6 +9,8 @@
     <meta name="author" content="WD">
 
 
+    <meta name="subtitle" content="王迪的博客">
+
 
 
 
@@ -230,7 +232,7 @@
 <li>输入配置的密码即可进入后台系统</li>
 </ul>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">C:\WINDOWS\system32&gt;mysql -u root -p</span><br><span class="line">Enter password: *********</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 3</span><br><span class="line">Server version: 5.7.17 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">C:\WINDOWS\system32&gt;mysql -u root -p</span><br><span class="line">Enter password: *********</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 3</span><br><span class="line">Server version: 5.7.17 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><code>show databases;</code></p>
 <blockquote>
@@ -246,7 +248,7 @@
 <li>创建数据库</li>
 </ul>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create database school;</span><br><span class="line">Query OK,1 row affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create database school;</span><br><span class="line">Query OK,1 row affected (0.00 sec)</span><br></pre></td></tr></table></figure>
 
 <p><code>use 数据库名字;</code></p>
 <blockquote>
@@ -254,7 +256,7 @@
 <li>选择数据库，使用数据库时一定要先选择数据库</li>
 </ul>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use school;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use school;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
 
 <p><code>drop database 数据库名字;</code></p>
 <blockquote>
@@ -262,7 +264,7 @@
 <li>删除指定的数据库</li>
 </ul>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop database school;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop database school;</span><br></pre></td></tr></table></figure>
 
 <h2 id="2-创建表格"><a href="#2-创建表格" class="headerlink" title="2.创建表格"></a>2.创建表格</h2><ul>
 <li><p>CREATE TABLE &lt;表名&gt;</p>
@@ -373,7 +375,7 @@
 <li>查看当前数据库中的所有表</li>
 </ul>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show tables;</span></span><br><span class="line">+------------------+</span><br><span class="line">| Tables_in_school |</span><br><span class="line">+------------------+</span><br><span class="line">| course           |</span><br><span class="line">| sc               |</span><br><span class="line">| student          |</span><br><span class="line">+------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show tables;</span></span><br><span class="line">+------------------+</span><br><span class="line">| Tables_in_school |</span><br><span class="line">+------------------+</span><br><span class="line">| course           |</span><br><span class="line">| sc               |</span><br><span class="line">| student          |</span><br><span class="line">+------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><code>describe sc;</code></p>
 <blockquote>
@@ -381,7 +383,7 @@
 <li>使用describe（可以缩写为desc）命令查看表的结构</li>
 </ul>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> describe sc;</span></span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type       | Null | Key | Default | Extra |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| Sno   | varchar(5) | NO   | PRI | NULL    |       |</span><br><span class="line">| Cno   | varchar(3) | NO   | PRI | NULL    |       |</span><br><span class="line">| Grade | int(11)    | YES  |     | NULL    |       |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> describe sc;</span></span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type       | Null | Key | Default | Extra |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| Sno   | varchar(5) | NO   | PRI | NULL    |       |</span><br><span class="line">| Cno   | varchar(3) | NO   | PRI | NULL    |       |</span><br><span class="line">| Grade | int(11)    | YES  |     | NULL    |       |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="4-修改表格"><a href="#4-修改表格" class="headerlink" title="4.修改表格"></a>4.修改表格</h2><ul>
 <li><p>ALTER TABLE &lt;表名&gt;<br>[ ADD &lt;新列名&gt; &lt;数据类型&gt; [ 完整性约束 ] ]<br>[ DROP &lt;完整性约束名&gt; ]<br>[ MODIFY &lt;列名&gt; &lt;数据类型&gt; ]；</p>
@@ -482,7 +484,7 @@ FROM     &lt;表名&gt;
 <ul>
 <li>此时再将student表中的学号为’95011’改为’95022’</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> update student <span class="built_in">set</span> sno=<span class="string">&#x27;95022&#x27;</span> <span class="built_in">where</span> sno=<span class="string">&#x27;95011&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`school`.`sc`, CONSTRAINT `sc_ibfk_1</span><br><span class="line">` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`))</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"></span></span><br><span class="line"><span class="bash"></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> update student <span class="built_in">set</span> sno=<span class="string">&#x27;95022&#x27;</span> <span class="built_in">where</span> sno=<span class="string">&#x27;95011&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`school`.`sc`, CONSTRAINT `sc_ibfk_1</span><br><span class="line">` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`))</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>发现报错，原因是在student表中修改主码，会影响到SC选课表中的Sno，这个修改会导致SC表中的那一行无意义，所以不能修改。</p>
@@ -490,7 +492,7 @@ FROM     &lt;表名&gt;
 <ul>
 <li>这时尝试删除student中的’95011’的学生信息</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> delete from student <span class="built_in">where</span> sno=<span class="string">&#x27;95011&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`school`.`sc`, CONSTRAINT `sc_ibfk_1</span><br><span class="line">` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`))</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"></span></span><br><span class="line"><span class="bash"></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> delete from student <span class="built_in">where</span> sno=<span class="string">&#x27;95011&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`school`.`sc`, CONSTRAINT `sc_ibfk_1</span><br><span class="line">` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`))</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>发现依然报错，原因和上面类似，如果删除这个信息，会导致sc表中的数据无意义，就因为sno在sc那张表中是外码。</p>
@@ -514,7 +516,7 @@ FROM     &lt;表名&gt;
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://did321.github.io/2019/06/13/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E8%A1%A8%E6%A0%BC%E5%8F%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8F%92%E5%85%A5/">https://did321.github.io/2019/06/13/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E8%A1%A8%E6%A0%BC%E5%8F%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8F%92%E5%85%A5/</a></span>
+                        <span><a href="https://did321.github.io/2019/06/13/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E2%80%94%E2%80%94%E8%A1%A8%E6%A0%BC%E5%8F%8A%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8F%92%E5%85%A5/">https://did321.github.io/2019/06/13/Mysql学习笔记(二)——表格及数据的插入/</a></span>
                     </p>
                 
                 
