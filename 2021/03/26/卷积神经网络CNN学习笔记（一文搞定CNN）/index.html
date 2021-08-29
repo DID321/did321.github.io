@@ -9,8 +9,6 @@
     <meta name="author" content="WD">
 
 
-    <meta name="subtitle" content="王迪的博客">
-
 
 
 
@@ -331,7 +329,7 @@
 </li>
 <li><p>这里我就补充一下随机梯度下降SGD（Stochastic Gradient Descent）和Mini-batch梯度下降：</p>
 <p>引入随机梯度下降是因为原始的梯度下降BGD要遍历所有的数据集去计算Cost function，这样对于深度学习来说，需要大量的数据集基本都是上万数量（甚至更多）,要训练一次花费太大，并且速度较慢，故引出SGD，每次只考虑一个样本，对一个样本进行参数更新，具体训练如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 随机打乱所有数据集</span><br><span class="line">2.Repeat&#123;</span><br><span class="line">		for i &#x3D; 1, 2, ... m:&#123;</span><br><span class="line">			(更新wj 参数) for j &#x3D; 0,1,2,...n </span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line">外层循环是重复上述过程，一般1~10次就好了</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 随机打乱所有数据集</span><br><span class="line">2.Repeat&#123;</span><br><span class="line">		for i = 1, 2, ... m:&#123;</span><br><span class="line">			(更新wj 参数) for j = 0,1,2,...n </span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line">外层循环是重复上述过程，一般1~10次就好了</span><br></pre></td></tr></table></figure>
 
 <p>SGD收敛是无规律的，只是朝着全局最优的范围去，并不像BGD一样每次都找最优的方向。</p>
 </li>
@@ -390,7 +388,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://did321.github.io/2021/03/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%E6%96%87%E6%90%9E%E5%AE%9ACNN%EF%BC%89/">https://did321.github.io/2021/03/26/卷积神经网络CNN学习笔记（一文搞定CNN）/</a></span>
+                        <span><a href="https://did321.gitee.io/2021/03/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%E6%96%87%E6%90%9E%E5%AE%9ACNN%EF%BC%89/">https://did321.gitee.io/2021/03/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%E6%96%87%E6%90%9E%E5%AE%9ACNN%EF%BC%89/</a></span>
                     </p>
                 
                 
@@ -429,7 +427,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/03/31/hello-world/">Hello World</a>
+                <a class="prev" rel="prev" href="/2021/04/07/CNN-%E5%8F%91%E5%B1%95%E7%AE%80%E5%8F%B2/">CNN 发展简史</a>
             
             
             <a class="next" rel="next" href="/2021/03/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0Tensorflow2-2-GPU%E6%A1%86%E6%9E%B6%E6%90%AD%E5%BB%BA/">深度学习Tensorflow2.2 GPU框架搭建</a>
@@ -445,10 +443,9 @@
     el: '#vcomments' ,
     appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
     appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
-    notify:false, 
-    verify:true, 
-    avatar:'mp', 
-    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！',
+    enableQQ: true,
+    requiredFields: ['nick'],
 });
     </script>
 
@@ -464,86 +461,5 @@
 
     </div>
 </body>
-<script>
-!
-function() {
-    function n(n, e, t) {
-        return n.getAttribute(e) || t
-    }
-    function e(n) {
-        return document.getElementsByTagName(n)
-    }
-    function t() {
-        var t = e("script"),
-        o = t.length,
-        i = t[o - 1];
-        return {
-            l: o,
-            z: n(i, "zIndex", -1),     //置于主页面背后
-            o: n(i, "opacity", .5),     //线条透明度
-            c: n(i, "color", "0,0,0"),  //线条颜色
-            n: n(i, "count", 100)    //线条数量
-        }
-    }
-    function o() {
-        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-    }
-    function i() {
-        r.clearRect(0, 0, a, c);
-        var n, e, t, o, m, l;
-        s.forEach(function(i, x) {
-            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
-            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
-        }),
-        x(i)
-    }
-    var a, c, u, m = document.createElement("canvas"),
-    d = t(),
-    l = "c_n" + d.l,
-    r = m.getContext("2d"),
-    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-    function(n) {
-        window.setTimeout(n, 1e3 / 45)
-    },
-    w = Math.random,
-    y = {
-        x: null,
-        y: null,
-        max: 2e4
-    };
-    m.id = l,
-    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
-    e("body")[0].appendChild(m),
-    o(),
-    window.onresize = o,
-    window.onmousemove = function(n) {
-        n = n || window.event,
-        y.x = n.clientX,
-        y.y = n.clientY
-    },
-    window.onmouseout = function() {
-        y.x = null,
-        y.y = null
-    };
-    for (var s = [], f = 0; d.n > f; f++) {
-        var h = w() * a,
-        g = w() * c,
-        v = 2 * w() - 1,
-        p = 2 * w() - 1;
-        s.push({
-            x: h,
-            y: g,
-            xa: v,
-            ya: p,
-            max: 6e3
-        })
-    }
-    u = s.concat([y]),
-    setTimeout(function() {
-        i()
-    },
-    100)
-} ();
-</script>
+
 </html>

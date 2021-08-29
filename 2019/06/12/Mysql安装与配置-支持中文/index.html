@@ -9,8 +9,6 @@
     <meta name="author" content="WD">
 
 
-    <meta name="subtitle" content="王迪的博客">
-
 
 
 
@@ -222,7 +220,7 @@
 <li>E．输入 use mysql;打开系统数据库；</li>
 <li>F．配置自己的新密码：mysql&gt; set password for root@localhost = password(‘hellodsp’);</li>
 </ul>
-<h2 id="3-my-ini文件"><a href="#3-my-ini文件" class="headerlink" title="3.my.ini文件"></a>3.my.ini文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">    [mysql]</span><br><span class="line">    <span class="comment"># 设置mysql客户端默认字符集</span></span><br><span class="line">    default-character-<span class="built_in">set</span>=utf8 </span><br><span class="line">    [mysqld]</span><br><span class="line">    <span class="comment">#设置3306端口</span></span><br><span class="line">    port = <span class="number">3306</span> </span><br><span class="line">    skip-grant-tables</span><br><span class="line">    <span class="comment"># 设置mysql的安装目录</span></span><br><span class="line">    basedir=D:\mysql</span><br><span class="line">    <span class="comment"># 设置mysql数据库的数据的存放目录</span></span><br><span class="line">    datadir=D:\mysql\data</span><br><span class="line">    <span class="comment"># 允许最大连接数</span></span><br><span class="line">    max_connections=<span class="number">200</span></span><br><span class="line">    <span class="comment"># 服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line">    character-<span class="built_in">set</span>-server=utf8</span><br><span class="line">    <span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line">    default-storage-engine=INNODB</span><br><span class="line">    </span><br><span class="line">    [client]</span><br><span class="line">    <span class="comment">#default_character_set=utf8</span></span><br><span class="line">```    </span><br><span class="line"><span class="comment">## 4.Mysql支持中文配置</span></span><br><span class="line">    </span><br><span class="line">*    （1）以管理员身份运行cmd.exe，win7同学可在开始-&gt;命令框中输入cmd，选中cmd.exe，点击鼠标右键，选择“管理员身份运行”，否则后面安装mysql会出错！</span><br><span class="line">*    （<span class="number">2</span>）输入net stop mysql停止mysql服务；</span><br><span class="line">*    （<span class="number">3</span>）删除安装目录下的data文件夹里面的所有文件，注意不要删除data目录</span><br><span class="line">*    （<span class="number">4</span>）打开配置文件my.ini，将语句skip-grant-tables前面注释符号<span class="comment">#去掉；将sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES注释掉；</span></span><br><span class="line">    在<span class="comment"># server_id = …后面另起一行，添加如下三行：</span></span><br><span class="line">    ```python</span><br><span class="line">    default_storage_engine=INNODB</span><br><span class="line">    character_set_server=utf8</span><br><span class="line">    collation_server=utf8_general_ci</span><br></pre></td></tr></table></figure>
+<h2 id="3-my-ini文件"><a href="#3-my-ini文件" class="headerlink" title="3.my.ini文件"></a>3.my.ini文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">    [mysql]</span><br><span class="line">    <span class="comment"># 设置mysql客户端默认字符集</span></span><br><span class="line">    default-character-<span class="built_in">set</span>=utf8 </span><br><span class="line">    [mysqld]</span><br><span class="line">    <span class="comment">#设置3306端口</span></span><br><span class="line">    port = <span class="number">3306</span> </span><br><span class="line">    skip-grant-tables</span><br><span class="line">    <span class="comment"># 设置mysql的安装目录</span></span><br><span class="line">    basedir=D:\mysql</span><br><span class="line">    <span class="comment"># 设置mysql数据库的数据的存放目录</span></span><br><span class="line">    datadir=D:\mysql\data</span><br><span class="line">    <span class="comment"># 允许最大连接数</span></span><br><span class="line">    max_connections=<span class="number">200</span></span><br><span class="line">    <span class="comment"># 服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line">    character-<span class="built_in">set</span>-server=utf8</span><br><span class="line">    <span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line">    default-storage-engine=INNODB</span><br><span class="line">    </span><br><span class="line">    [client]</span><br><span class="line">    <span class="comment">#default_character_set=utf8</span></span><br><span class="line">```    </span><br><span class="line"><span class="comment">## 4.Mysql支持中文配置</span></span><br><span class="line">    </span><br><span class="line">*    （<span class="number">1</span>）以管理员身份运行cmd.exe，win7同学可在开始-&gt;命令框中输入cmd，选中cmd.exe，点击鼠标右键，选择“管理员身份运行”，否则后面安装mysql会出错！</span><br><span class="line">*    （<span class="number">2</span>）输入net stop mysql停止mysql服务；</span><br><span class="line">*    （<span class="number">3</span>）删除安装目录下的data文件夹里面的所有文件，注意不要删除data目录</span><br><span class="line">*    （<span class="number">4</span>）打开配置文件my.ini，将语句skip-grant-tables前面注释符号<span class="comment">#去掉；将sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES注释掉；</span></span><br><span class="line">    在<span class="comment"># server_id = …后面另起一行，添加如下三行：</span></span><br><span class="line">    ```python</span><br><span class="line">    default_storage_engine=INNODB</span><br><span class="line">    character_set_server=utf8</span><br><span class="line">    collation_server=utf8_general_ci</span><br></pre></td></tr></table></figure>
 <pre><code>在最后一行添加：
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">default_character_set=utf8</span><br></pre></td></tr></table></figure>
 保存。
@@ -245,7 +243,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://did321.github.io/2019/06/12/Mysql%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE-%E6%94%AF%E6%8C%81%E4%B8%AD%E6%96%87/">https://did321.github.io/2019/06/12/Mysql安装与配置+支持中文/</a></span>
+                        <span><a href="https://did321.gitee.io/2019/06/12/Mysql%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE-%E6%94%AF%E6%8C%81%E4%B8%AD%E6%96%87/">https://did321.gitee.io/2019/06/12/Mysql%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE-%E6%94%AF%E6%8C%81%E4%B8%AD%E6%96%87/</a></span>
                     </p>
                 
                 
@@ -298,10 +296,9 @@
     el: '#vcomments' ,
     appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
     appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
-    notify:false, 
-    verify:true, 
-    avatar:'mp', 
-    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！',
+    enableQQ: true,
+    requiredFields: ['nick'],
 });
     </script>
 
@@ -317,86 +314,5 @@
 
     </div>
 </body>
-<script>
-!
-function() {
-    function n(n, e, t) {
-        return n.getAttribute(e) || t
-    }
-    function e(n) {
-        return document.getElementsByTagName(n)
-    }
-    function t() {
-        var t = e("script"),
-        o = t.length,
-        i = t[o - 1];
-        return {
-            l: o,
-            z: n(i, "zIndex", -1),     //置于主页面背后
-            o: n(i, "opacity", .5),     //线条透明度
-            c: n(i, "color", "0,0,0"),  //线条颜色
-            n: n(i, "count", 100)    //线条数量
-        }
-    }
-    function o() {
-        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-    }
-    function i() {
-        r.clearRect(0, 0, a, c);
-        var n, e, t, o, m, l;
-        s.forEach(function(i, x) {
-            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
-            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
-        }),
-        x(i)
-    }
-    var a, c, u, m = document.createElement("canvas"),
-    d = t(),
-    l = "c_n" + d.l,
-    r = m.getContext("2d"),
-    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-    function(n) {
-        window.setTimeout(n, 1e3 / 45)
-    },
-    w = Math.random,
-    y = {
-        x: null,
-        y: null,
-        max: 2e4
-    };
-    m.id = l,
-    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
-    e("body")[0].appendChild(m),
-    o(),
-    window.onresize = o,
-    window.onmousemove = function(n) {
-        n = n || window.event,
-        y.x = n.clientX,
-        y.y = n.clientY
-    },
-    window.onmouseout = function() {
-        y.x = null,
-        y.y = null
-    };
-    for (var s = [], f = 0; d.n > f; f++) {
-        var h = w() * a,
-        g = w() * c,
-        v = 2 * w() - 1,
-        p = 2 * w() - 1;
-        s.push({
-            x: h,
-            y: g,
-            xa: v,
-            ya: p,
-            max: 6e3
-        })
-    }
-    u = s.concat([y]),
-    setTimeout(function() {
-        i()
-    },
-    100)
-} ();
-</script>
+
 </html>

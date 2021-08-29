@@ -9,8 +9,6 @@
     <meta name="author" content="WD">
 
 
-    <meta name="subtitle" content="王迪的博客">
-
 
 
 
@@ -411,7 +409,7 @@
 <li><p>[例24-补充]  查询选修了3号课程且成绩最高的学生的学号及其成绩。</p>
 <p>SELECT Sno, Grade FROM SC WHERE Cno=’3’ ORDER BY Grade DESC limit 1;</p>
 <p>SELECT Sno, Grade FROM SC WHERE Cno=’3’ ORDER BY Grade DESC limit 0,1;</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95001 |    91 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 0,1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95001 |    91 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 1,1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95005 |    90 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 2,1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95002 |    80 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 1,2;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95005 |    90 |</span><br><span class="line">| 95002 |    80 |</span><br><span class="line">+-------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95001 |    91 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 0,1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95001 |    91 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 1,1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95005 |    90 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 2,1;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95002 |    80 |</span><br><span class="line">+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Grade from SC <span class="built_in">where</span> Cno=<span class="string">&#x27;3&#x27;</span> order by grade desc <span class="built_in">limit</span> 1,2;</span></span><br><span class="line">+-------+-------+</span><br><span class="line">| Sno   | Grade |</span><br><span class="line">+-------+-------+</span><br><span class="line">| 95005 |    90 |</span><br><span class="line">| 95002 |    80 |</span><br><span class="line">+-------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>limit A，B 代表从第A行开始数，一共数B行（如果要取第一行，那么就要从第零行开始取一行）</p>
@@ -509,7 +507,7 @@ GROUP BY Cno；
 <li><p>GROUP BY 对多个字段的查询</p>
 <p>SELECT Cno,Sno FROM SC GROUP BY Cno,Sno;</p>
 <p>SELECT Sno,Cno FROM SC GROUP BY Sno,Cno;</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Cno,Sno from sc group by Cno,Sno;</span></span><br><span class="line">+-----+-------+</span><br><span class="line">| Cno | Sno   |</span><br><span class="line">+-----+-------+</span><br><span class="line">| 1   | 95001 |</span><br><span class="line">| 1   | 95005 |</span><br><span class="line">| 1   | 95011 |</span><br><span class="line">| 2   | 95001 |</span><br><span class="line">| 2   | 95002 |</span><br><span class="line">| 2   | 95003 |</span><br><span class="line">| 2   | 95005 |</span><br><span class="line">| 3   | 95001 |</span><br><span class="line">| 3   | 95002 |</span><br><span class="line">| 3   | 95004 |</span><br><span class="line">| 3   | 95005 |</span><br><span class="line">| 4   | 95001 |</span><br><span class="line">| 4   | 95004 |</span><br><span class="line">| 4   | 95005 |</span><br><span class="line">+-----+-------+</span><br><span class="line">14 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Cno from sc group by Sno,Cno;</span></span><br><span class="line">+-------+-----+</span><br><span class="line">| Sno   | Cno |</span><br><span class="line">+-------+-----+</span><br><span class="line">| 95001 | 1   |</span><br><span class="line">| 95001 | 2   |</span><br><span class="line">| 95001 | 3   |</span><br><span class="line">| 95001 | 4   |</span><br><span class="line">| 95002 | 2   |</span><br><span class="line">| 95002 | 3   |</span><br><span class="line">| 95003 | 2   |</span><br><span class="line">| 95004 | 3   |</span><br><span class="line">| 95004 | 4   |</span><br><span class="line">| 95005 | 1   |</span><br><span class="line">| 95005 | 2   |</span><br><span class="line">| 95005 | 3   |</span><br><span class="line">| 95005 | 4   |</span><br><span class="line">| 95011 | 1   |</span><br><span class="line">+-------+-----+</span><br><span class="line">14 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Cno,Sno from sc group by Cno,Sno;</span></span><br><span class="line">+-----+-------+</span><br><span class="line">| Cno | Sno   |</span><br><span class="line">+-----+-------+</span><br><span class="line">| 1   | 95001 |</span><br><span class="line">| 1   | 95005 |</span><br><span class="line">| 1   | 95011 |</span><br><span class="line">| 2   | 95001 |</span><br><span class="line">| 2   | 95002 |</span><br><span class="line">| 2   | 95003 |</span><br><span class="line">| 2   | 95005 |</span><br><span class="line">| 3   | 95001 |</span><br><span class="line">| 3   | 95002 |</span><br><span class="line">| 3   | 95004 |</span><br><span class="line">| 3   | 95005 |</span><br><span class="line">| 4   | 95001 |</span><br><span class="line">| 4   | 95004 |</span><br><span class="line">| 4   | 95005 |</span><br><span class="line">+-----+-------+</span><br><span class="line">14 rows in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sno,Cno from sc group by Sno,Cno;</span></span><br><span class="line">+-------+-----+</span><br><span class="line">| Sno   | Cno |</span><br><span class="line">+-------+-----+</span><br><span class="line">| 95001 | 1   |</span><br><span class="line">| 95001 | 2   |</span><br><span class="line">| 95001 | 3   |</span><br><span class="line">| 95001 | 4   |</span><br><span class="line">| 95002 | 2   |</span><br><span class="line">| 95002 | 3   |</span><br><span class="line">| 95003 | 2   |</span><br><span class="line">| 95004 | 3   |</span><br><span class="line">| 95004 | 4   |</span><br><span class="line">| 95005 | 1   |</span><br><span class="line">| 95005 | 2   |</span><br><span class="line">| 95005 | 3   |</span><br><span class="line">| 95005 | 4   |</span><br><span class="line">| 95011 | 1   |</span><br><span class="line">+-------+-----+</span><br><span class="line">14 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>查询每个系男生和女生的平均年龄<br>select sdept,ssex,avg(sage) from student group by sdept,ssex;</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sdept,Ssex,avg(sage) from student group by Sdept,Ssex;</span></span><br><span class="line">+-------+------+-----------+</span><br><span class="line">| Sdept | Ssex | avg(sage) |</span><br><span class="line">+-------+------+-----------+</span><br><span class="line">| CS    | 女   |   20.0000 |</span><br><span class="line">| CS    | 男   |   20.0000 |</span><br><span class="line">| IS    | 女   |   20.6667 |</span><br><span class="line">| IS    | 男   |   21.0000 |</span><br><span class="line">| MA    | 男   |   22.0000 |</span><br><span class="line">+-------+------+-----------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
@@ -520,7 +518,7 @@ GROUP BY Cno；
 <li><p>查询每个系男生和女生的平均年龄，按照所在系的降序排列<br>select sdept, ssex, avg(sage) from student group by sdept, ssex order by sdept desc;</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select Sdept,Ssex,AVG(Sage) from student group by Sdept,Ssex order by Sdept desc;</span></span><br><span class="line">+-------+------+-----------+</span><br><span class="line">| Sdept | Ssex | AVG(Sage) |</span><br><span class="line">+-------+------+-----------+</span><br><span class="line">| MA    | 男   |   22.0000 |</span><br><span class="line">| IS    | 女   |   20.6667 |</span><br><span class="line">| IS    | 男   |   21.0000 |</span><br><span class="line">| CS    | 女   |   20.0000 |</span><br><span class="line">| CS    | 男   |   20.0000 |</span><br><span class="line">+-------+------+-----------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
 <li><p>```shell<br>mysql&gt; select sdept, ssex, avg(sage) from student group by sdept, ssex having avg(sage)&gt;19<br> order by sdept desc, ssex desc;<br>+——-+——+———–+<br>| sdept | ssex | avg(sage) |<br>+——-+——+———–+<br>| MA    | 男   |   22.0000 |<br>| IS    | 男   |   21.0000 |<br>| IS    | 女   |   20.6667 |<br>| CS    | 男   |   20.0000 |<br>| CS    | 女   |   20.0000 |<br>+——-+——+———–+<br>5 rows in set (0.00 sec)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- &#96;&#96;&#96;shell</span><br><span class="line">  mysql&gt; select sdept, ssex, avg(sage) from student group by sdept, ssex order by AVG(Sage) asc;</span><br><span class="line">  +-------+------+-----------+</span><br><span class="line">  | sdept | ssex | avg(sage) |</span><br><span class="line">  +-------+------+-----------+</span><br><span class="line">  | CS    | 女   |   20.0000 |</span><br><span class="line">  | CS    | 男   |   20.0000 |</span><br><span class="line">  | IS    | 女   |   20.6667 |</span><br><span class="line">  | IS    | 男   |   21.0000 |</span><br><span class="line">  | MA    | 男   |   22.0000 |</span><br><span class="line">  +-------+------+-----------+</span><br><span class="line">  5 rows in set (0.00 sec)</span><br><span class="line">  </span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```shell</span><br><span class="line">  mysql&gt; select sdept, ssex, avg(sage) from student group by sdept, ssex order by AVG(Sage) asc;</span><br><span class="line">  +-------+------+-----------+</span><br><span class="line">  | sdept | ssex | avg(sage) |</span><br><span class="line">  +-------+------+-----------+</span><br><span class="line">  | CS    | 女   |   20.0000 |</span><br><span class="line">  | CS    | 男   |   20.0000 |</span><br><span class="line">  | IS    | 女   |   20.6667 |</span><br><span class="line">  | IS    | 男   |   21.0000 |</span><br><span class="line">  | MA    | 男   |   22.0000 |</span><br><span class="line">  +-------+------+-----------+</span><br><span class="line">  5 rows in set (0.00 sec)</span><br><span class="line">  </span><br></pre></td></tr></table></figure></li>
 <li><pre><code class="shell">mysql&gt; select sdept, ssex, avg(sage) from student group by sdept, ssex having avg(sage)&gt;19
  order by sdept desc, AVG(Sage) asc;
 +-------+------+-----------+
@@ -553,7 +551,7 @@ GROUP BY Cno；
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://did321.github.io/2019/06/15/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94%E5%8D%95%E8%A1%A8%E6%9F%A5%E8%AF%A2/">https://did321.github.io/2019/06/15/Mysql学习笔记(三)——单表查询/</a></span>
+                        <span><a href="https://did321.gitee.io/2019/06/15/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94%E5%8D%95%E8%A1%A8%E6%9F%A5%E8%AF%A2/">https://did321.gitee.io/2019/06/15/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89-%E2%80%94%E2%80%94%E5%8D%95%E8%A1%A8%E6%9F%A5%E8%AF%A2/</a></span>
                     </p>
                 
                 
@@ -608,10 +606,9 @@ GROUP BY Cno；
     el: '#vcomments' ,
     appId: '5M0A0WN4lsckX8nyNtw7hhiB-gzGzoHsz',
     appKey: '5dsX4bzkIUmtiWeAOmLCehiw',
-    notify:false, 
-    verify:true, 
-    avatar:'mp', 
-    placeholder: '评论区（请在上方留下ID）作者会定期回复！' 
+    placeholder: '评论区（请在上方留下ID）作者会定期回复！',
+    enableQQ: true,
+    requiredFields: ['nick'],
 });
     </script>
 
@@ -627,86 +624,5 @@ GROUP BY Cno；
 
     </div>
 </body>
-<script>
-!
-function() {
-    function n(n, e, t) {
-        return n.getAttribute(e) || t
-    }
-    function e(n) {
-        return document.getElementsByTagName(n)
-    }
-    function t() {
-        var t = e("script"),
-        o = t.length,
-        i = t[o - 1];
-        return {
-            l: o,
-            z: n(i, "zIndex", -1),     //置于主页面背后
-            o: n(i, "opacity", .5),     //线条透明度
-            c: n(i, "color", "0,0,0"),  //线条颜色
-            n: n(i, "count", 100)    //线条数量
-        }
-    }
-    function o() {
-        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-    }
-    function i() {
-        r.clearRect(0, 0, a, c);
-        var n, e, t, o, m, l;
-        s.forEach(function(i, x) {
-            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
-            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
-        }),
-        x(i)
-    }
-    var a, c, u, m = document.createElement("canvas"),
-    d = t(),
-    l = "c_n" + d.l,
-    r = m.getContext("2d"),
-    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-    function(n) {
-        window.setTimeout(n, 1e3 / 45)
-    },
-    w = Math.random,
-    y = {
-        x: null,
-        y: null,
-        max: 2e4
-    };
-    m.id = l,
-    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
-    e("body")[0].appendChild(m),
-    o(),
-    window.onresize = o,
-    window.onmousemove = function(n) {
-        n = n || window.event,
-        y.x = n.clientX,
-        y.y = n.clientY
-    },
-    window.onmouseout = function() {
-        y.x = null,
-        y.y = null
-    };
-    for (var s = [], f = 0; d.n > f; f++) {
-        var h = w() * a,
-        g = w() * c,
-        v = 2 * w() - 1,
-        p = 2 * w() - 1;
-        s.push({
-            x: h,
-            y: g,
-            xa: v,
-            ya: p,
-            max: 6e3
-        })
-    }
-    u = s.concat([y]),
-    setTimeout(function() {
-        i()
-    },
-    100)
-} ();
-</script>
+
 </html>
