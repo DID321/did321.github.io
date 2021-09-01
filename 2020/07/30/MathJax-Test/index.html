@@ -245,307 +245,352 @@
 
         <div class="post-content">
             <h2 id="行内公式与块公式"><a href="#行内公式与块公式" class="headerlink" title="行内公式与块公式"></a>行内公式与块公式</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$f(x)=ax+b$ 这是行内公式.</span><br><span class="line">$$f(x)=ax+b$$ 这是块公式，单独占一行.</span><br></pre></td></tr></table></figure>
-
-<p>$f(x)=ax+b$ 这是行内公式.<br>$$<br>f(x)=ax+b<br>$$<br>这是块公式，单独占一行.</p>
+<p>$f(x)=ax+b$ 这是行内公式.</p>
+<script type="math/tex; mode=display">
+f(x)=ax+b</script><p>这是块公式，单独占一行.</p>
 <h2 id="上标与下标"><a href="#上标与下标" class="headerlink" title="上标与下标"></a>上标与下标</h2><p>使用 <code>^</code> 表示上标，使用 <code>_</code> 表示下标，如果上下标的内容多于一个字符，可以使用大括号括起来：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$f(x) = a_1x^n + a_2x^&#123;n-1&#125; + a_3x^&#123;n-2&#125;$$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>f(x) = a_1x^n + a_2x^{n-1} + a_3x^{n-2}<br>$$<br>如果左右两边都有上下标可以使用 \sideset 语法：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$\sideset&#123;^n_k&#125;&#123;^x_y&#125;a$$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\sideset{^n_k}{^x_y}a<br>$$</p>
-<h2 id="括号"><a href="#括号" class="headerlink" title="括号"></a>括号</h2><p>在 markdown 语法中，, $, {, }, _都是有特殊含义的，所以需要加\转义。小括号与方括号可以使用原始的() [] 大括号需要转义\也可以使用\lbrace和 \rbrace</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$ \\&#123;x*y\\&#125; $$  --注：大括号在markdown中已有一次转义，在mathjax中还要再转一次，所以为两个斜杠</span><br><span class="line"></span><br><span class="line">$$\lbrace x*y \rbrace$$</span><br></pre></td></tr></table></figure>
-
 <p>显示效果：</p>
-<p>$$<br>\{x*y\}<br>$$</p>
-<p>原始符号不会随着公式大小自动缩放，需要使用 \left 和 \right 来实现自动缩放：</p>
+<script type="math/tex; mode=display">
+f(x) = a_1x^n + a_2x^{n-1} + a_3x^{n-2}</script><p>如果左右两边都有上下标可以使用 \sideset 语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$\sideset&#123;^n_k&#125;&#123;^x_y&#125;a$$</span><br></pre></td></tr></table></figure>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\sideset{^n_k}{^x_y}a</script><h2 id="括号"><a href="#括号" class="headerlink" title="括号"></a>括号</h2><p>在 markdown 语法中，\, $, {, }, _都是有特殊含义的，所以需要加\转义。小括号与方括号可以使用原始的() [] 大括号需要转义\也可以使用\lbrace和 \rbrace</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$ \\&#123;x*y\\&#125; $$  --注：大括号在markdown中已有一次转义，在mathjax中还要再转一次，所以为两个斜杠</span><br><span class="line"></span><br><span class="line">$$\lbrace x*y \rbrace$$</span><br></pre></td></tr></table></figure>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\\{x*y\\}</script><p>原始符号不会随着公式大小自动缩放，需要使用 \left 和 \right 来实现自动缩放：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$\left \lbrace \sum_&#123;i=0&#125;^n i^3 = \frac&#123;(n^2+n)(n+6)&#125;&#123;9&#125; \right \rbrace$$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\left \lbrace \sum_{i=0}^n i^3 = \frac{(n^2+n)(n+6)}{9} \right \rbrace<br>$$<br>不使用\left 和 \right的效果：</p>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\left \lbrace \sum_{i=0}^n i^3 = \frac{(n^2+n)(n+6)}{9} \right \rbrace</script><p>不使用\left 和 \right的效果：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$ \lbrace \sum_&#123;i=0&#125;^n i^3 = \frac&#123;(n^2+n)(n+6)&#125;&#123;9&#125;  \rbrace$$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\lbrace \sum_{i=0}^n i^3 = \frac{(n^2+n)(n+6)}{9}  \rbrace<br>$$</p>
-<h2 id="分数与开方"><a href="#分数与开方" class="headerlink" title="分数与开方"></a>分数与开方</h2><p>可以使用\frac 或者 \over 实现分数的显示：</p>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\lbrace \sum_{i=0}^n i^3 = \frac{(n^2+n)(n+6)}{9}  \rbrace</script><h2 id="分数与开方"><a href="#分数与开方" class="headerlink" title="分数与开方"></a>分数与开方</h2><p>可以使用\frac 或者 \over 实现分数的显示：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$$\frac xy $$</span><br><span class="line">$$ x+3 \over y+5 $$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\frac xy \\ x+3 \over y+5<br>$$<br>开方使用\sqrt:</p>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\frac xy \\\\ x+3 \over y+5</script><p>开方使用\sqrt:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$$ \sqrt&#123;x^5&#125; $$</span><br><span class="line">$$ \sqrt[3]&#123;\frac xy&#125; $$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\sqrt{x^5} \\<br> \sqrt[3]{xy}<br>$$</p>
-<h2 id="求和、累乘、积分"><a href="#求和、累乘、积分" class="headerlink" title="求和、累乘、积分"></a>求和、累乘、积分</h2><p>求和使用\sum,可加上下标，积分使用\int可加上下限，双重积分用\iint</p>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\sqrt{x^5} \\\\
+ \sqrt[3]{xy}</script><h2 id="求和、累乘、积分"><a href="#求和、累乘、积分" class="headerlink" title="求和、累乘、积分"></a>求和、累乘、积分</h2><p>求和使用\sum,可加上下标，积分使用\int可加上下限，双重积分用\iint</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$$ \sum_&#123;i=0&#125;^n $$</span><br><span class="line">$$ \prod_&#123;n=1&#125;^&#123;99&#125; $$</span><br><span class="line">$$ \int_1^\infty $$</span><br><span class="line">$$ \iint_1^\infty $$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\sum_{i=0}^n \\\prod_{n=1}^{99}\\ \int_1^\infty \\ \iint_1^\infty<br>$$</p>
-<h2 id="极限"><a href="#极限" class="headerlink" title="极限"></a>极限</h2><p>极限使用\lim:</p>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\sum_{i=0}^n \\\\\prod_{n=1}^{99}\\\\ \int_1^\infty \\\\ \iint_1^\infty</script><h2 id="极限"><a href="#极限" class="headerlink" title="极限"></a>极限</h2><p>极限使用\lim:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$ \lim_&#123;x \to 0&#125; $$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\lim_{x \to 0}<br>$$</p>
-<h2 id="表格与矩阵"><a href="#表格与矩阵" class="headerlink" title="表格与矩阵"></a>表格与矩阵</h2><p>表格样式lcr表示居中，|加入一条竖线，\hline表示行间横线，列之间用&amp;分隔，行之间用\分隔：</p>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\lim_{x \to 0}</script><h2 id="表格与矩阵"><a href="#表格与矩阵" class="headerlink" title="表格与矩阵"></a>表格与矩阵</h2><p>表格样式lcr表示居中，|加入一条竖线，\hline表示行间横线，列之间用&amp;分隔，行之间用\分隔：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$\begin&#123;array&#125;&#123;c|lcr&#125;</span><br><span class="line">n &amp; \text&#123;Left&#125; &amp; \text&#123;Center&#125; &amp; \text&#123;Right&#125; \\\\</span><br><span class="line">\hline</span><br><span class="line">1 &amp; 1.97 &amp; 5 &amp; 12 \\\\</span><br><span class="line">2 &amp; -11 &amp; 19 &amp; -80 \\\\</span><br><span class="line">3 &amp; 70 &amp; 209 &amp; 1+i \\\\</span><br><span class="line">\end&#123;array&#125;$$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\begin{array}{c|lcr}<br>n &amp; \text{Left} &amp; \text{Center} &amp; \text{Right} \\<br>\hline<br>1 &amp; 1.97 &amp; 5 &amp; 12 \\<br>2 &amp; -11 &amp; 19 &amp; -80 \\<br>3 &amp; 70 &amp; 209 &amp; 1+i \\<br>\end{array}<br>$$</p>
-<h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$$\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">V_A \\\\</span><br><span class="line">V_B \\\\</span><br><span class="line">V_C \\\\</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right] =</span><br><span class="line">\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">1 &amp; 0 &amp; L \\\\</span><br><span class="line">-cosψ &amp; sinψ &amp; L \\\\</span><br><span class="line">-cosψ &amp; -sinψ &amp; L</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right]</span><br><span class="line">\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">V_x \\\\</span><br><span class="line">V_y \\\\</span><br><span class="line">W \\\\</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right] $$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\left[<br>\begin{matrix}<br>V_A \\<br>V_B \\<br>V_C \\<br>\end{matrix}<br>\right] =<br>\left[<br>\begin{matrix}<br>1 &amp; 0 &amp; L \\<br>-cosψ &amp; sinψ &amp; L \\<br>-cosψ &amp; -sinψ &amp; L<br>\end{matrix}<br>\right]<br>\left[<br>\begin{matrix}<br>V_x \\<br>V_y \\<br>W \\<br>\end{matrix}<br>\right]<br>$$<br>综合测试：</p>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\begin{array}{c|lcr}
+n & \text{Left} & \text{Center} & \text{Right} \\\\
+\hline
+1 & 1.97 & 5 & 12 \\\\
+2 & -11 & 19 & -80 \\\\
+3 & 70 & 209 & 1+i \\\\
+\end{array}</script><h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$$\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">V_A \\\\</span><br><span class="line">V_B \\\\</span><br><span class="line">V_C \\\\</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right] =</span><br><span class="line">\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">1 &amp; 0 &amp; L \\\\</span><br><span class="line">-cosψ &amp; sinψ &amp; L \\\\</span><br><span class="line">-cosψ &amp; -sinψ &amp; L</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right]</span><br><span class="line">\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">V_x \\\\</span><br><span class="line">V_y \\\\</span><br><span class="line">W \\\\</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right] $$</span><br></pre></td></tr></table></figure>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+V_A \\\\
+V_B \\\\
+V_C \\\\
+\end{matrix}
+\right] =
+\left[
+\begin{matrix}
+1 & 0 & L \\\\
+-cosψ & sinψ & L \\\\
+-cosψ & -sinψ & L
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+V_x \\\\
+V_y \\\\
+W \\\\
+\end{matrix}
+\right]</script><p>综合测试：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$$\frac&#123;\partial u&#125;&#123;\partial t&#125;</span><br><span class="line">= h^2 \left( \frac&#123;\partial^2 u&#125;&#123;\partial x^2&#125; +</span><br><span class="line">\frac&#123;\partial^2 u&#125;&#123;\partial y^2&#125; +</span><br><span class="line">\frac&#123;\partial^2 u&#125;&#123;\partial z^2&#125;\right)$$</span><br></pre></td></tr></table></figure>
-
-<p>显示效果：<br>$$<br>\frac{\partial u}{\partial t}<br>= h^2 \left( \frac{\partial^2 u}{\partial x^2} +<br>\frac{\partial^2 u}{\partial y^2} +<br>\frac{\partial^2 u}{\partial z^2}\right)<br>$$</p>
-<h2 id="希腊字母"><a href="#希腊字母" class="headerlink" title="希腊字母"></a>希腊字母</h2><table>
+<p>显示效果：</p>
+<script type="math/tex; mode=display">
+\frac{\partial u}{\partial t}
+= h^2 \left( \frac{\partial^2 u}{\partial x^2} +
+\frac{\partial^2 u}{\partial y^2} +
+\frac{\partial^2 u}{\partial z^2}\right)</script><h2 id="希腊字母"><a href="#希腊字母" class="headerlink" title="希腊字母"></a>希腊字母</h2><div class="table-container">
+<table>
 <thead>
 <tr>
-<th align="center">大写</th>
-<th align="center">Markdown</th>
-<th align="center">小写</th>
-<th align="center">Markdown</th>
+<th style="text-align:center">大写</th>
+<th style="text-align:center">Markdown</th>
+<th style="text-align:center">小写</th>
+<th style="text-align:center">Markdown</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><em>A</em></td>
-<td align="center">A</td>
-<td align="center">$\alpha$</td>
-<td align="center">\alpha</td>
+<tbody>
+<tr>
+<td style="text-align:center"><em>A</em></td>
+<td style="text-align:center">A</td>
+<td style="text-align:center">$\alpha$</td>
+<td style="text-align:center">\alpha</td>
 </tr>
 <tr>
-<td align="center"><em>B</em></td>
-<td align="center">B</td>
-<td align="center">$\beta$</td>
-<td align="center">\beta</td>
+<td style="text-align:center"><em>B</em></td>
+<td style="text-align:center">B</td>
+<td style="text-align:center">$\beta$</td>
+<td style="text-align:center">\beta</td>
 </tr>
 <tr>
-<td align="center"><em>Γ</em></td>
-<td align="center">\Gamma</td>
-<td align="center">$\gamma$</td>
-<td align="center">\gamma</td>
+<td style="text-align:center"><em>Γ</em></td>
+<td style="text-align:center">\Gamma</td>
+<td style="text-align:center">$\gamma$</td>
+<td style="text-align:center">\gamma</td>
 </tr>
 <tr>
-<td align="center"><em>Δ</em></td>
-<td align="center">\Delta</td>
-<td align="center">$\delta$</td>
-<td align="center">\delta</td>
+<td style="text-align:center"><em>Δ</em></td>
+<td style="text-align:center">\Delta</td>
+<td style="text-align:center">$\delta$</td>
+<td style="text-align:center">\delta</td>
 </tr>
 <tr>
-<td align="center"><em>E</em></td>
-<td align="center">E</td>
-<td align="center">$\epsilon$</td>
-<td align="center">\epsilon</td>
+<td style="text-align:center"><em>E</em></td>
+<td style="text-align:center">E</td>
+<td style="text-align:center">$\epsilon$</td>
+<td style="text-align:center">\epsilon</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center">$\varepsilon$</td>
-<td align="center">\varepsilon</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">$\varepsilon$</td>
+<td style="text-align:center">\varepsilon</td>
 </tr>
 <tr>
-<td align="center"><em>Z</em></td>
-<td align="center">Z</td>
-<td align="center">$\zeta$</td>
-<td align="center">\zeta</td>
+<td style="text-align:center"><em>Z</em></td>
+<td style="text-align:center">Z</td>
+<td style="text-align:center">$\zeta$</td>
+<td style="text-align:center">\zeta</td>
 </tr>
 <tr>
-<td align="center"><em>H</em></td>
-<td align="center">H</td>
-<td align="center">$\eta$</td>
-<td align="center">\eta</td>
+<td style="text-align:center"><em>H</em></td>
+<td style="text-align:center">H</td>
+<td style="text-align:center">$\eta$</td>
+<td style="text-align:center">\eta</td>
 </tr>
 <tr>
-<td align="center"><em>Θ</em></td>
-<td align="center">\Theta</td>
-<td align="center">$\theta$</td>
-<td align="center">\theta</td>
+<td style="text-align:center"><em>Θ</em></td>
+<td style="text-align:center">\Theta</td>
+<td style="text-align:center">$\theta$</td>
+<td style="text-align:center">\theta</td>
 </tr>
 <tr>
-<td align="center"><em>I</em></td>
-<td align="center">I</td>
-<td align="center">$\iota$</td>
-<td align="center">\iota</td>
+<td style="text-align:center"><em>I</em></td>
+<td style="text-align:center">I</td>
+<td style="text-align:center">$\iota$</td>
+<td style="text-align:center">\iota</td>
 </tr>
 <tr>
-<td align="center"><em>K</em></td>
-<td align="center">K</td>
-<td align="center">$\kappa$</td>
-<td align="center">\kappa</td>
+<td style="text-align:center"><em>K</em></td>
+<td style="text-align:center">K</td>
+<td style="text-align:center">$\kappa$</td>
+<td style="text-align:center">\kappa</td>
 </tr>
 <tr>
-<td align="center"><em>Λ</em></td>
-<td align="center">\Lambda</td>
-<td align="center">$\lambda$</td>
-<td align="center">\lambda</td>
+<td style="text-align:center"><em>Λ</em></td>
+<td style="text-align:center">\Lambda</td>
+<td style="text-align:center">$\lambda$</td>
+<td style="text-align:center">\lambda</td>
 </tr>
 <tr>
-<td align="center"><em>M</em></td>
-<td align="center">M</td>
-<td align="center">$\mu$</td>
-<td align="center">\mu</td>
+<td style="text-align:center"><em>M</em></td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">$\mu$</td>
+<td style="text-align:center">\mu</td>
 </tr>
 <tr>
-<td align="center"><em>N</em></td>
-<td align="center">N</td>
-<td align="center">$\nu$</td>
-<td align="center">\nu</td>
+<td style="text-align:center"><em>N</em></td>
+<td style="text-align:center">N</td>
+<td style="text-align:center">$\nu$</td>
+<td style="text-align:center">\nu</td>
 </tr>
 <tr>
-<td align="center">$\Xi$</td>
-<td align="center">\Xi</td>
-<td align="center">$\xi$</td>
-<td align="center">\xi</td>
+<td style="text-align:center">$\Xi$</td>
+<td style="text-align:center">\Xi</td>
+<td style="text-align:center">$\xi$</td>
+<td style="text-align:center">\xi</td>
 </tr>
 <tr>
-<td align="center"><em>O</em></td>
-<td align="center">O</td>
-<td align="center">$\omicron$</td>
-<td align="center">\omicron</td>
+<td style="text-align:center"><em>O</em></td>
+<td style="text-align:center">O</td>
+<td style="text-align:center">$\omicron$</td>
+<td style="text-align:center">\omicron</td>
 </tr>
 <tr>
-<td align="center"><em>Π</em></td>
-<td align="center">\Pi</td>
-<td align="center">π</td>
-<td align="center">\pi</td>
+<td style="text-align:center"><em>Π</em></td>
+<td style="text-align:center">\Pi</td>
+<td style="text-align:center">π</td>
+<td style="text-align:center">\pi</td>
 </tr>
 <tr>
-<td align="center"><em>P</em></td>
-<td align="center">P</td>
-<td align="center">$\rho$</td>
-<td align="center">\rho</td>
+<td style="text-align:center"><em>P</em></td>
+<td style="text-align:center">P</td>
+<td style="text-align:center">$\rho$</td>
+<td style="text-align:center">\rho</td>
 </tr>
 <tr>
-<td align="center">Σ</td>
-<td align="center">\Sigma</td>
-<td align="center">$\sigma$</td>
-<td align="center">\sigma</td>
+<td style="text-align:center">Σ</td>
+<td style="text-align:center">\Sigma</td>
+<td style="text-align:center">$\sigma$</td>
+<td style="text-align:center">\sigma</td>
 </tr>
 <tr>
-<td align="center"><em>T</em></td>
-<td align="center">T</td>
-<td align="center">$\tau$</td>
-<td align="center">\tau</td>
+<td style="text-align:center"><em>T</em></td>
+<td style="text-align:center">T</td>
+<td style="text-align:center">$\tau$</td>
+<td style="text-align:center">\tau</td>
 </tr>
 <tr>
-<td align="center">$\Upsilon$</td>
-<td align="center">\Upsilon</td>
-<td align="center">$\upsilon$</td>
-<td align="center">\upsilon</td>
+<td style="text-align:center">$\Upsilon$</td>
+<td style="text-align:center">\Upsilon</td>
+<td style="text-align:center">$\upsilon$</td>
+<td style="text-align:center">\upsilon</td>
 </tr>
 <tr>
-<td align="center">$\Phi$</td>
-<td align="center">\Phi</td>
-<td align="center">$\phi$</td>
-<td align="center">\phi</td>
+<td style="text-align:center">$\Phi$</td>
+<td style="text-align:center">\Phi</td>
+<td style="text-align:center">$\phi$</td>
+<td style="text-align:center">\phi</td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center">$\varphi$</td>
-<td align="center">\varphi</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">$\varphi$</td>
+<td style="text-align:center">\varphi</td>
 </tr>
 <tr>
-<td align="center"><em>X</em></td>
-<td align="center">X</td>
-<td align="center">$\chi$</td>
-<td align="center">\chi</td>
+<td style="text-align:center"><em>X</em></td>
+<td style="text-align:center">X</td>
+<td style="text-align:center">$\chi$</td>
+<td style="text-align:center">\chi</td>
 </tr>
 <tr>
-<td align="center">$\Psi$</td>
-<td align="center">\Psi</td>
-<td align="center">$\psi$</td>
-<td align="center">\psi</td>
+<td style="text-align:center">$\Psi$</td>
+<td style="text-align:center">\Psi</td>
+<td style="text-align:center">$\psi$</td>
+<td style="text-align:center">\psi</td>
 </tr>
 <tr>
-<td align="center">$\Omega$</td>
-<td align="center">\Omega</td>
-<td align="center">$\omega$</td>
-<td align="center">\omega</td>
+<td style="text-align:center">$\Omega$</td>
+<td style="text-align:center">\Omega</td>
+<td style="text-align:center">$\omega$</td>
+<td style="text-align:center">\omega</td>
 </tr>
-</tbody></table>
-<h2 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h2><table>
+</tbody>
+</table>
+</div>
+<h2 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h2><div class="table-container">
+<table>
 <thead>
 <tr>
-<th align="center">运算符</th>
-<th align="center">Markdown</th>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">Markdown</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">$\pm$</td>
-<td align="center">\pm</td>
+<tbody>
+<tr>
+<td style="text-align:center">$\pm$</td>
+<td style="text-align:center">\pm</td>
 </tr>
 <tr>
-<td align="center">$\times$</td>
-<td align="center">\times</td>
+<td style="text-align:center">$\times$</td>
+<td style="text-align:center">\times</td>
 </tr>
 <tr>
-<td align="center">$\cdot$</td>
-<td align="center">\cdot</td>
+<td style="text-align:center">$\cdot$</td>
+<td style="text-align:center">\cdot</td>
 </tr>
 <tr>
-<td align="center">$\div$</td>
-<td align="center">\div</td>
+<td style="text-align:center">$\div$</td>
+<td style="text-align:center">\div</td>
 </tr>
 <tr>
-<td align="center">$\neq$</td>
-<td align="center">\neq</td>
+<td style="text-align:center">$\neq$</td>
+<td style="text-align:center">\neq</td>
 </tr>
 <tr>
-<td align="center">$\equiv$</td>
-<td align="center">\equiv</td>
+<td style="text-align:center">$\equiv$</td>
+<td style="text-align:center">\equiv</td>
 </tr>
 <tr>
-<td align="center">$\leq$</td>
-<td align="center">\leq</td>
+<td style="text-align:center">$\leq$</td>
+<td style="text-align:center">\leq</td>
 </tr>
 <tr>
-<td align="center">$\geq$</td>
-<td align="center">\geq</td>
+<td style="text-align:center">$\geq$</td>
+<td style="text-align:center">\geq</td>
 </tr>
-</tbody></table>
-<h2 id="其它特殊字符"><a href="#其它特殊字符" class="headerlink" title="其它特殊字符"></a>其它特殊字符</h2><table>
+</tbody>
+</table>
+</div>
+<h2 id="其它特殊字符"><a href="#其它特殊字符" class="headerlink" title="其它特殊字符"></a>其它特殊字符</h2><div class="table-container">
+<table>
 <thead>
 <tr>
-<th align="center">符号</th>
-<th align="center">Markdown</th>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">Markdown</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">$\forall$</td>
-<td align="center">\forall</td>
+<tbody>
+<tr>
+<td style="text-align:center">$\forall$</td>
+<td style="text-align:center">\forall</td>
 </tr>
 <tr>
-<td align="center">$\infty$</td>
-<td align="center">\infty</td>
+<td style="text-align:center">$\infty$</td>
+<td style="text-align:center">\infty</td>
 </tr>
 <tr>
-<td align="center">$\emptyset$</td>
-<td align="center">\emptyset</td>
+<td style="text-align:center">$\emptyset$</td>
+<td style="text-align:center">\emptyset</td>
 </tr>
 <tr>
-<td align="center">$\exists$</td>
-<td align="center">\exists</td>
+<td style="text-align:center">$\exists$</td>
+<td style="text-align:center">\exists</td>
 </tr>
 <tr>
-<td align="center">$\nabla$</td>
-<td align="center">\nabla</td>
+<td style="text-align:center">$\nabla$</td>
+<td style="text-align:center">\nabla</td>
 </tr>
 <tr>
-<td align="center">$\bot$</td>
-<td align="center">\bot</td>
+<td style="text-align:center">$\bot$</td>
+<td style="text-align:center">\bot</td>
 </tr>
 <tr>
-<td align="center">$\angle$</td>
-<td align="center">\angle</td>
+<td style="text-align:center">$\angle$</td>
+<td style="text-align:center">\angle</td>
 </tr>
 <tr>
-<td align="center">$\because$</td>
-<td align="center">\because</td>
+<td style="text-align:center">$\because$</td>
+<td style="text-align:center">\because</td>
 </tr>
 <tr>
-<td align="center">$\therefore$</td>
-<td align="center">\therefore</td>
+<td style="text-align:center">$\therefore$</td>
+<td style="text-align:center">\therefore</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>花括号:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$ c(u)=\begin&#123;cases&#125; \sqrt\frac&#123;1&#125;&#123;N&#125;，u=0\\ \sqrt\frac&#123;2&#125;&#123;N&#125;， u\neq0\end&#123;cases&#125;  $$</span><br></pre></td></tr></table></figure>
-
-<p>$$<br>c(u)=\begin{cases} \sqrt\frac{1}{N}，u=0\\ \sqrt\frac{2}{N}， u\neq0\end{cases}<br>$$</p>
-
+<script type="math/tex; mode=display">
+c(u)=\begin{cases} \sqrt\frac{1}{N}，u=0\\\\ \sqrt\frac{2}{N}， u\neq0\end{cases}</script>
         </div>
 
         

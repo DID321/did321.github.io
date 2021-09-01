@@ -215,7 +215,6 @@
 </ul>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\WINDOWS\system32&gt;net start mysql</span><br><span class="line">MySQL 服务正在启动 .</span><br><span class="line">MySQL 服务已经启动成功。</span><br></pre></td></tr></table></figure>
-
 <p><code>net stop mysql</code></p>
 <blockquote>
 <ul>
@@ -223,7 +222,6 @@
 </ul>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\WINDOWS\system32&gt;net stop mysql</span><br><span class="line">MySQL 服务正在停止.</span><br><span class="line">MySQL 服务已成功停止。</span><br></pre></td></tr></table></figure>
-
 <p><code>mysql -u root -p</code></p>
 <blockquote>
 <ul>
@@ -231,7 +229,6 @@
 </ul>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">C:\WINDOWS\system32&gt;mysql -u root -p</span><br><span class="line">Enter password: *********</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 3</span><br><span class="line">Server version: 5.7.17 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
-
 <p><code>show databases;</code></p>
 <blockquote>
 <ul>
@@ -239,7 +236,6 @@
 </ul>
 </blockquote>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| robocup3d          |</span><br><span class="line">| school             |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line"><span class="number">6</span> rows <span class="keyword">in</span> <span class="built_in">set</span> (<span class="number">0.19</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
-
 <p><code>create database 数据库名字;</code></p>
 <blockquote>
 <ul>
@@ -247,7 +243,6 @@
 </ul>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create database school;</span><br><span class="line">Query OK,1 row affected (0.00 sec)</span><br></pre></td></tr></table></figure>
-
 <p><code>use 数据库名字;</code></p>
 <blockquote>
 <ul>
@@ -255,7 +250,6 @@
 </ul>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use school;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
-
 <p><code>drop database 数据库名字;</code></p>
 <blockquote>
 <ul>
@@ -263,7 +257,6 @@
 </ul>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop database school;</span><br></pre></td></tr></table></figure>
-
 <h2 id="2-创建表格"><a href="#2-创建表格" class="headerlink" title="2.创建表格"></a>2.创建表格</h2><ul>
 <li><p>CREATE TABLE &lt;表名&gt;</p>
 <p>​      （&lt;列名&gt; &lt;数据类型&gt;[&lt;列级完整性约束条件&gt;],</p>
@@ -278,45 +271,50 @@
 </blockquote>
 </li>
 <li><p>例：建立一个“学生”表Student，它由学号Sno、姓名Sname、性别Ssex、年龄Sage、所在系Sdept五个属性组成。其中学号不能为空，值是唯一的，姓名也不能重复。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Student</span><br><span class="line">  (Sno varCHAR(5)  NOT NULL  UNIQUE， </span><br><span class="line">   Sname  varCHAR(20) UNIQUE，          </span><br><span class="line">   Ssex  varCHAR(1) ，</span><br><span class="line">   Sage  INT，</span><br><span class="line">   Sdept  varCHAR(15))； </span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Student</span><br><span class="line">  (Sno varCHAR(5)  NOT NULL  UNIQUE， </span><br><span class="line">   Sname  varCHAR(20) UNIQUE，          </span><br><span class="line">   Ssex  varCHAR(1) ，</span><br><span class="line">   Sage  INT，</span><br><span class="line">   Sdept  varCHAR(15))； </span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <h3 id="A-数据类型"><a href="#A-数据类型" class="headerlink" title="A.数据类型"></a>A.数据类型</h3><ul>
 <li>整数类型：</li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">类型</th>
-<th align="center">字节数</th>
-<th align="center">范围</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">字节数</th>
+<th style="text-align:center">范围</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">tinyint</td>
-<td align="center">1字节</td>
-<td align="center">0~255</td>
+<tbody>
+<tr>
+<td style="text-align:center">tinyint</td>
+<td style="text-align:center">1字节</td>
+<td style="text-align:center">0~255</td>
 </tr>
 <tr>
-<td align="center">smallint</td>
-<td align="center">2字节</td>
-<td align="center">0~2的16次方-1</td>
+<td style="text-align:center">smallint</td>
+<td style="text-align:center">2字节</td>
+<td style="text-align:center">0~2的16次方-1</td>
 </tr>
 <tr>
-<td align="center">mediumint</td>
-<td align="center">3字节</td>
-<td align="center">0~2的24次方-1</td>
+<td style="text-align:center">mediumint</td>
+<td style="text-align:center">3字节</td>
+<td style="text-align:center">0~2的24次方-1</td>
 </tr>
 <tr>
-<td align="center">int</td>
-<td align="center">4字节</td>
-<td align="center">0~2的32次方-1</td>
+<td style="text-align:center">int</td>
+<td style="text-align:center">4字节</td>
+<td style="text-align:center">0~2的32次方-1</td>
 </tr>
 <tr>
-<td align="center">bigint</td>
-<td align="center">8字节</td>
-<td align="center">0~2的64次方-1</td>
+<td style="text-align:center">bigint</td>
+<td style="text-align:center">8字节</td>
+<td style="text-align:center">0~2的64次方-1</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <blockquote>
 <p>备注:整数类型比较简单,但是它的选择也比较多,开发时注意选择范围即可。</p>
 </blockquote>
@@ -328,7 +326,7 @@
 </li>
 <li><p>char和varchar类型: </p>
 <blockquote>
-<p>char (N) 表示定长字符 N取值0<del>255 varchar(N) 表示变长字符 N取值0</del>2的16次方-1 </p>
+<p>char (N) 表示定长字符 N取值0~255 varchar(N) 表示变长字符 N取值0~2的16次方-1 </p>
 <p>char和varchar是最常用的两种字符类型,varchar更为常用 有点类似字符数组</p>
 </blockquote>
 </li>
@@ -351,22 +349,17 @@
 <li>创建学生选课表，其中Cno(课程号)为主码</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create Table Course(Cno varCHAR(3), </span><br><span class="line">					Cname varCHAR(60), Cpno varCHAR(3), </span><br><span class="line">					Ccredit int not null, Primary key(Cno));</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>[例]  建立一个“学生选课”表SC，它由学号Sno、课程号Cno，修课成绩Grade组成，其中(Sno, Cno)为主码，Sno，Cno还分别为外码。</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE SC(Sno varCHAR(5), Cno varCHAR(3), </span><br><span class="line">				Grade int, Primary key (Sno, Cno), </span><br><span class="line">				FOREIGN KEY (Sno) REFERENCES Student(Sno), </span><br><span class="line">				FOREIGN KEY (Cno) REFERENCES Course(Cno));</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3-查看表格"><a href="#3-查看表格" class="headerlink" title="3.查看表格"></a>3.查看表格</h2><p><code> show create table sc;</code></p>
+<h2 id="3-查看表格"><a href="#3-查看表格" class="headerlink" title="3.查看表格"></a>3.查看表格</h2><p><code>show create table sc;</code></p>
 <blockquote>
 <ul>
 <li>可以查看已创建表的属性</li>
 </ul>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">| Table | Create Table</span><br><span class="line">+-------+-----------------------------------------------------------------------------------------------</span><br><span class="line">--------------------------------------------------------------------------------------------------------</span><br><span class="line">-------------------------------------------------------------------------------------------------------+</span><br><span class="line">| sc    | CREATE TABLE `sc` (</span><br><span class="line">  `Sno` varchar(5) NOT NULL,</span><br><span class="line">  `Cno` varchar(3) NOT NULL,</span><br><span class="line">  `Grade` int(11) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`Sno`,`Cno`),</span><br><span class="line">  KEY `Cno` (`Cno`),</span><br><span class="line">  CONSTRAINT `sc_ibfk_1` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`),</span><br><span class="line">  CONSTRAINT `sc_ibfk_2` FOREIGN KEY (`Cno`) REFERENCES `course` (`Cno`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</span><br><span class="line">+-------+-----------------------------------------------------------------------------------------------</span><br><span class="line">--------------------------------------------------------------------------------------------------------</span><br><span class="line">-------------------------------------------------------------------------------------------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
-
 <p><code>show tables;</code></p>
 <blockquote>
 <ul>
@@ -374,7 +367,6 @@
 </ul>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show tables;</span></span><br><span class="line">+------------------+</span><br><span class="line">| Tables_in_school |</span><br><span class="line">+------------------+</span><br><span class="line">| course           |</span><br><span class="line">| sc               |</span><br><span class="line">| student          |</span><br><span class="line">+------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
-
 <p><code>describe sc;</code></p>
 <blockquote>
 <ul>
@@ -382,13 +374,13 @@
 </ul>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> describe sc;</span></span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type       | Null | Key | Default | Extra |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| Sno   | varchar(5) | NO   | PRI | NULL    |       |</span><br><span class="line">| Cno   | varchar(3) | NO   | PRI | NULL    |       |</span><br><span class="line">| Grade | int(11)    | YES  |     | NULL    |       |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
-
 <h2 id="4-修改表格"><a href="#4-修改表格" class="headerlink" title="4.修改表格"></a>4.修改表格</h2><ul>
-<li><p>ALTER TABLE &lt;表名&gt;<br>[ ADD &lt;新列名&gt; &lt;数据类型&gt; [ 完整性约束 ] ]<br>[ DROP &lt;完整性约束名&gt; ]<br>[ MODIFY &lt;列名&gt; &lt;数据类型&gt; ]；</p>
-<p>&lt;表名&gt;：要修改的基本表<br>ADD子句：增加新列和新的完整性约束条件<br>DROP子句：删除指定的完整性约束条件<br>MODIFY子句：用于修改列名和数据类型</p>
-</li>
+<li>ALTER TABLE &lt;表名&gt;<br>[ ADD &lt;新列名&gt; &lt;数据类型&gt; [ 完整性约束 ] ]<br>[ DROP &lt;完整性约束名&gt; ]<br>[ MODIFY &lt;列名&gt; &lt;数据类型&gt; ]；</li>
+</ul>
+<p>  &lt;表名&gt;：要修改的基本表<br>  ADD子句：增加新列和新的完整性约束条件<br>  DROP子句：删除指定的完整性约束条件<br>  MODIFY子句：用于修改列名和数据类型</p>
+<ul>
 <li><p>例: 向Student表增加“入学时间”列，其数据类型为日期型。</p>
-<p><code> ALTER TABLE Student ADD Scome DATE；</code></p>
+<p><code>ALTER TABLE Student ADD Scome DATE；</code></p>
 <p>不论基本表中原来是否已有数据，新增加的列一律为空值。 </p>
 </li>
 <li><p>删除属性列<br>例：<code>ALTER TABLE Student  Drop Scome；</code></p>
@@ -399,13 +391,13 @@
 </li>
 <li><p>例: 删除学生姓名必须取唯一值的约束。</p>
 <p><code>ALTER TABLE Student DROP key Sname；</code><br><code>alter table Student add unique key sname(sname);</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">+---------+-------------------------------------</span><br><span class="line">------------------------------------------------</span><br><span class="line">-------------------+</span><br><span class="line">| student | CREATE TABLE `student` (</span><br><span class="line">  `Sno` varchar(5) NOT NULL,</span><br><span class="line">  `Sname` varchar(20) DEFAULT NULL,</span><br><span class="line">  `Ssex` varchar(1) DEFAULT NULL,</span><br><span class="line">  `Sage` smallint(6) DEFAULT NULL,</span><br><span class="line">  `Sdept` varchar(15) DEFAULT NULL,</span><br><span class="line">  UNIQUE KEY `Sno` (`Sno`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</span><br><span class="line">+---------+-------------------------------------</span><br><span class="line">------------------------------------------------</span><br><span class="line">-------------------+</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">+---------+-------------------------------------</span><br><span class="line">------------------------------------------------</span><br><span class="line">-------------------+</span><br><span class="line">| student | CREATE TABLE `student` (</span><br><span class="line">  `Sno` varchar(5) NOT NULL,</span><br><span class="line">  `Sname` varchar(20) DEFAULT NULL,</span><br><span class="line">  `Ssex` varchar(1) DEFAULT NULL,</span><br><span class="line">  `Sage` smallint(6) DEFAULT NULL,</span><br><span class="line">  `Sdept` varchar(15) DEFAULT NULL,</span><br><span class="line">  UNIQUE KEY `Sno` (`Sno`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</span><br><span class="line">+---------+-------------------------------------</span><br><span class="line">------------------------------------------------</span><br><span class="line">-------------------+</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <h2 id="5-插入元组"><a href="#5-插入元组" class="headerlink" title="5.插入元组"></a>5.插入元组</h2><ul>
 <li>语句格式<br>INSERT<pre><code> INTO &lt;表名&gt; [(&lt;属性列1&gt;[，&lt;属性列2 &gt;…)]
  VALUES (&lt;常量1&gt; [，&lt;常量2&gt;]    …           )
-</code></pre>
-功能<br>将新元组插入指定表中</li>
+</code></pre>功能<br>将新元组插入指定表中</li>
 </ul>
 <blockquote>
 <ul>
@@ -415,17 +407,16 @@
 </blockquote>
 <ul>
 <li><p>例:  将一个新学生元组（学号：95010；姓名：陈冬；性别：男；所在系：IS；年龄：18岁）插入到Student表中。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash">INSERT</span></span><br><span class="line">INTO  Student (Sno，Sname，Ssex，Sdept，Sage)</span><br><span class="line">VALUES (&#x27;95010&#x27;，&#x27;陈冬&#x27;，&#x27;男&#x27;，&#x27;IS&#x27;，18)；</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash">INSERT</span></span><br><span class="line">INTO  Student (Sno，Sname，Ssex，Sdept，Sage)</span><br><span class="line">VALUES (&#x27;95010&#x27;，&#x27;陈冬&#x27;，&#x27;男&#x27;，&#x27;IS&#x27;，18)；</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>例: 将学生张成民的信息插入到Student表中。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash">INSERT</span></span><br><span class="line">    INTO  Student</span><br><span class="line">    VALUES (&#x27;95011&#x27;,&#x27;张成民&#x27;,&#x27;男&#x27;,18,&#x27;CS&#x27;);</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>可以不写属性元组，但是直接写VALUES的话一定要和表的属性顺序保持一致</p>
 </blockquote>
 </li>
 <li><p>例: 插入一条选课记录(‘95011’，’1’)。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">INSERT</span><br><span class="line">    INTO SC(Sno，Cno)</span><br><span class="line">    VALUES (&#x27;95011&#x27; ， &#x27;1&#x27;)；</span><br><span class="line"><span class="meta">#</span><span class="bash">RDBMS将在新插入记录的Grade列上自动地赋空值。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">或者：</span></span><br><span class="line">INSERT</span><br><span class="line">    INTO SC             </span><br><span class="line">    VALUES (&#x27; 95011 &#x27;，&#x27; 1 &#x27;，NULL)；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <ul>
 <li>此时显示插入失败，原因是在SC这张表中，（SNO，CNO）是主码，但是Cno和Sno又是外码（Course和student的主码），由于Cno在course那张表中未定义课程信息，故这里出现就是错误的数据，所以这就要求，外码所在的那张表中必须要有值。</li>
@@ -439,10 +430,9 @@
 <p>可以查看表中所有的信息</p>
 </blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">| Sno   | Sname        | Ssex | Sage | Sdept |</span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line">| 95001 | 张三         | 男   |   20 | CS    |</span><br><span class="line">| 95002 | 李四         | 男   |   21 | IS    |</span><br><span class="line">| 95003 | 王五         | 男   |   18 | MA    |</span><br><span class="line">| 95004 | 马六         | 女   |   19 | CS    |</span><br><span class="line">| 95005 | 苏三         | 女   |   19 | IS    |</span><br><span class="line">| 95006 | 刘七         | 女   |   18 | IS    |</span><br><span class="line">| 95007 | 刘三姐       | 女   |   22 | IS    |</span><br><span class="line">| 95008 | 欧阳锋       | 男   |   23 | MA    |</span><br><span class="line">| 95009 | 欧阳大侠     | 男   |   22 | MA    |</span><br><span class="line">+-------+--------------+------+------+-------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select * from course;</span></span><br><span class="line">+-----+-----------+------+---------+</span><br><span class="line">| Cno | Cname     | Cpno | Ccredit |</span><br><span class="line">+-----+-----------+------+---------+</span><br><span class="line">| 1   | MATH      | NULL |       6 |</span><br><span class="line">| 2   | DB_DESIGN | 3    |       2 |</span><br><span class="line">| 3   | P_DESIGN  | 4    |       3 |</span><br><span class="line">| 4   | OS        | NULL |       2 |</span><br><span class="line">+-----+-----------+------+---------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select * from sc;</span></span><br><span class="line">+-------+-----+-------+</span><br><span class="line">| Sno   | Cno | Grade |</span><br><span class="line">+-------+-----+-------+</span><br><span class="line">| 95001 | 1   |    92 |</span><br><span class="line">| 95001 | 2   |    94 |</span><br><span class="line">| 95001 | 3   |    90 |</span><br><span class="line">| 95001 | 4   |    97 |</span><br><span class="line">| 95002 | 2   |    90 |</span><br><span class="line">| 95002 | 3   |    80 |</span><br><span class="line">| 95003 | 2   |  NULL |</span><br><span class="line">| 95004 | 3   |  NULL |</span><br><span class="line">| 95004 | 4   |    87 |</span><br><span class="line">| 95005 | 1   |    90 |</span><br><span class="line">| 95005 | 2   |    98 |</span><br><span class="line">| 95005 | 3   |    90 |</span><br><span class="line">| 95005 | 4   |    89 |</span><br><span class="line">+-------+-----+-------+</span><br><span class="line">14 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select * from sc;</span></span><br><span class="line">+-------+-----+-------+</span><br><span class="line">| Sno   | Cno | Grade |</span><br><span class="line">+-------+-----+-------+</span><br><span class="line">| 95001 | 1   |    92 |</span><br><span class="line">| 95001 | 2   |    94 |</span><br><span class="line">| 95001 | 3   |    90 |</span><br><span class="line">| 95001 | 4   |    97 |</span><br><span class="line">| 95002 | 2   |    90 |</span><br><span class="line">| 95002 | 3   |    80 |</span><br><span class="line">| 95003 | 2   |  NULL |</span><br><span class="line">| 95004 | 3   |  NULL |</span><br><span class="line">| 95004 | 4   |    87 |</span><br><span class="line">| 95005 | 1   |    90 |</span><br><span class="line">| 95005 | 2   |    98 |</span><br><span class="line">| 95005 | 3   |    90 |</span><br><span class="line">| 95005 | 4   |    89 |</span><br><span class="line">+-------+-----+-------+</span><br><span class="line">14 rows in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <h2 id="6-修改数据"><a href="#6-修改数据" class="headerlink" title="6.修改数据"></a>6.修改数据</h2><ul>
 <li><p>语句格式<br>UPDATE  &lt;表名&gt;<br> SET  &lt;列名&gt;=&lt;表达式&gt;[，&lt;列名&gt;=&lt;表达式&gt;]…<br> [WHERE &lt;条件&gt;]；</p>
@@ -455,35 +445,36 @@
 </blockquote>
 </li>
 <li><p>例:  将学生95002的年龄改为22岁 （修改单个元组的值）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UPDATE  Student</span><br><span class="line">         SET Sage=22            #将年龄改为22  </span><br><span class="line">         WHERE  Sno=&#x27; 95002 &#x27;； #找出学号为95002的那一行</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UPDATE  Student</span><br><span class="line">         SET Sage=22            #将年龄改为22  </span><br><span class="line">         WHERE  Sno=&#x27; 95002 &#x27;； #找出学号为95002的那一行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>例：  将所有学生的年龄增加1岁  （修改多个元组的值）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE Student</span><br><span class="line">         SET Sage= Sage+1；   # 这里缺省where代表对所有元组操作         </span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE Student</span><br><span class="line">         SET Sage= Sage+1；   # 这里缺省where代表对所有元组操作         </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <h2 id="7-删除数据"><a href="#7-删除数据" class="headerlink" title="7.删除数据"></a>7.删除数据</h2><ul>
 <li>语句格式<pre><code>DELETE
 FROM     &lt;表名&gt;
 [WHERE &lt;条件&gt;]；
-</code></pre>
-功能<br>删除指定表中满足WHERE子句条件的元组<br>WHERE子句<br>指定要删除的元组<br>缺省表示要删除表中的全部元组，表的定义仍在字典中</li>
+</code></pre>功能<br>删除指定表中满足WHERE子句条件的元组<br>WHERE子句<br>指定要删除的元组<br>缺省表示要删除表中的全部元组，表的定义仍在字典中</li>
 </ul>
 <blockquote>
 <p>下面的删除例子可以不用执行，因为后面还要用到这三张表，知道怎么写的就行。</p>
 </blockquote>
 <ul>
 <li><p>例：  删除学号为95009的学生记录。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DELETE</span><br><span class="line">         FROM Student</span><br><span class="line">         WHERE Sno= &#x27;95009&#x27;；</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DELETE</span><br><span class="line">         FROM Student</span><br><span class="line">         WHERE Sno= &#x27;95009&#x27;；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>例：  删除所有的学生选课记录。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DELETE</span><br><span class="line">        FROM SC；             #where为空，所以默认是整个表的元组</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DELETE</span><br><span class="line">        FROM SC；             #where为空，所以默认是整个表的元组</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>在执行修改语句时会检查修改或删除操作是否破坏表上已定义的完整性规则<br>实体完整性<br>参照完整性<br>用户定义的完整性<br>NOT NULL约束<br>UNIQUE约束<br>值域约束</p>
 </li>
 <li><p>这时把前面插入报错的SC那个信息再重新插入，就会发现插入成功，原因是course中已经有了课程信息。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">INSERT</span><br><span class="line">    INTO SC             </span><br><span class="line">    VALUES (&#x27; 95011 &#x27;，&#x27; 1 &#x27;，NULL)；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>此时再将student表中的学号为’95011’改为’95022’</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> update student <span class="built_in">set</span> sno=<span class="string">&#x27;95022&#x27;</span> <span class="built_in">where</span> sno=<span class="string">&#x27;95011&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`school`.`sc`, CONSTRAINT `sc_ibfk_1</span><br><span class="line">` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`))</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"></span></span><br><span class="line"><span class="bash"></span></span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>发现报错，原因是在student表中修改主码，会影响到SC选课表中的Sno，这个修改会导致SC表中的那一行无意义，所以不能修改。</p>
 </blockquote>
@@ -491,7 +482,6 @@ FROM     &lt;表名&gt;
 <li>这时尝试删除student中的’95011’的学生信息</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> delete from student <span class="built_in">where</span> sno=<span class="string">&#x27;95011&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line">ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`school`.`sc`, CONSTRAINT `sc_ibfk_1</span><br><span class="line">` FOREIGN KEY (`Sno`) REFERENCES `student` (`Sno`))</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"></span></span><br><span class="line"><span class="bash"></span></span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>发现依然报错，原因和上面类似，如果删除这个信息，会导致sc表中的数据无意义，就因为sno在sc那张表中是外码。</p>
 </blockquote>

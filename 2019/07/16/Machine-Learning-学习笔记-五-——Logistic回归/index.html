@@ -236,8 +236,8 @@
     <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <br>
     <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
-    <span class="post-count">文章字数:<a href="#">3.4k</span></a>&nbsp;
-     <span class="post-count">阅读时长:<a href="#">13</span>min</a>
+    <span class="post-count">文章字数:<a href="#">974</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">3</span>min</a>
                     
                 </div>
             
@@ -249,86 +249,92 @@
 </ul>
 <h2 id="1-分类-classification"><a href="#1-分类-classification" class="headerlink" title="1.分类(classification)"></a>1.分类(classification)</h2><ul>
 <li><p>问题描述：假设有一个肿瘤的良性恶性数据集如下，1代表良性，0代表恶性，横坐标为Tumor Size（肿瘤大小）预测肿瘤大小肿瘤的情况。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716120757766.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716120757766.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 <li><p>假设我们采用之前的线性回归的方法来分析这个问题，看下效果如何，我们肯定需要根据数据集拟合回归直线，那么我们拟合出来的结果大概应该如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716120812264.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716120812264.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 </ul>
 <p>我们的假设函数还是h(x)，通过拟合的直线，我们可以设定当h(x)&gt;0.5时，认为肿瘤是恶性的，当h(x)&lt;0.5时，认为肿瘤是良性的，看横坐标，当肿瘤大小大于图上的中点时，认为是恶性的，反之；这样来看似乎用线性回归的方法可以解决分类问题，至少这样来分的话可以分类，但是不要太早下结论，下面在右边加一个点，我们再来拟合直线，我们再讨论一下：</p>
-<p>​    <img src="https://img-blog.csdnimg.cn/20190716120830459.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p>​    <img src="https://img-blog.csdnimg.cn/20190716120830459.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <ul>
 <li>这时候我们只增加了一个数据（右边的一个点），我们再拟合出来的直线就是蓝色的线，这时我们再用横坐标大于蓝色的中间的点来说明是恶性的就出现问题了，发现蓝色点左边也有点是恶性的，并不是良性的，这就说明前面的那种情况是运气较好，线性回归还是解决不了分类问题的；另一方面我们已经知道y的取值范围是[0,1]，但是使用线性回归h(x)，他的取值可以是大于1或者是小于0，可以是非常大，所以种种迹象表明线性回归解决分类问题是不合适的。所以下面我们会引入另一种方法解决分类问题。</li>
 </ul>
 <h2 id="2-假设陈述"><a href="#2-假设陈述" class="headerlink" title="2.假设陈述"></a>2.假设陈述</h2><ul>
 <li><p>我们前面讲到要想0&lt;=h(x)&lt;=1，那么我们将h(x)稍微修改一下，使他的范围在[0,1]:</p>
-<p>$$<br>设 h_\theta(x)=g(\theta^Tx)\\<br>g(z) = \frac{1}{1+e^{-z}}\\即h_\theta(x)=\frac{1}{1+e^{-\theta^Tx}}<br>$$</p>
-<p>g(z)称为Sigmoid函数也叫Logistic函数，他的图像如下所示，范围是[0,1]，z趋近于正无穷时，g(z)趋近于1，z趋近于负无穷时，g(z)趋近于0.</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716120852947.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<script type="math/tex; mode=display">
+设 h_\theta(x)=g(\theta^Tx)\\\\  
+g(z) = \frac{1}{1+e^{-z}}\\\\即h_\theta(x)=\frac{1}{1+e^{-\theta^Tx}}</script><p>g(z)称为Sigmoid函数也叫Logistic函数，他的图像如下所示，范围是[0,1]，z趋近于正无穷时，g(z)趋近于1，z趋近于负无穷时，g(z)趋近于0.</p>
+<p><img src="https://img-blog.csdnimg.cn/20190716120852947.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 <li><p>模型解释</p>
-<p>这里的h(x)代表我输入的x，对应的y=1的概率大小，用数学的概率论写出来就是<br>$$<br>h_\theta(x) = P(y=1|x=\theta)<br>$$</p>
-<p>学过概率论的应该知道，这是一个条件概率，在x = θ的条件下发生y = 1的概率，那么由以下的公式我们还可以求得在x = θ的条件下y = 0的概率</p>
-<p>$$<br>由P(y=0|x=\theta)+P(y=1|x=\theta) = 1\\<br>得P(y=0|x=\theta) = 1-P(y=1|x=\theta)\\=1-h_\theta(x)<br>$$</p>
-</li>
+<p>这里的h(x)代表我输入的x，对应的y=1的概率大小，用数学的概率论写出来就是</p>
+<script type="math/tex; mode=display">
+h_\theta(x) = P(y=1|x=\theta)</script><p>学过概率论的应该知道，这是一个条件概率，在x = θ的条件下发生y = 1的概率，那么由以下的公式我们还可以求得在x = θ的条件下y = 0的概率</p>
+<script type="math/tex; mode=display">
+由P(y=0|x=\theta)+P(y=1|x=\theta) = 1\\\\
+得P(y=0|x=\theta) = 1-P(y=1|x=\theta)\\\\=1-h_\theta(x)</script></li>
 </ul>
 <h2 id="3-决策界限-decision-boundary"><a href="#3-决策界限-decision-boundary" class="headerlink" title="3.决策界限(decision boundary)"></a>3.决策界限(decision boundary)</h2><ul>
 <li><p>预测y值结果</p>
 <p>上面我们已经定义了新的h(x)，那么我们如何给定一个θ，利用h(x)预测y值呢，当h(x)&gt;=0.5时，我们可以认为y=1，反之当h(x)&lt;0.5时，y=0；下面通过g(z)的图像进一步寻找y=1的条件：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716120920358.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
-<p>$$<br>当z \geq0时，g(z)\geq0.5，y=1\\即\theta^Tx\geq0时，y=1\\<br>当z&lt;0时，g(z)&lt;0.5，y=0\\即\theta^Tx&lt;0时，y=0<br>$$</p>
-</li>
+<p><img src="https://img-blog.csdnimg.cn/20190716120920358.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
+<script type="math/tex; mode=display">
+当z \geq0时，g(z)\geq0.5，y=1\\\\即\theta^Tx\geq0时，y=1\\\\
+当z<0时，g(z)<0.5，y=0\\\\即\theta^Tx<0时，y=0</script></li>
 <li><p>下面我们来看一个例子更好得理解上面的结论：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716120935420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716120935420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <p>这是一个数据集画出来的图像，我们还没有讲如何根据数据集来获得参数θ，后面我们会讨论如何寻找θ，在这里我们假设已经知道假设函数为</p>
-<p>$$<br>h_\theta(x) =g(\theta_0+\theta_1x_1+\theta_2x_2)\\\theta_0 =-3\quad \theta_1=1\quad\theta_2 =1\\即：\theta^Tx=-3+x_1+x_2<br>$$</p>
-<p>根据上面的预测y=1的条件，要使y=1就需要满足-3+x1+x2&gt;=0,即x1+x2&gt;=3;这里我们如果学过高中的线性规划，我们很快就发现他所表示的是一个区域，先把x1+x2=3这条直线画出来，在他上方的区域就是y=1的区域，在他下方的区域就是y=0的区域：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716120952349.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<script type="math/tex; mode=display">
+h_\theta(x) =g(\theta_0+\theta_1x_1+\theta_2x_2)\\\\\theta_0 =-3\quad \theta_1=1\quad\theta_2 =1\\\\即：\theta^Tx=-3+x_1+x_2</script><p>根据上面的预测y=1的条件，要使y=1就需要满足-3+x1+x2&gt;=0,即x1+x2&gt;=3;这里我们如果学过高中的线性规划，我们很快就发现他所表示的是一个区域，先把x1+x2=3这条直线画出来，在他上方的区域就是y=1的区域，在他下方的区域就是y=0的区域：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190716120952349.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 <li><p>下面我们再来看一个较复杂的例子：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716121007423.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716121007423.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 </ul>
 <p>前面我们已经知道了可以用多项式来拟合曲线，这样得到的线就不一定是直线了，和上面一样假设我们已经知道了h(x)以及参数0:</p>
-<p>$$<br>h_\theta(x)=g(\theta_0+\theta_1x_1+\theta_2x_2+\theta_3x_1^2+\theta_4x_2^2)\\\theta_0=-1\quad\theta_1=\theta_2=0\quad\theta_3=\theta_4=1\\即：\theta^Tx=-1+x_1^2+x_2^2\\所以当x_1^2+x_2^2\geq1时\quad y=1;<br>$$</p>
-<p>相类似的画出图像分区如下，可以发现这个分界线就不是直线而是一个圆，如果拟合的多项式更复杂，那分界线可能就是不规则的曲线：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716121025144.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<script type="math/tex; mode=display">
+h_\theta(x)=g(\theta_0+\theta_1x_1+\theta_2x_2+\theta_3x_1^2+\theta_4x_2^2)\\\\\theta_0=-1\quad\theta_1=\theta_2=0\quad\theta_3=\theta_4=1\\\\即：\theta^Tx=-1+x_1^2+x_2^2\\\\所以当x_1^2+x_2^2\geq1时\quad y=1;</script><p>相类似的画出图像分区如下，可以发现这个分界线就不是直线而是一个圆，如果拟合的多项式更复杂，那分界线可能就是不规则的曲线：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190716121025144.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <h2 id="4-代价函数"><a href="#4-代价函数" class="headerlink" title="4.代价函数"></a>4.代价函数</h2><ul>
 <li><p>上面我们已经知道了h(x)的含义以及如何预测y的值，那么我们下面就来讨论如何找出参数矩阵0，找参数我们就不得不想到前面我们讨论线性回归时的代价函数，他是我们评价0是否合理的一个评判标准，前面的代价函数为：</p>
-<p>$$<br>J(\theta)=\frac{1}{2m}\sum_{i=1}^{m}(h(x^{(i)})-y^{(i)})^2\\现在把1/2移到里面\quad J(\theta)=\frac{1}{m}\sum_{i=1}^{m}\frac{1}{2}(h(x^{(i)})-y^{(i)})^2\\再用Cost(h(x),y)来代替\quad\frac{1}{2}(h(x^{(i)})-y^{(i)})^2\\J(\theta)=\frac{1}{m}\sum_{i=1}^{m}Cost(h(x),y)\quad 其中h(x)=\frac{1}{1+e^{-\theta^Tx}}<br>$$</p>
-</li>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2m}\sum_{i=1}^{m}(h(x^{(i)})-y^{(i)})^2\\\\现在把1/2移到里面\quad J(\theta)=\frac{1}{m}\sum_{i=1}^{m}\frac{1}{2}(h(x^{(i)})-y^{(i)})^2\\\\再用Cost(h(x),y)来代替\quad\frac{1}{2}(h(x^{(i)})-y^{(i)})^2\\\\J(\theta)=\frac{1}{m}\sum_{i=1}^{m}Cost(h(x),y)\quad 其中h(x)=\frac{1}{1+e^{-\theta^Tx}}</script></li>
 </ul>
 <p>这个代价函数对于线性回归问题非常好，但是对于逻辑回归，由于h(x)不是线性的，画出的J(0)的图像就会出现如下状态，再使用梯度下降的时候就会出现很多局部最优解，导致求出的0不是最低点，不能很好的拟合0.</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716121044829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716121044829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <p>这是一个非凸函数，我们想要找的代价函数是一个凸函数，在利用梯度下降时可以找到全局最优解：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716121100963.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716121100963.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <ul>
 <li><p>我们为了使代价函数为凸函数，我们新定义Cost(h(x),y)：</p>
-<p>$$<br>Cost(h_\theta(x),y)=\left{\begin{matrix} -log(h_\theta(x))  &amp;y=1 \\ -log(1-h_\theta(x)) &amp;  y=0 \end{matrix}\right.<br>$$</p>
-</li>
+<script type="math/tex; mode=display">
+Cost(h_\theta(x),y)=\left\{\begin{matrix} -log(h_\theta(x))  &y=1 \\\\ -log(1-h_\theta(x)) &  y=0 \end{matrix}\right.</script></li>
 </ul>
 <p>采用对数定义的好处通过对数的图像就可以发现，当y=1时，Cost(h(x),y)的图像如下图所示，当h(x)=1时，Cost(h(x),y)=0，说明预测值与真实值相同，代价为0，而当h(x)趋近于0时，Cost(h(x),y)趋近于无穷，预测值与真实值相反，代价为无穷.这刚好符合我们的预测结果.</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716121119651.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716121119651.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <p>当y=0时，我们会得到如图所示，当h(x)=0时，Cost(h(x),y)=0，预测值与真实值相同，代价为0，当h(x)趋近于1时，Cost(h(x),y)趋近于无穷，预测值与真实值相反，代价为无穷。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716121136221.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716121136221.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <ul>
 <li>新定义的代价函数可以有效的描述我们的逻辑回归，并且得到的代价函数为凸函数，后面可以使用梯度下降进行更新0的值。</li>
 </ul>
 <h2 id="5-简化代价函数与梯度下降"><a href="#5-简化代价函数与梯度下降" class="headerlink" title="5.简化代价函数与梯度下降"></a>5.简化代价函数与梯度下降</h2><ul>
 <li><p>前面我们已经得到了Logistic回归的代价函数，由于他有两个条件判断，所以在计算代价的时候会不方便，下面我们就把Cost(h(x),y)函数进行化简，整合成一个式子：</p>
-<p>$$<br>Cost(h_\theta(x),y)=\left{\begin{matrix} -log(h_\theta(x))  &amp;y=1 \\ -log(1-h_\theta(x)) &amp;  y=0 \end{matrix}\right.\quad (原来的函数)\\化简过后的函数：\\<br>Cost(h_\theta(x),y)=-ylog(h_\theta(x))-(1-y)log(1-h_\theta(x))<br>$$</p>
-<p>可以简单的验证一下，把y=0和y=1分别带入式子，就发现和上面的式子是等价的，这样化简的好处是求代价的时候不用分开讨论，并且在后面梯度下降的时候一个式子也比较方便。</p>
+<script type="math/tex; mode=display">
+Cost(h_\theta(x),y)=\left\{\begin{matrix} -log(h_\theta(x))  &y=1 \\\\ -log(1-h_\theta(x)) &  y=0 \end{matrix}\right.\quad (原来的函数)\\\\化简过后的函数：\\\\
+Cost(h_\theta(x),y)=-ylog(h_\theta(x))-(1-y)log(1-h_\theta(x))</script><p>可以简单的验证一下，把y=0和y=1分别带入式子，就发现和上面的式子是等价的，这样化简的好处是求代价的时候不用分开讨论，并且在后面梯度下降的时候一个式子也比较方便。</p>
 </li>
 <li><p>下面我们把Cost(h(x),y)函数带入到J(θ)里面得到最终的代价函数：</p>
-<p>$$<br>J(\theta)=\frac{1}{m}\sum_{i=1}^{m}Cost(h_\theta(x^{(i)}),y^{(i)})\\<br>=-\frac{1}{m}[\sum_{i=1}^{m}y^{(i)}logh_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]<br>$$</p>
-</li>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{m}\sum_{i=1}^{m}Cost(h_\theta(x^{(i)}),y^{(i)})\\\\
+=-\frac{1}{m}[\sum_{i=1}^{m}y^{(i)}logh_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]</script></li>
 <li><p>得到了代价函数，下面我们和之前线性回归一样目的是要求min(J(θ))，那么我们马上就要想到用梯度下降法，结合梯度下降的初始条件，我们可以求导推出Logistic回归的梯度下降更新表达式：</p>
-<p>$$<br>由\quad\theta_j=\theta_j-\alpha\frac{\partial J(\theta)}{\partial\theta_j}\quad 得：\\\theta_j=\theta_j-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}<br>$$</p>
-</li>
+<script type="math/tex; mode=display">
+由\quad\theta_j=\theta_j-\alpha\frac{\partial J(\theta)}{\partial\theta_j}\quad 得：\\\\\theta_j=\theta_j-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}</script></li>
 </ul>
 <p>这里推导出来的梯度下降θ的更新表达式，可以和前面的线性回归的表达式做对比发现形式是一摸一样的，但实际上两个不是一个模型，因为这里的h(x)不是线性的，而是：</p>
-<p>$$<br>h_\theta(x)=\frac{1}{1+e^{-\theta^Tx}}<br>$$</p>
-<p>所以两个模型虽然表达式一样，但实际计算的时候还是有很大差别的。这里再次提醒一下，θ值是同时更新的!!!</p>
+<script type="math/tex; mode=display">
+h_\theta(x)=\frac{1}{1+e^{-\theta^Tx}}</script><p>所以两个模型虽然表达式一样，但实际计算的时候还是有很大差别的。这里再次提醒一下，θ值是同时更新的!!!</p>
 <ul>
 <li>到这里我们就把Logistic回归的梯度下降算法给讲完了，我们前面所讲的使其快速下降的特征缩放方法到Logistic回归依然可以用，同样可以使梯度下降速度加快。</li>
 </ul>
@@ -336,29 +342,29 @@
 <li><p>实际上我们寻找J(θ)的最小值的时候不止用梯度下降算法，还有许多算法可以寻找J(θ)的最小值，比如说：Conjugate gradient、BFGS、L-BFGS等算法，这些算法会比梯度下降更快得找到最优解，他们不需要控制a，他们会自己在某些时刻改变a的值，从而更快得找到最优解，这些算法可以用于许多数据集的情况，效果往往比梯度下降算法好得多，但是理解他们需要很长时间，他们的算法比较复杂，这里不在陈述具体算法，我们只讨论一下如何调matlab中的库来用这些算法到Logistic回归中：</p>
 </li>
 <li><p>下面给出一个简单的例子：</p>
-<p>$$<br>\theta = \left[\begin{array}{cc}\theta_1 \\\theta_2\\ \end{array}\right]\\<br>J(\theta) = (\theta_1-5)^2+(\theta_2-5)^2\\ \frac{\partial J(\theta)}{\partial\theta_1}=2(\theta_1-5)\\\frac{\partial J(\theta)}{\partial\theta_2}=2(\theta_2-5)<br>$$</p>
-<p>我们要用到库函数 fminunc(),我们要先定义一个function：</p>
+<script type="math/tex; mode=display">
+\theta = \left[\begin{array}{cc}\theta_1 \\\\\theta_2\\\\ \end{array}\right]\\\\
+J(\theta) = (\theta_1-5)^2+(\theta_2-5)^2\\\\ \frac{\partial J(\theta)}{\partial\theta_1}=2(\theta_1-5)\\\\\frac{\partial J(\theta)}{\partial\theta_2}=2(\theta_2-5)</script><p>我们要用到库函数 fminunc(),我们要先定义一个function：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[jVal,gradient]</span> = <span class="title">costFunction</span><span class="params">(thete)</span></span></span><br><span class="line">	jVal = (theta(<span class="number">1</span>)<span class="number">-5</span>)^<span class="number">2</span> + (theta(<span class="number">2</span>)<span class="number">-5</span>)^<span class="number">2</span>;</span><br><span class="line">	gradient = <span class="built_in">zeros</span>(<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line">	gradient(<span class="number">1</span>) = <span class="number">2</span>*(theta(<span class="number">1</span>)<span class="number">-5</span>);</span><br><span class="line">	gradient(<span class="number">2</span>) = <span class="number">2</span>*(theta(<span class="number">2</span>)<span class="number">-5</span>);</span><br></pre></td></tr></table></figure>
-
 <p>之后调用的时候如下调用：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">options = optimset(<span class="string">&#x27;GradObj&#x27;</span>,<span class="string">&#x27;on&#x27;</span>,<span class="string">&#x27;MaxIter&#x27;</span>,<span class="string">&#x27;100&#x27;</span>);<span class="comment">%设置下降为ON,最大迭代次数为100</span></span><br><span class="line">initialTheta = <span class="built_in">zeros</span>(<span class="number">2</span>,<span class="number">1</span>);   <span class="comment">%初始化theta向量</span></span><br><span class="line">[optTheta,functionVal,exitFlag] = fminunc(@costFunction,initialTheta,options);<span class="comment">%&#x27;@&#x27;表示对象的指针</span></span><br></pre></td></tr></table></figure>
-
 <p>这就是使用库函数调用高级优化的方法，它不需要我们自己设置a（学习速率），他会自己在迭代的过程中改变a的值。</p>
 </li>
 <li><p>如果有多个θ的情况，我们只需要改变costFunction(theta)就可以，整体的模板如下：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[jVal,gradient]</span> = <span class="title">costFunction</span><span class="params">(theta)</span></span></span><br><span class="line">	jVal = [code to compute J(θ)];</span><br><span class="line">	gradient(<span class="number">1</span>) = [code to compute J(θ<span class="number">0</span>)&#x27;];</span><br><span class="line">	gradient(<span class="number">2</span>) = [code to compute J(θ<span class="number">1</span>)&#x27;];</span><br><span class="line">	···</span><br><span class="line">	gradient(n+<span class="number">1</span>) = [code to compute J(θn)&#x27;];</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[jVal,gradient]</span> = <span class="title">costFunction</span><span class="params">(theta)</span></span></span><br><span class="line">	jVal = [code to compute J(θ)];</span><br><span class="line">	gradient(<span class="number">1</span>) = [code to compute J(θ<span class="number">0</span>)&#x27;];</span><br><span class="line">	gradient(<span class="number">2</span>) = [code to compute J(θ<span class="number">1</span>)&#x27;];</span><br><span class="line">	···</span><br><span class="line">	gradient(n+<span class="number">1</span>) = [code to compute J(θn)&#x27;];</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <h2 id="7-多元分类：一对多"><a href="#7-多元分类：一对多" class="headerlink" title="7.多元分类：一对多"></a>7.多元分类：一对多</h2><ul>
 <li><p>生活中我们经常碰到一对多的问题，而不是简单的二元分类问题，比如说邮件分类问题，收到一封邮件，可以有很多分类：家人、同事、广告等，需要判断一封邮件到底属于哪个分类；再比如说现在比较重视的垃圾分类：可回收垃圾、不可回收垃圾、塑料垃圾、电池等分类，这都是一对多的问题。</p>
 </li>
 <li><p>下面我们把这些问题抽象出来，给出一个例子来讨论如何解决多分类问题：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716121211357.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716121211357.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 </ul>
 <p>现在我们有三个分类，三角形、红叉、正方形，现在要给定x1、x2预测到底属于哪一类，多元分类的离散值可以取y=1、y=2、y=3，对于这种问题，我们还是把他看成多个二元分类问题来解决，先单独看三角形，把另外两个看成一类，这就成了前面的二元分类问题，求出h(x),再单独看正方形，求出h(x),再单独看红叉，这样做三次二元回归问题，就把每一类所发生的概率h(x)给求出来了。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716121235182.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
-<p>$$<br>h_\theta^{(i)}(x)=P(y=i|x=\theta)\quad(i=1,2,3)<br>$$</p>
-<ul>
+<p><img src="https://img-blog.csdnimg.cn/20190716121235182.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
+<script type="math/tex; mode=display">
+h_\theta^{(i)}(x)=P(y=i|x=\theta)\quad(i=1,2,3)</script><ul>
 <li>那么最后求出三个h(x)，再给定x1，x2进行预测的时候就算一下三个h(x)，求出哪一个最大那么就分为哪一类，即求出max(h(x))，这样就成功得解决了多元分类问题。</li>
 </ul>
 

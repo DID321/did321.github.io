@@ -231,8 +231,7 @@
 <li><p>相比于LeNet-5，AlexNet仅仅多堆叠了卷积层，一共有8个网络层，网络模型如下图所示：</p>
 <p><img src="https://img-blog.csdnimg.cn/20210407153729905.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="image-20210405174059025"></p>
 <p>这个图看上去有点费劲，转换一下就是下面这幅图：</p>
-<img src="https://img-blog.csdnimg.cn/2021040715374327.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:50%;" />
-
+<p><img src="https://img-blog.csdnimg.cn/2021040715374327.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:50%;" /></p>
 <p>由卷积层-池化层-卷积层-池化层-3个卷积层-池化层-3个全连接层组成。整体来看除了卷积层增多了，没有大的改变。</p>
 <p><strong>创新点</strong>：</p>
 <ol>
@@ -247,11 +246,9 @@
 <li><p>原文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1409.1556.pdf">https://arxiv.org/pdf/1409.1556.pdf</a> VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION.</p>
 </li>
 <li><p>VGG 提出了几种网络模型分别是 VGG13、VGG16、VGG19，他们的网络结构如下图所示：</p>
-<img src="https://img-blog.csdnimg.cn/20210407154045330.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 67%;" />
-
+<p><img src="https://img-blog.csdnimg.cn/20210407154045330.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 67%;" /></p>
 <p>相比AlexNet，仅仅是堆叠了更多的卷积层、池化层，整体来看和文章名字一样Very Deep。下图是VGG19的具体结构图：</p>
-<img src="https://img-blog.csdnimg.cn/20210407154137553.png#pic_center" />
-
+<p><img src="https://img-blog.csdnimg.cn/20210407154137553.png#pic_center" /></p>
 <p>在VGG中也是引入了1×1的卷积核，可以改变输出的维度。</p>
 </li>
 </ul>
@@ -261,8 +258,7 @@
 <li><p>GoogLeNet (网络没有最深，只有更深)，这里名字起的很好，致敬了LeNet，这真的只是巧合吗？？？GoogLeNet 引入了新的网络结构<strong>Inception-v1</strong>，也是“Network in Network”，（Inception得名于2010年由莱昂纳多·迪卡普里奥主演的科幻电影《盗梦空间》）。</p>
 </li>
 <li><p>Inception的网络模型如下图所示：</p>
-<img src="https://img-blog.csdnimg.cn/20210407154246104.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:60%;" />
-
+<p><img src="https://img-blog.csdnimg.cn/20210407154246104.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:60%;" /></p>
 <p>使用不同的卷积并行拓扑结构，然后进行连接，获得1×1、3×3、5×5卷积提取的不同特征，然后对他们进行归并融合；采用1×1的卷积进行降维，消除计算瓶颈，作者还引入了两个辅助分类器，使分类器在较浅层的网络也进行识别，增加反向传播的梯度信息。</p>
 </li>
 <li><p>后来Inception也有了V2、V3、V4版本，论文连接如下，感兴趣的同学可以了解一下。</p>
@@ -286,15 +282,14 @@
 </li>
 <li><p>解决办法？——“short cut” or “skip connection” or “resNet”</p>
 <p>话不多说直接上图，ResNet提出了一种新的结构解决了上述梯度消失的问题，下面是基本结构单元：</p>
-<img src="https://img-blog.csdnimg.cn/20210407154414515.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 60%;" />
-
+<p><img src="https://img-blog.csdnimg.cn/20210407154414515.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 60%;" /></p>
 <p>在正常的卷积层旁边加了一条短接线<code>short cut</code>，也就是常说的<code>skip connection</code>，假设正常卷积层输出是F(x)，旁边输出是x，则最终两条路线相加为<code>h(x) = F(x) + x</code>，得到的h(x)再传到下一层，当反向传播时，下面来自深层网络传回来的梯度假设为1，经过一个加法门，通过短接线传到上面的梯度也为1，这样就可以将深层的梯度直接畅通无阻地传到上一层，使得浅层地网络参数得到训练，解决了梯度消失的问题。</p>
 </li>
 <li><p>下面是与VGG的网络结构对比图</p>
-<img src="https://img-blog.csdnimg.cn/20210407154457262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 60%;" />
-
+<p><img src="https://img-blog.csdnimg.cn/20210407154457262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 60%;" /></p>
 <p>这里说明一下ResNet中的虚线和实线的区别：实际上ResNet有两个基本的block，一个是<code>Identity Block</code>输入和输出的维度是一样的，也就是实线所表示的，它可以串联多个；另外一个block是<code>Conv Block</code>，输入和输出的维度是不一样的，所以不能直接串联，要在短接线处加一个1×1的卷积层，改变维度使得两条路径的维度一致。（随着网络深度增加，channel也增加）具体的结构如下图所示：</p>
-<img src="https://img-blog.csdnimg.cn/20210407154529375.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="20" style="zoom:70%;" /></li>
+<p><img src="https://img-blog.csdnimg.cn/20210407154529375.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="20" style="zoom:70%;" /></p>
+</li>
 <li><p>这样作者通过构建不同卷积核的个数，以及组合模式，给出了以下几种ResNet的结构模型：</p>
 <p><img src="https://img-blog.csdnimg.cn/20210407154613738.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" alt="21"></p>
 </li>

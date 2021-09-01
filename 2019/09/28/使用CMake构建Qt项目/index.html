@@ -197,7 +197,7 @@
     <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <br>
     <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
-    <span class="post-count">文章字数:<a href="#">979</span></a>&nbsp;
+    <span class="post-count">文章字数:<a href="#">978</span></a>&nbsp;
      <span class="post-count">阅读时长:<a href="#">3</span>min</a>
                     
                 </div>
@@ -226,13 +226,10 @@
 </li>
 </ul>
 <ul>
-<li><p>Qt中，如果一个类要使用信号/槽功能，就必须在其中声明Q_OBJECT。只有加入了Q_OBJECT，你才能使用QT中的signal和slot机制。</p>
-<p>这时候，就必须在头文件派生类的时候，首先像下面那样引入Q_OBJECT宏：<br>class MyMainWindow : public QWidget<br>   {</p>
-<pre><code>    Q_OBJECT
-     ......
-&#125;
-</code></pre>
-</li>
+<li>Qt中，如果一个类要使用信号/槽功能，就必须在其中声明Q_OBJECT。只有加入了Q_OBJECT，你才能使用QT中的signal和slot机制。</li>
+</ul>
+<p>  这时候，就必须在头文件派生类的时候，首先像下面那样引入Q_OBJECT宏：<br>  class MyMainWindow : public QWidget<br>     {<br>          Q_OBJECT<br>           ……<br>      }</p>
+<ul>
 <li><p>moc是QT的预编译器，用来处理代码中的slot，signal，emit，Q_OBJECT等。moc文件是对应的处理代码，也就是Q_OBJECT宏的实现部分</p>
 </li>
 <li><p>在头文件中如果有使用Q_OBJECT宏的话，则这个文件需要被moc进行处理，.ui文件也必须要由uic处理，.qrc文件需要由rcc程序处理。</p>
@@ -241,20 +238,19 @@
 <h2 id="3-具体构建过程"><a href="#3-具体构建过程" class="headerlink" title="3.具体构建过程"></a>3.具体构建过程</h2><ul>
 <li>下面是我在windows下写的扫雷程序文件（包含.ui .qrc）</li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/2019092816462333.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/2019092816462333.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <ul>
 <li>下面是CMakeList.txt的内容。</li>
 </ul>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#cmake版本</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>.<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#项目名称</span></span><br><span class="line"><span class="keyword">project</span>(Minesweeper)</span><br><span class="line"></span><br><span class="line"><span class="comment">#让cmake自动去寻找Qt5</span></span><br><span class="line"><span class="keyword">FIND_PACKAGE</span>(Qt5 COMPONENTS Widgets REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="comment">#采用C++11标准</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加所有的源文件</span></span><br><span class="line"><span class="keyword">SET</span>(Minesweeper_SOURCES </span><br><span class="line">	dialog.cpp	</span><br><span class="line">	main.cpp </span><br><span class="line">	mainwindow.cpp </span><br><span class="line">	minemap.cpp</span><br><span class="line">	myitem.cpp</span><br><span class="line">	myscene.cpp</span><br><span class="line">	setpro.cpp</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加所有的头文件</span></span><br><span class="line"><span class="keyword">SET</span>(Minesweeper_HEADERS </span><br><span class="line">	dialog.h</span><br><span class="line">	mainwindow.h</span><br><span class="line">	minemap.h</span><br><span class="line">	myitem.h</span><br><span class="line">	myscene.h</span><br><span class="line">	setpro.h</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加所有的.ui文件</span></span><br><span class="line"><span class="keyword">SET</span>(Minesweeper_FORMS </span><br><span class="line">	dialog.ui</span><br><span class="line">	mainwindow.ui</span><br><span class="line">	setpro.ui</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加资源文件</span></span><br><span class="line"><span class="keyword">SET</span>(Minesweeper_RESOURCES </span><br><span class="line">	img.qrc</span><br><span class="line">)</span><br><span class="line"><span class="comment">#调用预编译器moc，需要使用 QT5_WRAP_CPP宏</span></span><br><span class="line"><span class="keyword">QT5_WRAP_CPP</span>(Minesweeper_HEADERS_MOC <span class="variable">$&#123;Minesweeper_HEADERS&#125;</span>)</span><br><span class="line"><span class="comment">#使用uic处理.ui文件</span></span><br><span class="line">QT5_WRAP_UI(Minesweeper_FORMS_HEADERS <span class="variable">$&#123;Minesweeper_FORMS&#125;</span>)</span><br><span class="line"><span class="comment">#使用rcc处理.qrc文件</span></span><br><span class="line">QT5_ADD_RESOURCES(Minesweeper_RESOURCES_RCC <span class="variable">$&#123;Minesweeper_RESOURCES&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这些生成的中间文件都会在build目录下，这样的话，编译器则不能定位由uic程序产生的诸如_ui_mainwindow.h等文件。所以，我们需要把build目录添加到包含目录中</span></span><br><span class="line"><span class="keyword">INCLUDE_DIRECTORIES</span>(<span class="variable">$&#123;CMAKE_CURRENT_BINARY_DIR&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#生成可执行文件</span></span><br><span class="line"><span class="keyword">ADD_EXECUTABLE</span>(Minesweeper </span><br><span class="line">	<span class="variable">$&#123;Minesweeper_SOURCES&#125;</span> </span><br><span class="line">	<span class="variable">$&#123;Minesweeper_HEADERS_MOC&#125;</span> </span><br><span class="line">    <span class="variable">$&#123;Minesweeper_FORMS_HEADERS&#125;</span></span><br><span class="line">	<span class="variable">$&#123;Minesweeper_RESOURCES_RCC&#125;</span> </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">#为target添加需要链接的共享库</span></span><br><span class="line"><span class="keyword">TARGET_LINK_LIBRARIES</span>(Minesweeper <span class="variable">$&#123;Qt5Widgets_LIBRARIES&#125;</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>下面是build的结果：</li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/20190928164731554.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190928164731554.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <ul>
 <li>下面是运行之后的结果：</li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/20190928164742975.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190928164742975.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <h2 id="4-结尾"><a href="#4-结尾" class="headerlink" title="4.结尾"></a>4.结尾</h2><ul>
 <li>有了上面的构建，也可以完成其他资源的添加，结合新的底层就可以开发出好的界面和功能了。</li>
 </ul>

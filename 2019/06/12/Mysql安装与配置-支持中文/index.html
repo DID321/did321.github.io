@@ -206,28 +206,37 @@
 
         <div class="post-content">
             <h2 id="1-win7-64-位安装与配置"><a href="#1-win7-64-位安装与配置" class="headerlink" title="1.win7 64 位安装与配置"></a>1.win7 64 位安装与配置</h2><ul>
-<li> （1）解压缩安装包 mysql‐5.7.17‐winx64，注意 mysql 安装目录不能出 现中文字符。比如：我的解压缩目录为 D:\mysql</li>
-<li> （2）在解压包里面有个服务启动默认配置文件 my‐default.ini。删除 这个文件，并将百度网盘中提供的 my.ini 复制到该目录。</li>
-<li> （3）修改系统变量： 我的电脑/计算机‐&gt;属性‐&gt;高级系统设置‐&gt;环境变量‐&gt;（系统变量） path‐&gt;编辑，将你的 mysql 软件下的 bin 目录的全路径放里面。我建 议童鞋们放在最前面，最后在那个目录的路径后面加个英文的分号（;） 保存就行了。如我的配置 D:\mysql\bin; 注意：是在 path 里面添加这个语句，千万不用把 path 原来里面的东 西删除，否则只能重装系统！</li>
-<li> （4）以管理员身份运行 cmd.exe，win7 同学可在开始‐&gt;命令框中输 入 cmd，选中 cmd.exe，点击鼠标右键，选择“管理员身份运行”，否 则后面安装 mysql 会出错！</li>
+<li>（1）解压缩安装包 mysql‐5.7.17‐winx64，注意 mysql 安装目录不能出 现中文字符。比如：我的解压缩目录为 D:\\mysql</li>
+<li>（2）在解压包里面有个服务启动默认配置文件 my‐default.ini。删除 这个文件，并将百度网盘中提供的 my.ini 复制到该目录。</li>
+<li>（3）修改系统变量： 我的电脑/计算机‐&gt;属性‐&gt;高级系统设置‐&gt;环境变量‐&gt;（系统变量） path‐&gt;编辑，将你的 mysql 软件下的 bin 目录的全路径放里面。我建 议童鞋们放在最前面，最后在那个目录的路径后面加个英文的分号（;） 保存就行了。如我的配置 D:\\mysql\\bin; 注意：是在 path 里面添加这个语句，千万不用把 path 原来里面的东 西删除，否则只能重装系统！</li>
+<li>（4）以管理员身份运行 cmd.exe，win7 同学可在开始‐&gt;命令框中输 入 cmd，选中 cmd.exe，点击鼠标右键，选择“管理员身份运行”，否 则后面安装 mysql 会出错！</li>
 </ul>
 <h2 id="2-win10-64-位安装与配置"><a href="#2-win10-64-位安装与配置" class="headerlink" title="2.win10 64 位安装与配置"></a>2.win10 64 位安装与配置</h2><ul>
-<li>Win10 同学：“开始”菜单上右键，在弹出菜单上选择“命令提示符<br>  （管理员） ”，其中“命令提示符（管理员）”用于运行某些需要管理<br>  员权限的命令。 使用 dos 指令进入 mysql 的 bin 目录，如我的：</li>
-<li>A．安装服务：输入 mysqld install 回车运行；</li>
-<li>B．再输入 mysqld –initialize 初始化 data 目录；（注意 mysqld 后面 一定要有空格，还有两条“-”，一定是两条减号）</li>
-<li>C．启动服务：接着就是输入 net start mysql 启动服务；</li>
-<li>D. 输入 mysql –u root ‐p回车，提示你输入密码，这个随机密码可 在 data 目录下的*。Err 文件中啊、找到，用记事本打开，找到关键 词 password，后面的就是随机密码，认证通过后进入 mysql 后台；</li>
-<li>E．输入 use mysql;打开系统数据库；</li>
-<li>F．配置自己的新密码：mysql&gt; set password for root@localhost = password(‘hellodsp’);</li>
+<li><p>Win10 同学：“开始”菜单上右键，在弹出菜单上选择“命令提示符<br>（管理员） ”，其中“命令提示符（管理员）”用于运行某些需要管理<br>员权限的命令。 使用 dos 指令进入 mysql 的 bin 目录，如我的：</p>
+</li>
+<li><p>A．安装服务：输入 mysqld install 回车运行；</p>
+</li>
+<li><p>B．再输入 mysqld –initialize 初始化 data 目录；（注意 mysqld 后面 一定要有空格，还有两条“-”，一定是两条减号）</p>
+</li>
+<li><p>C．启动服务：接着就是输入 net start mysql 启动服务；</p>
+</li>
+<li><p>D. 输入 mysql –u root ‐p回车，提示你输入密码，这个随机密码可 在 data 目录下的*。Err 文件中啊、找到，用记事本打开，找到关键 词 password，后面的就是随机密码，认证通过后进入 mysql 后台；</p>
+</li>
+<li><p>E．输入 use mysql;打开系统数据库；</p>
+</li>
+<li><p>F．配置自己的新密码：mysql&gt; set password for root@localhost = password(‘hellodsp’);</p>
+</li>
 </ul>
 <h2 id="3-my-ini文件"><a href="#3-my-ini文件" class="headerlink" title="3.my.ini文件"></a>3.my.ini文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">    [mysql]</span><br><span class="line">    <span class="comment"># 设置mysql客户端默认字符集</span></span><br><span class="line">    default-character-<span class="built_in">set</span>=utf8 </span><br><span class="line">    [mysqld]</span><br><span class="line">    <span class="comment">#设置3306端口</span></span><br><span class="line">    port = <span class="number">3306</span> </span><br><span class="line">    skip-grant-tables</span><br><span class="line">    <span class="comment"># 设置mysql的安装目录</span></span><br><span class="line">    basedir=D:\mysql</span><br><span class="line">    <span class="comment"># 设置mysql数据库的数据的存放目录</span></span><br><span class="line">    datadir=D:\mysql\data</span><br><span class="line">    <span class="comment"># 允许最大连接数</span></span><br><span class="line">    max_connections=<span class="number">200</span></span><br><span class="line">    <span class="comment"># 服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line">    character-<span class="built_in">set</span>-server=utf8</span><br><span class="line">    <span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line">    default-storage-engine=INNODB</span><br><span class="line">    </span><br><span class="line">    [client]</span><br><span class="line">    <span class="comment">#default_character_set=utf8</span></span><br><span class="line">```    </span><br><span class="line"><span class="comment">## 4.Mysql支持中文配置</span></span><br><span class="line">    </span><br><span class="line">*    （<span class="number">1</span>）以管理员身份运行cmd.exe，win7同学可在开始-&gt;命令框中输入cmd，选中cmd.exe，点击鼠标右键，选择“管理员身份运行”，否则后面安装mysql会出错！</span><br><span class="line">*    （<span class="number">2</span>）输入net stop mysql停止mysql服务；</span><br><span class="line">*    （<span class="number">3</span>）删除安装目录下的data文件夹里面的所有文件，注意不要删除data目录</span><br><span class="line">*    （<span class="number">4</span>）打开配置文件my.ini，将语句skip-grant-tables前面注释符号<span class="comment">#去掉；将sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES注释掉；</span></span><br><span class="line">    在<span class="comment"># server_id = …后面另起一行，添加如下三行：</span></span><br><span class="line">    ```python</span><br><span class="line">    default_storage_engine=INNODB</span><br><span class="line">    character_set_server=utf8</span><br><span class="line">    collation_server=utf8_general_ci</span><br></pre></td></tr></table></figure>
 <pre><code>在最后一行添加：
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">default_character_set=utf8</span><br></pre></td></tr></table></figure>
 保存。
-</code></pre>
-<ul>
-<li>（5）输入<code>mysqld –initialize</code> 初始化data目录；<br>  启动服务：接着就是输入 <code>net start mysql </code>启动服务；<br>  输入 <code>mysql –u root</code> 回车进入mysql后台；<br>  输入<code>use mysql;</code>打开系统数据库；<br>  输入<code>pdate user set authentication_string = password(&#39;请在此处设置你的密码&#39;) where user = &#39;root&#39;;</code>注意：密码请记住，否则无法进入后台管理系统。<br>  输入<code>exit</code>回车退出mysql；<br>  输入<code>net stop mysql</code>停止mysql服务；<br>  打开配置文件my.ini，将语句skip-grant-tables前面加个注释符合#以屏蔽这条指令。如下：<br>  <code># skip-grant-tables  </code>这样下次进入mysql就需要身份认证<br>  输入<code>net start mysql </code>重新启动服务<br>  输入<code>mysql -u root –p</code>回车，输入你刚才配置的密码即可顺利进入后台系统。  输入<code>show variables like &#39;character%&#39;;</code>如果都是utf8和binary字符，没有lartin1字符，则表示配置成功；<br>  输入<code>show databases;</code>显示所有的数据库；如果提示再次配置密码，则输入<code>SET PASSWORD = PASSWORD(‘你上次配置的密码’);</code><h2 id="5-配置mysql的问题解决与更正"><a href="#5-配置mysql的问题解决与更正" class="headerlink" title="5.配置mysql的问题解决与更正"></a>5.配置mysql的问题解决与更正</h2></li>
-<li>安装MySQL中的一点问题更正 如果电脑中不存在 D盘，需要修改my.ini中的路径的盘符为当前存在的盘符，否则会报<code>Errcode: 13 &quot;Permission denied&quot;</code>错误 pdf中有一条命令mysql –u root -p需要手动输入<br>  <code>mysql -u root -p</code><br>  直接复制会出错<br>  语句<code>set password for root@localhost =password(‘hellodsp’);</code>报错，正确的是<br>  <code>set password for root@localhost = password(‘hellodsp’);</code><br>  无换行，将中文单引号改成英文<br>  输入上述正确命令时可能会报错<code>ERROR 1290 (HY000): Unknown error 1290</code>，需要输入<br>  <code>flush privileges;</code><br>  刷新权限后再重新输入</li>
+</code></pre><ul>
+<li><p>（5）输入<code>mysqld –initialize</code> 初始化data目录；<br>启动服务：接着就是输入 <code>net start mysql</code>启动服务；<br>输入 <code>mysql –u root</code> 回车进入mysql后台；<br>输入<code>use mysql;</code>打开系统数据库；<br>输入<code>pdate user set authentication_string = password(&#39;请在此处设置你的密码&#39;) where user = &#39;root&#39;;</code>注意：密码请记住，否则无法进入后台管理系统。<br>输入<code>exit</code>回车退出mysql；<br>输入<code>net stop mysql</code>停止mysql服务；<br>打开配置文件my.ini，将语句skip-grant-tables前面加个注释符合#以屏蔽这条指令。如下：<br><code># skip-grant-tables</code>这样下次进入mysql就需要身份认证<br>输入<code>net start mysql</code>重新启动服务<br>输入<code>mysql -u root –p</code>回车，输入你刚才配置的密码即可顺利进入后台系统。</p>
+<p>输入<code>show variables like &#39;character%&#39;;</code>如果都是utf8和binary字符，没有lartin1字符，则表示配置成功；<br>输入<code>show databases;</code>显示所有的数据库；如果提示再次配置密码，则输入<code>SET PASSWORD = PASSWORD(‘你上次配置的密码’);</code></p>
+<h2 id="5-配置mysql的问题解决与更正"><a href="#5-配置mysql的问题解决与更正" class="headerlink" title="5.配置mysql的问题解决与更正"></a>5.配置mysql的问题解决与更正</h2></li>
+<li><p>安装MySQL中的一点问题更正 如果电脑中不存在 D盘，需要修改my.ini中的路径的盘符为当前存在的盘符，否则会报<code>Errcode: 13 &quot;Permission denied&quot;</code>错误 pdf中有一条命令mysql –u root -p需要手动输入<br>  <code>mysql -u root -p</code><br>  直接复制会出错<br>  语句<code>set password for root@localhost =password(‘hellodsp’);</code>报错，正确的是<br>  <code>set password for root@localhost = password(‘hellodsp’);</code><br>  无换行，将中文单引号改成英文<br>  输入上述正确命令时可能会报错<code>ERROR 1290 (HY000): Unknown error 1290</code>，需要输入<br>  <code>flush privileges;</code><br>  刷新权限后再重新输入</p>
+</li>
 </ul>
 
         </div>

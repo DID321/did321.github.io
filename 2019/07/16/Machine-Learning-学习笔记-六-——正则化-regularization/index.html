@@ -236,8 +236,8 @@
     <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <br>
     <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
-    <span class="post-count">文章字数:<a href="#">3.2k</span></a>&nbsp;
-     <span class="post-count">阅读时长:<a href="#">11</span>min</a>
+    <span class="post-count">文章字数:<a href="#">2.1k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">7</span>min</a>
                     
                 </div>
             
@@ -248,13 +248,13 @@
 <li><p>在机器学习中，有一个问题可能会出现————过拟合问题，在前面我们已经讨论了线性回归问题和Logistic回归问题，我们都是用函数去拟合曲线，那我们评价拟合效果的时候用的是代价函数，那么对于线性回归是不是全部点都满足函数都认为这个拟合效果很好了？对于逻辑回归是不是把所有的数据集都能分类开就很好了？，下面我们来讨论以下这些问题。</p>
 </li>
 <li><p>线性回归中的过拟合问题：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716172404183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716172404183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <p> 这个例子是我们前面讨论的房价与房子面积大小的问题，对于第一个图来说，我们用一次函数来作为他的假设函数，这样的话得到的代价就比较大，拟合的效果很差，这种情况我们称之为<strong>欠拟合</strong>（underfit），不能很好的拟合数据集，有很大的偏差，不能做出预测。</p>
 <p> 第二种情况是用二次函数来拟合，这样的效果比较好，基本符合了数据集的特征，可以作为预测房价的函数。属于<strong>正常拟合</strong>（just right）。</p>
 <p> 第三种情况是用许多多项式来拟合，可以发现数据集的所有点都在多项式的曲线上，每个点都符合函数，但是他的图像上下起伏比较大，一会升高一会降低，甚至到后面还是下降，这就不符合我们房价的实际，这种就属于<strong>过拟合</strong>（overfit），整体走向不对，虽然代价接近于0，但是不是我们想要的假设函数，对于预测数据也不能给出很好的结果。</p>
 </li>
 <li><p>逻辑回归中的过拟合问题：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716172425468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716172425468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 </ul>
 <p>​    这个例子假设是一个逻辑回归的问题，第一个直接简单的用直线进行划分边界，这样分出的效果是不好的，有一些特征点都分类错了，属于<strong>欠拟合</strong>。</p>
@@ -273,51 +273,50 @@
 </ul>
 <h2 id="2-更改代价函数"><a href="#2-更改代价函数" class="headerlink" title="2.更改代价函数"></a>2.更改代价函数</h2><ul>
 <li><p>通过上述的分析我们已经知道了出现过拟合问题的原因就是特征变量过多，下面举一个例子来说明什么是正则化。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190716172445878.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716172445878.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 </ul>
 <p>​    这还是之前那个预测房价的问题，第二个多项式拟合是之前的过拟合问题，我们知道出现这个问题其本质还是因为代价函数在作用，才导致选出来的参数0使图像上下浮动很大，所以我们要想解决本质上还得改代价函数，这时我们不妨在原来的代价函数的基础上再加上两项得到：</p>
-<p>$$<br>J(\theta)=\frac{1}{2m}\sum_{i=1}^{m}(h_\theta(x^{(i)}-y^{(i)})^2+1000\theta_3^2+1000\theta_4^2<br>$$</p>
-<p>这里的1000仅代表一个较大的系数，给θ3、θ4大的惩罚，这样对改变过后的代价函数求最小值，求出来的结果是使θ3和θ4都趋近于0，也就是说把后面两项给忽略掉，实际上没有忽略，只是减小他们的值使函数更像是一个二次函数，这样最后得到的图像就如上图品红色线，这就是拟合得到的函数，相比之前的图像起伏不大，并且比二次函数拟合的要好，他还是有趋势的。这就是<strong>正则化</strong>。</p>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2m}\sum_{i=1}^{m}(h_\theta(x^{(i)}-y^{(i)})^2+1000\theta_3^2+1000\theta_4^2</script><p>这里的1000仅代表一个较大的系数，给θ3、θ4大的惩罚，这样对改变过后的代价函数求最小值，求出来的结果是使θ3和θ4都趋近于0，也就是说把后面两项给忽略掉，实际上没有忽略，只是减小他们的值使函数更像是一个二次函数，这样最后得到的图像就如上图品红色线，这就是拟合得到的函数，相比之前的图像起伏不大，并且比二次函数拟合的要好，他还是有趋势的。这就是<strong>正则化</strong>。</p>
 <ul>
 <li><p>这样我们通过更改代价函数的表达式来有效得避免了过拟合问题，但上述的例子我们是知道θ3和θ4趋近于0，对于其他问题，比如说100个θ的房价预测问题，我们事先不可能知道到底哪些参数要趋近于0，也就不能向上面一样更改代价函数，所以我们如果仍采用<strong>正则化</strong>的思想，我们就把所有的参数θ都变小，即代价函数变为：</p>
-<p>$$<br>J(\theta)=\frac{1}{2m}[\sum_{i=1}^{m}(h_\theta(x^{(i)}-y^{(i)})^2+\lambda\sum_{j=1}^{n}\theta_j^2]<br>$$</p>
-<p>后面的那一项是正则化项，是对所有参数θ的求和乘一个系数，这个系数就是对所有的参数θ的惩罚，使最终的θ都减小，同时这个系数还是权衡拟合效果的比例系数，因为前面是拟合的好坏，后面是起伏的大小，系数的取值不能太大，否则拟合得效果就会很差。还有要提的一点就是求和参数θ的时候没有求θ0，这个没有必要加上因为x0始终是为1的。</p>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2m}[\sum_{i=1}^{m}(h_\theta(x^{(i)}-y^{(i)})^2+\lambda\sum_{j=1}^{n}\theta_j^2]</script><p>后面的那一项是正则化项，是对所有参数θ的求和乘一个系数，这个系数就是对所有的参数θ的惩罚，使最终的θ都减小，同时这个系数还是权衡拟合效果的比例系数，因为前面是拟合的好坏，后面是起伏的大小，系数的取值不能太大，否则拟合得效果就会很差。还有要提的一点就是求和参数θ的时候没有求θ0，这个没有必要加上因为x0始终是为1的。</p>
 </li>
 <li><p>假如说正则化项系数取得过大为10的10次方，那么对于预测房价的那个例子，所有的θ都会趋近于0，那么假设函数最终就变成了常数，就是一条水平的直线，这就出现了欠拟合，这显然不能预测房价，拟合效果很差，所以正则化项系数的取值不能过大，后面我们会提到如何选取这个系数。</p>
 </li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/20190716172510366.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190716172510366.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <h2 id="3-线性回归的正则化"><a href="#3-线性回归的正则化" class="headerlink" title="3.线性回归的正则化"></a>3.线性回归的正则化</h2><ul>
 <li><p>前面我们已经导出带正则化的代价函数，那么下面我们把更改过后的代价函数应用到梯度下降中去，去更改参数θ的更新函数。</p>
-<p>$$<br>原来的\theta更新函数：\quad\theta_0=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)}\\\theta_j=\theta_j-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}<br>$$</p>
-<p>这里把θ0和θj分开是因为带正则化的代价函数，只正则化θ1-θj，不包括θ0.</p>
+<script type="math/tex; mode=display">
+原来的\theta更新函数：\quad\theta_0=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)}\\\\\theta_j=\theta_j-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}</script><p>这里把θ0和θj分开是因为带正则化的代价函数，只正则化θ1-θj，不包括θ0.</p>
 <p>下面是带正则化的更新θ的更新函数，实践上也是对J进行求导得到的：</p>
-<p>$$<br>\theta_0=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)}\\\theta_j=\theta_j-\alpha[\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}+\frac{\lambda}{m}\theta_j]\quad(j=1,2,3··n)\\即：\theta_j=\theta_j(1-\alpha\frac{\lambda}{m})-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}\\这里我们知道\alpha是一个很小的数，m是一个很大的数，所以(1-\alpha\frac{\lambda}{m})&lt;1但接近于1\\所以在更新的过程当中\theta的值相对于之前是减小了<br>$$</p>
-<p>这样我们就得到了带正则化的梯度下降公式，迭代更新采用这个公式即可。</p>
+<script type="math/tex; mode=display">
+\theta_0=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)}\\\\\theta_j=\theta_j-\alpha[\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}+\frac{\lambda}{m}\theta_j]\quad(j=1,2,3··n)\\\\即：\theta_j=\theta_j(1-\alpha\frac{\lambda}{m})-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}\\\\这里我们知道\alpha是一个很小的数，m是一个很大的数，所以(1-\alpha\frac{\lambda}{m})<1但接近于1\\\\所以在更新的过程当中\theta的值相对于之前是减小了</script><p>这样我们就得到了带正则化的梯度下降公式，迭代更新采用这个公式即可。</p>
 </li>
 <li><p>下面我们再来讨论一下带正则化的正规方程表达式，前面我们也讲到过线性回归可以用正规方程去做，避免了多次迭代，那么带正则化的代价函数的正规方程如下：</p>
-<p>$$<br>\theta = (X^TX+\lambda\left[\begin{array}{}0\quad\quad\quad\quad\quad\\\quad1\quad\quad\quad\quad\\\quad\quad1\quad\quad\quad\\\quad\quad\quad·\quad\quad\\\quad\quad\quad\quad·\quad\\\quad\quad\quad\quad\quad1 \end{array}\right])^{-1}X^Ty<br>$$</p>
-<p>这个式子的由来和之前推导正规方程一样求J(0)的偏导数等于0的条件，中间的矩阵除了第一行第一个为0，对角线上的为1，其余的都为0，如果特征变量的个数为n，那么这个矩阵的维度就为（n+1）*（n+1），因为x0全为1，是我们后面加的特征值。</p>
+<script type="math/tex; mode=display">
+\theta = (X^TX+\lambda\left[\begin{array}{}0\quad\quad\quad\quad\quad\\\\\quad1\quad\quad\quad\quad\\\\\quad\quad1\quad\quad\quad\\\\\quad\quad\quad·\quad\quad\\\\\quad\quad\quad\quad·\quad\\\\\quad\quad\quad\quad\quad1 \end{array}\right])^{-1}X^Ty</script><p>这个式子的由来和之前推导正规方程一样求J(0)的偏导数等于0的条件，中间的矩阵除了第一行第一个为0，对角线上的为1，其余的都为0，如果特征变量的个数为n，那么这个矩阵的维度就为（n+1）*（n+1），因为x0全为1，是我们后面加的特征值。</p>
 </li>
 <li><p>前面我们讲到正规方程的时候还讨论了一下，当特征值较多，数据集较少的时候或者特征值之间有线性关系的时候，这时矩阵容易不可逆，求不出可逆矩阵（如果忘了这一点，可以去翻前面的笔记），但是加入了正则化的正规方程就不会出现矩阵不可逆的情况，这个是有相应的数学证明的，在这里就不再赘述。</p>
 </li>
 </ul>
 <h2 id="4-逻辑回归的正则化"><a href="#4-逻辑回归的正则化" class="headerlink" title="4.逻辑回归的正则化"></a>4.逻辑回归的正则化</h2><ul>
 <li><p>和线性回归一样，我们要想假如正则化，就要改变他的代价函数，我们同样得在逻辑回归原来的代价函数上加上正则项，得到最终的代价函数：</p>
-<p>$$<br>J(\theta)=-\frac{1}{m}[\sum_{i=1}^{m}y^{(i)}logh_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]+\frac{\lambda}{2m}\sum_{j=1}^n\theta_j^2<br>$$</p>
-</li>
+<script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m}[\sum_{i=1}^{m}y^{(i)}logh_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]+\frac{\lambda}{2m}\sum_{j=1}^n\theta_j^2</script></li>
 </ul>
 <p>同样的这里的j也是从1-n，那么下面我们就把代价函数求导得到梯度下降的θ的更新表达式，和前面线性回归的一样把θ0单独考虑在外：</p>
-<p>$$<br>\theta_0=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)}\\\theta_j=\theta_j-\alpha[\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}+\frac{\lambda}{m}\theta_j]\quad(j=1,2,3··n)<br>$$</p>
-<p>再次强调：这里得到的梯度下降的θ的更新表达式和线性回归的表面上一样，但不是同一个算法，因为逻辑回归的假设函数和线性回归的不一样，逻辑回归的假设函数为：</p>
-<p>$$<br>h_\theta(x)=\frac{1}{1+e^{-\theta^Tx}}<br>$$</p>
-<p>所以两个是不一样的算法，这样我们就把逻辑回归的梯度下降θ的更新表达式求出来了，后面就可以运用这一个了。</p>
+<script type="math/tex; mode=display">
+\theta_0=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)}\\\\\theta_j=\theta_j-\alpha[\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}+\frac{\lambda}{m}\theta_j]\quad(j=1,2,3··n)</script><p>再次强调：这里得到的梯度下降的θ的更新表达式和线性回归的表面上一样，但不是同一个算法，因为逻辑回归的假设函数和线性回归的不一样，逻辑回归的假设函数为：</p>
+<script type="math/tex; mode=display">
+h_\theta(x)=\frac{1}{1+e^{-\theta^Tx}}</script><p>所以两个是不一样的算法，这样我们就把逻辑回归的梯度下降θ的更新表达式求出来了，后面就可以运用这一个了。</p>
 <ul>
 <li><p>前面我们讨论逻辑回归的时候还讲到了高级优化算法，下面我们也把正则化加入到我们的高级优化里面：</p>
 <p>高级优化是调用costFunction(theta)函数，所以我们只需要修改这个函数即可：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[jVal,gradient]</span> = <span class="title">costFunction</span><span class="params">(theta)</span></span></span><br><span class="line">	jVal = [code to compute J(θ)];  <span class="comment">%这里的J(θ)就带正则化的代价函数</span></span><br><span class="line">	gradient(<span class="number">1</span>) = [code to compute J(θ<span class="number">0</span>)&#x27;];<span class="comment">%这里的J的导数就带上面θ0的导数</span></span><br><span class="line">	gradient(<span class="number">2</span>) = [code to compute J(θ<span class="number">1</span>)&#x27;];<span class="comment">%这里的导数就带正则化的θ1的导数</span></span><br><span class="line">	···</span><br><span class="line">	gradient(n+<span class="number">1</span>) = [code to compute J(θn)];</span><br></pre></td></tr></table></figure>
-
 <p>这里也再强调一下，matlab里的下标是从1开始的，而算法中的θ下标是从0开始的，所以最后gradient(n+1)对应的是J(θn).</p>
 </li>
 <li><p>到目前为止我们已经讨论了线性回归、逻辑回归的梯度下降，线性回归还讨论了特征缩放、正规方程，逻辑回归也讨论了高级优化，可以说我们的机器学习知识已经有了一定得储备，掌握这些方法我们已经能够解决生活中的一些问题，我们需要实践去熟练运用这些算法，后面我们会讨论更复杂的神经网络的知识，最后还是希望大家提出意见，积极指正。</p>

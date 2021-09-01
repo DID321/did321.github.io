@@ -245,30 +245,45 @@
 
         <div class="post-content">
             <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
-<li><p>首先给大家推荐一个可视化CNN整个过程的网站，<a target="_blank" rel="noopener" href="https://poloclub.github.io/cnn-explainer/%EF%BC%8C%E8%BF%99%E4%B8%AA%E6%98%AF2021%E5%B9%B4IEEE">https://poloclub.github.io/cnn-explainer/，这个是2021年IEEE</a> TRANSACTIONS ON VISUALIZATION AND COMPUTER GRAPHICS 的一篇论文，对CNN模型的每个步骤都进行了可视化，对于理解学习CNN有很大的帮助，强烈推荐配合使用。效果图如下：</p>
-<img src="https://img-blog.csdnimg.cn/20210326180736790.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:67%;" /></li>
+<li><p>首先给大家推荐一个可视化CNN整个过程的网站，<a target="_blank" rel="noopener" href="https://poloclub.github.io/cnn-explainer/">https://poloclub.github.io/cnn-explainer/</a> 这个是2021年IEEETRANSACTIONS ON VISUALIZATION AND COMPUTER GRAPHICS 的一篇论文，对CNN模型的每个步骤都进行了可视化，对于理解学习CNN有很大的帮助，强烈推荐配合使用。效果图如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210326180736790.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:67%;" /></p>
+</li>
 </ul>
 <h2 id="1-什么是卷积？"><a href="#1-什么是卷积？" class="headerlink" title="1. 什么是卷积？"></a>1. 什么是卷积？</h2><ul>
 <li><p>卷积（convolution），指的是数字图像处理的卷积操作，我总结就一句话：<strong>对应相乘再相加</strong>，下面直接上图：</p>
-<img src="https://img-blog.csdnimg.cn/20210326180747417.gif#pic_center" alt="1" style="zoom: 67%;" /></li>
-<li><p>image代表原始的图像，卷积一般有卷积模板（或者叫卷积核），图中黄色方块右下角组成的3×3 的卷积核，该卷积核为：<br>$$<br>\left[<br> \begin{matrix}<br>   1 &amp; 0 &amp; 1 \<br>   0 &amp; 1 &amp; 0 \<br>   1 &amp; 0 &amp; 1<br>  \end{matrix}<br>  \right]<br>$$<br>“对应相乘”指的是原始图像与卷积核对应相乘，例如左上角第一个3×3区域，计算为$1×1+1×0+1×1+0×0+1×1+1×0+0×1+0×0+1×1=4$输出的对应右边卷积特征的第一个元素4，后面以此类推。</p>
+<p><img src="https://img-blog.csdnimg.cn/20210326180747417.gif#pic_center" alt="1" style="zoom: 67%;" /></p>
 </li>
-<li><p>通过上述演示，也可以看出在经过3×3 的卷积核卷积操作之后，生成的<code>feature map</code>尺寸和原图像不一样，卷积操作隐含一个参数<code>stride</code>（步长），步长就是卷积核滑动的长度，这里默认<code>stride=1</code>，那么就有如下公式计算输出<code>feature map</code>的尺寸大小。假设原始图像尺寸为$M×N$，卷积核尺寸为$W_1×W_2$,步长$stride=S$，则输出<code>feature map</code>的尺寸为：<br>$$<br>((M-W_1)/S + 1) × ((N-W_2)/S+1)<br>$$</p>
+<li><p>image代表原始的图像，卷积一般有卷积模板（或者叫卷积核），图中黄色方块右下角组成的3×3 的卷积核，该卷积核为：</p>
+<script type="math/tex; mode=display">
+\left[
+ \begin{matrix}
+   1 & 0 & 1 \\
+   0 & 1 & 0 \\
+   1 & 0 & 1
+  \end{matrix}
+  \right]</script><p>“对应相乘”指的是原始图像与卷积核对应相乘，例如左上角第一个3×3区域，计算为$1×1+1×0+1×1+0×0+1×1+1×0+0×1+0×0+1×1=4$输出的对应右边卷积特征的第一个元素4，后面以此类推。</p>
 </li>
-<li><p>进一步，我们引出<code>padding</code>的概念，为了使输出<code>feature map</code>的大小和原始图像保持一致，我们需要对原图像进行<code>padding</code>，也就是扩展像素，这里设置<code>padding=1</code>（即原始图像上下左右扩展1个像素，一般用0填充），<code>padding</code>后的图像尺寸为$7×7$，这样再通过卷积得到的<code>feature map</code>就是$5×5$，和原始图像保持一致，下面修正上述公式，假设<code>padding=P</code>，则输出<code>feature map</code>的尺寸为：<br>$$<br>((M-W_1+2P)/S + 1) × ((N-W_2+2P)/S+1)<br>$$</p>
-</li>
+<li><p>通过上述演示，也可以看出在经过3×3 的卷积核卷积操作之后，生成的<code>feature map</code>尺寸和原图像不一样，卷积操作隐含一个参数<code>stride</code>（步长），步长就是卷积核滑动的长度，这里默认<code>stride=1</code>，那么就有如下公式计算输出<code>feature map</code>的尺寸大小。假设原始图像尺寸为$M×N$，卷积核尺寸为$W_1×W_2$,步长$stride=S$，则输出<code>feature map</code>的尺寸为：</p>
+<script type="math/tex; mode=display">
+((M-W_1)/S + 1) × ((N-W_2)/S+1)</script></li>
+<li><p>进一步，我们引出<code>padding</code>的概念，为了使输出<code>feature map</code>的大小和原始图像保持一致，我们需要对原图像进行<code>padding</code>，也就是扩展像素，这里设置<code>padding=1</code>（即原始图像上下左右扩展1个像素，一般用0填充），<code>padding</code>后的图像尺寸为$7×7$，这样再通过卷积得到的<code>feature map</code>就是$5×5$，和原始图像保持一致，下面修正上述公式，假设<code>padding=P</code>，则输出<code>feature map</code>的尺寸为：</p>
+<script type="math/tex; mode=display">
+((M-W_1+2P)/S + 1) × ((N-W_2+2P)/S+1)</script></li>
 <li><p>再进一步，我们上述的输入图像默认是灰度图像，他是单通道的，但是对于三通道的彩色图像，又是如何进行卷积的呢？</p>
 <p>​        假如输入的彩色图像维度是<code>[64,64,3]</code>，“3”代表“R G B”三通道，那么自然而然想到的是同样有三个通道的卷积核对“R G B”通道分别进行卷积，设<strong>一个</strong>卷积核维度是<code>[3,3,3]</code>,（也是三个通道）<code>stride=1, padding=0</code>，那么卷积之后得到的是3个$(64-3+1)×(64-3+1)=62×62$，正常来说输入一个图像，应该得到一个<code>feature map</code>，所以应该把这三个$62×62$对应像素相加得到最终的<code>feature map</code>。</p>
 <p>​        这里学过机器学习的同学应该就知道在相加之后还要加上一个Bias偏执单元。所以3通道的卷积过程如下图所示：</p>
-<img src="https://img-blog.csdnimg.cn/20210326180802911.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 80%;" /></li>
+<p><img src="https://img-blog.csdnimg.cn/20210326180802911.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 80%;" /></p>
+</li>
 <li><p>最后一步，我们上面所使用的仅仅是一个卷积核<code>[3,3,3]</code>,那么实际的CNN中卷积核不只一个，这时我们再给卷积核加上一个维度n，代表卷积核的个数，<code>[3,3,3,10]</code>(假设<code>n=10</code>)，那么也就是说，有10个卷积核对三通道的彩色图像分别进行上述卷积操作，那么得到的就应该有10个<code>feature map</code>即<code>[62,62,10]</code>,如下图所示，也就是说<strong>卷积得到的<code>feature map</code>个数仅仅与卷积核个数有关</strong>（大家一定要明白这个原理）。</p>
-<img src="https://img-blog.csdnimg.cn/20210326180811657.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:67%;" /></li>
+<p><img src="https://img-blog.csdnimg.cn/20210326180811657.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:67%;" /></p>
+</li>
 </ul>
 <h2 id="2-非线性激活Relu"><a href="#2-非线性激活Relu" class="headerlink" title="2. 非线性激活Relu"></a>2. 非线性激活Relu</h2><ul>
 <li><p>由上面图我们大家也可以看到卷积生成<code>feature map</code>后，又进行了激活函数ReLu处理，Relu激活函数是在CNN中经常用到的，$ReLu(x)=max(0,x)$，卷积层对原图运算多个卷积产生一组线性激活响应，而非线性激活是对之前的结果进行非线性的响应。</p>
 </li>
 <li><p>个人理解是对卷积后的特征图进行有目的的提取，小于0的不是识别特征，故记为0，而大于0的就是与卷积模板匹配的特征保留下来。</p>
-<img src="https://img-blog.csdnimg.cn/20210326180824297.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 50%;" /></li>
+<p><img src="https://img-blog.csdnimg.cn/20210326180824297.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom: 50%;" /></p>
+</li>
 </ul>
 <hr>
 <p>至此，所有卷积的内容我们都已经了解完了，下面就进行CNN的下一部分池化Pooling层。</p>
@@ -276,10 +291,10 @@
 <li><p>通过卷积操作之后，我们得到了许多<code>feature map</code>，并且数量和卷积核的个数相同，此时的数据非常庞大，并且这仅仅是一层卷积，对于深度学习来说，卷积层有很多，那也就意味着<code>feature map</code>也会变多，为了解决这个问题，Pooling层就起到了关键作用，他的目标就是减少数据量，提取重要特征。</p>
 </li>
 <li><p>Pooling池化层一般分为两种：Max Pooling 最大池化和Average Pooling 平均池化，顾名思义，最大池化就是取最大值，平均池化就是取平均值，下面举一个例子来说明：</p>
-<img src="https://img-blog.csdnimg.cn/20210326181533780.gif#pic_center" alt="2" style="zoom:50%;" />
-
-<p>​    上述演示的就是Max Pooling 的过程，其中蓝色的是池化模板的尺寸为$2×2$，池化也有<code>stride</code>步长，一般<code>stride=2</code>，最大池化就是取$2×2$特征值中的最大值，然后以<code>stride=2</code>进行移动池化模板，遍历完整个<code>feature map</code>。设原来<code>feature map</code>尺寸为$M×N$，池化模板尺寸为$W×W$,步长为S(一般取2)，padding 为P（池化也可以先padding），可以得到池化层的输出尺寸公式：<br>$$<br>((M-W+2P)/S + 1) × ((N-W+2P)/S+1)<br>$$</p>
-</li>
+<p><img src="https://img-blog.csdnimg.cn/20210326181533780.gif#pic_center" alt="2" style="zoom:50%;" /></p>
+<p>​    上述演示的就是Max Pooling 的过程，其中蓝色的是池化模板的尺寸为$2×2$，池化也有<code>stride</code>步长，一般<code>stride=2</code>，最大池化就是取$2×2$特征值中的最大值，然后以<code>stride=2</code>进行移动池化模板，遍历完整个<code>feature map</code>。设原来<code>feature map</code>尺寸为$M×N$，池化模板尺寸为$W×W$,步长为S(一般取2)，padding 为P（池化也可以先padding），可以得到池化层的输出尺寸公式：</p>
+<script type="math/tex; mode=display">
+((M-W+2P)/S + 1) × ((N-W+2P)/S+1)</script></li>
 <li><p>平均池化也就是将上面的$2×2$特征值中取平均值，这里就不再赘述，我们在CNN中一般使用的是最大池化，因为<code>feature map</code>本身就是卷积之后并且经过Relu的结果，如果没有提取到相应特征，经过Relu就被置为0，在Pooling时选取最大的就能代表<code>feature map</code>的最佳特征，从而实现降维，减少数据量，最大池化保留了每一小块的最大值，所以它相当于保留了这一块的最佳匹配结果。</p>
 </li>
 </ul>
@@ -290,9 +305,10 @@
 </li>
 <li><p>全连接层就是基本的神经网络，可以参考我机器学习专栏的博客：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40181592/article/details/97747125">https://blog.csdn.net/qq_40181592/article/details/97747125</a> （Machine Learning 学习笔记(七)——神经网络(Neural Networks)），里面详细说明了神经网络的工作过程，在此不在赘述。</p>
 </li>
-<li><p>这就就提一下全连接层最后一层输出使用的是$Softmax$分类函数：<br>$$<br>Softmax(y_i)=\frac{e^{y_i}}{\sum_{j=1}^{n}e^{y_i}}<br>$$<br>它可以将网络输出变成一个概率分布，且n类的概率相加等于1，这就很方便的可以判断网络最终分类的结果，具体计算如下所示：</p>
-<img src="https://img-blog.csdnimg.cn/20210326181652503.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:80%;" />
-
+<li><p>这就就提一下全连接层最后一层输出使用的是$Softmax$分类函数：</p>
+<script type="math/tex; mode=display">
+Softmax(y_i)=\frac{e^{y_i}}{\sum_{j=1}^{n}e^{y_i}}</script><p>它可以将网络输出变成一个概率分布，且n类的概率相加等于1，这就很方便的可以判断网络最终分类的结果，具体计算如下所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210326181652503.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:80%;" /></p>
 <p>可以看到全连接层的输入是将池化后的<code>feature map</code>先进行了<code>flatten</code>打平操作，然后再输出到最后一层，之后通过Softmax函数输出概率，各个类别的概率计算在图中标出。</p>
 </li>
 </ul>
@@ -313,16 +329,19 @@
 </li>
 <li><p>对于卷积层，原图的delta误差，等于卷积结果的delta误差<strong>经过零填充</strong>后，与<strong>卷积核旋转180度</strong>后的卷积。（具体推导可以参考上面的链接文章）</p>
 <p>delta 误差是损失函数对于当前层未激活输出$z^l$的导数：$\delta=\sigma^{‘}(z^l) $.</p>
-<p>当前卷积层的误差$\delta^l$为：<br>$$<br>\delta^l=\delta^{l+1}*ROT180(w^{l+1})\odot\sigma^{‘}(z^l)<br>$$<br>其中<code>ROT180()</code>表示将矩阵旋转180°，符号$\odot$为元素相乘。</p>
-<p>当获得每一层的误差项时，偏导数$\frac{\partial L}{\partial w_{ij}^{l}}$ 和$\frac{\partial L}{\partial b_{i}^{l}}$ 计算公式如下：<br>$$<br>\frac{\partial L}{\partial w_{ij}^{l}}=\delta^l*\sigma(z^{l-1})<br>$$</p>
-<p>$$<br>\frac{\partial L}{\partial b_{i}^{l}}=\sum_x\sum_y\delta^l(x,y)<br>$$</p>
-</li>
+<p>当前卷积层的误差$\delta^l$为：</p>
+<script type="math/tex; mode=display">
+\delta^l=\delta^{l+1}*ROT180(w^{l+1})\odot\sigma^{'}(z^l)</script><p>其中<code>ROT180()</code>表示将矩阵旋转180°，符号$\odot$为元素相乘。</p>
+<p>当获得每一层的误差项时，偏导数$\frac{\partial L}{\partial w_{ij}^{l}}$ 和$\frac{\partial L}{\partial b_{i}^{l}}$ 计算公式如下：</p>
+<script type="math/tex; mode=display">
+\frac{\partial L}{\partial w_{ij}^{l}}=\delta^l*\sigma(z^{l-1})</script><script type="math/tex; mode=display">
+\frac{\partial L}{\partial b_{i}^{l}}=\sum_x\sum_y\delta^l(x,y)</script></li>
 <li><p>对于池化层，他的反向传播理解比较容易，如下图所示，池化后的数字6对应于池化前的红色区域，实际上只有红色区域中最大值数字6对池化后的结果有影响，权重为1，而其它的数字对池化后的结果影响都为0。假设池化后数字6的位置delta误差为$\delta$，误差反向传播回去时，红色区域中最大值对应的位置delta误差即等于 $\delta$，而其它3个位置对应的delta误差为0。</p>
-<img src="https://img-blog.csdnimg.cn/202103261817299.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:50%;" />
-
+<p><img src="https://img-blog.csdnimg.cn/202103261817299.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70#pic_center" style="zoom:50%;" /></p>
 <p>而对于平均池化来说所有权重都是1/4。</p>
-<p>用公式表示为：<br>$$<br>\delta^l=upsample(\delta^{l+1})\odot\sigma^{‘}(z^l)<br>$$</p>
-</li>
+<p>用公式表示为：</p>
+<script type="math/tex; mode=display">
+\delta^l=upsample(\delta^{l+1})\odot\sigma^{'}(z^l)</script></li>
 </ul>
 <h2 id="7-CNN的训练"><a href="#7-CNN的训练" class="headerlink" title="7. CNN的训练"></a>7. CNN的训练</h2><ul>
 <li><p>最后训练的方法就是梯度下降法，基础的梯度下降可以参考我机器学习专栏的文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40181592/article/details/95479520">https://blog.csdn.net/qq_40181592/article/details/95479520</a>  Machine Learning 学习笔记(二)——梯度下降(Gradient Descent)</p>
@@ -330,12 +349,13 @@
 <li><p>这里我就补充一下随机梯度下降SGD（Stochastic Gradient Descent）和Mini-batch梯度下降：</p>
 <p>引入随机梯度下降是因为原始的梯度下降BGD要遍历所有的数据集去计算Cost function，这样对于深度学习来说，需要大量的数据集基本都是上万数量（甚至更多）,要训练一次花费太大，并且速度较慢，故引出SGD，每次只考虑一个样本，对一个样本进行参数更新，具体训练如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 随机打乱所有数据集</span><br><span class="line">2.Repeat&#123;</span><br><span class="line">		for i = 1, 2, ... m:&#123;</span><br><span class="line">			(更新wj 参数) for j = 0,1,2,...n </span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line">外层循环是重复上述过程，一般1~10次就好了</span><br></pre></td></tr></table></figure>
-
 <p>SGD收敛是无规律的，只是朝着全局最优的范围去，并不像BGD一样每次都找最优的方向。</p>
 </li>
 <li><p>Mini-batch梯度下降</p>
 <p>b = mini-batch size，一般取10（2~100之间），他是介于SGD和BGD之间的，一次使用b个样本来更新参数的值，它的更新公式为：</p>
-<p>for i = 1, 1+b, 1+2b, 1+3b ……:<br>$$<br>\theta_j=\theta_j-\alpha*\frac{1}{batch_size}\sum_{k=i}^{i+b}\frac{\partial L}{\partial \theta_j}<br>$$<br>区别：SGD每次只需要1个样本，而mini batch每次要b个样本，BGD一次需要全部样本。</p>
+<p>for i = 1, 1+b, 1+2b, 1+3b ……:</p>
+<script type="math/tex; mode=display">
+\theta_j=\theta_j-\alpha*\frac{1}{batch\_size}\sum_{k=i}^{i+b}\frac{\partial L}{\partial \theta_j}</script><p>区别：SGD每次只需要1个样本，而mini batch每次要b个样本，BGD一次需要全部样本。</p>
 </li>
 </ul>
 <h2 id="8-总结CNN整个训练过程"><a href="#8-总结CNN整个训练过程" class="headerlink" title="8. 总结CNN整个训练过程"></a>8. 总结CNN整个训练过程</h2><ol>
@@ -351,18 +371,26 @@
 </li>
 <li><p>计算损失函数对输出层的delta误差$\delta_L$</p>
 </li>
-<li><p>利用相邻层之间delta误差的递推公式求得每一层的delta误差<br>如果是全连接层<br>$$<br>\delta^l=(W^{l+1})^T\delta^{l+1}\odot\sigma^{‘}(z^l)<br>$$<br>如果是卷积层<br>$$<br>\delta^l=\delta^{l+1}*ROT180(w^{l+1})\odot\sigma^{‘}(z^l)<br>$$<br>如果是池化层<br>$$<br>\delta^l=upsample(\delta^{l+1})\odot\sigma^{‘}(z^l)<br>$$</p>
-</li>
-<li><p>利用每一层的delta误差求出损失函数对该层参数的导数<br>如果是全连接层：<br>$$<br>\frac{\partial L}{\partial w^{l}}=\delta^l(a^{l-1})^T<br>$$</p>
-<p>$$<br>\frac{\partial L}{\partial b^{l}}=\delta^l<br>$$</p>
-<p>如果是卷积层：<br>$$<br>\frac{\partial L}{\partial w^{l}}=\delta^l*\sigma(z^{l-1})<br>$$</p>
-<p>$$<br>\frac{\partial L}{\partial b^{l}}=\sum_x\sum_y\delta^l(x,y)<br>$$</p>
-</li>
+<li><p>利用相邻层之间delta误差的递推公式求得每一层的delta误差<br>如果是全连接层</p>
+<script type="math/tex; mode=display">
+\delta^l=(W^{l+1})^T\delta^{l+1}\odot\sigma^{'}(z^l)</script><p>如果是卷积层 </p>
+<script type="math/tex; mode=display">
+\delta^l=\delta^{l+1}*ROT180(w^{l+1})\odot\sigma^{'}(z^l)</script><p>如果是池化层 </p>
+<script type="math/tex; mode=display">
+\delta^l=upsample(\delta^{l+1})\odot\sigma^{'}(z^l)</script></li>
+<li><p>利用每一层的delta误差求出损失函数对该层参数的导数<br>如果是全连接层：</p>
+<script type="math/tex; mode=display">
+\frac{\partial L}{\partial w^{l}}=\delta^l(a^{l-1})^T</script><script type="math/tex; mode=display">
+\frac{\partial L}{\partial b^{l}}=\delta^l</script><p>如果是卷积层：</p>
+<script type="math/tex; mode=display">
+\frac{\partial L}{\partial w^{l}}=\delta^l*\sigma(z^{l-1})</script><script type="math/tex; mode=display">
+\frac{\partial L}{\partial b^{l}}=\sum_x\sum_y\delta^l(x,y)</script></li>
 <li><p>将求得的导数加到该batch数据求得的导数之和上(初始化为0)，跳转到步骤3，直到该batch数据都训练完毕</p>
 </li>
-<li><p>利用一个batch数据求得的导数之和，根据梯度下降法对参数进行更新<br>$$<br>W^l=W^l-\eta*\frac{1}{batch_size}\sum\frac{\partial L}{\partial W^l}<br>$$</p>
-<p>$$<br>b^l=b^l-\eta*\frac{1}{batch_size}\sum\frac{\partial L}{\partial b^l}<br>$$</p>
-</li>
+<li><p>利用一个batch数据求得的导数之和，根据梯度下降法对参数进行更新</p>
+<script type="math/tex; mode=display">
+W^l=W^l-\eta*\frac{1}{batch\_size}\sum\frac{\partial L}{\partial W^l}</script><script type="math/tex; mode=display">
+b^l=b^l-\eta*\frac{1}{batch\_size}\sum\frac{\partial L}{\partial b^l}</script></li>
 <li><p>跳转到步骤2，直到达到指定的迭代次数</p>
 </li>
 </ol>

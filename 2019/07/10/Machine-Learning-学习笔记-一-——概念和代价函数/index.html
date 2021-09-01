@@ -280,51 +280,51 @@
 </ul>
 <h2 id="3-模型和代价函数"><a href="#3-模型和代价函数" class="headerlink" title="3.模型和代价函数"></a>3.模型和代价函数</h2><ul>
 <li><p>首先是一个根据不同房子的尺寸估计房价的例子，他是一个回归问题，对一个样本的size来预测对应的price，由图可知这是一个简单的线性回归的问题。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190710182248533.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190710182248533.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 </ul>
 <blockquote>
 <p>这里设线性回归方程(假设函数)为:</p>
 </blockquote>
-<p>$$<br>h_\theta(x) = \theta_0 + \theta_1x<br>$$</p>
-<blockquote>
+<script type="math/tex; mode=display">
+h_\theta(x) = \theta_0 + \theta_1x</script><blockquote>
 <p>x为房子的尺寸，h(x)为房子的价格，θ：参量 </p>
 <p>所以我们的任务就是选取合适的θ0和θ1，让计算出来的h(x)曲线为我们用来训练的数据(x,y)来尽量接近实际的y，即给定一个x，通过h(x)函数有一个对应的h值与对应的y的距离越接近则越好。</p>
 </blockquote>
 <ul>
 <li><p>所以我们用一个代价函数（Cost Function）来评估这个估计的误差：</p>
-<p>$$<br>J(\theta_0,\theta_1) = \frac{1}{2m}\sum_{i=1}^{m}{[h_\theta(x_i) - y_i]^2}<br>$$</p>
-</li>
+<script type="math/tex; mode=display">
+J(\theta_0,\theta_1) = \frac{1}{2m}\sum_{i=1}^{m}{[h_\theta(x_i) - y_i]^2}</script></li>
 </ul>
 <blockquote>
 <p>使用1/2m主要是后面求导的时候比较方便，h(x)为预测值，y为真实值，算的就是预测值与真实值的差的平方和，m是数据组的个数，我们的目标就是使J(θ0,θ1)最小，这样得到的h(x)就是我们所想要的拟合出来的回归方程。</p>
 </blockquote>
 <ul>
 <li><p>为了更好的体会代价函数，下面先举一个单变量的代价函数J(θ1),对应的假设函数为h(x) = θ1x.</p>
-<p><img src="https://img-blog.csdnimg.cn/20190710182319673.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190710182319673.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 </ul>
 <blockquote>
 <p>这里有三个数据构成的数据集，采用h(x)去拟合，假设θ1 = 1，那么得到的代价函数J(θ1)=0</p>
 </blockquote>
-<p><img src="https://img-blog.csdnimg.cn/2019071018234595.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/2019071018234595.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <blockquote>
 <p>当使θ1取不同的值时得到的代价函数也不同，通过计算可以得到代价函数的图像如下，由图可知，当θ1=1时，J(θ1)=0为最小值。即找到了θ1。这就是我们想要的函数。</p>
 </blockquote>
-<p><img src="https://img-blog.csdnimg.cn/2019071018240687.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/2019071018240687.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <ul>
 <li><p>同时考虑θ0和θ1的代价函数</p>
-<p><img src="https://img-blog.csdnimg.cn/20190710182421522.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190710182421522.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 </ul>
 <blockquote>
 <p>这里假设θ0=50，θ1=0.06，显然这个不是一个好的假设，通过假设多组值求解代价函数，得到的J(θ0,θ1)图像如下：（当同时考虑θ0和θ1时，这个时候就是一个三维图了，让我们需要求的J(θ0,θ1)就是三维面上每一个点的高度。这个时候就可能存在不同的θ0、θ1对应相同的J(θ0,θ1)）</p>
 </blockquote>
-<p><img src="https://img-blog.csdnimg.cn/20190710182440221.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190710182440221.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <blockquote>
 <p>下面把他的等高线图画出来，对于不同的θ0和θ1有不同的h(x)，和对应的J(θ0，θ1)，从图11的右边的图可以看出，不同的θ0和θ1会存在相同的J(θ0，θ1)，当这个圈上的点越往中心靠近时，则J(θ0，θ1)越来越小，同时h(x)也越接近我们需要的回归线</p>
 </blockquote>
-<p><img src="https://img-blog.csdnimg.cn/20190710182458138.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190710182458138.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <ul>
 <li>所以我们需要做的就是从任意的 θ0和θ1出发，进行不断地改变两个的大小，来减小J(θ0，θ1)，从而找到使J(θ0，θ1)最小的θ0和θ1。</li>
 </ul>

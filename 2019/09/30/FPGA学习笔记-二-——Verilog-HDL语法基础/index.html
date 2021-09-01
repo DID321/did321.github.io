@@ -210,8 +210,7 @@
 </li>
 <li><p>下面看一个简单的程序</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span>  and2(out,a,b,c)； <span class="comment">//and2是模块名称</span></span><br><span class="line">  <span class="keyword">input</span>	a,b;   <span class="comment">//端口定义</span></span><br><span class="line">  <span class="keyword">output</span> c;</span><br><span class="line">  <span class="keyword">wire</span> a,b;    <span class="comment">//数据类型说明</span></span><br><span class="line">  <span class="keyword">reg</span> c;</span><br><span class="line">    <span class="keyword">always</span>@(a <span class="keyword">or</span> b)  <span class="comment">//逻辑功能描述</span></span><br><span class="line">      out = a &amp; b;</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/20190929201306250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201306250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 <li><p>这就是一个简单的与门模块，由此可以看出 Verilog HDL巳程序是由模块构成的。每个模块的内容都是嵌在module和endmodule两个语句之间，每个模块实现特定的功能，模块是可以进行层次嵌套的。</p>
 </li>
@@ -227,7 +226,6 @@
 <h2 id="2-模块-block-的组成"><a href="#2-模块-block-的组成" class="headerlink" title="2.模块(block)的组成"></a>2.模块(block)的组成</h2><ul>
 <li><p>Verilog HDL结构完全嵌在module和endmodule声明语句之间，每个Verilog程序包括4个主要部分：端口定义，I／O说明，信号类型声明和功能描述。</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span>&lt;模块名&gt;(&lt;端口列表&gt;)；</span><br><span class="line">	端口说明(<span class="keyword">input</span>,<span class="keyword">output</span>,<span class="keyword">inout</span>)</span><br><span class="line">	参数定义(可选)</span><br><span class="line">	数据类型定义</span><br><span class="line">	连续赋值语句(<span class="keyword">assign</span>)</span><br><span class="line">	过程块(<span class="keyword">initial</span> 和 <span class="keyword">always</span>)</span><br><span class="line">		行为描述语句</span><br><span class="line">		低层模块实例</span><br><span class="line">		任务和函数</span><br><span class="line">	延时说明块</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-
 <p>上述的是总体的描述，后面会一一讲解每个部分的功能。</p>
 </li>
 <li><p>模块声明</p>
@@ -242,7 +240,7 @@
 <p>​         <code>output 端口名1，端口名2，………,端口名N;  //输出端口</code></p>
 <p>​         <code>inout   端口名1，端口名2，………,端口名N;  //输入输出端口</code></p>
 <p>​    也可以写在端口声明语句里,其格式如下(为了代码的可读性，一般不这么写)：</p>
-<p>   <code>module  module_name(input port1,input port2,…output port1,output port2… );      </code></p>
+<p>   <code>module  module_name(input port1,input port2,…output port1,output port2… );</code></p>
 </li>
 <li><p>信号类型说明 </p>
 <p>信号可以分为端口信号和内部信号；</p>
@@ -265,7 +263,8 @@
 <h2 id="3-常量"><a href="#3-常量" class="headerlink" title="3.常量"></a>3.常量</h2><ul>
 <li><p>关键字</p>
 <p>​    关键字（又称保留字）, 小写的英文字符串。如: module、endmodule、input、output、wire、reg、and、assign、always等。下面是所有的关键字：</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">always</span>   <span class="keyword">and</span>   <span class="keyword">assign</span>   <span class="keyword">begin</span>   <span class="keyword">buf</span>   <span class="keyword">buf</span>   if0   <span class="keyword">bufif1</span>   <span class="keyword">case</span>  <span class="keyword">casex</span>  <span class="keyword">casez</span> <span class="keyword">cmos</span>    <span class="keyword">deassign</span>   <span class="keyword">default</span>   <span class="keyword">defparam</span>  <span class="keyword">disable</span>  <span class="keyword">edge</span>  <span class="keyword">else</span>  <span class="keyword">end</span>  <span class="keyword">endcase</span> <span class="keyword">endmodule</span>    <span class="keyword">endfunction</span>    <span class="keyword">endprimitive</span>    <span class="keyword">endspecify</span>  <span class="keyword">endtable</span>  <span class="keyword">endtask</span> <span class="keyword">event</span>    <span class="keyword">for</span>   <span class="keyword">force</span>   <span class="keyword">forever</span>   <span class="keyword">fork</span>    <span class="keyword">function</span>   <span class="keyword">highz0</span>    <span class="keyword">highz1</span>   <span class="keyword">if</span>    <span class="keyword">ifnone</span>    <span class="keyword">initial</span>   <span class="keyword">inout</span>  <span class="keyword">input</span>   <span class="keyword">integer</span>   <span class="keyword">join</span>   <span class="keyword">large</span>  macrmodule  <span class="keyword">medium</span>   <span class="keyword">module</span> </span><br><span class="line"><span class="keyword">nand</span>  <span class="keyword">negedge</span>  <span class="keyword">nmos</span>   <span class="keyword">nor</span>   <span class="keyword">not</span>   <span class="keyword">notif0</span>   <span class="keyword">notif1</span>  <span class="keyword">or</span>  <span class="keyword">output</span>   <span class="keyword">parameter</span> <span class="keyword">pmos</span>  <span class="keyword">posedge</span>  <span class="keyword">primitive</span>  <span class="keyword">pull0</span>  <span class="keyword">pull1</span>  <span class="keyword">pullup</span>  <span class="keyword">pulldown</span>  <span class="keyword">rcmos</span>  <span class="keyword">real</span> <span class="keyword">realtime</span>  <span class="keyword">reg</span>  <span class="keyword">release</span>  <span class="keyword">repeat</span>  <span class="keyword">rnmos</span>  <span class="keyword">rpmos</span>  <span class="keyword">rtran</span>  <span class="keyword">rtranif0</span>  <span class="keyword">rtranif1</span> <span class="keyword">scalared</span>  <span class="keyword">small</span>  <span class="keyword">specify</span> <span class="keyword">specparam</span> <span class="keyword">strong0</span> <span class="keyword">strong1</span> <span class="keyword">supply0</span> <span class="keyword">supply1</span></span><br><span class="line"><span class="keyword">table</span> <span class="keyword">task</span> <span class="keyword">time</span> trantranif0 <span class="keyword">tranif1</span> <span class="keyword">tri</span> <span class="keyword">tri0</span> <span class="keyword">tri1</span> <span class="keyword">triand</span> <span class="keyword">trior</span>   <span class="keyword">trireg</span>   <span class="keyword">vectored</span> <span class="keyword">wait</span> <span class="keyword">wand</span> <span class="keyword">weak0</span> <span class="keyword">weak1</span> <span class="keyword">while</span> <span class="keyword">wire</span> <span class="keyword">wor</span> <span class="keyword">xnor</span> <span class="keyword">xor</span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">always</span>   <span class="keyword">and</span>   <span class="keyword">assign</span>   <span class="keyword">begin</span>   <span class="keyword">buf</span>   <span class="keyword">buf</span>   if0   <span class="keyword">bufif1</span>   <span class="keyword">case</span>  <span class="keyword">casex</span>  <span class="keyword">casez</span> <span class="keyword">cmos</span>    <span class="keyword">deassign</span>   <span class="keyword">default</span>   <span class="keyword">defparam</span>  <span class="keyword">disable</span>  <span class="keyword">edge</span>  <span class="keyword">else</span>  <span class="keyword">end</span>  <span class="keyword">endcase</span> <span class="keyword">endmodule</span>    <span class="keyword">endfunction</span>    <span class="keyword">endprimitive</span>    <span class="keyword">endspecify</span>  <span class="keyword">endtable</span>  <span class="keyword">endtask</span> <span class="keyword">event</span>    <span class="keyword">for</span>   <span class="keyword">force</span>   <span class="keyword">forever</span>   <span class="keyword">fork</span>    <span class="keyword">function</span>   <span class="keyword">highz0</span>    <span class="keyword">highz1</span>   <span class="keyword">if</span>    <span class="keyword">ifnone</span>    <span class="keyword">initial</span>   <span class="keyword">inout</span>  <span class="keyword">input</span>   <span class="keyword">integer</span>   <span class="keyword">join</span>   <span class="keyword">large</span>  macrmodule  <span class="keyword">medium</span>   <span class="keyword">module</span> </span><br><span class="line"><span class="keyword">nand</span>  <span class="keyword">negedge</span>  <span class="keyword">nmos</span>   <span class="keyword">nor</span>   <span class="keyword">not</span>   <span class="keyword">notif0</span>   <span class="keyword">notif1</span>  <span class="keyword">or</span>  <span class="keyword">output</span>   <span class="keyword">parameter</span> <span class="keyword">pmos</span>  <span class="keyword">posedge</span>  <span class="keyword">primitive</span>  <span class="keyword">pull0</span>  <span class="keyword">pull1</span>  <span class="keyword">pullup</span>  <span class="keyword">pulldown</span>  <span class="keyword">rcmos</span>  <span class="keyword">real</span> <span class="keyword">realtime</span>  <span class="keyword">reg</span>  <span class="keyword">release</span>  <span class="keyword">repeat</span>  <span class="keyword">rnmos</span>  <span class="keyword">rpmos</span>  <span class="keyword">rtran</span>  <span class="keyword">rtranif0</span>  <span class="keyword">rtranif1</span> <span class="keyword">scalared</span>  <span class="keyword">small</span>  <span class="keyword">specify</span> <span class="keyword">specparam</span> <span class="keyword">strong0</span> <span class="keyword">strong1</span> <span class="keyword">supply0</span> <span class="keyword">supply1</span></span><br><span class="line"><span class="keyword">table</span> <span class="keyword">task</span> <span class="keyword">time</span> trantranif0 <span class="keyword">tranif1</span> <span class="keyword">tri</span> <span class="keyword">tri0</span> <span class="keyword">tri1</span> <span class="keyword">triand</span> <span class="keyword">trior</span>   <span class="keyword">trireg</span>   <span class="keyword">vectored</span> <span class="keyword">wait</span> <span class="keyword">wand</span> <span class="keyword">weak0</span> <span class="keyword">weak1</span> <span class="keyword">while</span> <span class="keyword">wire</span> <span class="keyword">wor</span> <span class="keyword">xnor</span> <span class="keyword">xor</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>标识符</p>
 <p>​    标识符(identifier)是程序代码中给对象（如模块、端口、变量等）取名所用的字符串。</p>
 <p>​    标识符的组成：由字母、数字字符、下划线(_)和美元符号($)组成，区分大小写,其第一个字符必须是英文字母或下划线，不能是数字或$。以$开始的字符串是为系统函数保留的，如“$display”。</p>
@@ -279,11 +278,13 @@
 <p>z：高阻； </p>
 <p>在输入或表达式中，“z”的值通常被解释成“x”;</p>
 <p>z和x是不分大小写的，如01xz 与01XZ相同;</p>
-<p>   Verilog HDL中，有3种类型的常量：整数型常量（整数）、实数型常量（实数）和参数型常量。</p>
 </li>
+</ul>
+<pre><code> Verilog HDL中，有3种类型的常量：整数型常量（整数）、实数型常量（实数）和参数型常量。
+</code></pre><ul>
 <li><p>整数</p>
 <p>整数的一般表达式为：</p>
-<p>​       <code>&lt;+/-&gt;&lt;size&gt; ’ &lt;base format&gt;&lt;number&gt; </code></p>
+<p>​       <code>&lt;+/-&gt;&lt;size&gt; ’ &lt;base format&gt;&lt;number&gt;</code></p>
 <p>其中 size ： 大小，表示二进制位数(bit)。缺省为32位。（可有可无）；</p>
 <p>​     base format：数基，可为2(b)、8(o)、10(d)、16(h)进制。缺省为10进制;</p>
 <p>​     number：是所选数基内任意有效数字，包括X、Z。</p>
@@ -294,13 +295,13 @@
 </li>
 </ul>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-<span class="number">14</span>             <span class="comment">//十进制数-14</span></span><br><span class="line"><span class="number">16</span>’d255         <span class="comment">//位宽为16的十进制数255</span></span><br><span class="line"><span class="number">8</span>’h9a             <span class="comment">//位宽为8的十六进制数9a</span></span><br><span class="line">’o21               <span class="comment">//位宽为32的八进制数21</span></span><br><span class="line">’hAF               <span class="comment">//位宽为32的十六进制数AF </span></span><br><span class="line">-<span class="number">4</span>’d10             <span class="comment">//位宽为4的十进制数-10</span></span><br><span class="line">(<span class="number">3</span>+<span class="number">2</span>)’b11001  <span class="comment">//非法表示，位宽不能为表达式 </span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><p>实数</p>
 <p>(1)十进制格式，由数字和小数点组成（必须有小数点），例如：</p>
 <p>​       0.1,  3.1415,  2.0 √    3.  x</p>
 <p>(2) 指数格式:由数字和字符e(E)组成，e(E)的前面必须要有数字而且后面必须为整数，例如：</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">13_5</span><span class="variable">.1e2</span>       <span class="comment">//其值为13510.0</span></span><br><span class="line"><span class="number">8</span><span class="variable">.5E2</span>          <span class="comment">//850.0 (e与E相同)</span></span><br><span class="line"><span class="number">4</span>E-<span class="number">4</span>           <span class="comment">//0.0004　　　　</span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">13_5</span><span class="variable">.1e2</span>       <span class="comment">//其值为13510.0</span></span><br><span class="line"><span class="number">8</span><span class="variable">.5E2</span>          <span class="comment">//850.0 (e与E相同)</span></span><br><span class="line"><span class="number">4</span>E-<span class="number">4</span>           <span class="comment">//0.0004　　　　</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>parameter(参数型)</p>
 <p>​    在Verilog HDL中为了提高程序的可读性和可维护性，用parameter来定义一个标识符代表一个常量,称为符号常量。</p>
 <p>其说明格式如下：</p>
@@ -308,12 +309,10 @@
 <p>parameter是参数型数据的确认符。确认符后跟着一个用逗号分隔开的赋值语句表。常用参数来声明运行时的常数。可用字符串表示的任何地方,都可以用定义的参数来代替。<br>参数是本地的，其定义只在本模块内有效。</p>
 <p>举例说明：</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> md1(out,in1,in2);</span><br><span class="line">   …..</span><br><span class="line">   <span class="keyword">parameter</span> cycle=<span class="number">20</span>, </span><br><span class="line">             p1=<span class="number">8</span>, x_word=<span class="number">16</span>’bx,</span><br><span class="line">             file = “/user1/jmdong/<span class="keyword">design</span>/mem_file<span class="variable">.dat</span>”;</span><br><span class="line">    <span class="keyword">wire</span> [p1:<span class="number">0</span>] w1;    <span class="comment">//用参数来说明wire 的位宽</span></span><br><span class="line">    ….</span><br><span class="line">    <span class="keyword">initial</span>  <span class="keyword">begin</span>  $open(file);  ……. <span class="comment">//用参数来说明文件路径</span></span><br><span class="line">        #<span class="number">20000</span>  display(“%s”,file);  <span class="built_in">$stop</span>      </span><br><span class="line">    <span class="keyword">end</span>                 </span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>参数型常数经常用于定义延迟时间和变量宽度。在模块或实例引用时，可通过参数传递改变在被引用模块或实例中已定义的参数。</li>
 </ul>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Decode(A,F);</span><br><span class="line">    <span class="keyword">parameter</span> Width = <span class="number">1</span>,Polarity = <span class="number">1</span>;</span><br><span class="line">    ···</span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"><span class="keyword">module</span> Top;</span><br><span class="line">    <span class="keyword">wire</span>[<span class="number">3</span>:<span class="number">0</span>] A4;</span><br><span class="line">    <span class="keyword">wire</span>[<span class="number">4</span>:<span class="number">0</span>] A5;</span><br><span class="line">    <span class="keyword">wire</span>[<span class="number">15</span>:<span class="number">0</span>] F16;</span><br><span class="line">    <span class="keyword">wire</span>[<span class="number">31</span>:<span class="number">0</span>] F32;</span><br><span class="line">    Decode <span class="variable">#(4,0) D1(A4,F16)</span>; <span class="comment">//可通过参数的传递来改变定义时已规定的参数值</span></span><br><span class="line">    Decode <span class="variable">#(5) D2(A5,F32)</span>;</span><br><span class="line">    <span class="keyword">defparam</span>  D2<span class="variable">.Width</span> = <span class="number">5</span>; <span class="comment">//在一个模块中改变另一个模块的参数时</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>在一个模块中改变另一个模块的参数时，需要使用<strong>defparam</strong>命令。在做布线后仿真时，就是利用这种方法把布线延迟通过布线工具生成的延迟参数文件反标注(Back-annotate)到门级Verilog网表上。</li>
 </ul>
@@ -322,16 +321,16 @@
 <h2 id="4-变量的数据类型"><a href="#4-变量的数据类型" class="headerlink" title="4.变量的数据类型"></a>4.变量的数据类型</h2><ul>
 <li>线状网型变量（net）wire（需要被持续的驱动，驱动它的可以是门和模块）</li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/20190929201339313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201339313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <p>当net驱动器的值发生变化时，Verilog自动的将新值传送到net上。在例子中，线网out由or门驱动。当or门的输入信号变化时将传输到线网out上。</p>
 <ul>
 <li><p>wire型信号定义格式如下：</p>
-<p>​     <code> wire [n-1:0]　变量名1,变量名2,…变量名n；</code></p>
+<p>​     <code>wire [n-1:0]　变量名1,变量名2,…变量名n；</code></p>
 <p>​     <code>wire [n:1]　变量名1,变量名2,…变量名n；</code></p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">wire</span>  a;              <span class="comment">//定义了一个1位的wire型数据</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>] b;       <span class="comment">//定义了一个8位的wire型向量</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">4</span>:<span class="number">1</span>] c, d;    <span class="comment">//定义了二个４位的wire型向量</span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">wire</span>  a;              <span class="comment">//定义了一个1位的wire型数据</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">7</span>:<span class="number">0</span>] b;       <span class="comment">//定义了一个8位的wire型向量</span></span><br><span class="line"><span class="keyword">wire</span> [<span class="number">4</span>:<span class="number">1</span>] c, d;    <span class="comment">//定义了二个４位的wire型向量</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>寄存器型变量 (reg)</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>  [msb:lsb]　变量名<span class="number">1</span>, 变量名<span class="number">2</span>,…变量名n；</span><br><span class="line">例如：</span><br><span class="line"><span class="keyword">reg</span>  clock;           </span><br><span class="line"><span class="keyword">reg</span> [<span class="number">3</span>:<span class="number">0</span>]  regb; </span><br><span class="line"><span class="keyword">reg</span> [<span class="number">4</span>:<span class="number">1</span>]  regc, regd;    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>   可以理解为实际电路中的寄存器，具有记忆性，是数据储存单元的抽象，在输入信号消失后它可以保持原有的数值不变。常代表触发器</p>
 <p>   与线网型变量的根本区别在于：register型变量需要被明确地赋值，并且在被重新赋值前一直保持原值。</p>
 <p>   只能在initial或always赋值，默认值是x。</p>
@@ -344,28 +343,29 @@
 <li><p>字符串的表示：</p>
 <p>是由一对双引号括起来的字符序列。必须在一行内写完。如”hello world!”是一个合法字符串。</p>
 <p>每个字符串（包括空格）被看作是8位的ASCII值序列。存储字符串“hello world!”，就需要定义一个8*12位的变量：</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[<span class="number">8</span>*<span class="number">12</span>:<span class="number">1</span>] stringvar;</span><br><span class="line"><span class="keyword">initial</span> </span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">		stringvar = “ hello world”;</span><br><span class="line">    <span class="keyword">end</span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[<span class="number">8</span>*<span class="number">12</span>:<span class="number">1</span>] stringvar;</span><br><span class="line"><span class="keyword">initial</span> </span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">		stringvar = “ hello world”;</span><br><span class="line">    <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>memory型 </p>
 <p>对存储器（如RAM、ROM）进行建模。 通过扩展reg型数据的地址范围来生成的。 </p>
 <p>格式:</p>
 <p>​    <code>reg [msb:lsb] 存储器名1[upper1:lower1],存储器名2 [upper2:lower2],…;</code></p>
 <p>​       例如：reg [7:0]  mem[1023：0]; </p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在Verilog中可以说明一个寄存器数组。</span></span><br><span class="line"><span class="keyword">integer</span> NUMS [<span class="number">7</span>: <span class="number">0</span>];        <span class="comment">// 包含8个整数数组变量；</span></span><br><span class="line"><span class="keyword">time</span>  t_vals [<span class="number">3</span>: <span class="number">0</span>];            <span class="comment">// 4个时间数组变量；</span></span><br><span class="line"><span class="keyword">reg</span> [<span class="number">15</span>: <span class="number">0</span>]  MEM [<span class="number">0</span>:<span class="number">1023</span>];   <span class="comment">// 1K x 16存储器MEM；</span></span><br><span class="line"><span class="comment">//描述存储器时可以使用参数或任何合法表达式</span></span><br><span class="line"><span class="keyword">parameter</span> wordsize = <span class="number">16</span>;</span><br><span class="line"><span class="keyword">parameter</span> memsize = <span class="number">1024</span>;</span><br><span class="line"><span class="keyword">reg</span> [wordsize-<span class="number">1</span>: <span class="number">0</span>]  MEM3 [memsize-<span class="number">1</span>: <span class="number">0</span>];</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在Verilog中可以说明一个寄存器数组。</span></span><br><span class="line"><span class="keyword">integer</span> NUMS [<span class="number">7</span>: <span class="number">0</span>];        <span class="comment">// 包含8个整数数组变量；</span></span><br><span class="line"><span class="keyword">time</span>  t_vals [<span class="number">3</span>: <span class="number">0</span>];            <span class="comment">// 4个时间数组变量；</span></span><br><span class="line"><span class="keyword">reg</span> [<span class="number">15</span>: <span class="number">0</span>]  MEM [<span class="number">0</span>:<span class="number">1023</span>];   <span class="comment">// 1K x 16存储器MEM；</span></span><br><span class="line"><span class="comment">//描述存储器时可以使用参数或任何合法表达式</span></span><br><span class="line"><span class="keyword">parameter</span> wordsize = <span class="number">16</span>;</span><br><span class="line"><span class="keyword">parameter</span> memsize = <span class="number">1024</span>;</span><br><span class="line"><span class="keyword">reg</span> [wordsize-<span class="number">1</span>: <span class="number">0</span>]  MEM3 [memsize-<span class="number">1</span>: <span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>存储器寻址（Memory addressing）</p>
 <p>存储器元素可以通过存储器索引（index)寻址，也就是给出元素在存储器的位置来寻址。</p>
 <pre><code>     mem_name  [addr_expr]
-</code></pre>
-<p>Verilog不支持多维数组。也就是说只能对存储器字进行寻址，而不能对存储器中一个字的位寻址。</p>
+</code></pre><p>Verilog不支持多维数组。也就是说只能对存储器字进行寻址，而不能对存储器中一个字的位寻址。</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span> [<span class="number">8</span>: <span class="number">1</span>] mema [<span class="number">0</span>: <span class="number">255</span>]; <span class="comment">// declare memory called mema</span></span><br><span class="line"><span class="keyword">reg</span> [<span class="number">8</span>: <span class="number">1</span>] mem_word;      <span class="comment">// temp register called mem_ word</span></span><br><span class="line">. . .</span><br><span class="line"><span class="keyword">initial</span></span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">        <span class="built_in">$displayb</span>( mema[<span class="number">5</span>]);        <span class="comment">//显示存储器中第6个字节的内容</span></span><br><span class="line">        mem_word = mema[<span class="number">5</span>];  <span class="comment">//将这个字节赋值给men_word  </span></span><br><span class="line">        <span class="built_in">$displayb</span>( mem_word[<span class="number">8</span>]);  <span class="comment">//显示第6个字节的最高有效位</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-
 <p>尽管memory型数据和reg型数据的定义格式很相似，但要注意其不同之处。</p>
 <p>如一个由n个1位寄存器构成的存储器组是不同于 一个n位的寄存器的。      </p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[n-<span class="number">1</span>:<span class="number">0</span>] rega;  <span class="comment">//一个n位的寄存器</span></span><br><span class="line"><span class="keyword">reg</span>  mema[n-<span class="number">1</span>:<span class="number">0</span>];<span class="comment">//一个由n个1位寄存器构成的寄存器数组</span></span><br><span class="line">rega = <span class="number">0</span>; <span class="comment">//合法赋值语句</span></span><br><span class="line">mema = <span class="number">0</span>; <span class="comment">//非法赋值语句</span></span><br><span class="line">mema[<span class="number">3</span>] = <span class="number">0</span>; <span class="comment">//合法赋值语句      </span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[n-<span class="number">1</span>:<span class="number">0</span>] rega;  <span class="comment">//一个n位的寄存器</span></span><br><span class="line"><span class="keyword">reg</span>  mema[n-<span class="number">1</span>:<span class="number">0</span>];<span class="comment">//一个由n个1位寄存器构成的寄存器数组</span></span><br><span class="line">rega = <span class="number">0</span>; <span class="comment">//合法赋值语句</span></span><br><span class="line">mema = <span class="number">0</span>; <span class="comment">//非法赋值语句</span></span><br><span class="line">mema[<span class="number">3</span>] = <span class="number">0</span>; <span class="comment">//合法赋值语句      </span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <h2 id="5-端口数据类型"><a href="#5-端口数据类型" class="headerlink" title="5.端口数据类型"></a>5.端口数据类型</h2><ul>
 <li>一个端口看成是由相互连接的两个部分组成，一部分位于模块的内部，另一部分位于模块的外部。当在一个模块中调用（引用）另一个模块时，端口之间的连接必须遵守一些规则。</li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/20190929201409920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201409920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <ul>
 <li><p>输入端口：从模块内部来讲，输入端口必须为线网数据类型，从模块外部来看，输入端口可以连接到线网或者reg数据类型的变量。</p>
 <p>输出端口：从模块内部来讲，输出端口可以是线网或者reg数据类型，从模块外部来看，输出必须连接到线网类型的变量，而不能连接到reg类型的变量。</p>
@@ -391,7 +391,7 @@
 <p>​    端口列表中的位置保持一致。</p>
 </li>
 <li><p>端口类型定义举例</p>
-<p><img src="https://img-blog.csdnimg.cn/20190929201438983.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201438983.png" alt=""></p>
 </li>
 <li><p>输入端口in1,in2可以由net/register(A,B)驱动，但输入端口in1,in2只能是net类型；</p>
 <p>输出端口out可以是net/register类型，输出端口只能驱动net(Y)。</p>
@@ -399,7 +399,6 @@
 </li>
 </ul>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> DUT (O, in1, in2);</span><br><span class="line"> <span class="keyword">output</span> O;</span><br><span class="line">  <span class="keyword">input</span> in1, in2;</span><br><span class="line">  <span class="keyword">wire</span> O, in1, in2;    <span class="comment">//只能为线型</span></span><br><span class="line">	  <span class="keyword">and</span>  u1(O, in1, in2) ;</span><br><span class="line"> <span class="keyword">endmodule</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> top;</span><br><span class="line">  <span class="keyword">wire</span> y;  </span><br><span class="line">  <span class="keyword">reg</span> a, b; <span class="comment">//可以用reg给a、b驱动</span></span><br><span class="line">  DUT  u1 (y, a, b) ;</span><br><span class="line">  <span class="keyword">initial</span>   <span class="keyword">begin</span></span><br><span class="line">	    a = <span class="number">0</span>; b = <span class="number">0</span>;</span><br><span class="line">	    #<span class="number">5</span> a = <span class="number">1</span>;   <span class="comment">//过程块中只能给reg类型赋值</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><p>总结</p>
 <p>a.输入端口<br>从模块内部来讲，输入端口必须为线网(net)数据类型；<br>从模块外部来看，输入端口可以连接到线网(net)或reg数据类型的变量。</p>
@@ -415,59 +414,28 @@
 <ul>
 <li><p>在进行算术运算时，Verilog根据表达式中变量的长度对表达式的值自动地进行调整。Verilog自动截断或扩展赋值语句中右边的值以适应左边变量的长度。</p>
 <p>将负数赋值给reg或其它无符号变量时，verilog自动完成二进制补码计算。</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>] a,b;</span><br><span class="line"><span class="keyword">reg</span>[<span class="number">15</span>:<span class="number">0</span>] c;</span><br><span class="line"> a = -<span class="number">1</span>;       <span class="comment">//a为无符号数，其值为1111</span></span><br><span class="line"> b = <span class="number">8</span>;c=<span class="number">8</span>;<span class="comment">//b=c=1000</span></span><br><span class="line"> b= b+a;    <span class="comment">//结果10111截断,b=0111</span></span><br><span class="line"> c =c+a;     <span class="comment">//c=10111</span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>] a,b;</span><br><span class="line"><span class="keyword">reg</span>[<span class="number">15</span>:<span class="number">0</span>] c;</span><br><span class="line"> a = -<span class="number">1</span>;       <span class="comment">//a为无符号数，其值为1111</span></span><br><span class="line"> b = <span class="number">8</span>;c=<span class="number">8</span>;<span class="comment">//b=c=1000</span></span><br><span class="line"> b= b+a;    <span class="comment">//结果10111截断,b=0111</span></span><br><span class="line"> c =c+a;     <span class="comment">//c=10111</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>而进行取模运算时，结果值的符号位采用模运算式里第一个操作数的符号位。见下例:</p>
-<table>
-<thead>
-<tr>
-<th><strong>模运算表达式</strong></th>
-<th><strong>结果</strong></th>
-<th><strong>说明</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>10%3</td>
-<td>1</td>
-<td>余数为1</td>
-</tr>
-<tr>
-<td>11%3</td>
-<td>2</td>
-<td>余数为2</td>
-</tr>
-<tr>
-<td>12%3</td>
-<td>0</td>
-<td>余数为0，即无余数</td>
-</tr>
-<tr>
-<td>-10%3</td>
-<td>-1</td>
-<td>结果取第一个操作数的符号位。所以余数为-1</td>
-</tr>
-<tr>
-<td>11%-3</td>
-<td>2</td>
-<td>结果取第一个操作数的符号位，所以余数为2</td>
-</tr>
-</tbody></table>
+<p>| <strong>模运算表达式</strong> | <strong>结果</strong> | <strong>说明</strong>                                 |<br>| ———————— | ———— | ———————————————————— |<br>| 10%3             | 1        | 余数为1                                  |<br>| 11%3             | 2        | 余数为2                                  |<br>| 12%3             | 0        | 余数为0，即无余数                        |<br>| -10%3            | -1       | 结果取第一个操作数的符号位。所以余数为-1 |<br>| 11%-3            | 2        | 结果取第一个操作数的符号位，所以余数为2  |</p>
 </li>
 </ul>
 <p>2.位运算符（除了~,其余都是双目运算符）</p>
 <p>  将两个操作数按对应位分别进行逻辑运算。</p>
 <p>  如果两个操作数的位宽不一样，则仿真软件会自动将短操作数向左扩展到两操作数位宽一致。</p>
 <p>  如果操作数的某一位为x时不一定产生x结果。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190929201452225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201452225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <p>3.缩位运算符（单目运算符）</p>
 <p>缩位运算符（Reduction Operators）:又称缩减运算符，仅对一个操作数进行运算，按照从右到左的顺序依次对所有位进行运算，并产生一位的逻辑值</p>
-<p><img src="https://img-blog.csdnimg.cn/20190929201501800.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201501800.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <ul>
 <li><p>缩减运算是对单个操作数进行或、与、非递推运算.最后的运算结果是1位的二进制数。</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>] B;</span><br><span class="line"><span class="keyword">reg</span> C;</span><br><span class="line"><span class="keyword">assign</span> C = &amp;B;</span><br><span class="line">等价于：C = ((B[<span class="number">0</span>]&amp;B[<span class="number">1</span>])&amp;b[<span class="number">2</span>])&amp;B[<span class="number">3</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>] B;</span><br><span class="line"><span class="keyword">reg</span> C;</span><br><span class="line"><span class="keyword">assign</span> C = &amp;B;</span><br><span class="line">等价于：C = ((B[<span class="number">0</span>]&amp;B[<span class="number">1</span>])&amp;b[<span class="number">2</span>])&amp;B[<span class="number">3</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <p>4.关系运算符</p>
 <p>   在进行关系运算时，如果声明的关系是假，则返回值是0；如果声明的关系是真，则返回值是1；如果操作数的某一位为x或z,则结果为不确定值。 </p>
-<p><img src="https://img-blog.csdnimg.cn/2019092920155884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/2019092920155884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <p>5.等式运算符</p>
 <p>   逻辑相等：==</p>
 <p>   逻辑不等：!=</p>
@@ -480,7 +448,7 @@
 <li><p>相等运算符(＝＝)和全等运算符(＝＝＝)的区别:      </p>
 <p>对于相等运算符，当参与比较的两个操作数逐位相等，其结果才为1，如果某些位是不定态或高阻值，其相等比较得到的结果就会是不定值。</p>
 <p>对于全等比较(＝＝＝)是对这些不定态或高阻值的位也进行比较，两个操作数必须完全一致，其结果才为1，否则结果是0。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190929201534126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201534126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 </li>
 <li><p>A== 1’bx  ———— 当A为1’bx时，其结果仍为x；</p>
 </li>
@@ -490,31 +458,28 @@
 <p>6.逻辑运算符</p>
 <p>   逻辑运算符中，“&amp;&amp;”和“||”是双目运算符,它要求有两个操作数。</p>
 <p>​    “!”是单目运算符,只要求一个操作数。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190929201623679.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201623679.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 <p>7.移位运算符</p>
 <p>  Verilog  HDL的移位运算符只有左移和右移两个。其用法为：<strong>A&gt;&gt;n</strong><br> 或 <strong>A&lt;&lt;n</strong>；   表示把操作数A右移或左移n位，同时用0填补移出的位。</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">例如：</span><br><span class="line">  <span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>] start;</span><br><span class="line">  start = <span class="number">1</span>;</span><br><span class="line">  start = (start&lt;&lt;<span class="number">2</span>);</span><br><span class="line">  <span class="comment">//start = 0100;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>8.位拼接运算符</p>
 <p>  在Verilog语言中有一个特殊的运算符:位拼接运算符{ }。</p>
 <p>  位拼接运算符{}可以把两个或多个信号的某些位拼接起来,表示一个整体信号进行运算操作。其使用方法如下：</p>
 <p>​     <code>&#123;信号1的某几位，信号2的某几位，..,..,信号n的某几位&#125;</code></p>
 <p>  对于一些信号的重复连接，可以使用简化的表示方式{n{A}}。这里A是被连接的对象，n是重复的次数。</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">例如：ain = <span class="number">3</span>’b010； bin = <span class="number">4</span>’b1100； </span><br><span class="line">    &#123;ain,bin&#125; = <span class="number">7</span>’b0101100；</span><br><span class="line">　  &#123;<span class="number">3</span> &#123;<span class="number">2</span>’b10&#125; = <span class="number">6</span>’b101010；</span><br><span class="line">位拼接还可以用嵌套的方式来表达：</span><br><span class="line">  	 &#123; a, <span class="number">3&#x27;b101</span>, &#123;<span class="number">3</span>&#123;a,b&#125;&#125;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>注意：在位拼接表达式中不允许存在没有指明位数的信号。这是因为在计算机拼接信号的位宽的大小时必须知道其中每个信号的位宽。</p>
 <p>9.条件运算符</p>
 <p> 三目运算符，对3个操作数进行运算，方式如下：</p>
-<p>​         <code> 信号 ＝ 条件？表达式１：表达式２</code></p>
+<p>​         <code>信号 ＝ 条件？表达式１：表达式２</code></p>
 <p>   说明：当条件成立时，信号取表达式1的值，反之取表达式2的值。</p>
 <p>   例如：</p>
 <p>​         <code>assign out= (sel == 0) ? a : b;</code></p>
 <p>例如：条件运算符描述的三态缓冲器</p>
-<p><img src="https://img-blog.csdnimg.cn/20190929201636309.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201636309.png" alt=""></p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> likebufif ( in, en, out);</span><br><span class="line"><span class="keyword">input</span> in;</span><br><span class="line"><span class="keyword">input</span> en; </span><br><span class="line"><span class="keyword">output</span> out;</span><br><span class="line">   <span class="keyword">assign</span> out = (en == <span class="number">1</span>) ? in : <span class="number">&#x27;bz</span>;   </span><br><span class="line"><span class="keyword">endmodule</span> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>10.优先级别</p>
-<p><img src="https://img-blog.csdnimg.cn/20190929201645226.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190929201645226.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTgxNTky,size_16,color_FFFFFF,t_70" alt=""></p>
 
         </div>
 
