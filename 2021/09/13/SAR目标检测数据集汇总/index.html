@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>SAR目标检测数据集汇总 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">SAR目标检测数据集汇总</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 13, 2021&nbsp;&nbsp;21:51:56</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.8k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">6</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <ul>
+<li>随着深度学习在计算机视觉（CV）领域的突破，SAR图像目标检测领域也开始采用这些深度学习算法，虽然和光学图像成像机理不同，但是可以借鉴CV领域的优秀算法进行改进，目前也有很多论文展现了不错的效果。下面针对SAR目标检测的学习和研究，总结一些数据集并提供下载方式，方便后续的研究。</li>
+</ul>
+<h2 id="1-MSTAR-（1996）"><a href="#1-MSTAR-（1996）" class="headerlink" title="1. MSTAR （1996）"></a>1. MSTAR （1996）</h2><ul>
+<li><p>下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1SAdmYAOHPheAH98CLP9dQg">https://pan.baidu.com/s/1SAdmYAOHPheAH98CLP9dQg</a><br><strong>提取码：h2ig</strong></p>
+</li>
+<li><p>运动和静止目标获取与识别（Moving and Stationary Target Acquisition and Recognition, MSTAR）数据集，是美国国防高级研究计划署(Defense Advanced Research Project Agency, DARPA) 和空军研究室(Air Force Research Laboratory, AFRL) 提供的SAR图像。</p>
+</li>
+<li><p>采集该数据集的传感器为高分辨率的聚束式合成孔径雷达，该雷达的分辨率为0.3m×0.3m。工作在X波段，所用的极化方式为HH极化方式。对采集到的数据进行前期处理，从中提取出像素大小为128×128包含各类目标的切片图像。该数据大多是静止车辆的SAR切片图像，包含多种车辆目标在各个方位角下获取到的目标图像。</p>
+</li>
+<li><p>MSTAR混合目标数据中包含十类军事目标的切片图像，这些军事目标分别为2S1（自行榴弹炮）、BRDM2（装甲侦察车）、BTR60（装甲运输车）、D7（推土机）、T62（坦克）、ZIL131（货运卡车）、ZSU234（自行高炮）、T72。这些目标是雷达工作在多种不同的俯仰角时，各个目标在方向上面的成像图片。光学图像和SAR图像如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/e5a06972a847425f876f50e78db3203a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBARElEIOi_qg==,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="image-20210913201937919" style="zoom: 150%;" /></p>
+</li>
+<li><p>数据分为标准工作条件（SOC）和扩展工作条件（EOC），标准工作条件是测试与训练SAR图像目标外形配置和型号相同，仅成像时目标的俯仰角和方位角不同，扩展工作条件是指测试与训练SAR图像有很大不同，主要是成像角度的改变、外形配置的变化以及型号不同。</p>
+</li>
+<li><p>除了10类军事目标外，MSTAR数据集还提供了大幅场景SAR图像，包含森林、地面、建筑等杂波，可用于目标检测和识别。</p>
+</li>
+</ul>
+<h2 id="2-OpenSARShip2-0-（2017）"><a href="#2-OpenSARShip2-0-（2017）" class="headerlink" title="2. OpenSARShip2.0 （2017）"></a>2. OpenSARShip2.0 （2017）</h2><ul>
+<li><p>下载链接：<a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/datasetdetail/77017">https://aistudio.baidu.com/aistudio/datasetdetail/77017</a></p>
+</li>
+<li><p>参考文献：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/8067489">https://ieeexplore.ieee.org/document/8067489</a> OpenSARShip: A Dataset Dedicated to Sentinel-1 Ship Interpretation</p>
+<p><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/8124929">https://ieeexplore.ieee.org/document/8124929</a> OpenSARShip 2.0: A large-volume dataset for deeper interpretation of ship targets in Sentinel-1 imagery</p>
+</li>
+<li><p>OpenSARShip是由上海交通大学高级传感技术中心（AST）开发的开放式SAR图像管理和处理平台，用于SAR图像的读取、处理、可视化和算法测试。</p>
+</li>
+<li>缺点：类别间样本数量极其不均衡，难以训练出较好的分类模型。</li>
+</ul>
+<h2 id="3-SSDD-SSDD-（2020）"><a href="#3-SSDD-SSDD-（2020）" class="headerlink" title="3. SSDD / SSDD+ （2020）"></a>3. SSDD / SSDD+ （2020）</h2><ul>
+<li>下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1sVs63jB_aM-RbcHEaWQgTg">https://pan.baidu.com/s/1sVs63jB_aM-RbcHEaWQgTg</a><br><strong>提取码：4pz1</strong></li>
+<li>SSDD是国内外公开的第一个专门用于SAR图像舰船目标检测的数据集，可以用于训练和测试检验算法，得到了三十级所高校和研究所的使用。</li>
+<li><p>SSDD是通过在网上下载公开的SAR图像，并将目标区域裁剪成大小为500×500左右像素，并通过人工标注舰船目标位置而得的。数据主要有RadarSat-2、TerraSAR-X和Sentinel-1传感器，HH、HV、VV和VH四种极化方式，分辨率为1m-15m，在大片海域和近岸地区都有舰船目标。</p>
+</li>
+<li><p>旋转边框在遥感目标检测中也得到了很多应用。旋转边框可以完全分开舰船与背景像素。通常，垂直边框中的很多像素不属于船的像素，这对于区分背景和舰船区域十分不利，尤其是密集排列的交叠非常大的舰船目标，所以最好利用旋转边框来定位舰船目标。</p>
+</li>
+<li><p>旋转边框的宽度和高度可以显示船的真实形状而垂直边框的长宽比和尺寸与船的真实形状不一致，旋转边框可在完成检测任务的同时实现对目标的方位向估计（会存在180°模糊），不需要设计单独的舰船目标方向估计算法。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-3c79aa18b31bc105bb24cf374248f764_1440w.jpg" alt="img" style="zoom: 33%;" /></p>
+</li>
+<li><p>在垂直边框的基础上增加一个旋转角度来表达旋转边框，可以表示成（<em>x</em>, <em>y</em>, <em>w</em>, <em>h,</em> $\theta$），$\theta$是从<em>y</em>轴正向到舰船长中轴方向的角度。为了用旋转边框对舰船目标进行检测，对SSDD的标签进行了改进，对其在类别和位置基础上增加了旋转角度信息，将这个数据集称为SSDD+。</p>
+</li>
+</ul>
+<h2 id="4-AIR-SARShip2-0-（2019）"><a href="#4-AIR-SARShip2-0-（2019）" class="headerlink" title="4. AIR-SARShip2.0 （2019）"></a>4. AIR-SARShip2.0 （2019）</h2><ul>
+<li>下载链接：<a target="_blank" rel="noopener" href="http://radars.ie.ac.cn/web/data/getData?dataType=SARDataset">http://radars.ie.ac.cn/web/data/getData?dataType=SARDataset</a></li>
+<li><p>参考论文：<a target="_blank" rel="noopener" href="http://radars.ie.ac.cn/article/doi/10.12000/JR19097">http://radars.ie.ac.cn/article/doi/10.12000/JR19097</a>  AIR-SARShip-1.0: High-resolution SAR Ship Detection Dataset</p>
+</li>
+<li><p>高分辨率SAR舰船检测数据集-2.0（AIR-SARShip-2.0）发布300幅图像，图像分辨率包括1m和3m，成像模式包括聚束式和条带式，极化方式为单极化，极化方式为VV，场景类型包含港口、岛礁、不同等级海况的海面，目标覆盖运输船、油船、渔船等十余类数千艘舰船。</p>
+</li>
+<li><p>图像尺寸约为1000×1000像素，图像格式为Tiff、单通道、8/16位图像深度，标注文件提供相应图像的长宽尺寸、标注目标的类别以及标注矩形框的位置。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200504095346556.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NDUxNTcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" style="zoom: 67%;" /></p>
+</li>
+</ul>
+<h2 id="5-SAR-Ship-Dataset-（2019）"><a href="#5-SAR-Ship-Dataset-（2019）" class="headerlink" title="5. SAR-Ship-Dataset （2019）"></a>5. SAR-Ship-Dataset （2019）</h2><ul>
+<li><p>下载链接：<a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/datasetdetail/54361">https://aistudio.baidu.com/aistudio/datasetdetail/54361</a> </p>
+</li>
+<li><p>参考文献：<a target="_blank" rel="noopener" href="https://www.researchgate.net/publication/332078787">https://www.researchgate.net/publication/332078787</a> A SAR Dataset of Ship Detection for Deep Learning under Complex Backgrounds</p>
+</li>
+<li><p>该数据集以我国国产高分三号SAR数据和Sentinel-1 SAR数据为主数据源，共采用了102景高分三号和108景Sentinel-1 SAR图像构建高分辨率SAR船舶目标深度学习样本库。目前，该深度学习样本库包含43819个船舶切片。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200504103925284.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NDUxNTcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<h2 id="6-HRSID-（2020）"><a href="#6-HRSID-（2020）" class="headerlink" title="6. HRSID （2020）"></a>6. HRSID （2020）</h2><ul>
+<li><p>下载链接：<a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/datasetdetail/54512">https://aistudio.baidu.com/aistudio/datasetdetail/54512</a> </p>
+</li>
+<li><p>参考文献：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/9127939/">https://ieeexplore.ieee.org/document/9127939/</a> HRSID: A High-Resolution SAR Images Dataset for Ship Detection and Instance Segmentation</p>
+</li>
+<li><p>数据集是电子科技大学在2020年1月发布数据集，HRSID是高分辨率SAR图像中用于船舶检测、语义分割和实例分割任务的数据集。该数据集共包含5604张高分辨率SAR图像和16951个ship实例。ISSID数据集借鉴了Microsoft Common Objects in Context (COCO)数据集的构建过程，包括不同分辨率的SAR图像、极化、海况、海域和沿海港口。该数据集是研究人员评估其方法的基准。对于HRSID, SAR图像的分辨率分别为:0.5m, 1 m, 3 m。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200506074916250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NDUxNTcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" style="zoom:67%;" /></p>
+</li>
+</ul>
+<h2 id="结尾-遥感数据集汇总链接"><a href="#结尾-遥感数据集汇总链接" class="headerlink" title="结尾 遥感数据集汇总链接"></a>结尾 遥感数据集汇总链接</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/projectdetail/882508">https://aistudio.baidu.com/aistudio/projectdetail/882508</a> 所有遥感数据集下载汇总</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27930679/article/details/110631002">https://blog.csdn.net/qq_27930679/article/details/110631002</a> 遥感目标检测数据集</li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/0YPA7Rxgtkbi207ZVaU7ZA">https://mp.weixin.qq.com/s/0YPA7Rxgtkbi207ZVaU7ZA</a> 数据分享01期|遥感目标检测数据集（更新）</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="#">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.gitee.io/2021/09/13/SAR%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B1%87%E6%80%BB/">https://did321.gitee.io/2021/09/13/SAR%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B1%87%E6%80%BB/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/SAR/"># SAR</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2021/08/22/%E5%9F%BA%E4%BA%8E%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%E7%9A%84SAR%E8%87%AA%E5%8A%A8%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B-SAR-ATR/">基于全卷积网络的SAR自动目标检测(SAR ATR)</a>
+            
+        </section>
+        <br>
+        <br>
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+
+    appId: 'JvFy3ebVLo2rUYgHaMweJyXX-MdYXbMMI',
+    appKey: 'TCFxfjDAM8UmERPEgYXJmT40',
+    placeholder: '----评论区----留下你的评论，作者会定期回复！在昵称处填写QQ号可自动获取邮箱和QQ头像（保护QQ邮箱隐私）',
+    enableQQ: true,
+    requiredFields: ['nick'],
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
