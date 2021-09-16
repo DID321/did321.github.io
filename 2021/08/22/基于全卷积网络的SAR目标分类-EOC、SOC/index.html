@@ -216,9 +216,82 @@
 </li>
 </ul>
 <h2 id="3-SOC条件下分类结果"><a href="#3-SOC条件下分类结果" class="headerlink" title="3. SOC条件下分类结果"></a>3. SOC条件下分类结果</h2><ul>
-<li><p>训练集和测试集如下：</p>
-<p>|  类别   |   数量    |           |<br>| :——-: | :———-: | :———-: |<br>|         | 训练集17° | 测试集15° |<br>|   2S1   |    299    |    274    |<br>|  BMP2   |    233    |    196    |<br>|  BRDM2  |    298    |    274    |<br>|  BTR60  |    256    |    195    |<br>|  BTR70  |    233    |    196    |<br>|   D7    |    299    |    274    |<br>|   T62   |    299    |    273    |<br>|   T72   |    232    |    196    |<br>| ZIL131  |    299    |    274    |<br>| ZSU23/4 |    299    |    274    |<br>|  总计   |   2747    |   2426    |</p>
-</li>
+<li>训练集和测试集如下：</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">数量</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">训练集17°</td>
+<td style="text-align:center">测试集15°</td>
+</tr>
+<tr>
+<td style="text-align:center">2S1</td>
+<td style="text-align:center">299</td>
+<td style="text-align:center">274</td>
+</tr>
+<tr>
+<td style="text-align:center">BMP2</td>
+<td style="text-align:center">233</td>
+<td style="text-align:center">196</td>
+</tr>
+<tr>
+<td style="text-align:center">BRDM2</td>
+<td style="text-align:center">298</td>
+<td style="text-align:center">274</td>
+</tr>
+<tr>
+<td style="text-align:center">BTR60</td>
+<td style="text-align:center">256</td>
+<td style="text-align:center">195</td>
+</tr>
+<tr>
+<td style="text-align:center">BTR70</td>
+<td style="text-align:center">233</td>
+<td style="text-align:center">196</td>
+</tr>
+<tr>
+<td style="text-align:center">D7</td>
+<td style="text-align:center">299</td>
+<td style="text-align:center">274</td>
+</tr>
+<tr>
+<td style="text-align:center">T62</td>
+<td style="text-align:center">299</td>
+<td style="text-align:center">273</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">232</td>
+<td style="text-align:center">196</td>
+</tr>
+<tr>
+<td style="text-align:center">ZIL131</td>
+<td style="text-align:center">299</td>
+<td style="text-align:center">274</td>
+</tr>
+<tr>
+<td style="text-align:center">ZSU23/4</td>
+<td style="text-align:center">299</td>
+<td style="text-align:center">274</td>
+</tr>
+<tr>
+<td style="text-align:center">总计</td>
+<td style="text-align:center">2747</td>
+<td style="text-align:center">2426</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
 <li><p>训练集每张SAR图像裁剪5个随机切片，中心裁剪1个切片，均为88×88像素，训练集一共2747×6=16482 (张)。测试集中心裁剪88×88的切片。</p>
 </li>
 <li><p>训练：epoch = 50， Adam优化器，learning_rate = 0.0001, 在tensorboard中显示训练集和测试集Accuracy、Loss曲线：</p>
@@ -229,9 +302,52 @@
 </li>
 </ul>
 <h2 id="4-EOC1条件下分类结果"><a href="#4-EOC1条件下分类结果" class="headerlink" title="4. EOC1条件下分类结果"></a>4. EOC1条件下分类结果</h2><ul>
-<li><p>EOC1是大俯仰角变化条件下，其训练集和测试集如下：</p>
-<p>|  类别  |   数量    |   数量    |<br>| :——: | :———-: | :———-: |<br>|        | 训练集17° | 测试集30° |<br>|  2S1   |    299    |    288    |<br>| BRDM2  |    298    |    287    |<br>|  T72   |    299    |    288    |<br>| ZSU234 |    299    |    288    |<br>|  总计  |   1195    |   1151    |</p>
-</li>
+<li>EOC1是大俯仰角变化条件下，其训练集和测试集如下：</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">数量</th>
+<th style="text-align:center">数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">训练集17°</td>
+<td style="text-align:center">测试集30°</td>
+</tr>
+<tr>
+<td style="text-align:center">2S1</td>
+<td style="text-align:center">299</td>
+<td style="text-align:center">288</td>
+</tr>
+<tr>
+<td style="text-align:center">BRDM2</td>
+<td style="text-align:center">298</td>
+<td style="text-align:center">287</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">299</td>
+<td style="text-align:center">288</td>
+</tr>
+<tr>
+<td style="text-align:center">ZSU234</td>
+<td style="text-align:center">299</td>
+<td style="text-align:center">288</td>
+</tr>
+<tr>
+<td style="text-align:center">总计</td>
+<td style="text-align:center">1195</td>
+<td style="text-align:center">1151</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
 <li><p>训练集每张SAR图像裁剪5个随机切片，中心裁剪1个切片，均为88×88像素，训练集一共1195×6=7170 (张)。测试集中心裁剪88×88的切片。</p>
 </li>
 <li><p>训练：epoch200，Adam优化器，learning_rate = 0.0001, 在tensorboard中显示训练集和测试集Accuracy、Loss曲线：</p>
@@ -242,12 +358,87 @@
 </li>
 </ul>
 <h2 id="5-EOC2条件下分类结果"><a href="#5-EOC2条件下分类结果" class="headerlink" title="5. EOC2条件下分类结果"></a>5. EOC2条件下分类结果</h2><ul>
-<li><p>EOC2是车辆外观配置变化，其训练集如下：</p>
-<p>|     类别     | 数量（俯仰角17°） |<br>| :—————: | :———————-: |<br>| BMP2（9563） |        233        |<br>|    BRDM2     |        298        |<br>| BTR70（C71） |        233        |<br>|  T72（132）  |        232        |<br>|     总计     |        995        |</p>
-</li>
-<li><p>测试集：</p>
-<p>| 类别 | 型号 | 数量（俯仰角17° &amp; 15°） |<br>| :—: | :—: | :——————————-: |<br>| T72  |  S7  |           419           |<br>| T72  | A32  |           572           |<br>| T72  | A62  |           573           |<br>| T72  | A63  |           573           |<br>| T72  | A64  |           573           |<br>| 总计 |      |          2710           |</p>
-</li>
+<li>EOC2是车辆外观配置变化，其训练集如下：</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">数量（俯仰角17°）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">BMP2（9563）</td>
+<td style="text-align:center">233</td>
+</tr>
+<tr>
+<td style="text-align:center">BRDM2</td>
+<td style="text-align:center">298</td>
+</tr>
+<tr>
+<td style="text-align:center">BTR70（C71）</td>
+<td style="text-align:center">233</td>
+</tr>
+<tr>
+<td style="text-align:center">T72（132）</td>
+<td style="text-align:center">232</td>
+</tr>
+<tr>
+<td style="text-align:center">总计</td>
+<td style="text-align:center">995</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>测试集：</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">型号</th>
+<th style="text-align:center">数量（俯仰角17° &amp; 15°）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">S7</td>
+<td style="text-align:center">419</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">A32</td>
+<td style="text-align:center">572</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">A62</td>
+<td style="text-align:center">573</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">A63</td>
+<td style="text-align:center">573</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">A64</td>
+<td style="text-align:center">573</td>
+</tr>
+<tr>
+<td style="text-align:center">总计</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">2710</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
 <li><p>训练集每张SAR图像裁剪10个随机切片，中心裁剪1个切片，均为88×88像素，训练集一共995×11=10945(张)。测试集中心裁剪88×88的切片。</p>
 </li>
 <li><p>训练：epoch50，Adam优化器，learning_rate = 0.0001, 在tensorboard中显示训练集和测试集Accuracy、Loss曲线：</p>
@@ -258,9 +449,62 @@
 </li>
 </ul>
 <h2 id="6-EOC3条件下分类结果"><a href="#6-EOC3条件下分类结果" class="headerlink" title="6. EOC3条件下分类结果"></a>6. EOC3条件下分类结果</h2><ul>
-<li><p>EOC3是针对同一目标的不同型号变种，训练集和EOC2训练集一致，测试集如下：</p>
-<p>| 类别 | 型号 | 数量（俯仰角17° &amp; 15°） |<br>| :—: | :—: | :——————————-: |<br>| BMP2 | 9566 |           428           |<br>| BMP2 | C21  |           429           |<br>| T72  | 812  |           426           |<br>| T72  | A04  |           573           |<br>| T72  | A05  |           573           |<br>| T72  | A07  |           573           |<br>| T72  | A10  |           567           |<br>| 总计 |      |          3569           |</p>
-</li>
+<li>EOC3是针对同一目标的不同型号变种，训练集和EOC2训练集一致，测试集如下：</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">型号</th>
+<th style="text-align:center">数量（俯仰角17° &amp; 15°）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">BMP2</td>
+<td style="text-align:center">9566</td>
+<td style="text-align:center">428</td>
+</tr>
+<tr>
+<td style="text-align:center">BMP2</td>
+<td style="text-align:center">C21</td>
+<td style="text-align:center">429</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">812</td>
+<td style="text-align:center">426</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">A04</td>
+<td style="text-align:center">573</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">A05</td>
+<td style="text-align:center">573</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">A07</td>
+<td style="text-align:center">573</td>
+</tr>
+<tr>
+<td style="text-align:center">T72</td>
+<td style="text-align:center">A10</td>
+<td style="text-align:center">567</td>
+</tr>
+<tr>
+<td style="text-align:center">总计</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">3569</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
 <li><p>这里直接用EOC2训练好的模型进行预测，测试集的混淆矩阵如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">		   BMP2   BRDM2    BTR70   T72  </span><br><span class="line">BMP9566	   359		0		17	    52		83.88%</span><br><span class="line">BMPC21	   372		0		1		2		86.71%</span><br><span class="line">T72_812		2		0		1	   423		99.30%</span><br><span class="line">T72_A04		3		0		0	   570		99.48%</span><br><span class="line">T72_A05		1		0		0	   572		99.83%</span><br><span class="line">T72_A07		0		0		0	   573		100%</span><br><span class="line">T72_A10		20		0		0	   547		96.47%		</span><br><span class="line">总计：95.74%</span><br></pre></td></tr></table></figure>
 </li>
@@ -352,6 +596,23 @@
 </footer>
 
     </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

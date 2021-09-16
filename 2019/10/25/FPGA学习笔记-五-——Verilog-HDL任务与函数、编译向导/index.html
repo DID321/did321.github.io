@@ -319,7 +319,7 @@
 <p>  ​    16’hC501                //16位十六进制无符号数</p>
 <p>  ​    16’shC501              //16位十六进制有符号数</p>
 <ul>
-<li>除了可以定义有符号数据类型和数值外，Verilog2001还增加了两个新的系统函数，即<script type="math/tex">signed`和</script>unsigned`。这两个系统函数可以将无符号数变换为带符号数，或相反。</li>
+<li>除了可以定义有符号数据类型和数值外，Verilog2001还增加了两个新的系统函数，即<code>$signed</code>和$<code>unsigned</code>。这两个系统函数可以将无符号数变换为带符号数，或相反。</li>
 </ul>
 <p>  举例说明如下：</p>
   <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reg</span>[<span class="number">63</span> : <span class="number">0</span>] a;  <span class="comment">//无符号数据类型</span></span><br><span class="line"><span class="keyword">always</span>@(a) </span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    result1  = a/<span class="number">2</span>;      <span class="comment">//无符号运算</span></span><br><span class="line">    result2  = <span class="built_in">$signed</span>(a) / <span class="number">2</span>; <span class="comment">//有符号运算</span></span><br><span class="line"> <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
@@ -496,6 +496,23 @@
 </footer>
 
     </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
