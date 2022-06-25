@@ -205,18 +205,18 @@
         </header>
 
         <div class="post-content">
-            <h2 id="Lightroom修图思路"><a href="#Lightroom修图思路" class="headerlink" title="Lightroom修图思路"></a>Lightroom修图思路</h2><h3 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h3><ul>
+            <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
 <li>本篇博客转自南开大学好朋友的一篇知乎，ID:<strong>“叫我小沛”</strong>，附上原文链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/533737098">https://zhuanlan.zhihu.com/p/533737098</a> 。</li>
 </ul>
-<h3 id="0-LightRoom基本操作"><a href="#0-LightRoom基本操作" class="headerlink" title="0. LightRoom基本操作"></a>0. LightRoom基本操作</h3><h4 id="0-1-LightRoom和PhotoShop怎么选？"><a href="#0-1-LightRoom和PhotoShop怎么选？" class="headerlink" title="0.1 LightRoom和PhotoShop怎么选？"></a>0.1 LightRoom和PhotoShop怎么选？</h4><p>ps是<strong>图片</strong>修改软件，可以进行像素层级的编辑，除了编辑现有图片外，用户还可以用Photoshop制作图像，例如加入字体、向量图案等等。</p>
+<h2 id="0-LightRoom基本操作"><a href="#0-LightRoom基本操作" class="headerlink" title="0. LightRoom基本操作"></a>0. LightRoom基本操作</h2><h3 id="0-1-LightRoom和PhotoShop怎么选？"><a href="#0-1-LightRoom和PhotoShop怎么选？" class="headerlink" title="0.1 LightRoom和PhotoShop怎么选？"></a>0.1 LightRoom和PhotoShop怎么选？</h3><p>ps是<strong>图片</strong>修改软件，可以进行像素层级的编辑，除了编辑现有图片外，用户还可以用Photoshop制作图像，例如加入字体、向量图案等等。</p>
 <p>lr是<strong>照片</strong>修改软件，lr对照片管理和照片的使用修改作了简化，可以一次导入多张照片，然后进行批处理。</p>
 <p>ps功能更强大，但也更复杂。一般来说，90%的修图工作用lr都能很好地完成。</p>
-<h4 id="0-2-主界面"><a href="#0-2-主界面" class="headerlink" title="0.2 主界面"></a>0.2 主界面</h4><p>首先来认识一下LR的主界面：</p>
+<h3 id="0-2-主界面"><a href="#0-2-主界面" class="headerlink" title="0.2 主界面"></a>0.2 主界面</h3><p>首先来认识一下LR的主界面：</p>
 <p><img src="https://pic4.zhimg.com/80/v2-35fec88f6ac07b8bab0ad5bb3794f8fb.png" alt="Image"></p>
 <blockquote>
 <p><strong>① 菜单区：</strong>和其他软件类似，所有的命令都可以在菜单里找到；<br><strong>② 模块区：</strong>模块区是使用Lightroom的第一步，这里包含Lightroom的七个功能模块。选择不同的模块，下面的界面会显示相应的模块功能。虽然是七个模块，<strong>其实一般用到的也就是前两个：“图库”和“修改照片”。</strong>其他的基本不用理会；<br><strong>③ 左侧面板：</strong>左侧面板随着使用的模块不同而出现不同的功能面板；<br><strong>④ 主窗口：</strong>主窗口的作用是显示图片内容。在修改图像时往往希望显示图像的主窗口大一些，点击软件边框上的三角形，可以把不需要的面板隐藏起来；<br><strong>⑤ 右侧面板：</strong>右侧面板也随着模块不同而展现不同的功能面板；<br><strong>⑥ 浏览窗口：</strong>导入的所有照片在这里以缩略图的方式展现，点击选择某张照片就可以在主窗口呈现。</p>
 </blockquote>
-<h4 id="0-3-新建目录"><a href="#0-3-新建目录" class="headerlink" title="0.3 新建目录"></a>0.3 新建目录</h4><p>打开Lightroom，我们第一件要做的事不是导入照片，而是先建一个目录。在Lightroom中，目录相当于一个数据库或管理系统，有非常重要的作用。</p>
+<h3 id="0-3-新建目录"><a href="#0-3-新建目录" class="headerlink" title="0.3 新建目录"></a>0.3 新建目录</h3><p>打开Lightroom，我们第一件要做的事不是导入照片，而是先建一个目录。在Lightroom中，目录相当于一个数据库或管理系统，有非常重要的作用。</p>
 <p><strong>目录是什么？</strong></p>
 <p>首先，目录是一个以.lrcat为扩展名的文件，记录了所有导入照片的基本数据和修改信息。包括照片存放的位置、关键字和标注信息、对照片所做的一切操作记录。Lightroom的独特之处就是完全依靠目录来保存修改数据，而不是在原始图片上修改，这也是为什么能无损修饰的原因。</p>
 <p>其次，它是一个管理者、索引者，可以根据目录对图片分类标识，方便选择需要的图片进行操作。</p>
@@ -227,7 +227,7 @@
 <blockquote>
 <p>新建立的目录在硬盘上表现为一个*.lrcat文件（*为自己命名的目录名称），同时还有一个名为* Previews.lrdata的文件夹，这个文件夹是Lightroom预览的文件夹。照片导入Lightroom以后，系统记录了照片的位置信息，并为照片创建预览，这些预览就存放在这个文件夹中，我们在Lightroom中看到的并不是真实的照片，而是它们的预览，但是在修改的时候，使用的才是实际的照片。</p>
 </blockquote>
-<h4 id="0-4-导入图片"><a href="#0-4-导入图片" class="headerlink" title="0.4 导入图片"></a>0.4 导入图片</h4><p>单击“文件”菜单，选择“导入照片和视频”。 弹出“导入照片和视频”界面。</p>
+<h3 id="0-4-导入图片"><a href="#0-4-导入图片" class="headerlink" title="0.4 导入图片"></a>0.4 导入图片</h3><p>单击“文件”菜单，选择“导入照片和视频”。 弹出“导入照片和视频”界面。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-cf17089cbc6e3a79f735d8f73bd5dd77.png" alt="Image"></p>
 <p>① 部分中有几点要注意：</p>
 <p>　　“添加” 方式：如果你的照片已经在硬盘里了，用“添加”方式即可。添加模式只是在Lightroom中建立一个照片的指向，而不移动照片所在的位置；</p>
@@ -242,11 +242,11 @@
 <blockquote>
 <p>注：更多的操作细节可以参考[1-9]，上面大部分文字部分参考了[1].</p>
 </blockquote>
-<h4 id="0-5-管理照片"><a href="#0-5-管理照片" class="headerlink" title="0.5 管理照片"></a>0.5 管理照片</h4><p>在修改照片之前，可以先对照片进行打分。这样可以方便后面对照片进行管理。比如可以选择先修5颗:star:的，再修4颗:star:的…</p>
+<h3 id="0-5-管理照片"><a href="#0-5-管理照片" class="headerlink" title="0.5 管理照片"></a>0.5 管理照片</h3><p>在修改照片之前，可以先对照片进行打分。这样可以方便后面对照片进行管理。比如可以选择先修5颗:star:的，再修4颗:star:的…</p>
 <p>打分的方法是：在下面的图片列表中选中一张图片，然后按数字键1-5即可对照片进行打分，0代表没有:star:；</p>
 <p>还可以对照片进行标记，方法同样是在下面的图片列表中选中一张图片，然后按数字键，6：红色，7：黄色，8：绿色，9：蓝色.</p>
 <p>之后可以在右下角的<strong>过滤器</strong><img src="https://pic4.zhimg.com/80/v2-e19f745254667aca3cf621f084f637bb.png" alt="image-20220624091454256" style="zoom:50%;" />中选择不同星级或不同标签的图片。</p>
-<h4 id="0-6-说在前面"><a href="#0-6-说在前面" class="headerlink" title="0.6 说在前面"></a>0.6 说在前面</h4><p>在修图之前，我们应该认识到一张图由哪些组成。在知乎[5]上看到了这张图，感觉可以作为修图的思想指导。</p>
+<h3 id="0-6-说在前面"><a href="#0-6-说在前面" class="headerlink" title="0.6 说在前面"></a>0.6 说在前面</h3><p>在修图之前，我们应该认识到一张图由哪些组成。在知乎[5]上看到了这张图，感觉可以作为修图的思想指导。</p>
 <blockquote>
 <p>任何一张照片，大概都包含<strong>构图、色调、亮度、清晰度</strong>这几个元素。实际上Lightroom也基本上是调整修改的这些东西，按照这个逻辑，把Lightroom的功能按照这几个照片的元素列表对应的思维导图如下：</p>
 </blockquote>
@@ -254,57 +254,57 @@
 <blockquote>
 <p>注：下面大部分是观看b站视频[10]写的笔记。</p>
 </blockquote>
-<h3 id="1-基础调色"><a href="#1-基础调色" class="headerlink" title="1. 基础调色"></a>1. 基础调色</h3><p>接下来就正式进入调色阶段了。首先选择一张图片，点击右上方的<img src="https://pic4.zhimg.com/80/v2-549ba471fa2ab4e531fb81b8e4b6bc2b.png" alt="image-20220624091655739" style="zoom:50%;" />来进入修图状态。</p>
-<h4 id="1-1-调整白平衡"><a href="#1-1-调整白平衡" class="headerlink" title="1.1 调整白平衡"></a>1.1 调整白平衡</h4><p>首先调整白平衡。用吸管工具<img src="https://pic4.zhimg.com/80/v2-aa4aaeac694e9510413ce4fdb9f1201d.png" alt="img" style="zoom:33%;" />吸照片中一个灰色的区域，然后再视效果进行细调；如果效果不好，可以双击<img src="https://pic4.zhimg.com/80/v2-b9f0cfb14be25eae5ad65a1b02f35a1c.png" alt="image-20220623144419723" style="zoom:40%;" />回到原始状态；</p>
-<h4 id="1-2-调整曝光度"><a href="#1-2-调整曝光度" class="headerlink" title="1.2 调整曝光度"></a>1.2 调整曝光度</h4><p>依据照片观感来拉高或拉低照片整体曝光，然后再视情况调整<strong>高光</strong>和<strong>阴影</strong>。</p>
+<h2 id="1-基础调色"><a href="#1-基础调色" class="headerlink" title="1. 基础调色"></a>1. 基础调色</h2><p>接下来就正式进入调色阶段了。首先选择一张图片，点击右上方的<img src="https://pic4.zhimg.com/80/v2-549ba471fa2ab4e531fb81b8e4b6bc2b.png" alt="image-20220624091655739" style="zoom:50%;" />来进入修图状态。</p>
+<h3 id="1-1-调整白平衡"><a href="#1-1-调整白平衡" class="headerlink" title="1.1 调整白平衡"></a>1.1 调整白平衡</h3><p>首先调整白平衡。用吸管工具<img src="https://pic4.zhimg.com/80/v2-aa4aaeac694e9510413ce4fdb9f1201d.png" alt="img" style="zoom:33%;" />吸照片中一个灰色的区域，然后再视效果进行细调；如果效果不好，可以双击<img src="https://pic4.zhimg.com/80/v2-b9f0cfb14be25eae5ad65a1b02f35a1c.png" alt="image-20220623144419723" style="zoom:40%;" />回到原始状态；</p>
+<h3 id="1-2-调整曝光度"><a href="#1-2-调整曝光度" class="headerlink" title="1.2 调整曝光度"></a>1.2 调整曝光度</h3><p>依据照片观感来拉高或拉低照片整体曝光，然后再视情况调整<strong>高光</strong>和<strong>阴影</strong>。</p>
 <blockquote>
 <p>Tips：根据右上角的<strong>直方图</strong>可以更准确地判断图像是否过曝或过暗，点击左、右上角的<img src="https://pic4.zhimg.com/80/v2-1c4611b37261a93944b114fa8bacbedd.png" alt="image-20220623150949451" style="zoom:50%;" />来看哪些区域过曝或过暗了，红点点是曝光了白色失去细节，蓝点点是黑色失去细节。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-7552a3eefe62b39423fdf9c886c2a2a5.png" alt="image-20220623151132797" style="zoom:80%;" /></p>
 </blockquote>
-<h4 id="1-3-调整对比度"><a href="#1-3-调整对比度" class="headerlink" title="1.3 调整对比度"></a>1.3 调整对比度</h4><p>根据需要调整对比度。例如：正午阳光有点强，就可以给拉回来一点点。</p>
-<h3 id="2-镜头校正"><a href="#2-镜头校正" class="headerlink" title="2. 镜头校正"></a>2. 镜头校正</h3><p>先选择镜头型号，然后把<strong>删除色差</strong>和<strong>启用配置文件校正</strong>都选中，其他可以不用动。</p>
+<h3 id="1-3-调整对比度"><a href="#1-3-调整对比度" class="headerlink" title="1.3 调整对比度"></a>1.3 调整对比度</h3><p>根据需要调整对比度。例如：正午阳光有点强，就可以给拉回来一点点。</p>
+<h2 id="2-镜头校正"><a href="#2-镜头校正" class="headerlink" title="2. 镜头校正"></a>2. 镜头校正</h2><p>先选择镜头型号，然后把<strong>删除色差</strong>和<strong>启用配置文件校正</strong>都选中，其他可以不用动。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-0c0d41daf8377ebfa27d6ec35aaadd30.png" alt="image-20220623152658777" style="zoom:78%;" /></p>
-<h3 id="3-调整色调曲线"><a href="#3-调整色调曲线" class="headerlink" title="3. 调整色调曲线"></a>3. 调整色调曲线</h3><p>调完以后可以点左上角的小点点，来看前后差别。</p>
-<h3 id="4-进一步调整"><a href="#4-进一步调整" class="headerlink" title="4. 进一步调整"></a>4. 进一步调整</h3><h4 id="4-1-偏好设置"><a href="#4-1-偏好设置" class="headerlink" title="4.1 偏好设置"></a>4.1 偏好设置</h4><p>可以在<strong>基本</strong><img src="https://pic4.zhimg.com/80/v2-3f95dcee1d9db81fb263ce94652b75db.png" alt="image-20220625120749156" style="zoom:50%;" />选项下找到<strong>偏好</strong>设置，按照需要调整<strong>清晰度</strong>、<strong>鲜艳度</strong>和<strong>饱和度</strong>。</p>
+<h2 id="3-调整色调曲线"><a href="#3-调整色调曲线" class="headerlink" title="3. 调整色调曲线"></a>3. 调整色调曲线</h2><p>调完以后可以点左上角的小点点，来看前后差别。</p>
+<h2 id="4-进一步调整"><a href="#4-进一步调整" class="headerlink" title="4. 进一步调整"></a>4. 进一步调整</h2><h3 id="4-1-偏好设置"><a href="#4-1-偏好设置" class="headerlink" title="4.1 偏好设置"></a>4.1 偏好设置</h3><p>可以在<strong>基本</strong><img src="https://pic4.zhimg.com/80/v2-3f95dcee1d9db81fb263ce94652b75db.png" alt="image-20220625120749156" style="zoom:50%;" />选项下找到<strong>偏好</strong>设置，按照需要调整<strong>清晰度</strong>、<strong>鲜艳度</strong>和<strong>饱和度</strong>。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-3e6070c12e7b23ffe7d96c2abfd06ad8.png" alt="image-20220625121019536" style="zoom:67%;" /></p>
 <p>例如，可以降低<strong>清晰度</strong>来增加照片的浪漫朦胧感。</p>
-<h4 id="4-2-微调色调曲线"><a href="#4-2-微调色调曲线" class="headerlink" title="4.2 微调色调曲线"></a>4.2 微调色调曲线</h4><p>使用预设的<strong>滤镜</strong>不一定适用于每一张照片，因此可以进行色调曲线的微调，微调的程度视照片而定。</p>
+<h3 id="4-2-微调色调曲线"><a href="#4-2-微调色调曲线" class="headerlink" title="4.2 微调色调曲线"></a>4.2 微调色调曲线</h3><p>使用预设的<strong>滤镜</strong>不一定适用于每一张照片，因此可以进行色调曲线的微调，微调的程度视照片而定。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-0fde04072b2d493ed7eef91eec9f412e.png" alt="image-20220625121205264" style="zoom:50%;" /></p>
-<h4 id="4-3-分离色调"><a href="#4-3-分离色调" class="headerlink" title="4.3 分离色调"></a>4.3 分离色调</h4><p>根据不同的图片风格来进行调整。</p>
+<h3 id="4-3-分离色调"><a href="#4-3-分离色调" class="headerlink" title="4.3 分离色调"></a>4.3 分离色调</h3><p>根据不同的图片风格来进行调整。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-e8cd8c3471d9ef37c645a33f0af7cff3.png" alt="image-20220625121412959" style="zoom:50%;" /></p>
 <p>例如：要调出来日落的颜色，可以把高光的<strong>色相</strong>调到偏黄一点，再增加点饱和度，就可以看到效果了。</p>
-<h3 id="5-裁剪与旋转"><a href="#5-裁剪与旋转" class="headerlink" title="5. 裁剪与旋转"></a>5. 裁剪与旋转</h3><p>旋转：可以选择<strong>自动</strong><img src="https://pic4.zhimg.com/80/v2-5dbede3e5ef5378c34c085e06ee0c2f6.png" alt="image-20220625121613153" style="zoom:50%;" />校准，效果不好的话再手动调一调；</p>
+<h2 id="5-裁剪与旋转"><a href="#5-裁剪与旋转" class="headerlink" title="5. 裁剪与旋转"></a>5. 裁剪与旋转</h2><p>旋转：可以选择<strong>自动</strong><img src="https://pic4.zhimg.com/80/v2-5dbede3e5ef5378c34c085e06ee0c2f6.png" alt="image-20220625121613153" style="zoom:50%;" />校准，效果不好的话再手动调一调；</p>
 <p>裁剪：可以点击<strong>原始图像</strong><img src="https://pic4.zhimg.com/80/v2-90079312805dc3ec04c65e0ff2a47f92.png" alt="image-20220625121705716" style="zoom:50%;" />选择长宽比，如：16x9。按键盘<strong>x</strong>键可以让裁剪框旋转90°。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-24e7f1d151544664c47417d3f6544f4f.png" alt="image-20220625121556565" style="zoom:50%;" /></p>
-<h3 id="6-局部调整"><a href="#6-局部调整" class="headerlink" title="6. 局部调整"></a>6. 局部调整</h3><p>根据需要可以进行局部调整。</p>
+<h2 id="6-局部调整"><a href="#6-局部调整" class="headerlink" title="6. 局部调整"></a>6. 局部调整</h2><p>根据需要可以进行局部调整。</p>
 <p>点击右上方的刷子<img src="https://pic4.zhimg.com/80/v2-bb62f7607b6a362f78f310f5f9142a60.png" alt="image-20220625121855705" style="zoom:50%;" />，设置好刷子的参数，用鼠标滚轮可以调整刷子的大小。</p>
 <p>按键盘<strong>o</strong>键可以看到哪些地方涂过；</p>
 <p><img src="https://pic4.zhimg.com/80/v2-859da30d5bf5c178e055bfc25232554b.png" alt="image-20220625164246334" style="zoom:33%;" /></p>
 <p>按键盘<strong>Alt</strong>键就能把涂过的部分给擦掉。</p>
-<h3 id="7-渐变滤镜"><a href="#7-渐变滤镜" class="headerlink" title="7. 渐变滤镜"></a>7. 渐变滤镜</h3><p>点击右上角的<img src="https://pic4.zhimg.com/80/v2-6733cc59da43a9563fcd76c6eea80c86.png" alt="image-20220625122414202" style="zoom:50%;" />，可根据需要进行调整。</p>
+<h2 id="7-渐变滤镜"><a href="#7-渐变滤镜" class="headerlink" title="7. 渐变滤镜"></a>7. 渐变滤镜</h2><p>点击右上角的<img src="https://pic4.zhimg.com/80/v2-6733cc59da43a9563fcd76c6eea80c86.png" alt="image-20220625122414202" style="zoom:50%;" />，可根据需要进行调整。</p>
 <p>例如，要突出画面中心的人物，可以从右下角和左下角分别拉出一个渐变滤镜，把曝光调暗，拉到适当位置。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-df2b1b37185da1e5a00b7dc741f18971.png" alt="image-20220625164347270" style="zoom:33%;" /></p>
-<h3 id="8-进一步色彩调整：HSL-颜色"><a href="#8-进一步色彩调整：HSL-颜色" class="headerlink" title="8. 进一步色彩调整：HSL/颜色"></a>8. 进一步色彩调整：HSL/颜色</h3><p>可以对图片上的某一个颜色进行调整。</p>
+<h2 id="8-进一步色彩调整：HSL-颜色"><a href="#8-进一步色彩调整：HSL-颜色" class="headerlink" title="8. 进一步色彩调整：HSL/颜色"></a>8. 进一步色彩调整：HSL/颜色</h2><p>可以对图片上的某一个颜色进行调整。</p>
 <p>点击左上角的<img src="https://pic4.zhimg.com/80/v2-6343b36cc7f08c608cb744907ec6a3f4.png" alt="image-20220625155652082" style="zoom:67%;" />，在图中选中一个颜色，然后就可以对这个颜色的<strong>色相</strong>、<strong>饱和度</strong>、<strong>明亮度</strong>进行调整了。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-3f3021dfbc6fa46771aaecdb04fab2a8.png" alt="image-20220625155613419" style="zoom:50%;" /></p>
 <p>注意，调整的时候用鼠标滚轮，可以直接把选中颜色所含的基础色一起调整（比如黄绿色包含黄色和绿色）。</p>
-<h3 id="9-细节"><a href="#9-细节" class="headerlink" title="9. 细节"></a>9. 细节</h3><p>在右边面板上还有一个细节调整的功能，其作用是对图片中的部分区域的细节进行调整。</p>
+<h2 id="9-细节"><a href="#9-细节" class="headerlink" title="9. 细节"></a>9. 细节</h2><p>在右边面板上还有一个细节调整的功能，其作用是对图片中的部分区域的细节进行调整。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-16251f45ad9e84abde99df0fcbe24abf.png" alt="image-20220625160102676" style="zoom:50%;" /></p>
 <p>可以先把锐化的数量往上拉一点，比如拉到40，然后按住键盘<strong>Alt</strong>键拉<strong>蒙版</strong>，就会显示下图这样的白色线条，意思是对这些白色区域做锐化，可以增加或减小<strong>数量</strong>来调节锐化的程度。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-388de214c6f244cae60951bbd90d7fc9.png" alt="image-20220625160520119" style="zoom:50%;" /></p>
-<h3 id="10-效果"><a href="#10-效果" class="headerlink" title="10. 效果"></a>10. 效果</h3><p>最后可以再调一下<strong>效果</strong>。把<strong>数量</strong>往左拉会加入<strong>暗角</strong>，往右拉会加入<strong>亮角</strong>。可以调整<strong>羽化</strong>的程度来使<strong>暗角</strong>看上去更自然。还可以加入一些<strong>颗粒</strong>来使照片更具颗粒感。</p>
+<h2 id="10-效果"><a href="#10-效果" class="headerlink" title="10. 效果"></a>10. 效果</h2><p>最后可以再调一下<strong>效果</strong>。把<strong>数量</strong>往左拉会加入<strong>暗角</strong>，往右拉会加入<strong>亮角</strong>。可以调整<strong>羽化</strong>的程度来使<strong>暗角</strong>看上去更自然。还可以加入一些<strong>颗粒</strong>来使照片更具颗粒感。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-b086d38b326d4ec8b50e55c48c00a3c4.png" alt="image-20220625160737316" style="zoom:50%;" /></p>
-<h3 id="11-污点去除"><a href="#11-污点去除" class="headerlink" title="11. 污点去除"></a>11. 污点去除</h3><p>点击右边面板的<img src="https://pic4.zhimg.com/80/v2-4629ea6a6f68b112ac543bcf75904e1c.png" alt="image-20220625161016566" style="zoom:40%;" />，先在图中选一个污点，然后系统会自动在图中选择一个替代的点，如果感觉它选得不好，可以自己挑一个新的点。用鼠标滚轮可以调整选择污点的大小。</p>
+<h2 id="11-污点去除"><a href="#11-污点去除" class="headerlink" title="11. 污点去除"></a>11. 污点去除</h2><p>点击右边面板的<img src="https://pic4.zhimg.com/80/v2-4629ea6a6f68b112ac543bcf75904e1c.png" alt="image-20220625161016566" style="zoom:40%;" />，先在图中选一个污点，然后系统会自动在图中选择一个替代的点，如果感觉它选得不好，可以自己挑一个新的点。用鼠标滚轮可以调整选择污点的大小。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-51523af07928ddce3671e27b26fc8613.png" alt="image-20220625164543054" style="zoom:50%;" /></p>
 <p>还可以直接划一条线，用图上另外一条线来代替。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-8053b177ca72a504c90e00bbbb6b36e3.png" alt="image-20220625164620752" style="zoom:55%;" /></p>
-<h3 id="附：小技巧"><a href="#附：小技巧" class="headerlink" title="附：小技巧"></a>附：小技巧</h3><ul>
+<h2 id="附：小技巧"><a href="#附：小技巧" class="headerlink" title="附：小技巧"></a>附：小技巧</h2><ul>
 <li>按键盘<strong>”\\“</strong>键可以查看原图和p过之后的区别，也可以按<strong>”Y“</strong>键实现相似的功能；</li>
 <li>拉不拉多原则：在拉所有选项的时候，都别拉太多，会把照片毁掉；</li>
 <li>导出方法：文件-&gt;导出；</li>
 <li>快照功能：在左侧面板有一个<strong>快照</strong>功能，可以用来记录你p的不同的版本，比如你调了一个还不错的版本1.0，可以用<strong>快照</strong>来记录一下，之后又调出了另一个风格的2.0，再用快照记录一下，就可以对比两个版本进行选择了。</li>
 </ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56641767">Lightroom Classic CC快速上手（1）</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56641767">Lightroom Classic CC快速上手（1）</a></p>
 <p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56871284">Lightroom Classic CC快速上手（2）-挑选照片、镜头校正、去除污点</a></p>
 <p>[3] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/57150468">Lightroom Classic CC快速上手（3）-裁切旋转、白平衡</a></p>
 <p>[4] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/58560423">Lightroom Classic CC快速上手（4）-基本面板上的明暗度调整工具</a></p>
