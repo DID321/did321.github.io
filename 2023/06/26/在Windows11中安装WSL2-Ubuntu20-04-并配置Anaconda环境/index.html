@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>在Windows11中安装WSL2(Ubuntu20.04)并配置Anaconda环境 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">在Windows11中安装WSL2(Ubuntu20.04)并配置Anaconda环境</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/about/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">June 26, 2023&nbsp;&nbsp;11:35:11</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Deep-Learning/">Deep Learning</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">2.2k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">9</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
+<li>本文主要参考了B站上的教程<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv16825907/">https://www.bilibili.com/read/cv16825907/</a>，适合在win10/win11上安装Linux子系统，并在其上搭建Anaconda环境，用于深度学习的训练。</li>
+</ul>
+<h2 id="1-检查开启CPU虚拟化和虚拟机平台"><a href="#1-检查开启CPU虚拟化和虚拟机平台" class="headerlink" title="1. 检查开启CPU虚拟化和虚拟机平台"></a>1. 检查开启CPU虚拟化和虚拟机平台</h2><ul>
+<li><p>打开任务管理器，点击性能，查看CPU虚拟化的状态，默认为禁用（我这里已经开启了），需要进Bios开启：</p>
+<blockquote>
+<ol>
+<li>开机按F12或者DEL进入Bios（不同主板可能不一样，请自行查询）</li>
+<li>点击Advanced Mode (F7)进入高级选项</li>
+<li>点击Advanced，找到并点击 CPU Configuration</li>
+<li>下拉菜单找到Intel Virtualization Technology，在其子菜单下把选项改成Enabled</li>
+<li>按F10保存并推出，CPU虚拟化开启成功。</li>
+</ol>
+</blockquote>
+<p><img src="https://pic4.zhimg.com/80/v2-e0c5fd918cdb765315fbdb23595c890f_1440w.webp" alt="Image"></p>
+</li>
+<li><p>开启虚拟化之后，在左下角搜索栏中搜索<code>启用或关闭Windows功能</code>，往下翻选择<code>适用于Linux的Windows子系统</code>和<code>虚拟机平台</code>，单击确定，等待安装完成后重启。</p>
+</li>
+</ul>
+<p>  <img src="https://pic3.zhimg.com/80/v2-67b28a6c10f02d943cd5d7b33e89a322_1440w.webp" alt="Image"></p>
+<h2 id="2-安装Ubuntu20-04"><a href="#2-安装Ubuntu20-04" class="headerlink" title="2. 安装Ubuntu20.04"></a>2. 安装Ubuntu20.04</h2><ul>
+<li><p>打开微软商店，搜索Linux，安装下面两个应用，本文选择安装Ubuntu20.04。<br><img src="https://pic1.zhimg.com/80/v2-3751c9d52d31c0b5ac3ee693ceacdc64_1440w.webp" alt="Image"></p>
+</li>
+<li><p>打开Ubuntu20.04，进行初次安装和用户设置，正常会出现一个窗口，设置用户名和密码，这里自行填写，设置完成之后就会登录Ubuntu。<br><img src="https://pic4.zhimg.com/80/v2-5ff33b3a4299edc35015627df7e51b6b_1440w.webp" alt="Image"></p>
+</li>
+<li><p>假如没有填写用户名直接关闭了，再次打开发现默认进的是root用户，此时需要手动创建新用户<code>sudo adduser &lt;username&gt;</code>，然后输入密码就可以了。</p>
+</li>
+<li><p>如果你之前在微软商店中下载了windows terminal，在windows terminal中可以找到刚刚安装的Ubuntu20.04.在windows terminal中可以配置Ubuntu终端，方便之后打开。<br><img src="https://pic1.zhimg.com/80/v2-2bf7b91de1cfaa8a138e5a116726f138_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<ul>
+<li>然后需要检查wsl的版本，需要wsl2而不是wsl，此时打开cmd终端，输入以下命令查看安装的Linux发行版列表。<br><img src="https://pic1.zhimg.com/80/v2-80c6056aea09cb732f6106069b697de4_1440w.webp" alt="Image"></li>
+</ul>
+<ul>
+<li><p>如果version为2，说明已经安装为wsl2版本，如果为1，则继续输入以下命令：</p>
+<p><code>wsl --set-version Ubuntu-20.04 2 #将Ubuntu-20.04替换为你所下载安装的Linux分发版名称</code></p>
+</li>
+<li><p>至此WSL2 Ubuntu20.04的安装已经完成。</p>
+</li>
+<li><p>Windows下的Ubuntu安装位置和文件夹可以直接从<code>此电脑-&gt;Linux</code>下找到，<code>Ubuntu-20.04</code>文件夹包含所有Ubuntu的文件，之后安装环境也是安装在这个文件夹。<br><img src="https://pic2.zhimg.com/80/v2-5a2ed7c3c57d3c22a51563dc1a83efb1_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<h2 id="3-Vscode连接WSL2-Ubuntu20-04"><a href="#3-Vscode连接WSL2-Ubuntu20-04" class="headerlink" title="3. Vscode连接WSL2(Ubuntu20.04)"></a>3. Vscode连接WSL2(Ubuntu20.04)</h2><ul>
+<li><p>安装<code>WSL</code>插件，在扩展里面搜索<code>WSL</code>,选择安装即可。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-38e77d1d2b5f2d77c561fac6a41305c7_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<ul>
+<li>安装完毕后在左下角看到一个按钮（一个&gt;和一个&lt;组成），点击在中间选择<code>connect to WSL</code>,然后Vscode会弹出一个新窗口，左下角显示WSL子系统名称，如：<code>WSL:Ubuntu-20.04</code><br><img src="https://pic2.zhimg.com/80/v2-3560ef3be9e6d276e3eee88de4ce6939_1440w.webp" alt="Image"></li>
+</ul>
+<ul>
+<li><p>点击左侧文件夹图标，资源管理器，打开文件夹，这里的文件夹就是前面所讲的C盘下的Ubuntu文件夹，这里我将<code>home/&lt;用户名&gt;</code>设为根目录，做为工作区，比较方便修改根目录的文件。建议大家和笔者保持一致。</p>
+</li>
+<li><p>在vscode中打开终端(Ctrl+`)，会自动登录Linux子系统，接下来就可以配置开发环境了。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-07b8fbdd29ac8b83d49a9835a4d66c27_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<h2 id="4-Anaconda开发环境的搭建"><a href="#4-Anaconda开发环境的搭建" class="headerlink" title="4. Anaconda开发环境的搭建"></a>4. Anaconda开发环境的搭建</h2><ul>
+<li><p>换源，修改Linux apt下载地址，以加快各种Linux下载速度，避免下载安装失败。在终端中输入并执行（第一次sudo需要输入用户密码）</p>
+<p><code>sudo chmod 777 /etc/apt/sources.list # 提权，方便直接使用vscode编辑文件</code></p>
+</li>
+<li><p>然后在左侧文件目录中找到并打开<code>/etc/apt/source.list</code>，将里面的文本替换为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认注释了源码仓库，如有需要可自行取消注释</span></span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse</span></span><br><span class="line"></span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse</span></span><br><span class="line"></span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse</span></span><br><span class="line"></span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 预发布软件源，不建议启用</span></span><br><span class="line"><span class="comment"># deb https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse</span></span><br><span class="line"><span class="comment"># deb-src https://mirrors.ustc.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Ctrl+S保存即可。<br><img src="https://pic3.zhimg.com/80/v2-3b8f4028a3474c6a742fab0813426f86_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<ul>
+<li><p>然后打开新的终端(Ctrl+Shift+`)，在终端中输入<code>sudo apt update</code>进行更新，等待更新完成。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update # apt更新</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载anaconda安装包，这里可以登录<code>https://repo.anaconda.com/archive/</code>网站查找要下载的版本，选择<code>Linux-x86_64.sh</code>结尾的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -P /tmp https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh # 下载anaconda安装包至 /tmp 目录下</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装Anaconda3</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash /tmp/Anaconda3-2022.05-Linux-x86_64.sh # 安装anaconda</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装过程一路输入回车+yes，注意：安装的最后一步时自动执行conda init，等待安装时，可以在扩展中搜索python、jupyter插件，将其安装到wsl中。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-7935304700501c195d2c5a9289355e5c_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<ul>
+<li>安装好之后，重新打开一个终端，前面会自动进入<code>base</code>环境，证明安装成功。<br><img src="https://pic2.zhimg.com/80/v2-893c426c72828970fa362184eb0cc7c1_1440w.webp" alt="Image"></li>
+</ul>
+<ul>
+<li><p>conda、pip换源，加快各种依赖包的下载安装速度</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https://mirrors.bfsu.edu.cn/anaconda/pkgs/main # 添加conda下载源，目的是它自动生成的一个配置文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行完之后刷新左侧的资源管理器，可以在用户文件夹<code>/home/&lt;用户名&gt;/</code>下找到<code>.condarc</code>文件，替换成以下内容保存即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: true</span><br><span class="line">default_channels:</span><br><span class="line">  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/msys2</span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch-lts: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic2.zhimg.com/80/v2-ac8a4f7dfd928e74ff6142e83d9aa985_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<ul>
+<li><p>更换pip下载源：终端中执行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip config set global.index-url https://pypi.mirrors.ustc.edu.cn/simple # 修改pip下载源</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接下来，我们需要创建一个虚拟环境，我就结合《动手学深度学习-pytorch版》来创建。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">conda create -n d2l python=3.9 -y anaconda</span><br><span class="line"><span class="meta">#</span><span class="bash"> 以下不用复制</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pyspark 所创建的虚拟环境的名称，可自定义</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> python=3.8 指定所创建的环境的python版本，可自定义</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ananconda 继承anaconda根环境中的所有依赖包</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 会让安装速度变得很慢，可以删去后再自行用pip安装需要的依赖</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 比如pip install pandas、 pip install jupyter</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装完之后可以使用如下命令激活<code>d2l</code>环境。发现前面base 变成了d2l</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate d2l</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic1.zhimg.com/80/v2-a08ca92101409f9e8ed6dc67687f2ea0_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<ul>
+<li><p>安装Pytorch，对应版本下载命令在官网中查找<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/previous-versions/">https://pytorch.org/get-started/previous-versions/</a> 这里博主下载的是 CUDA11.6 版本，Pytorch=1.12.1，大家可以根据自己显卡的型号选择合适的CUDA</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># CUDA 11.6</span><br><span class="line">conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.6 -c pytorch -c conda-forge</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装完成之后可以在命令行中输入python，依次输出以下命令，输出如下图所示则表明安装成功。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.__version__</span><br><span class="line">torch.cuda.is_available()</span><br><span class="line">torch.version.cuda</span><br></pre></td></tr></table></figure>
+<p>  <img src="https://pic4.zhimg.com/80/v2-a0cd8dac08328ab76aaf2a7cdd9c98d7_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<ul>
+<li><p>安装d2l包，以方便调取《动手学深度学习》中常用的函数和类。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install d2l</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载D2L Notebook, 可以按照以下方式进行下载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir d2l-notebook &amp;&amp; cd d2l-notebook</span><br><span class="line">curl https://zh-v2.d2l.ai/d2l-zh-2.0.0.zip -o d2l-zh.zip</span><br><span class="line">unzip d2l-zh.zip &amp;&amp; rm d2l-zh.zip</span><br><span class="line">cd pytorch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时我们输入<code>jupyter notebook</code>终端会返回一大串信息，其中复制链接<code>http://localhost:8888.......</code>到浏览器，即可打开jupyter notebook.</p>
+<p><img src="https://pic3.zhimg.com/80/v2-2b8e74e874aafff4a48e8394d690ae76_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>至此，所有环境已经安装完成。</li>
+</ul>
+<h2 id="5-Vscode-访问-notebook"><a href="#5-Vscode-访问-notebook" class="headerlink" title="5. Vscode 访问 notebook"></a>5. Vscode 访问 notebook</h2><ul>
+<li><p>上节最后使用的<code>jupyter notebook</code>命令比较 麻烦，这里推荐直接使用Vscode直接访问notebook，以下是配置方法。</p>
+</li>
+<li><p>首先要生成一份jupyter notebook配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jupyter notebook --generate-config  # 生成notebook配置文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在用户文件夹下（/home/&lt;你的用户名&gt;）下找到<code>.jupyter</code>文件夹，打开可以看到一个<code>jupyter_notebook_config.py</code>文件，打开按<code>Ctrl+F</code>搜索，<code>c.NotebookApp.token = &#39;&lt;generated&gt;&#39;</code>,删掉引号内的部分，并去掉前面的注释“#”，Ctrl S保存。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 修改前：</span><br><span class="line"># c.NotebookApp.token = &#x27;&lt;generated&gt;&#x27;</span><br><span class="line"># 修改后：</span><br><span class="line">c.NotebookApp.token = &#x27;&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时再输入<code>jupyter notebook</code>发现链接后面的token不见了，变得简单<code>http://localhost:8889/</code>（不同电脑端口号可能不一样）。<br><img src="https://pic2.zhimg.com/80/v2-7c11611576621db9cfa794daf55c1e35_1440w.webp" alt="Image"></p>
+</li>
+<li><p>按下Ctrl + Shift + P，输入“重新”，点击重新加载窗口以重载Vscode，再次按下Ctrl + Shift + P，这次输入<code>jupyter</code>，选择<code>Create: New Jupyter Notebook</code>,创建好后，可以在右上角看到“选择内核”按钮，点击选择之前的虚拟环境所对应的python内核。<br><img src="https://pic1.zhimg.com/80/v2-63cd2a624f933446b5e38a297b057ae4_1440w.webp" alt="Image"></p>
+</li>
+</ul>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><ul>
+<li>至此，所有在Win11中安装Ubuntu20.04并配置Anaconda环境的教程全部结束，如果中途有遇到新的问题，欢迎大家在评论区留言OuO。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="/about/">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.gitee.io/2023/06/26/%E5%9C%A8Windows11%E4%B8%AD%E5%AE%89%E8%A3%85WSL2-Ubuntu20-04-%E5%B9%B6%E9%85%8D%E7%BD%AEAnaconda%E7%8E%AF%E5%A2%83/">https://did321.gitee.io/2023/06/26/%E5%9C%A8Windows11%E4%B8%AD%E5%AE%89%E8%A3%85WSL2-Ubuntu20-04-%E5%B9%B6%E9%85%8D%E7%BD%AEAnaconda%E7%8E%AF%E5%A2%83/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"># 深度学习</a>
+                    
+                        <a href="/tags/Ubuntu/"># Ubuntu</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/06/25/Lightroom%E4%BF%AE%E5%9B%BE%E6%80%9D%E8%B7%AF-%E8%BD%AC/">Lightroom修图思路(转)</a>
+            
+        </section>
+        <br>
+        <br>
+    
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+
+    appId: 'JvFy3ebVLo2rUYgHaMweJyXX-MdYXbMMI',
+    appKey: 'TCFxfjDAM8UmERPEgYXJmT40',
+    serverURLs: 'https://JvFy3ebV.api.lncldglobal.com', 
+    placeholder: '----评论区----留下你的评论，作者会定期回复！在昵称处填写QQ号可自动获取邮箱和QQ头像（保护QQ邮箱隐私）',
+    enableQQ: true,
+    requiredFields: ['nick'],
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
