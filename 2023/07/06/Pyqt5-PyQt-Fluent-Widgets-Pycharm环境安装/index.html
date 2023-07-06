@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>Pyqt5+PyQt-Fluent-Widgets+Pycharm环境安装 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Pyqt5+PyQt-Fluent-Widgets+Pycharm环境安装</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/about/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 6, 2023&nbsp;&nbsp;9:04:40</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Python/">Python</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">889</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">3</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-Pyqt5环境安装"><a href="#1-Pyqt5环境安装" class="headerlink" title="1. Pyqt5环境安装"></a>1. Pyqt5环境安装</h2><ul>
+<li><p>使用miniconda创建一个新环境作为pyqt5的开发。这里使用的python3.8版本，网上说太高的python3.10版本无法同时安装pyqt5和pyqt-tools。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda creat -n pyqt5 python=3.8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后激活刚刚创建的环境(pyqt5)，如果没有换源的请按照以下指令更换conda镜像源和pip镜像源，提升python包的下载速度。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Conda 镜像源</span></span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/</span><br><span class="line">conda config --set show_channel_urls yes</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> pip 临时换源</span></span><br><span class="line">pip install &lt;package_name&gt; -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line"><span class="meta">#</span><span class="bash"> pip 永久换源</span></span><br><span class="line">pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装Pyqt5 和Pyqt5-tools</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Pyqt5安装</span></span><br><span class="line">pip install PyQt5</span><br><span class="line"><span class="meta">#</span><span class="bash"> Pyqt5-tools 安装</span></span><br><span class="line">pip install PyQt5-tools</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过<code>conda list</code>查看已经安装的包，此时安装的Pyqt版本是<code>5.15.9</code>，Pyqt5.15.x及以后的版本除了安装上述两个包之外，还安装了<code>pyqt5-sip</code>、<code>qt5-applications</code>、<code>qt5-tools</code>。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-e39fd61416b663e8fed0cce4070582c2_1440w.webp" style="zoom:50%;" /></p>
+</li>
+<li><p>设置环境变量</p>
+<p><code>D:\LenovoSoftstore\Miniconda\envs\pyqt5\Lib\site-packages\PyQt5\Qt5\plugins</code></p>
+</li>
+</ul>
+<h2 id="2-Pycharm配置QtDesigner"><a href="#2-Pycharm配置QtDesigner" class="headerlink" title="2. Pycharm配置QtDesigner"></a>2. Pycharm配置QtDesigner</h2><ul>
+<li><p>打开Pycharm，设置，外部工具，添加三个外部工具<code>QtDesigner</code>、<code>PyUIC</code>、<code>Pyqrc</code>，设置程序路径如下图所示。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-8fdab1437dd8b71c98962a74f52ba916_1440w.webp" style="zoom:57%;" /></p>
+<p><img src="https://pic2.zhimg.com/80/v2-b7074bf83baefc3cc6cc0604142e8de9_1440w.webp" style="zoom:50%;" /></p>
+<p><img src="https://pic2.zhimg.com/80/v2-3cb7e1295298d47a0d35e4301b6818ad_1440w.webp" style="zoom:50%;" /></p>
+</li>
+<li><p>然后我们可以在工具-&gt;外部工具里面找到刚刚定义的<code>QtDesigner</code>、<code>PyUiC</code>、<code>Pyqrc</code>。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-879804e365a50eb2668e26ef88f03f50_1440w.webp" style="zoom:60%;" /></p>
+</li>
+<li><p>点击QtDesigner 即可打开Qt设计师。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-d3ece9f2759a5f2b073f78b3e9487b2e_1440w.webp" style="zoom:50%;" /></p>
+</li>
+<li><p>验证Pyqt5是否正常工作先用QtDesigner随便拖几个部件，保存为<code>Test.ui</code>文件。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-1092fcb3aa2f7bb6ab1042d3d45ced29_1440w.webp" style="zoom:30%;" /></p>
+</li>
+<li><p>然后我们回到Pycharm，发现刚刚生成的Test.ui，右键用前面配置的外部工具PyUIC将其转化为.py文件。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-ed7d5f774362e0f6978abb8d9086df44_1440w.webp" style="zoom: 50%;" /></p>
+</li>
+<li><p>文件夹多了一个<code>Test.py</code>文件出来，就是刚刚我们用QtDesigner设置的界面。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-eef56e97c85ffc3a79a1a55987880d79_1440w.webp" style="zoom:50%;" /></p>
+</li>
+<li><p>接着在mian函数中调用这个界面并显示，写入以下代码运行，即可看到刚刚创建的界面。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtCore, QtGui, QtWidgets</span><br><span class="line"><span class="keyword">import</span> Test  <span class="comment"># 导入QtTest文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="comment"># 获取UIC窗口操作权限</span></span><br><span class="line">    app = QtWidgets.QApplication(sys.argv)</span><br><span class="line">    MainWindow = QtWidgets.QMainWindow()</span><br><span class="line">    <span class="comment"># 调自定义的界面（即刚转换的.py对象）</span></span><br><span class="line">    Ui = Test.Ui_MainWindow()  <span class="comment"># 这里也引用了一次Test.py文件的名字注意</span></span><br><span class="line">    Ui.setupUi(MainWindow)</span><br><span class="line">    <span class="comment"># 显示窗口并释放资源</span></span><br><span class="line">    MainWindow.show()</span><br><span class="line">    sys.exit(app.exec_())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic1.zhimg.com/80/v2-4c4e155b449eccf7cbf34d9e01082df8_1440w.webp" alt="image-20230630095825614"></p>
+</li>
+</ul>
+<h2 id="3-PyQt-Fluent-Widgets插件安装"><a href="#3-PyQt-Fluent-Widgets插件安装" class="headerlink" title="3. PyQt-Fluent-Widgets插件安装"></a>3. PyQt-Fluent-Widgets插件安装</h2><ul>
+<li><p>PyQt-Fluent-Widets是一个使用 PyQt/PySide 编写的 Fluent Design 风格的组件库，包含许多常用的组件，支持亮暗主题无缝切换和自定义主题色，支持 PyQt5/PyQt6/PySide2/PySide6。</p>
+</li>
+<li><p>说明文档 <a target="_blank" rel="noopener" href="https://pyqt-fluent-widgets.readthedocs.io/en/latest/">https://pyqt-fluent-widgets.readthedocs.io/en/latest/</a></p>
+</li>
+<li><p>github : <a target="_blank" rel="noopener" href="https://github.com/zhiyiYo/PyQt-Fluent-Widgets">https://github.com/zhiyiYo/PyQt-Fluent-Widgets</a></p>
+</li>
+<li><p>conda 环境中安装Pyqt-Fluent-Widgets</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install &quot;PyQt-Fluent-Widgets[full]&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载github包，运行示例，基本风格和windows 一样。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd examples/gallery</span><br><span class="line">python demo.py</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic3.zhimg.com/80/v2-4553c10e28904a3784d81155d495cc4e_1440w.webp" style="zoom:50%;" /></p>
+</li>
+</ul>
+<h2 id="4-在QtDesigner中使用PyQt-Fluent-Widgets"><a href="#4-在QtDesigner中使用PyQt-Fluent-Widgets" class="headerlink" title="4. 在QtDesigner中使用PyQt-Fluent-Widgets"></a>4. 在QtDesigner中使用PyQt-Fluent-Widgets</h2><ul>
+<li><p>在 Qt Designer 中，有两种使用 PyQt-Fluent-Widgets 的方式。</p>
+</li>
+<li><p>右击一个小部件，选择右击菜单上的提升为, 是把原生部件替换成自定义小部件，在这个例子中是 <code>qfluentwidgets.PushButton</code></p>
+<p><img src="https://pyqt-fluent-widgets.readthedocs.io/zh_CN/latest/_images/promote_context.jpg" alt="img"></p>
+</li>
+<li><p>弹出的对话框上需要填写自定义的组件名。头文件是组件库的包名 <code>qfluentwidgets</code>，提升的类名称为 <code>PushButton</code>。</p>
+<p><img src="https://pyqt-fluent-widgets.readthedocs.io/zh_CN/latest/_images/promote_dialog.jpg" alt="img"></p>
+</li>
+<li><p>完成提升后不会在设计师中看到任何变化，保存 ui 文件后编译为 py 代码，可以发现 <code>import</code> 的是 <code>PushButton</code></p>
+</li>
+<li><p>第二种方法是使用插件。</p>
+<p>运行 <code>python ./tools/designer.py</code> 来启动设计师软件（必须使用脚本启动）</p>
+<p>一切无误的情况下能在侧边栏 Widget Box 中看到 PyQt-Fluent-Widgets 的组件。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-b0cd8faca4cf89379995a3d56a8a5d85_1440w.webp" style="zoom:50%;" /></p>
+</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="/about/">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.gitee.io/2023/07/06/Pyqt5-PyQt-Fluent-Widgets-Pycharm%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">https://did321.gitee.io/2023/07/06/Pyqt5-PyQt-Fluent-Widgets-Pycharm%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Qt/"># Qt</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2023/06/26/%E5%9C%A8Windows11%E4%B8%AD%E5%AE%89%E8%A3%85WSL2-Ubuntu20-04-%E5%B9%B6%E9%85%8D%E7%BD%AEAnaconda%E7%8E%AF%E5%A2%83/">在Windows11中安装WSL2(Ubuntu20.04)并配置Anaconda环境</a>
+            
+        </section>
+        <br>
+        <br>
+    
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+
+    appId: 'JvFy3ebVLo2rUYgHaMweJyXX-MdYXbMMI',
+    appKey: 'TCFxfjDAM8UmERPEgYXJmT40',
+    serverURLs: 'https://JvFy3ebV.api.lncldglobal.com', 
+    placeholder: '----评论区----留下你的评论，作者会定期回复！在昵称处填写QQ号可自动获取邮箱和QQ头像（保护QQ邮箱隐私）',
+    enableQQ: true,
+    requiredFields: ['nick'],
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
