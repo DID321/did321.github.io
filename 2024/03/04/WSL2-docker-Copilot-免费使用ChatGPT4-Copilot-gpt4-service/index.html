@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>WSL2+docker+Copilot 免费使用ChatGPT4 (Copilot-gpt4-service) | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">WSL2+docker+Copilot 免费使用ChatGPT4 (Copilot-gpt4-service)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/about/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 4, 2024&nbsp;&nbsp;21:37:52</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%9E%E7%94%A8%E8%BD%AF%E4%BB%B6/">实用软件</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">609</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">2</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><ul>
+<li>由于学生可以免费申请使用<strong>Github Copilot</strong>，但只能进行代码提示，而github上有个项目（<strong>copilot-gpt4-service</strong><a target="_blank" rel="noopener" href="https://github.com/aaamoon/copilot-gpt4-service）能够使**Copilot转为ChatGPT**，因此本文通过网上搜集配置了一下ChatGPT4并成功使用，文章主要参考了CSDN和知乎的文章">https://github.com/aaamoon/copilot-gpt4-service）能够使**Copilot转为ChatGPT**，因此本文通过网上搜集配置了一下ChatGPT4并成功使用，文章主要参考了CSDN和知乎的文章</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/G_1012_/article/details/129730072">https://blog.csdn.net/G_1012_/article/details/129730072</a> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/618772237">https://zhuanlan.zhihu.com/p/618772237</a>  <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/678563697。">https://zhuanlan.zhihu.com/p/678563697。</a></li>
+</ul>
+<h2 id="1-WSL2安装-Ubuntu-20-04"><a href="#1-WSL2安装-Ubuntu-20-04" class="headerlink" title="1. WSL2安装(Ubuntu 20.04)"></a>1. WSL2安装(Ubuntu 20.04)</h2><ul>
+<li>WSL2是适合在win10/win11上安装Linux子系统，相关安装方法请参考本人之前发布的文章（在Windows11中安装WSL2(Ubuntu20.04)并配置Anaconda环境）<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/639611152">https://zhuanlan.zhihu.com/p/639611152</a></li>
+</ul>
+<h2 id="2-docker-安装"><a href="#2-docker-安装" class="headerlink" title="2. docker 安装"></a>2. docker 安装</h2><ul>
+<li><p>首先进入WSL2 （Ubuntu 20.04）更新apt包索引</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装依赖包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install apt-transport-https ca-certificates curl gnupg2 software-properties-common</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加 Docker 的官方 GPG 密钥：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>官方安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository \</span><br><span class="line">&quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span><br><span class="line"><span class="meta">$</span><span class="bash">(lsb_release -cs) \</span></span><br><span class="line"><span class="bash">stable<span class="string">&quot;</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>docker 启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service docker start</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="3-Copilot-学生认证"><a href="#3-Copilot-学生认证" class="headerlink" title="3. Copilot 学生认证"></a>3. Copilot 学生认证</h2><ul>
+<li><p>看到知乎上有文章写的很详细了，这里直接引用链接。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/618772237">https://zhuanlan.zhihu.com/p/618772237</a></p>
+</li>
+</ul>
+<h2 id="4-安装-copilot-gpt4-service-服务"><a href="#4-安装-copilot-gpt4-service-服务" class="headerlink" title="4. 安装 copilot-gpt4-service 服务"></a>4. 安装 copilot-gpt4-service 服务</h2><ul>
+<li><p>在刚刚安装好的WSL+docker环境中用以下代码来部署：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  --name copilot-gpt4-service \</span><br><span class="line">  --restart always \</span><br><span class="line">  -p 8080:8080 \</span><br><span class="line">  -e HOST=0.0.0.0 \</span><br><span class="line">  aaamoon/copilot-gpt4-service:latest</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>获取Github Copilot Token</strong>：这里采用的是官方处理.py文件获取github Token：</p>
+<p>复制官网get_copilot_token.py 文件：<a target="_blank" rel="noopener" href="https://github.com/aaamoon/copilot-gpt4-service/blob/master/shells/get_copilot_token.py">https://github.com/aaamoon/copilot-gpt4-service/blob/master/shells/get_copilot_token.py</a></p>
+</li>
+</ul>
+<p>在本地运行之后会让你打开链接并输入验证码：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-3b2f5adcd9e1a1fe82337bdfa61d1094_720w.webp" style="zoom:70%;" /></p>
+<p>然后在github授权一下，紧接着程序就输出Copilot Token了，记得复制这个Token，后面会用到。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-fb1ed55dfd460d26f20121c940f6e480_720w.webp"  style="zoom: 80%;" /></p>
+<ul>
+<li>安装配置第三方客户端, 使用ChaGPT</li>
+</ul>
+<p>这里也是使用的ChatGPT-Next-Web <a href="https://link.zhihu.com/?target=https%3A//github.com/ChatGPTNextWeb/ChatGPT-Next-Web">https://link.zhihu.com/?target=https%3A//github.com/ChatGPTNextWeb/ChatGPT-Next-Web</a></p>
+<p>仍然在WSL中dorker使用下面代码部署 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3000:3000 \</span><br><span class="line">   --restart always \</span><br><span class="line">   -e OPENAI_API_KEY=sk-xxxx \</span><br><span class="line">   -e CODE=your-password \</span><br><span class="line">   yidadaa/chatgpt-next-web</span><br></pre></td></tr></table></figure>
+<p>安装完成之后直接在浏览器访问本地地址<a target="_blank" rel="noopener" href="http://localhost:3000/（前端地址）">http://localhost:3000/（前端地址）</a></p>
+<p>在设置中输入您之前配置好的copilot-gpt4-service 服务的<strong>地址</strong>（后端地址），以及之前获取到的<strong>token</strong>，即可。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-169a73325613c06ec0f3265cd28498fb_720w.webp" style="zoom: 70%;" /></p>
+<p>经测试本地GPT4部署成功：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-5529d605774da4e3bad96c700c79d0d5_720w.webp" style="zoom: 70%;" /></p>
+<h2 id="5-注意事项！"><a href="#5-注意事项！" class="headerlink" title="5. 注意事项！"></a>5. 注意事项！</h2><p><img src="https://pic3.zhimg.com/80/v2-10739a5204e36c86f5a4d804eec62826_720w.webp" style="zoom:70%;" /></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/aaamoon/copilot-gpt4-service">https://github.com/aaamoon/copilot-gpt4-service</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/G_1012_/article/details/129730072">https://blog.csdn.net/G_1012_/article/details/129730072</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/618772237">https://zhuanlan.zhihu.com/p/618772237</a> </li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/678563697">https://zhuanlan.zhihu.com/p/678563697</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/618772237">https://zhuanlan.zhihu.com/p/618772237</a></li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="/about/">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2024/03/04/WSL2-docker-Copilot-%E5%85%8D%E8%B4%B9%E4%BD%BF%E7%94%A8ChatGPT4-Copilot-gpt4-service/">https://did321.github.io/2024/03/04/WSL2-docker-Copilot-%E5%85%8D%E8%B4%B9%E4%BD%BF%E7%94%A8ChatGPT4-Copilot-gpt4-service/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/ChatGPT4/"># ChatGPT4</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/03/04/IEEE-Trans-Latex-%E6%A8%A1%E6%9D%BF%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/">IEEE Trans Latex 模板问题及解决记录</a>
+            
+        </section>
+        <br>
+        <br>
+    
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+
+    appId: 'JvFy3ebVLo2rUYgHaMweJyXX-MdYXbMMI',
+    appKey: 'TCFxfjDAM8UmERPEgYXJmT40',
+    serverURLs: 'https://JvFy3ebV.api.lncldglobal.com', 
+    placeholder: '----评论区----留下你的评论，作者会定期回复！在昵称处填写QQ号可自动获取邮箱和QQ头像（保护QQ邮箱隐私）',
+    enableQQ: true,
+    requiredFields: ['nick'],
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
