@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="WD">
+
+
+
+
+
+<title>IEEE Trans Latex 模板问题及解决记录 | WD&#39;s blog</title>
+
+
+
+    <link rel="icon" href="/favicon1.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/snow.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">WD&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">WD&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">IEEE Trans Latex 模板问题及解决记录</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/about/">WD</a>
+                     &nbsp;
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 4, 2024&nbsp;&nbsp;21:22:32</a>
+                        </span>
+                     &nbsp;
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Latex/">Latex</a>
+                            
+                        </span>
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
+    <span class="post-count">文章字数:<a href="#">1.2k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">5</span>min</a>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-IEEE-Trans-模板下载"><a href="#1-IEEE-Trans-模板下载" class="headerlink" title="1. IEEE Trans 模板下载"></a>1. IEEE Trans 模板下载</h2><ul>
+<li><p>到官网上选择自己要投的期刊，选择Word or Latex 模板进行下载。<strong>模板网址</strong>：<a target="_blank" rel="noopener" href="https://template-selector.ieee.org/">https://template-selector.ieee.org/</a></p>
+<p> <img src="https://pic2.zhimg.com/80/v2-18be9749533a077ae71840be3e511ab1_720w.webp" style="zoom:90%;" /></p>
+</li>
+</ul>
+<h2 id="2-Latex-子图像标题字体太大、不是新罗马字体"><a href="#2-Latex-子图像标题字体太大、不是新罗马字体" class="headerlink" title="2. Latex 子图像标题字体太大、不是新罗马字体"></a>2. Latex 子图像标题字体太大、不是新罗马字体</h2><ul>
+<li><p>修改开头的控制命令为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\usepackage[caption=false,font=footnotesize,labelfont=rm,textfont=rm]&#123;subfig&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>font=footnotesize，表示修改大小为footnotesize，可选择的有：<code>\tiny, \scriptsize, \footnotesize, \small, \normalsize, \large, \Large, \LARGE, \huge, \Huge</code>，依次从小到大。</p>
+</li>
+<li><p><code>labelfont=rm,textfont=rm</code>，表示修改字体为罗马字体。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-0a76536bba526070e2f031afcb226511_720w.webp" style="zoom:80%;" /></p>
+</li>
+</ul>
+<h2 id="3-引用参考文献、图表、章节等颜色修改"><a href="#3-引用参考文献、图表、章节等颜色修改" class="headerlink" title="3. 引用参考文献、图表、章节等颜色修改"></a>3. 引用参考文献、图表、章节等颜色修改</h2><ul>
+<li><p>IEEE常用的引用配色有两种，一种参考文献是亮绿色，图标为红色；另一种都是蓝色。个人觉得全蓝色的看着更舒适。</p>
+</li>
+<li><p>在开头添加控制命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">% citecolor为引用颜色 第一种为 green</span><br><span class="line">% linkcolor为图表引用颜色 第一种为 red</span><br><span class="line">\usepackage[colorlinks,</span><br><span class="line">            linkcolor=blue,</span><br><span class="line">            anchorcolor=blue,</span><br><span class="line">            citecolor=blue]&#123;hyperref&#125;</span><br><span class="line">% 修改参考文献两端[]颜色 第一种为 green</span><br><span class="line">\renewcommand&#123;\citeleft&#125;&#123;\textcolor&#123;blue&#125;&#123;[&#125;&#125;  </span><br><span class="line">\renewcommand&#123;\citeright&#125;&#123;\textcolor&#123;blue&#125;&#123;]&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic3.zhimg.com/80/v2-d9bc6961db006d3b99ae24a144a6d81a_720w.webp" style="zoom:80%;" /></p>
+</li>
+</ul>
+<h2 id="4-subfloat-子图像引用带括号"><a href="#4-subfloat-子图像引用带括号" class="headerlink" title="4. subfloat 子图像引用带括号"></a>4. subfloat 子图像引用带括号</h2><ul>
+<li><p>最新的IEEE Trans模板插入图像使用的是<code>Subfig</code>，以前的是<code>subfigure</code>，这两个不一样，推荐使用<code>Subfig</code>中的<code>\subfloat</code>指令插入图像。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;figure*&#125;[!t]</span><br><span class="line">\centering</span><br><span class="line">% subfloat [] 方括号中是子图像的标题,如果有在此添加, 没有即只显示(a)(b)(c)...</span><br><span class="line">\subfloat[]&#123;</span><br><span class="line">  \includegraphics[width=2.5in]&#123;fig1&#125; % 子图像路径大小设置</span><br><span class="line">  \label&#123;fig_first_case&#125;			  % 子图像引用名称</span><br><span class="line">&#125;</span><br><span class="line">\hfil</span><br><span class="line">\subfloat[]&#123;</span><br><span class="line">  \includegraphics[width=2.5in]&#123;fig1&#125;%</span><br><span class="line">  \label&#123;fig_second_case&#125;</span><br><span class="line">&#125;</span><br><span class="line">\caption&#123;Dae. Ad quatur autat ut porepel itemoles dolor autem fuga. Bus quia con nessunti as remo di quatus non perum que nimus. (a) Case I. (b) Case II.&#125;</span><br><span class="line">\label&#123;fig_sim&#125; % 主图像引用名称</span><br><span class="line">\end&#123;figure*&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic2.zhimg.com/80/v2-a8b4bdf760b908d588ead3329469afe9_720w.webp" style="zoom:80%;" /></p>
+</li>
+<li><p>在文章中引用时，可以使用<code>Subref</code>指令引用子图像，此时子图像引用是带括号的，和大部分论文格式一致。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fig. \ref&#123;fig_sim&#125;\subref&#123;fig_first_case&#125; and \subref&#123;fig_second_case&#125; is an example of a double....</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic2.zhimg.com/80/v2-88600e3ade31485256b524046511d935_720w.webp" style="zoom:80%;" /></p>
+</li>
+</ul>
+<h2 id="5-Latex-写英文换行时，不该拆分的单词却拆分"><a href="#5-Latex-写英文换行时，不该拆分的单词却拆分" class="headerlink" title="5. Latex 写英文换行时，不该拆分的单词却拆分"></a>5. Latex 写英文换行时，不该拆分的单词却拆分</h2><ul>
+<li><p>在写英文段落换行时，Latex容易过多的拆分单词，此时可以在前面设置如下指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\hyphenation&#123;op-tical net-works semi-conduc-tor IEEE-Xplore&#125; % 自定义单词拆分</span><br><span class="line">\hyphenpenalty=5000</span><br><span class="line">\tolerance=1000			% 拆分容忍度, 不想拆分的话就设的大一点(10000)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>hyphenation是很重要的，特别是当行尾的单词很长的时候，如果不作断字，把单词都放在当前行就显得挤，新起一行就显得松。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-7d5d23a9ae36be260b7f04755369688c_720w.webp" style="zoom:80%;" /></p>
+</li>
+</ul>
+<h2 id="6-参考文献单词大写变小写"><a href="#6-参考文献单词大写变小写" class="headerlink" title="6. 参考文献单词大写变小写"></a>6. 参考文献单词大写变小写</h2><ul>
+<li><p>在用Latex添加bib参考文献时，有些专业单词英文应为大写，但编译之后变成小写，解决方法：将要保持原大小的内容置于<code>&#123;&#125;</code>内。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@article&#123;Timothy1998MSTAR,</span><br><span class="line">  title = &#123;Standard &#123;SAR ATR&#125; evaluation experiments using the &#123;MSTAR&#125; public release data set&#125;,</span><br><span class="line">  author = &#123;Timothy D. Ross and Steven W. Worrell and Vincent J. Velten and John C. Mossing and Michael Lee Bryant&#125;,</span><br><span class="line">  journal = &#123;Proc. SPIE&#125;,</span><br><span class="line">  volume = &#123;3370&#125;,</span><br><span class="line">  pages = &#123;566--573&#125;,</span><br><span class="line">  year = &#123;1998&#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic2.zhimg.com/80/v2-a51b9861b015c8cfd882f1f4bb06a265_720w.webp" style="zoom:80%;" /></p>
+</li>
+</ul>
+<h2 id="7-公式太长导致右编号下移，缩小公式编号也缩小"><a href="#7-公式太长导致右编号下移，缩小公式编号也缩小" class="headerlink" title="7. 公式太长导致右编号下移，缩小公式编号也缩小"></a>7. 公式太长导致右编号下移，缩小公式编号也缩小</h2><ul>
+<li><p>当公式太长时，右编号会下移，首先想到的是缩小公式，可以在公式外围加上字体大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;small&#125; </span><br><span class="line">	\begin&#123;equation&#125; </span><br><span class="line">		\ldots你的公式 </span><br><span class="line">	\end&#123;equation&#125; </span><br><span class="line">\end&#123;small&#125;</span><br><span class="line">%=====================</span><br><span class="line">七号 　　tiny</span><br><span class="line">六号 　　scriptsize</span><br><span class="line">小五号 　footnotesize</span><br><span class="line">五号 　　small</span><br><span class="line">小四号 　normalsize</span><br><span class="line">四号 　　large</span><br><span class="line">三号 　　Large</span><br><span class="line">二号 　　LARGE</span><br><span class="line">一号 　　huge</span><br><span class="line">小初号 　Huge</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic4.zhimg.com/80/v2-8d04c8f7f25f41ceeba26b0d0d8663d3_720w.webp" style="zoom:80%;" /></p>
+</li>
+<li><p>上面方法公式和编号虽然在同一行了，但公式缩小的同时，右编号也跟着缩小，解决：可以将下面代码复制到Latex文件最开始区域。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\makeatletter</span><br><span class="line">\renewcommand&#123;\maketag@@@&#125;[1]&#123;\hbox&#123;\m@th\normalsize\normalfont#1&#125;&#125;%</span><br><span class="line">\makeatother</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic3.zhimg.com/80/v2-b4c782bc90c64477ac5472f101cb6986_720w.webp" style="zoom:80%;" /></p>
+</li>
+<li><p>可以发现，该方法右编号不会跟着公式一起缩小，但他还是跑到了下一行，为了彻底解决这个问题，经查阅资料，采用仅缩小公式的方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;equation&#125;		</span><br><span class="line">		\resizebox&#123;0.9\hsize&#125;&#123;!&#125;&#123;$\begin&#123;aligned&#125;</span><br><span class="line">		%公式内容</span><br><span class="line">		\end&#123;aligned&#125;$&#125;</span><br><span class="line">\end&#123;equation&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic4.zhimg.com/80/v2-66797e1a8fc2e65e96528e25763c732f_720w.webp" style="zoom:80%;" /></p>
+</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>[1]  <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43153628/article/details/126050272">https://blog.csdn.net/qq_43153628/article/details/126050272</a> (Latex 子图像标题太大、不是新罗马字体的问题)</p>
+<p>[2]  <a target="_blank" rel="noopener" href="https://www.cnblogs.com/yymn/p/14730372.html">https://www.cnblogs.com/yymn/p/14730372.html</a> (subfig问题)</p>
+<p>[3]  <a target="_blank" rel="noopener" href="https://blog.csdn.net/shahongzhou/article/details/25103991">https://blog.csdn.net/shahongzhou/article/details/25103991</a> (单词换行拆分问题)</p>
+<p>[4]  <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43874317/article/details/132801177">https://blog.csdn.net/qq_43874317/article/details/132801177</a> (参考文献大写变小写)</p>
+<p>[5] <a target="_blank" rel="noopener" href="https://blog.csdn.net/Floris_lovelace/article/details/119991881">https://blog.csdn.net/Floris_lovelace/article/details/119991881</a> (公式缩小，编号不缩小)</p>
+<p>[6] <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43658047/article/details/107758820">https://blog.csdn.net/weixin_43658047/article/details/107758820</a> (公式不换行)</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span><a href="/about/">WD</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://did321.github.io/2024/03/04/IEEE-Trans-Latex-%E6%A8%A1%E6%9D%BF%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/">https://did321.github.io/2024/03/04/IEEE-Trans-Latex-%E6%A8%A1%E6%9D%BF%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><a href="#">The blog is my giant.</a></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Latex/"># Latex</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2023/07/06/Pyqt5-PyQt-Fluent-Widgets-Pycharm%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">Pyqt5+PyQt-Fluent-Widgets+Pycharm环境安装</a>
+            
+        </section>
+        <br>
+        <br>
+    
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+    el: '#vcomments' ,
+
+    appId: 'JvFy3ebVLo2rUYgHaMweJyXX-MdYXbMMI',
+    appKey: 'TCFxfjDAM8UmERPEgYXJmT40',
+    serverURLs: 'https://JvFy3ebV.api.lncldglobal.com', 
+    placeholder: '----评论区----留下你的评论，作者会定期回复！在昵称处填写QQ号可自动获取邮箱和QQ头像（保护QQ邮箱隐私）',
+    enableQQ: true,
+    requiredFields: ['nick'],
+});
+    </script>
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© WD | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
