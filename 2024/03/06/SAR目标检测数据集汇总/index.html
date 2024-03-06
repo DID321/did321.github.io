@@ -12,7 +12,7 @@
 
 
 
-<title>SAR目标检测数据集汇总 | WD&#39;s blog</title>
+<title>SAR目标检测识别数据集汇总 | WD&#39;s blog</title>
 
 
 
@@ -175,7 +175,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">SAR目标检测数据集汇总</h1>
+            <h1 class="post-title">SAR目标检测识别数据集汇总</h1>
             
                 <div class="post-meta">
                     
@@ -184,7 +184,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">September 13, 2021&nbsp;&nbsp;21:51:56</a>
+                        Date: <a href="#">March 6, 2024&nbsp;&nbsp;11:29:56</a>
                         </span>
                      &nbsp;
                     
@@ -197,8 +197,8 @@
     <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <br>
     <span id="busuanzi_container_site_pv">总阅读量:<a href="#"><span id="busuanzi_value_page_pv"></span></a>次</span>&nbsp;
-    <span class="post-count">文章字数:<a href="#">1.8k</span></a>&nbsp;
-     <span class="post-count">阅读时长:<a href="#">6</span>min</a>
+    <span class="post-count">文章字数:<a href="#">3.8k</span></a>&nbsp;
+     <span class="post-count">阅读时长:<a href="#">15</span>min</a>
                     
                 </div>
             
@@ -206,7 +206,8 @@
 
         <div class="post-content">
             <ul>
-<li>随着深度学习在计算机视觉（CV）领域的突破，SAR图像目标检测领域也开始采用这些深度学习算法，虽然和光学图像成像机理不同，但是可以借鉴CV领域的优秀算法进行改进，目前也有很多论文展现了不错的效果。下面针对SAR目标检测的学习和研究，总结一些数据集并提供下载方式，方便后续的研究。</li>
+<li>随着深度学习在计算机视觉（CV）领域的突破，SAR图像目标检测领域也开始采用这些深度学习算法，虽然和光学图像成像机理不同，但是可以借鉴CV领域的优秀算法进行改进，目前也有很多论文展现了不错的效果。下面针对SAR目标检测识别的学习和研究，总结一些数据集并提供下载方式，方便后续的研究。</li>
+<li><strong>注意：本文所提所有数据集仅供学术研究使用。</strong></li>
 </ul>
 <h2 id="1-MSTAR-（1996）"><a href="#1-MSTAR-（1996）" class="headerlink" title="1. MSTAR （1996）"></a>1. MSTAR （1996）</h2><ul>
 <li><p>下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1SAdmYAOHPheAH98CLP9dQg">https://pan.baidu.com/s/1SAdmYAOHPheAH98CLP9dQg</a><br><strong>提取码：h2ig</strong></p>
@@ -216,14 +217,14 @@
 <li><p>采集该数据集的传感器为高分辨率的聚束式合成孔径雷达，该雷达的分辨率为0.3m×0.3m。工作在X波段，所用的极化方式为HH极化方式。对采集到的数据进行前期处理，从中提取出像素大小为128×128包含各类目标的切片图像。该数据大多是静止车辆的SAR切片图像，包含多种车辆目标在各个方位角下获取到的目标图像。</p>
 </li>
 <li><p>MSTAR混合目标数据中包含十类军事目标的切片图像，这些军事目标分别为2S1（自行榴弹炮）、BRDM2（装甲侦察车）、BTR60（装甲运输车）、D7（推土机）、T62（坦克）、ZIL131（货运卡车）、ZSU234（自行高炮）、T72。这些目标是雷达工作在多种不同的俯仰角时，各个目标在方向上面的成像图片。光学图像和SAR图像如下图所示：</p>
-<p><img src="https://img-blog.csdnimg.cn/e5a06972a847425f876f50e78db3203a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBARElEIOi_qg==,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="image-20210913201937919" style="zoom: 150%;" /></p>
+<p><img src="https://pic3.zhimg.com/80/v2-22b97a8e6bba2d9d19398cabdec4219e_720w.webp" alt="image-20210913201937919" style="zoom: 150%;" /></p>
 </li>
 <li><p>数据分为标准工作条件（SOC）和扩展工作条件（EOC），标准工作条件是测试与训练SAR图像目标外形配置和型号相同，仅成像时目标的俯仰角和方位角不同，扩展工作条件是指测试与训练SAR图像有很大不同，主要是成像角度的改变、外形配置的变化以及型号不同。</p>
 </li>
 <li><p>除了10类军事目标外，MSTAR数据集还提供了大幅场景SAR图像，包含森林、地面、建筑等杂波，可用于目标检测和识别。</p>
 </li>
 </ul>
-<h2 id="2-OpenSARShip2-0-（2017）"><a href="#2-OpenSARShip2-0-（2017）" class="headerlink" title="2. OpenSARShip2.0 （2017）"></a>2. OpenSARShip2.0 （2017）</h2><ul>
+<h2 id="2-OpenSARShip-（2017）"><a href="#2-OpenSARShip-（2017）" class="headerlink" title="2. OpenSARShip （2017）"></a>2. OpenSARShip （2017）</h2><ul>
 <li><p>下载链接：<a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/datasetdetail/77017">https://aistudio.baidu.com/aistudio/datasetdetail/77017</a></p>
 </li>
 <li><p>参考文献：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/8067489">https://ieeexplore.ieee.org/document/8067489</a> OpenSARShip: A Dataset Dedicated to Sentinel-1 Ship Interpretation</p>
@@ -231,38 +232,45 @@
 </li>
 <li><p>OpenSARShip是由上海交通大学高级传感技术中心（AST）开发的开放式SAR图像管理和处理平台，用于SAR图像的读取、处理、可视化和算法测试。</p>
 </li>
-<li>缺点：类别间样本数量极其不均衡，难以训练出较好的分类模型。</li>
+<li><p>缺点：类别间样本数量极其不均衡，难以训练出较好的分类模型。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-893dfad1341aecf3a243ea472f8d31e0_720w.webp" alt="image-20240306110603115" style="zoom:47%;" /></p>
+</li>
 </ul>
 <h2 id="3-SSDD-SSDD-（2020）"><a href="#3-SSDD-SSDD-（2020）" class="headerlink" title="3. SSDD / SSDD+ （2020）"></a>3. SSDD / SSDD+ （2020）</h2><ul>
-<li>下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1sVs63jB_aM-RbcHEaWQgTg">https://pan.baidu.com/s/1sVs63jB_aM-RbcHEaWQgTg</a><br><strong>提取码：4pz1</strong></li>
-<li>SSDD是国内外公开的第一个专门用于SAR图像舰船目标检测的数据集，可以用于训练和测试检验算法，得到了三十级所高校和研究所的使用。</li>
+<li><p>下载链接： <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1l2Qs5Pd-NbMt3DUlSGxgWQ?pwd=cnh5">https://pan.baidu.com/s/1l2Qs5Pd-NbMt3DUlSGxgWQ?pwd=cnh5</a> </p>
+<p><strong>提取码: cnh5</strong></p>
+</li>
+<li><p>SSDD是国内外公开的第一个专门用于SAR图像舰船目标检测的数据集，可以用于训练和测试检验算法，得到了三十级所高校和研究所的使用。</p>
+</li>
 <li><p>SSDD是通过在网上下载公开的SAR图像，并将目标区域裁剪成大小为500×500左右像素，并通过人工标注舰船目标位置而得的。数据主要有RadarSat-2、TerraSAR-X和Sentinel-1传感器，HH、HV、VV和VH四种极化方式，分辨率为1m-15m，在大片海域和近岸地区都有舰船目标。</p>
 </li>
 <li><p>旋转边框在遥感目标检测中也得到了很多应用。旋转边框可以完全分开舰船与背景像素。通常，垂直边框中的很多像素不属于船的像素，这对于区分背景和舰船区域十分不利，尤其是密集排列的交叠非常大的舰船目标，所以最好利用旋转边框来定位舰船目标。</p>
 </li>
 <li><p>旋转边框的宽度和高度可以显示船的真实形状而垂直边框的长宽比和尺寸与船的真实形状不一致，旋转边框可在完成检测任务的同时实现对目标的方位向估计（会存在180°模糊），不需要设计单独的舰船目标方向估计算法。</p>
-<p><img src="https://pic1.zhimg.com/80/v2-3c79aa18b31bc105bb24cf374248f764_1440w.jpg" alt="img" style="zoom: 33%;" /></p>
+<p><img src="https://pic1.zhimg.com/80/v2-3c79aa18b31bc105bb24cf374248f764_720w.webp" alt="img" style="zoom: 33%;" /></p>
 </li>
 <li><p>在垂直边框的基础上增加一个旋转角度来表达旋转边框，可以表示成（<em>x</em>, <em>y</em>, <em>w</em>, <em>h,</em> $\theta$），$\theta$是从<em>y</em>轴正向到舰船长中轴方向的角度。为了用旋转边框对舰船目标进行检测，对SSDD的标签进行了改进，对其在类别和位置基础上增加了旋转角度信息，将这个数据集称为SSDD+。</p>
 </li>
 </ul>
-<h2 id="4-AIR-SARShip2-0-（2019）"><a href="#4-AIR-SARShip2-0-（2019）" class="headerlink" title="4. AIR-SARShip2.0 （2019）"></a>4. AIR-SARShip2.0 （2019）</h2><ul>
-<li>下载链接：<a target="_blank" rel="noopener" href="http://radars.ie.ac.cn/web/data/getData?dataType=SARDataset">http://radars.ie.ac.cn/web/data/getData?dataType=SARDataset</a></li>
+<h2 id="4-AIR-SARShip（2019）"><a href="#4-AIR-SARShip（2019）" class="headerlink" title="4. AIR-SARShip（2019）"></a>4. AIR-SARShip（2019）</h2><ul>
+<li><p>下载链接： <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1qWOKaYgqMumovkGRUrg9fQ?pwd=jcnb">https://pan.baidu.com/s/1qWOKaYgqMumovkGRUrg9fQ?pwd=jcnb</a> </p>
+<p><strong>提取码: jcnb</strong> </p>
+</li>
 <li><p>参考论文：<a target="_blank" rel="noopener" href="http://radars.ie.ac.cn/article/doi/10.12000/JR19097">http://radars.ie.ac.cn/article/doi/10.12000/JR19097</a>  AIR-SARShip-1.0: High-resolution SAR Ship Detection Dataset</p>
 </li>
 <li><p>高分辨率SAR舰船检测数据集-2.0（AIR-SARShip-2.0）发布300幅图像，图像分辨率包括1m和3m，成像模式包括聚束式和条带式，极化方式为单极化，极化方式为VV，场景类型包含港口、岛礁、不同等级海况的海面，目标覆盖运输船、油船、渔船等十余类数千艘舰船。</p>
 </li>
 <li><p>图像尺寸约为1000×1000像素，图像格式为Tiff、单通道、8/16位图像深度，标注文件提供相应图像的长宽尺寸、标注目标的类别以及标注矩形框的位置。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200504095346556.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NDUxNTcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" style="zoom: 67%;" /></p>
+<p><img src="https://pic4.zhimg.com/80/v2-788871fa467dbb49a58357e8c331e9e7_720w.webp" alt="在这里插入图片描述" style="zoom: 67%;" /></p>
 </li>
 </ul>
 <h2 id="5-SAR-Ship-Dataset-（2019）"><a href="#5-SAR-Ship-Dataset-（2019）" class="headerlink" title="5. SAR-Ship-Dataset （2019）"></a>5. SAR-Ship-Dataset （2019）</h2><ul>
 <li><p>下载链接：<a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/datasetdetail/54361">https://aistudio.baidu.com/aistudio/datasetdetail/54361</a> </p>
 </li>
-<li><p>参考文献：<a target="_blank" rel="noopener" href="https://www.researchgate.net/publication/332078787">https://www.researchgate.net/publication/332078787</a> A SAR Dataset of Ship Detection for Deep Learning under Complex Backgrounds</p>
+<li><p>参考文献：<a target="_blank" rel="noopener" href="https://www.mdpi.com/2072-4292/11/7/765">https://www.mdpi.com/2072-4292/11/7/765</a> A SAR Dataset of Ship Detection for Deep Learning under Complex Backgrounds</p>
 </li>
 <li><p>该数据集以我国国产高分三号SAR数据和Sentinel-1 SAR数据为主数据源，共采用了102景高分三号和108景Sentinel-1 SAR图像构建高分辨率SAR船舶目标深度学习样本库。目前，该深度学习样本库包含43819个船舶切片。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200504103925284.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NDUxNTcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://pic3.zhimg.com/80/v2-6f314ae3b791fda6a4c32af0604ecaea_720w.webp" alt="在这里插入图片描述"></p>
 </li>
 </ul>
 <h2 id="6-HRSID-（2020）"><a href="#6-HRSID-（2020）" class="headerlink" title="6. HRSID （2020）"></a>6. HRSID （2020）</h2><ul>
@@ -271,14 +279,51 @@
 <li><p>参考文献：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/9127939/">https://ieeexplore.ieee.org/document/9127939/</a> HRSID: A High-Resolution SAR Images Dataset for Ship Detection and Instance Segmentation</p>
 </li>
 <li><p>数据集是电子科技大学在2020年1月发布数据集，HRSID是高分辨率SAR图像中用于船舶检测、语义分割和实例分割任务的数据集。该数据集共包含5604张高分辨率SAR图像和16951个ship实例。ISSID数据集借鉴了Microsoft Common Objects in Context (COCO)数据集的构建过程，包括不同分辨率的SAR图像、极化、海况、海域和沿海港口。该数据集是研究人员评估其方法的基准。对于HRSID, SAR图像的分辨率分别为:0.5m, 1 m, 3 m。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200506074916250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NDUxNTcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" style="zoom:67%;" /></p>
+<p><img src="https://pic2.zhimg.com/80/v2-c6deb6bc21f39179b5fb7ba9c98193dd_720w.webp" alt="在这里插入图片描述" style="zoom:67%;" /></p>
 </li>
+</ul>
+<h3 id="7-MiniSAR-2006"><a href="#7-MiniSAR-2006" class="headerlink" title="7. MiniSAR (2006)"></a>7. MiniSAR (2006)</h3><ul>
+<li><p>官网链接：<a href="">https://www.sandia.gov/radar/pathfinder-radar-isr-and-synthetic-aperture-radar-sar-systems/complex-data/</a><br>miniSAR (Ku波段) 包括城市地区、高尔夫球场、直升机停车场等，共标记了580辆车辆</p>
+<p><img src="https://pic2.zhimg.com/80/v2-c472b46b8ddacaa68307af92c1e79021_720w.webp" alt="image-20240306111833994" style="zoom: 50%;" /></p>
+<h3 id="8-FARAD-SAR-DATA-2015"><a href="#8-FARAD-SAR-DATA-2015" class="headerlink" title="8. FARAD SAR DATA(2015)"></a>8. FARAD SAR DATA(2015)</h3></li>
+<li>官网链接: <a href="">https://www.sandia.gov/radar/pathfinder-radar-isr-and-synthetic-aperture-radar-sar-systems/complex-data/</a><br>Ka X 波段数据 对于FARAD数据集，主要场景包括城市地区和农村地区。此外，FARAD数据集存在许多复杂的人为建筑和城市干扰。</li>
+</ul>
+<h3 id="9-RSDD-SAR-2022-斜框标注"><a href="#9-RSDD-SAR-2022-斜框标注" class="headerlink" title="9. RSDD-SAR (2022) 斜框标注"></a>9. RSDD-SAR (2022) 斜框标注</h3><ul>
+<li>来源雷达学报：<a href="">https://radars.ac.cn/web/data/getData?dataType=SDD-SAR</a></li>
+<li>舰船斜框检测数据集(Rotated Ship Detection Dataset in SAR Images, RSDD-SAR)，采用了国产高分3号卫星数据和欧空局TerraSAR-X卫星数据。该数据集由84景高分3号数据和41景TerraSAR-X数据切片及2景未剪裁大图，共127景数据构成，包含多种成像模式、多种极化方式、多种分辨率切片7000张，舰船实例10263个，具有旋转方向任意、长宽比大、小目标占比高和场景丰富的特点。图1为RSDD-SAR数据集典型场景切片示例。<br><img src="https://pic2.zhimg.com/80/v2-cb09df7028cb6c961c0f788b09b2bf15_720w.webp" alt="image-20240306113855228"><h3 id="10-MSAR-1-0-2022"><a href="#10-MSAR-1-0-2022" class="headerlink" title="10. MSAR-1.0 (2022)"></a>10. MSAR-1.0 (2022)</h3></li>
+<li>来源：雷达学报：<a href="">https://radars.ac.cn/web/data/getData?dataType=MSAR</a></li>
+<li>大规模多类SAR目标检测数据集-1.0（MSAR-1.0）共包括28449张检测切片，采用海丝一号卫星和高分三号卫星数据。<br>MSAR-1.0数据集极化方式包括HH、HV、VH和VV。该数据集场景包括机场、港口、近岸、岛屿、远海、城区等；类型包括飞机、油罐、桥梁和船只四类目标，由1851架桥梁，39858条船只，12319个油罐和6368架飞机组成。图1是MSAR-1.0数据集的部分切片样例。</li>
+<li>MSAR-1.0数据集切片尺寸为256×256像素，部分桥梁切片为2048×2048像素，格式为三通道灰度图像，24位深JPG。标注格式为XML格式，记录目标类型和位置信息，其中位置信息由Xmin、Xmax、Ymin和Ymax组成。MSAR-1.0数据集切片标签文件示例见下面数据集使用说明中图2、3。符合Yolo系列、PolarMask、SSD和Faster-RCNN等主流检测网络的格式要求。<br><img src="https://pic3.zhimg.com/80/v2-d5dd4391c6f1c20a8e934cfa38b7a286_720w.webp" alt="在这里插入图片描述"><h3 id="11-SAR-Airport-1-0-2022"><a href="#11-SAR-Airport-1-0-2022" class="headerlink" title="11. SAR-Airport-1.0 (2022)"></a>11. SAR-Airport-1.0 (2022)</h3></li>
+<li>来源：雷达学报：<a href="">https://radars.ac.cn/web/data/getData?dataType=SAR-Airport</a></li>
+<li>星载SAR机场检测数据集，主要采用了欧空局Sentinel-1B卫星数据，构建一套包含多种极化方式、多种尺寸大小、涵盖多个国家多个城市的SAR机场目标数据集，推动SAR机场目标检测等先进技术的深入研究。数据集由北京化工大学遥感技术研究所团队构建。</li>
+<li>星载SAR机场检测数据集主要由images和labels两部分组成，images文件夹总计624张切片，包含训练集和测试集；labels文件夹包含了所有图片对应的标注文件。两个文件夹中的文件命名方式均为“国家_地区_序列号”。标注示例为图1所示，图1(a)为切片示例，图1(b)为对应的.txt标签文件，一行标注一个目标，分别记录检测类型(0:机场)、归一化的机场中心位置（列、行标号）、归一化的机场目标框宽度和归一化的机场目标框长度，符合Yolo系列、PolarMask、SSD和Faster-RCNN等主流检测网络的格式要求。<br><img src="https://pic4.zhimg.com/80/v2-d81bcc8a9cca6d584a743d7a02e51f43_720w.webp" alt="在这里插入图片描述"><h3 id="12-FUSAR-Ship-1-0-2019"><a href="#12-FUSAR-Ship-1-0-2019" class="headerlink" title="12. FUSAR-Ship 1.0 (2019)"></a>12. FUSAR-Ship 1.0 (2019)</h3></li>
+<li>来源：雷达学报：<a href="">https://radars.ac.cn/web/data/getData?dataType=FUSAR</a></li>
+<li>FUSARShip 高分辨率船只数据集，包含15个主要船舶类别、98 个子类别和许多非船舶目标的海洋目标。数据切片取自126幅原始高分三号遥感图像，极化模式包含DH和DV，分辨率为1.124m×1.728m，成像模式为 UFS 模式，覆盖了各种海、陆、海岸、河流和岛屿场景。</li>
+<li>本数据集累16144个切片，其中包括与 AIS 信息匹配的船只 6252 张，类似船的亮点等强虚警 2045 张，桥及海岸线 1461 张， 沿岸区域及岛屿 1010 张，复杂海波杂波1967张，普通海面1785张，陆地1624张，适用于复杂海面的船只检测与识别工作。图1为FUSARShip船只切片样例。</li>
+<li>数据集内图像的标注标准为以船舶目标最小外接离心圆的圆心为中点，向外扩充256个像素点，船舶切片大小固定，以512像素×512像素的切片形式存储。<br><img src="https://pic1.zhimg.com/80/v2-8187f603bd44ddf398ce56b0bd56bb90_720w.webp" alt="在这里插入图片描述"><h3 id="13-SRSDD-SAR-2021"><a href="#13-SRSDD-SAR-2021" class="headerlink" title="13. SRSDD-SAR (2021)"></a>13. SRSDD-SAR (2021)</h3></li>
+<li><p>由中国科学院空天信息创新研究院采用高分三号卫星影像制作，成像模式均为聚束式，空间分辨率为1m，具有HH和VV两种极化方式。该数据集从30景SAR影像中提取了666个尺寸为1024像素×1024像素的切片，共计2884个6类船舶样本，同时采用旋转框标记目标，适用于分布密集的船舶检测识别任务。<br>原下载地址：<a href="">https://github.com/HeuristicLU/SRSDD-V1.0</a></p>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1EonxuMSDVCnICwSsfWjYew">https://pan.baidu.com/s/1EonxuMSDVCnICwSsfWjYew</a> </p>
+<p>提取码：aC1Q</p>
+</li>
+<li><p><img src="https://pic3.zhimg.com/80/v2-19de68dfc536eac298675c365065f162_720w.webp" alt="image-20240306111947116" style="zoom:80%;" /></p>
+<h3 id="14-SAR-AIRcraft-1-0-2023"><a href="#14-SAR-AIRcraft-1-0-2023" class="headerlink" title="14. SAR-AIRcraft-1.0 (2023)"></a>14. SAR-AIRcraft-1.0 (2023)</h3></li>
+<li>由中国科学院空天信息创新研究院基于高分三号卫星聚束式单极化影像构建的SAR飞机检测识别数据集，分辨率高达1m。该数据集包含4种不同尺寸、7种飞机类别、16463个飞机目标实例的4368幅图像，可用于飞机目标的多尺度检测与识别技术研究。<br>原下载地址：<br><a href="">https://radars.ac.cn/web/data/getData?newsColumnId=f896637b-af23-4209-8bcc-9320fceaba19</a><br><img src="https://pic4.zhimg.com/80/v2-a994980fdb20c8b2481fb44c29e56953_720w.webp" alt="image-20240306112115552"><h3 id="15-SAMPLE-2019-MSTAR车辆仿真-实测"><a href="#15-SAMPLE-2019-MSTAR车辆仿真-实测" class="headerlink" title="15. SAMPLE (2019) MSTAR车辆仿真+实测"></a>15. SAMPLE (2019) MSTAR车辆仿真+实测</h3></li>
+<li>论文地址：<a href="">https://www.spiedigitallibrary.org/conference-proceedings-of-spie/10987/2523460/A-SAR-dataset-for-ATR-Development—the-Synthetic-and/10.1117/12.2523460.short</a></li>
+<li>SAMPLE数据集由美国空军研究实验室于2019年发布，主要包括不同观测条件下各种车辆目标的合成SAR图像。除背景外，目标构型、传感器参数、观测俯角、方位角等均与实测MSTAR SAR图像保持一致.因此 SAMPLE数据集为研究模拟和实测SAR图像之间的差异以及识别算法的迁移提供了一个很好的基准。SAMPLE数据集公开部分包含10个地面军用车辆目标(2S1自主火箭炮、BMP-2、BTR-70装甲运兵车、M35、M548卡车、M1、M2、M60、T-72坦克、ZSU234防空部队)的合成SAR图像片，其方位角范围为10°~ 80°，俯角范围为15°~ 17°。SAR传感器成像时工作在x波段，分辨率为0.3m。<br><img src="https://pic2.zhimg.com/80/v2-ef511dd6f209b09477b90a9f9aebb715_720w.webp" alt="在这里插入图片描述"></li>
 </ul>
 <h2 id="结尾-遥感数据集汇总链接"><a href="#结尾-遥感数据集汇总链接" class="headerlink" title="结尾 遥感数据集汇总链接"></a>结尾 遥感数据集汇总链接</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/projectdetail/882508">https://aistudio.baidu.com/aistudio/projectdetail/882508</a> 所有遥感数据集下载汇总</li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27930679/article/details/110631002">https://blog.csdn.net/qq_27930679/article/details/110631002</a> 遥感目标检测数据集</li>
 <li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/0YPA7Rxgtkbi207ZVaU7ZA">https://mp.weixin.qq.com/s/0YPA7Rxgtkbi207ZVaU7ZA</a> 数据分享01期|遥感目标检测数据集（更新）</li>
 </ul>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>[1] L. Huang <em>et al</em>., “OpenSARShip: A Dataset Dedicated to Sentinel-1 Ship Interpretation,” in <em>IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing</em>, vol. 11, no. 1, pp. 195-208, Jan. 2018, doi: 10.1109/JSTARS.2017.2755672. </p>
+<p>[2] Wang Y, Wang C, Zhang H, Dong Y, Wei S. A SAR Dataset of Ship Detection for Deep Learning under Complex Backgrounds. <em>Remote Sensing</em>. 2019; 11(7):765. <a target="_blank" rel="noopener" href="https://doi.org/10.3390/rs11070765">https://doi.org/10.3390/rs11070765</a></p>
+<p>[3] S. Wei, X. Zeng, Q. Qu, M. Wang, H. Su and J. Shi, “HRSID: A High-Resolution SAR Images Dataset for Ship Detection and Instance Segmentation,” in <em>IEEE Access</em>, vol. 8, pp. 120234-120254, 2020, doi: 10.1109/ACCESS.2020.3005861.</p>
+<p>[4] 孙显, 王智睿, 孙元睿, 等. AIR-SARShip-1.0：高分辨率SAR舰船检测数据集[J]. 雷达学报, 2019, 8(6):852–862. doi: 10.12000/JR19097.</p>
+<p>[5] 王智睿, 康玉卓, 曾璇, 等. SAR-AIRcraft-1.0：高分辨率SAR飞机检测识别数据集[J]. 雷达学报, 2023, 12(4): 906–922. doi: 10.12000/JR23043</p>
+<p>[6] Benjamin Lewis, Theresa Scarnati, Elizabeth Sudkamp, John Nehrbass, Stephen Rosencrantz, and Edmund Zelnio “A SAR dataset for ATR development: the Synthetic and Measured Paired Labeled Experiment (SAMPLE)”, Proc. SPIE 10987, Algorithms for Synthetic Aperture Radar Imagery XXVI, 109870H (14 May 2019)</p>
+<p>[7] Xiyue HOU,Wei AO,Qian SONG,Jian LAI,Haipeng WANG,Feng XU.FUSAR-Ship:building a high-resolution SAR-AIS matchup dataset of Gaofen-3 for ship detection and recognition[J].Science China(Information Sciences),2020,63(04):40-58.</p>
+<p>[8] Lei, S.; Lu, D.; Qiu, X.; Ding, C. SRSDD-v1.0: A High-Resolution SAR Rotation Ship Detection Dataset. <em>Remote Sens.</em> <strong>2021</strong>, <em>13</em>, 5104. <a target="_blank" rel="noopener" href="https://doi.org/10.3390/rs13245104">https://doi.org/10.3390/rs13245104</a></p>
 
         </div>
 
@@ -293,7 +338,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://did321.github.io/2021/09/13/SAR%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B1%87%E6%80%BB/">https://did321.github.io/2021/09/13/SAR%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B1%87%E6%80%BB/</a></span>
+                        <span><a href="https://did321.github.io/2024/03/06/SAR%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B1%87%E6%80%BB/">https://did321.github.io/2024/03/06/SAR%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B1%87%E6%80%BB/</a></span>
                     </p>
                 
                 
@@ -330,10 +375,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/25/Lightroom%E4%BF%AE%E5%9B%BE%E6%80%9D%E8%B7%AF-%E8%BD%AC/">Lightroom修图思路(转)</a>
             
-            
-            <a class="next" rel="next" href="/2021/08/22/%E5%9F%BA%E4%BA%8E%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%E7%9A%84SAR%E8%87%AA%E5%8A%A8%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B-SAR-ATR/">基于全卷积网络的SAR自动目标检测(SAR ATR)</a>
+            <a class="next" rel="next" href="/2024/03/04/WSL2-docker-Copilot-%E5%85%8D%E8%B4%B9%E4%BD%BF%E7%94%A8ChatGPT4-Copilot-gpt4-service/">WSL2+docker+Copilot 免费使用ChatGPT4 (Copilot-gpt4-service)</a>
             
         </section>
         <br>
